@@ -1,0 +1,230 @@
+/*css - global*/
+/**
+ * file:		spt.css
+ * version:		1.0
+ * package:		Simple Phishing Toolkit (spt)
+ * component:	Core files
+ * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
+ * license:		GNU/GPL, see license.htm.
+ * 
+ * This file is part of the Simple Phishing Toolkit (spt).
+ * 
+ * spt is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, under version 3 of the License.
+ *
+ * spt is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with spt.  If not, see <http://www.gnu.org/licenses/>.
+**/
+
+html, body
+	{
+		padding: 0;
+		margin: 0;
+		height: 100%;
+	}
+
+body
+	{
+		font-family: 'Century Gothic', Verdana, Arial, Helvetica, sans-serif;
+		font-size: 12px;
+	}
+
+h1
+	{
+		font-size: 16px;
+		font-weight: bold;
+		font-family: 'Century Gothic', Verdana, Arial, Helvetica, sans-serif;
+	}
+
+h2
+	{
+		font-family: 'Century Gothic', Verdana, Arial, Helvetica, sans-serif;
+		font-size: 12px;
+	}
+
+h3
+	{
+		margin:2px;
+	}
+
+a
+	{
+		text-decoration: none;
+		color: #666;
+	}
+
+a:hover
+	{
+		color: #999;
+	}
+
+#delete_install_message
+	{
+		width: 400px;
+		overflow: auto;
+		background-color: #fff;
+		text-align: center;
+		margin: auto;
+		margin-top: 100px;
+		padding:20px;
+		box-shadow: 4px 4px 5px 4px #333;
+        border-radius: 5px;
+	}
+
+#login_wrapper
+	{
+		width: 600px;
+		height: 200px;
+		margin-top: 100px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+
+#login_logo
+	{
+		width: 300px;
+		margin-right: auto;
+		margin-left: auto;
+		text-align: center;
+		float: left;
+	}
+
+#login_form
+	{
+		width: 300px;
+		margin-top: 25px;
+		margin-right: auto;
+		margin-left: auto;
+		text-align: left;
+		float: left;
+	}
+
+#login_form h1
+	{
+		color: #394FCC;
+		font-size: 10px;
+	
+	}
+
+#wrapper
+	{
+		width: 1050px;
+		margin-right: auto;
+		margin-left: auto;
+		height: 100%;
+	}
+
+#header
+	{
+		width: 960px;
+		height: 100px;
+		float: left;
+	}
+
+#sidebar
+	{
+		width: 200px;
+		float: left;
+		height: 100%;
+	}
+	
+#sidebar li
+	{
+		list-style-type: none;
+	}
+	
+#sidebar  a
+	{
+		font-size: 18px;
+	}
+
+#content
+	{
+		width: 800px;
+		float: left;
+		background-color: #ddd;
+		height: 100%;
+		padding-left: 25px;
+		padding-right: 25px;
+		overflow: auto;
+	}
+
+#content   h2
+	{
+		color: #394FCC;
+		font-size: 16px;
+		font-family: 'Century Gothic', Verdana, Arial, Helvetica, sans-serif;
+	}
+
+#content  a h2
+	{
+		color: #394FCC;
+		font-size: 16px;
+		font-family: 'Century Gothic', Verdana, Arial, Helvetica, sans-serif;
+	}
+
+		
+#product_list
+	{
+		text-align: center;
+	}
+	
+#die_error
+	{
+		width: 400px;
+		overflow: auto;
+		background-color: #eee;
+		text-align: center;
+		margin: auto;
+		margin-top: 100px;
+		padding:20px;
+		color: #394FCC;
+		box-shadow: 4px 4px 5px #888;
+        border-radius: 5px;
+	}
+
+.spt_table
+	{
+        width:100%;
+        background-color: #fff;
+        box-shadow: 4px 4px 5px #888;
+        border-radius: 5px;
+        padding: 20px;
+        margin: auto;
+   		margin-top: 10px;
+   		padding-top:10px;
+	}
+
+.spt_table td
+	{
+		text-align: left;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+
+.spt_table img
+	{
+		box-shadow: 2px 2px 3px #888;
+		border-radius: 5px;
+	}
+
+.td_center
+	{
+		text-align: center;
+	}
+
+.dark_background
+	{
+		background-color: #404040;
+	}
+
+.center
+	{
+		margin: auto;
+	}

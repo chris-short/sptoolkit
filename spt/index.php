@@ -1,0 +1,125 @@
+<?php
+/**
+ * file:		index.php
+ * version:		1.0
+ * package:		Simple Phishing Toolkit (spt)
+ * component:	Core files
+ * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
+ * license:		GNU/GPL, see license.htm.
+ * 
+ * This file is part of the Simple Phishing Toolkit (spt).
+ * 
+ * spt is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, under version 3 of the License.
+ *
+ * spt is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with spt.  If not, see <http://www.gnu.org/licenses/>.
+**/
+
+	//starts php session
+	session_start();
+	
+	//if install file exists prompt user to delete it
+	if(isset($_POST['delete_install']))
+		{
+			unlink('install.php');	
+		}
+
+	if(file_exists('install.php'))
+		{
+			echo
+				"
+					<!DOCTYPE HTML>
+					<html>
+						<link rel=\"stylesheet\" href=\"spt.css\" type=\"text/css\" />
+						<body class=\"dark_background\">
+							<div id=\"delete_install_message\">
+								Installation files still exist!  What do you want to do?<br /><br />
+								<table class=\"center\">
+								<tr>
+									<td>
+										<form name=\"install_message_install\" method=\"post\" action=\"install.php\" />
+											<input type=\"submit\" value=\"< begin installation\" />
+										</form>
+									</td>
+									<td>
+										<form name=\"install_message_delete\" method=\"post\" action=\"\">
+											<input type=\"hidden\" name=\"delete_install\" value=\"delete_install\" />
+											<input type=\"submit\" value=\"delete install files & login >\" />
+										</form>
+									</td>
+								</tr>
+							</div>
+						</body>
+					</html>
+				";
+				exit;
+		}
+
+	//sends you to the spt dashboard if your already authenticated
+	if(isset($_SESSION['authenticated']))
+		{
+			header('location:dashboard/');
+			exit;
+		}
+
+?>
+<!DOCTYPE HTML> 
+<html>
+	<head>
+		<title>spt - simple phishing toolkit</title>
+		
+		<!--meta-->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="description" content="welcome to spt - simple phishing toolkit.  spt is a super simple but powerful phishing toolkit." />
+		
+		<!--favicon-->
+		<link rel="shortcut icon" href="images/favicon.ico" />
+		
+		<!--css-->
+		<link rel="stylesheet" href="spt.css" type="text/css" />
+	</head>
+	
+	<body>
+		
+		<!--login wrapper -->
+		<div id="login_wrapper">
+			
+			<!--logo-->
+			<div id="login_logo"><img src="images/logo.png" alt="logo"/></div>
+			
+			<!--login form-->
+			<form id="login_form" method="post" action="login/validator.php">
+				<table>
+					<tr>
+						<td class="td_right">email</td>
+						<td><input name="u" type="text" id="u" class="login_field" /></td>
+					</tr>
+					<tr>
+						<td class="td_right">password</td>
+						<td><input name="p" type="password" id="p" class="login_field" /></td>
+					</tr>
+					<?php 
+						//look for login errors
+						if(isset($_SESSION['login_error_message']))
+							{
+								echo "<tr><td colspan=\"2\"><h1>".$_SESSION['login_error_message']."</h1></td></tr>";
+								
+								//clear login error
+								unset($_SESSION['login_error_message']);
+							}
+					?>
+					<tr>
+						<td colspan="2"><input type="submit" value="login" /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</body>
+</html>
