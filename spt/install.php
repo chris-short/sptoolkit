@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		install.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -448,19 +448,19 @@
 									<table>
 										<tr>
 											<td>First Name</td>
-											<td><input type=\"text\" name=\"first_name\" /><br /><br /></td>
+											<td><input type=\"text\" name=\"first_name\" /></td>
 										</tr>
 										<tr>
 											<td>Last Name</td>
-											<td><input type=\"text\" name=\"last_name\" /><br /><br /></td>
+											<td><input type=\"text\" name=\"last_name\" /></td>
 										</tr>
 										<tr>
 											<td>Email</td>
-											<td><input type=\"text\" name=\"username\" /><br /><br /></td>
+											<td><input type=\"text\" name=\"username\" /></td>
 										</tr>
 										<tr>
 											<td>Password</td>
-											<td><input type=\"password\" name=\"password\" /><br /><br /></td>
+											<td><input type=\"password\" name=\"password\" /></td>
 										</tr>
 											<input type=\"hidden\" name=\"step4\" value=\"complete\" />
 										<tr>
