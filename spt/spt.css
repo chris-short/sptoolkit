@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:		spt.css
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -142,6 +142,16 @@ a:hover
 #sidebar  a
 	{
 		font-size: 18px;
+	}
+
+#spt ul
+	{
+		border-top: 1px solid #eee;
+	}
+
+#spt a
+	{
+		font-size: 11px;	
 	}
 
 #content
