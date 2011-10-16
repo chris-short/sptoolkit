@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		user_form.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -65,24 +65,8 @@
 
 	<body>
 		<div id="wrapper">
-
 		<!--sidebar-->
-		<div id="sidebar">
-			<img src="../images/logo.png" alt="logo.png" />
-			<ul>
-			<?php
-				//lists links dependent upon what modules are installed
-				include '../spt_config/mysql_config.php';
-				$results=mysql_query('SELECT * FROM modules WHERE enabled=1 ORDER BY name')  or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-				while($row=mysql_fetch_assoc($results))
-					{
-						echo "<li><a href=\"../".$row['directory_name']."/\">".$row['name']."</a></li>\n";
-					}
-			?>
-			</ul>
-			<br />
-			<div class="logout"><ul><li><a href="../login/logout.php">logout</a></li></ul></div>
-		</div>
+		<?php include('../includes/sidebar.php'); ?>
 
 		<!--content-->
 		<div id="content">
