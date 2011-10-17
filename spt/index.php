@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -31,35 +31,9 @@
 			unlink('install.php');	
 		}
 
-	if(file_exists('install.php'))
+	if(file_exists('install.php') && !preg_match('/installfiles=true/', $_SERVER['REQUEST_URI']))
 		{
-			echo
-				"
-					<!DOCTYPE HTML>
-					<html>
-						<link rel=\"stylesheet\" href=\"spt.css\" type=\"text/css\" />
-						<body class=\"dark_background\">
-							<div id=\"delete_install_message\">
-								Installation files still exist!  What do you want to do?<br /><br />
-								<table class=\"center\">
-								<tr>
-									<td>
-										<form name=\"install_message_install\" method=\"post\" action=\"install.php\" />
-											<input type=\"submit\" value=\"< begin installation\" />
-										</form>
-									</td>
-									<td>
-										<form name=\"install_message_delete\" method=\"post\" action=\"\">
-											<input type=\"hidden\" name=\"delete_install\" value=\"delete_install\" />
-											<input type=\"submit\" value=\"delete install files & login >\" />
-										</form>
-									</td>
-								</tr>
-							</div>
-						</body>
-					</html>
-				";
-				exit;
+			header('location:index.php?installfiles=true#popover');
 		}
 
 	//sends you to the spt dashboard if your already authenticated
@@ -120,6 +94,34 @@
 					</tr>
 				</table>
 			</form>
+		</div>
+
+		<!--popover-->
+		<div id="popover">
+			<div id="delete_install_message">
+				Installation files still exist!  What do you want to do?<br /><br />
+				<table class="center">
+				<tr>
+					<td>Go to Install</td>
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td>Delete & Login</td>
+				</tr>
+				<tr>
+					<td>
+						<form name="install_message_install" method="post" action="install.php" />
+							<input type="image" src="images/gear.png" alt="begin installation" />
+						</form>
+					</td>
+					<td>
+					</td>
+					<td>
+						<form name="install_message_delete" method="post" action="">
+							<input type="hidden" name="delete_install" value="delete_install" />
+							<input type="image" src="images/trash.png" alt="delete and login" />
+						</form>
+					</td>
+				</tr>
+			</div>
 		</div>
 	</body>
 </html>
