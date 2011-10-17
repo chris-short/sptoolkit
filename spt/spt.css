@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:		spt.css
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -199,6 +199,37 @@ a:hover
         border-radius: 5px;
 	}
 
+#alert, #add_campaign
+	{
+		position: fixed;
+		top: 0;
+		left: 0;		
+		height: 100%;
+		width: 100%;
+		display: none;
+		background-color: rgba(0, 0, 0, 0.8);
+		text-align: center;
+		z-index: 101;
+	}
+
+#alert div, #add_campaign div
+	{
+        margin: auto;
+        background-color: #fff;
+        box-shadow: 4px 4px 5px #000;
+        border-radius: 5px;
+        padding: 20px;
+        margin: auto;
+   		margin-top: 50px;
+   		padding-top:10px;
+   		display: inline-block;
+	}
+
+#alert:target, #add_campaign:target
+	{
+		display: block;
+	}
+
 .spt_table
 	{
         width:100%;
@@ -213,7 +244,7 @@ a:hover
 
 .spt_table td
 	{
-		text-align: left;
+		text-align: center;
 		padding-left: 5px;
 		padding-right: 5px;
 	}
@@ -239,33 +270,10 @@ a:hover
 		margin: auto;
 	}
 
-#popover
+.button
 	{
-		position: fixed;
-		top: 0;
-		left: 0;		
-		height: 100%;
-		width: 100%;
-		display: none;
-		background-color: rgba(0, 0, 0, 0.8);
-		text-align: center;
-		z-index: 101;
-	}
-
-#popover div
-	{
-        margin: auto;
         background-color: #fff;
-        box-shadow: 4px 4px 5px #000;
-        border-radius: 5px;
-        padding: 20px;
-        margin: auto;
-   		margin-top: 50px;
-   		padding-top:10px;
-   		display: inline-block;
-	}
-
-#popover:target
-	{
-		display: block;
+        box-shadow: 4px 4px 5px #888;
+        border-radius: 0px 0px 5px 5px;
+        padding: 5px;
 	}

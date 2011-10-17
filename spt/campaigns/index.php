@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -73,21 +73,25 @@
 					//check to see if the alert session is set
 					if(isset($_SESSION['campaigns_alert_message']))
 						{
+							//create alert popover
+							echo "<div id=\"alert\">";
+
 							//echo the alert message
-							echo "<h2>".$_SESSION['campaigns_alert_message']."</h2>";
+							echo "<div>".$_SESSION['campaigns_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 							
 							//unset the seession
 							unset ($_SESSION['campaigns_alert_message']);				
+
+							//close alert popover
+							echo "</div>";
 						}
 				?>
-				<br />
-				<a href="#popover"><img src="../images/plus.png" alt="add" /></a>
+				<span class="button"><a href="#add_campaign"><img src="../images/plus_sm.png" alt="add" /> Campaign</a></span>
 				<table class="spt_table">
 					<tr>
 						<td><h3>ID</h3></td>
 						<td><h3>Name</h3></td>
 						<td><h3>Template</h3></td>
-						<td><h3>Domain</h3></td>
 						<td><h3>Target Groups</h3></td>
 						<td><h3>Responses (Links/Posts)</h3></td>
 						<td><h3>Delete</h3></td>
@@ -99,7 +103,7 @@
 						include "../spt_config/mysql_config.php";
 						
 						//pull in list of all campaigns
-						$r = mysql_query("SELECT campaigns.id, campaigns.campaign_name, campaigns.domain_name, campaigns.template_id, templates.name as name FROM campaigns JOIN templates ON campaigns.template_id = templates.id") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+						$r = mysql_query("SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, templates.name as name FROM campaigns JOIN templates ON campaigns.template_id = templates.id") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 						while ($ra = mysql_fetch_assoc($r))
 							{
 								echo	"
@@ -107,7 +111,6 @@
 										<td><a href=\"responses.php?c=".$ra['id']."\">".$ra['id']."</a></td>\n
 										<td>".$ra['campaign_name']."</td>\n
 										<td><a href=\"../templates/".$ra['template_id']."/\">".$ra['name']."</a></td>\n
-										<td>".$ra['domain_name']."</td>\n
 										<td>
 								";
 								
@@ -130,7 +133,7 @@
 									}
 								
 								echo	"<td><a href=\"responses.php?c=".$ra['id']."&amp;f=link\">".$link."</a> / <a href=\"responses.php?c=".$ra['id']."&amp;f=post\">".$post."</a></td>";
-								echo	"<td><a href=\"delete_campaign.php?c=".$campaign_id."\">X</a></td>";
+								echo	"<td><a href=\"delete_campaign.php?c=".$campaign_id."\"><img src=\"../images/x_sm.png\" alt=\"delete\" /></a></td>";
 								echo	"</tr>";								
 							}
 					
@@ -138,8 +141,8 @@
 				</table>
 			</div>
 
-			<!--popover-->
-			<div id="popover">
+			<!--new campaign-->
+			<div id="add_campaign">
 				<div>
 					<form method="post" action="start_campaign.php">
 						<table id="new_campaign">

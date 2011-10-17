@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		start_campaign.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -49,8 +49,8 @@
 //validate that the currently logged in user is an admin
 if($_SESSION['admin']!=1)
 	{
-		$_SESSION['new_campaign_alert_message'] = "you do not have permission to start a campaign";
-		header('location:../campaigns/');
+		$_SESSION['campaigns_alert_message'] = "you do not have permission to start a campaign";
+		header('location:../campaigns/#alert');
 		exit;
 	}
 
@@ -63,16 +63,16 @@ $template_id = $_POST['template_id'];
 //validate the campaign name
 if(preg_match('/[^a-zA-Z0-9\s-_]/', $campaign_name))
 	{
-		$_SESSION['new_campaign_alert_message'] = "only letters are numbers are allowed in the campaign name";
-		header('location:new_campaign.php');
+		$_SESSION['campaigns_alert_message'] = "only letters are numbers are allowed in the campaign name";
+		header('location:../campaigns/#alert');
 		exit;
 	}
 
 //validate the domain name
 if(preg_match('/[^a-zA-Z0-9\-\_\.\\]/', $spt_path))
 	{
-		$_SESSION['new_campaign_alert_message'] = "please enter a valid domain name";
-		header('location:new_campaign.php');
+		$_SESSION['campaigns_alert_message'] = "please enter a valid domain name";
+		header('location:../campaigns/#alert');
 		exit;
 	}
 
@@ -92,8 +92,8 @@ foreach($target_groups as $group)
 			}
 		if($match!=1)
 			{
-				$_SESSION['new_campaign_alert_message'] = "invalid group";
-				header('location:new_campaign.php');
+				$_SESSION['campaigns_alert_message'] = "invalid group";
+				header('location:../campaigns/#alert');
 				exit;
 			}
 		$match = 0;
@@ -111,8 +111,8 @@ while($ra = mysql_fetch_assoc($r))
 	}
 if($match != 1)
 	{
-		$_SESSION['new_campaign_alert_message'] = "please select a valid template";
-		header('location:new_campaign.php');
+		$_SESSION['campaigns_alert_message'] = "please select a valid template";
+		header('location:../campaigns/#alert');
 		exit;
 	}
 
@@ -171,6 +171,6 @@ while($ra = mysql_fetch_assoc($r))
 
 //send them back after your finished sending emails
 $_SESSION['campaigns_alert_message'] = "emails have been sent...sit back and wait for the responses :)";
-header('location:../campaigns/');
+header('location:../campaigns/#alert');
 
 ?>
