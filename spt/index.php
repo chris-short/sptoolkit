@@ -109,7 +109,7 @@
 				<tr>
 					<td>
 						<form name="install_message_install" method="post" action="install.php" />
-							<input type="image" src="images/gear.png" alt="begin installation" />
+							<input type="image" src="images/right-arrow.png" alt="begin installation" />
 						</form>
 					</td>
 					<td>
