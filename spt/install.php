@@ -62,15 +62,13 @@
 					{
 						echo 
 							"
-								<br /><br />
 								<form id=\"step_1\" method=\"post\" action=\"\">
-									<span>Welcome! Are you ready to begin the SPT installation?</span>
+									<span>Welcome! Ready to begin? <br /><br />By proceeding forward, you accept the license agreement below.</span>
 									<br /><br />
-									<span>By proceeding forward, you accept the license agreement below.</span>
-									<br /><br />
-									<iframe src=\"license.htm\" width=\"100%\" height=\"150\">
+									<iframe src=\"license.htm\" width=\"100%\" height=\"175\">
 										<p>Your browser does not support iframes.</p>
 									</iframe>
+									<br /><br />
 									<input type=\"hidden\" name=\"step1\" value=\"complete\" />
 									<input type=\"submit\" value=\"I Agree!\" />
 								</form>
@@ -464,7 +462,7 @@
 										</tr>
 											<input type=\"hidden\" name=\"step4\" value=\"complete\" />
 										<tr>
-											<td><input type=\"submit\" value=\"Create User\" /></td>
+											<td><br /><input type=\"submit\" value=\"Create User\" /></td>
 											<td></td>
 										</tr>
 									</table>
