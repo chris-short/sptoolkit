@@ -1,7 +1,7 @@
 /*css - campaigns*/
 /**
  * file:		spt_campaigns.css
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -21,3 +21,14 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
+
+#new_campaign
+	{
+		margin: auto;
+	}
+
+#new_campaign td
+	{
+		text-align:left;
+		vertical-align:middle;
+	}

@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -104,7 +104,7 @@
 										<td><a href=\"".$ra['id']."\">".$ra['id']."</a></td>\n
 										<td>".$ra['name']."</td>\n
 										<td>".$ra['description']."</td>\n
-										<td><img src=\"".$ra['id']."\screenshot.png\" alt=\"missing screenshot\" /></td>\n
+										<td><img class= \"drop_shadow\" src=\"".$ra['id']."\screenshot.png\" alt=\"missing screenshot\" /></td>\n
 										<td><a href=\"delete_template.php?t=".$ra['id']."\">X</a></td>\n
 										
 									</tr>\n";

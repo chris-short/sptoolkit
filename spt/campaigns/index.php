@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -80,7 +80,8 @@
 							unset ($_SESSION['campaigns_alert_message']);				
 						}
 				?>
-				<a href = "new_campaign.php">+ new campaign</a>
+				<br />
+				<a href="#popover"><img src="../images/plus.png" alt="add" /></a>
 				<table class="spt_table">
 					<tr>
 						<td><h3>ID</h3></td>
@@ -135,6 +136,73 @@
 					
 					?>
 				</table>
+			</div>
+
+			<!--popover-->
+			<div id="popover">
+				<div>
+					<form method="post" action="start_campaign.php">
+						<table id="new_campaign">
+							<tr>
+								<td>Name</td>
+								<td><input name="campaign_name" /></td>
+							</tr>
+							<tr>
+								<?php
+									//pull current host and path
+									$path = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+									
+									//strip off the end
+									$path = preg_replace('/\/campaigns.*/','',$path);
+
+									//create a hidden field with the path of spt
+									echo "<input type=\"hidden\" name=\"spt_path\" value=\"".$path."\" />";
+									  
+								?>
+							</tr>
+							<tr>
+								<td>Group(s)</td>
+								<td>
+									<select name = "target_groups[]" multiple="multiple" size="5" style="width: 100%;">
+										<?php
+											//connect to database
+											include('../spt_config/mysql_config.php');
+											
+											//query for all groups
+											$r = mysql_query('SELECT DISTINCT group_name FROM targets');
+											while($ra=mysql_fetch_assoc($r))
+												{
+													echo "<option>".$ra['group_name']."</option>";
+												}
+										?>	
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>Template</td>
+								<td>
+									<select name = "template_id">
+										<?php
+											//connect to database
+											include('../spt_config/mysql_config.php');
+											
+											//query for all groups
+											$r = mysql_query('SELECT id, name FROM templates');
+											while($ra=mysql_fetch_assoc($r))
+												{
+													echo "<option value=\"".$ra['id']."\">".$ra['name']."</option>";
+												}
+										?>	
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><a href=""><img src="../images/x.png" alt="x" /></a>&nbsp;&nbsp;&nbsp;<input type="image" src="../images/email.png" alt="email" /></td>
+							</tr>
+						</table>
+					</form>
+				</div>
 			</div>
 		</div>
 	</body>
