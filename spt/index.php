@@ -33,7 +33,7 @@
 
 	if(file_exists('install.php') && !preg_match('/installfiles=true/', $_SERVER['REQUEST_URI']))
 		{
-			header('location:index.php?installfiles=true#popover');
+			header('location:index.php?installfiles=true#alert');
 		}
 
 	//sends you to the spt dashboard if your already authenticated
@@ -96,8 +96,8 @@
 			</form>
 		</div>
 
-		<!--popover-->
-		<div id="popover">
+		<!--alert-->
+		<div id="alert">
 			<div id="delete_install_message">
 				Installation files still exist!  What do you want to do?<br /><br />
 				<table class="center">
