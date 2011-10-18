@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:		spt.css
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -199,7 +199,7 @@ a:hover
         border-radius: 5px;
 	}
 
-#alert, #add_campaign
+#alert
 	{
 		position: fixed;
 		top: 0;
@@ -212,7 +212,7 @@ a:hover
 		z-index: 101;
 	}
 
-#alert div, #add_campaign div
+#alert div
 	{
         margin: auto;
         background-color: #fff;
@@ -225,7 +225,7 @@ a:hover
    		display: inline-block;
 	}
 
-#alert:target, #add_campaign:target
+#alert:target
 	{
 		display: block;
 	}

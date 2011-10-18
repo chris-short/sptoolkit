@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -201,7 +201,7 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td><a href=""><img src="../images/x.png" alt="x" /></a>&nbsp;&nbsp;&nbsp;<input type="image" src="../images/email.png" alt="email" /></td>
+								<td><a href=""><img src="../images/x.png" alt="x" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/email.png" alt="email" /></td>
 							</tr>
 						</table>
 					</form>
