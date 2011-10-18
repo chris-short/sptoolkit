@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -56,7 +56,7 @@
 		<meta name="description" content="welcome to spt - simple phishing toolkit.  spt is a super simple but powerful phishing toolkit." />
 		
 		<!--favicon-->
-		<link rel="shortcut icon" href="images/favicon.ico" />
+		<link rel="shortcut icon" href="../images/favicon.ico" />
 		
 		<!--css-->
 		<link rel="stylesheet" href="../spt.css" type="text/css" />
