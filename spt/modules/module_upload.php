@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		module_upload.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,7 +50,7 @@
 	if($_SESSION['admin']!=1)
 		{
 			$_SESSION['module_alert_message'] = "you do not have permission to upload a module";
-			header('location:../modules/');
+			header('location:../modules/#alert');
 			exit;
 		}
 
@@ -58,7 +58,7 @@
 	if ($_FILES["file"]["type"] != "application/zip") 
 		{
 			$_SESSION['module_alert_message'] = 'you must only upload zip files';
-			header('location:../modules/');
+			header('location:../modules/#alert');
 			exit;
 		}
 			else
@@ -67,7 +67,7 @@
 	if($_FILES["file"]["size"] > 20000000)
 		{
 	  		$_SESSION['module_alert_message'] = 'max file size is 20MB';
-	  		header('location:../modules/');
+	  		header('location:../modules/#alert');
 	  		exit;
 	  	}
 
@@ -75,7 +75,7 @@
 	  if ($_FILES["file"]["error"] > 0)
 	    {
 	    	$_SESSION['module_alert_message'] = $_FILES["file"]["error"];
-	    	header('location:../modules/');
+	    	header('location:../modules/#alert');
 	    	exit;
 	    }
 
@@ -102,7 +102,7 @@
 					if($module_name == $ra['name'])
 						{
 							$_SESSION['module_alert_message'] = 'there is already a module by this name and there was not an upgrade flag set';
-							header('location:../modules/');
+							header('location:../modules/#alert');
 							exit;
 						}
 				}	
@@ -129,7 +129,7 @@
 	else 
 		{
     		$_SESSION['module_alert_message'] = 'unzipping the file failed';
-    		header('location:../modules/');
+    		header('location:../modules/#alert');
     		exit;
 		}
 

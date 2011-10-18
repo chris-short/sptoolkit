@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		module_uninstall.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,7 +50,7 @@
 		if($_SESSION['admin']!=1)
 			{
 				$_SESSION['module_alert_message'] = "you do not have permission to uninstall a module";
-				header('location:../modules/');
+				header('location:../modules/#alert');
 				exit;
 			}
 
@@ -71,7 +71,7 @@
 				if(mysql_num_rows($r2) > 0)
 					{
 						$_SESSION['module_alert_message'] = 'this module is depended on';
-						header('location:../modules/');
+						header('location:../modules/#alert');
 						exit;
 					}
 				
@@ -103,13 +103,13 @@
 
 						//if the uninstall went well send them back
 						$_SESSION['module_alert_message'] = 'uninstall successful';
-						header('location:../modules/');
+						header('location:../modules/#alert');
 						exit;
 
 					}
 			}
 		//if the uninstall did not happen, send them back with an alert
 		$_SESSION['module_alert_message'] = "you must only uninstall valid, non-core modules";
-		header('location:../modules/');
+		header('location:../modules/#alert');
 		exit;
 ?>

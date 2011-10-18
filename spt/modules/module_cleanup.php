@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		module_cleanup.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,7 +50,7 @@
 		if($_SESSION['admin']!=1)
 			{
 				$_SESSION['module_alert_message'] = "you do not have permission to upload a module";
-				header('location:../modules/');
+				header('location:../modules/#alert');
 				exit;
 			}
 
@@ -71,7 +71,7 @@
 						
 						//delete the install file
 						unlink('../'.$_SESSION['installed_module'].'install.php');
-						header('location:../modules/');
+						header('location:../modules/#alert');
 						exit;
 					}
 				
@@ -84,7 +84,7 @@
 						
 						//delete the install file
 						unlink('../'.$_SESSION['installed_module'].'install.php');
-						header('location:../modules/');
+						header('location:../modules/#alert');
 						exit;
 					}
 			}

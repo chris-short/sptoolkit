@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -75,27 +75,42 @@
 					//check to see if there are any alerts
 					if(isset($_SESSION['module_alert_message']))
 						{
+							//create alert popover
+							echo "<div id=\"alert\">";
+
 							//echo the alert message
-							echo "<h2>".$_SESSION['module_alert_message']."</h2>";
+							echo "<div>".$_SESSION['module_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 							
 							//clear the alert session after it is written
 							unset($_SESSION['module_alert_message']);
+
+							//close alert popover
+							echo "</div>";
 						}
 				?>
-				<div>
-					<table id="module_load" class="spt_table">
-						<tr>
-							<td><h3>+ Add Module</h3></td>
-							<td>
-								<form action="module_upload.php" method="post" enctype="multipart/form-data">
-									<input type="file"  name="file" />
-									<input type="submit" value="Upload" /> &#60; click here to upload
-								</form>
+				<div id="add_module">
+					<div>
+						<table id="upload_module">
+							<form action="module_upload.php" method="post" enctype="multipart/form-data">
+								<tr>
+									<td>
+										<input type="file"  name="file" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<br />
+										<a href=""><img src="../images/x.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="image" src="../images/plus.png" alt="add" />
+									</td>
+								</tr>
+							</form>
 							</td>
-						</tr>
-					</table>
+							</tr>
+						</table>
+					</div>
 				</div>
-				<div>
+				<span class="button"><a href="#add_module"><img src="../images/plus_sm.png" alt="add" /> Module</a></span>
 					<table id="installed_module_list" class="spt_table">
 						<tr>
 							<td><h3>Name</h3></td>
@@ -129,7 +144,7 @@
 										}
 									
 									echo "
-												<td class=\"table_description\">".$ra['description']."</td>\n
+												<td  id=\"module_description\">".$ra['description']."</td>\n
 												<td class=\"td_center\">";
 									
 									//check to see if the module is a core component or not and if there are any dependencies
@@ -140,7 +155,7 @@
 										}
 									else
 										{
-											echo "<a href=\"module_uninstall.php?m=".$t."\"><h2>X</h2></a>";
+											echo "<a href=\"module_uninstall.php?m=".$t."\"><img src=\"../images/x_sm.png\" alt=\"delete\" /></a>";
 										}
 
 									echo "
@@ -149,7 +164,6 @@
 								}
 						?>
 					</table>
-				</div>
 			</div>
 		</div>
 	</body>
