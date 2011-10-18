@@ -1,0 +1,11 @@
+#### CREDITS ####
+
+Here is a listing of things we've used that someone else created.
+
+# Black icons used during install and inside the dashboard.
+
+-- Author:   Billy Barker
+-- Author site:  http://www.billybarker.net/
+-- Download:  http://www.iconfinder.com/search/?q=iconset:30_Free_Black_ToolBar_Icons
+
+# 
