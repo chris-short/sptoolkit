@@ -50,7 +50,7 @@
 	if($_SESSION['admin']!=1)
 		{
 			$_SESSION['new_template_alert_message'] = "you do not have permission to upload a template";
-			header('location:new_template.php');
+			header('location:../templates/#alert');
 			exit;
 		}
 		
@@ -58,7 +58,7 @@
 	if(!isset($_POST['name']))
 		{
 			$_SESSION['new_template_alert_message'] = 'you must enter a name';
-			header('location:new_template.php');
+			header('location:../templates/#alert');
 			exit;
 		}
 
@@ -66,7 +66,7 @@
 	if(preg_match('/[^a-zA-Z0-9\s\.-_\']/',$_POST['name']))
 		{
 			$_SESSION['new_template_alert_message'] = 'you have invalid characters in the name';
-			header('location:new_template.php');
+			header('location:../templates/#alert');
 			exit;
 		}
 
@@ -74,7 +74,7 @@
 	if(!isset($_POST['description']))
 		{
 			$_SESSION['new_template_alert_message'] = 'you must enter a description';
-			header('location:new_template.php');
+			header('location:../templates/#alert');
 			exit;
 		}
 
@@ -82,7 +82,7 @@
 	if(preg_match('/[^a-zA-Z0-9\s\.-_\'!]/',$_POST['description']))
 		{
 			$_SESSION['new_template_alert_message'] = 'you have invalid characters in the description';
-			header('location:new_template.php');
+			header('location:../templates/#alert');
 			exit;
 		}
 
@@ -105,7 +105,7 @@ while($ra = mysql_fetch_assoc($r))
 	if(preg_match('/^(zip)\i/',$_FILES["file"]["type"]))
 		{
 			$_SESSION['new_template_alert_message'] = 'you must only upload zip files';
-			header('location:new_template.php');
+			header('location:../templates/#alert');
 			exit;
 		}
 
@@ -113,7 +113,7 @@ while($ra = mysql_fetch_assoc($r))
 	if($_FILES["file"]["size"] > 20000000)
 		{
 	  		$_SESSION['new_template_alert_message'] = 'max file size is 20MB';
-	  		header('location:new_template.php');
+	  		header('location:../templates/#alert');
 	  		exit;
 	  	}
 
@@ -121,7 +121,7 @@ while($ra = mysql_fetch_assoc($r))
 	  if ($_FILES["file"]["error"] > 0)
 	    {
 	    	$_SESSION['new_template_alert_message'] = $_FILES["file"]["error"];
-	    	header('location:new_template.php');
+	    	header('location:../templates/#alert');
 	    	exit;
 	    }
 
@@ -155,12 +155,12 @@ while($ra = mysql_fetch_assoc($r))
 	else 
 		{
 			$_SESSION['new_template_alert_message'] = 'unzipping the file failed';
-			header('location:new_template.php');
+			header('location:../templates/#alert');
 			exit;
 		}
 
 
 	$_SESSION['templates_alert_message'] = 'template added successfully';
-	header('location:../templates/');
+	header('location:../templates/#alert');
 	exit;
 ?>

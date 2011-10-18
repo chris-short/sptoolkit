@@ -73,14 +73,20 @@
 					//check to see if the alert session is set
 					if(isset($_SESSION['templates_alert_message']))
 						{
+							//create alert popover
+							echo "<div id=\"alert\">";
+
 							//echo the alert message
-							echo "<h2>".$_SESSION['templates_alert_message']."</h2>";
+							echo "<div>".$_SESSION['templates_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 							
 							//unset the seession
-							unset ($_SESSION['templates_alert_message']);				
+							unset ($_SESSION['templates_alert_message']);
+							
+							//close alert popover
+							echo "</div>";
 						}
 				?>
-				<a href = "new_template.php">+ new template</a>
+				<span class="button"><a href="#add_template"><img src="../images/plus_sm.png" alt="add" /> Template</a></span>
 				<table class="spt_table">
 					<tr>
 						<td><h3>ID</h3></td>
@@ -105,12 +111,40 @@
 										<td>".$ra['name']."</td>\n
 										<td>".$ra['description']."</td>\n
 										<td><img class= \"drop_shadow\" src=\"".$ra['id']."\screenshot.png\" alt=\"missing screenshot\" /></td>\n
-										<td><a href=\"delete_template.php?t=".$ra['id']."\">X</a></td>\n
+										<td><a href=\"delete_template.php?t=".$ra['id']."\"><img src=\"../images/x_sm.png\" alt=\"delete\" /></a></td>\n
 										
 									</tr>\n";
 							}
 					?>
 				</table>
+				<form method="post" action="upload_template.php" enctype="multipart/form-data">
+					<div id="add_template">
+						<div>
+							<table id="add_template_zip">
+								<tr>
+									<td>Name</td>
+									<td><input name="name" /></td>
+								</tr>
+								<tr>
+									<td>Description</td>
+									<td><textarea name="description" cols=50 rows=4></textarea></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><input type="file"  name="file" /></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>
+										<br />
+										<a href=""><img src="../images/x.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="image" src="../images/plus.png" alt="add" />
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</body>

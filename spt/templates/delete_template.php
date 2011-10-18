@@ -50,7 +50,7 @@
 if($_SESSION['admin']!=1)
 	{
 		$_SESSION['templates_alert_message'] = "you do not have permission to delete a template";
-		header('location:../templates/');
+		header('location:../templates/#alert');
 		exit;
 	}
 
@@ -71,7 +71,7 @@ while($ra = mysql_fetch_assoc($r))
 if($match!= 1)
 	{
 		$_SESSION['templates_alert_message'] = "you specified an invalid template";
-		header('location:../templates/');
+		header('location:../templates/#alert');
 		exit;
 	}
 
@@ -87,7 +87,7 @@ while($ra = mysql_fetch_assoc($r))
 if($match2 == 1)
 	{
 		$_SESSION['templates_alert_message'] = "you cannot delete a template that is currently used by a campaign";
-		header('location:../templates/');
+		header('location:../templates/#alert');
 		exit;
 	}
 
@@ -112,7 +112,7 @@ mysql_query("DELETE FROM templates WHERE id = '$template_id'") or die('<div id="
 
 //send them back to the template home page
 $_SESSION['templates_alert_message'] = "template deleted successfully";
-header('location:../templates/');
+header('location:../templates/#alert');
 exit;
 
 ?>
