@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_delete.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -56,7 +56,7 @@
 	if($_SESSION['admin']!=1)
 		{
 			$_SESSION['group_list_alert_message'] = "you do not have permission to delete targets";
-			header('location:../targets/group_list.php?g='.$group_name);
+			header('location:../targets/?g='.$group_name.'#alert');
 			exit;
 		}
 	
@@ -64,7 +64,7 @@
 	if(preg_match('/[^0-9]/', $target_to_delete))
 		{
 			$_SESSION['group_list_alert_message'] = "invalid characters in the parameter you were attempting to pass";
-			header('location:../targets/group_list.php?g='.$group_name);
+			header('location:../targets/?g='.$group_name.'#alert');
 			exit;
 		}
 
@@ -84,7 +84,7 @@
 
 //send user back to targets page with success message
 $_SESSION['group_list_alert_message'] = "target deleted successfully";
-header('location:../targets/group_list.php?g='.$group_name);
+header('location:../targets/?g='.$group_name.'#alert');
 exit;
 
 ?>

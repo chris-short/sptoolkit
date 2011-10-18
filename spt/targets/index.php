@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -73,108 +73,123 @@
 					//check to see if the alert session is set
 					if(isset($_SESSION['targets_alert_message']))
 						{
+							//create alert popover
+							echo "<div id=\"alert\">";
+
 							//echo the alert message
-							echo "<h2>".$_SESSION['targets_alert_message']."</h2>";
+							echo "<div>".$_SESSION['targets_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 							
-							//unset the seession
-							unset ($_SESSION['targets_alert_message']);				
-						}
-					if(isset($_SESSION['bad_row_stats']))
-						{
-							//count how many stats there are
-							$count = count($_SESSION['bad_row_stats']);
-							
-							//start the list
-							echo "<ul>";
-							
-							//echo all bad row stats
-							while($count > 0)
+							if(isset($_SESSION['bad_row_stats']))
 								{
-									echo "<li><h2>".$_SESSION['bad_row_stats'][($count-1)]."</h2></li>";
-									$count--;
+									//count how many stats there are
+									$count = count($_SESSION['bad_row_stats']);
+									
+									//start the list
+									echo "<ul>";
+									
+									//echo all bad row stats
+									while($count > 0)
+										{
+											echo "<li><h2>".$_SESSION['bad_row_stats'][($count-1)]."</h2></li>";
+											$count--;
+										}
+									
+									//end the list
+									echo "</ul>";
+									
+									//unset bad row stat session
+									unset ($_SESSION['bad_row_stats']);
 								}
-							
-							//end the list
-							echo "</ul>";
-							
-							//unset bad row stat session
-							unset ($_SESSION['bad_row_stats']);
+
+							//close alert popover
+							echo "</div>";
+
+							//unset the seession
+							unset ($_SESSION['targets_alert_message']);		
+									
 						}
 				?>
-				
-				<form action="target_upload_single.php" method="post" enctype="multipart/form-data">
-					<table class="spt_table">
-						<tr>
-							<td><h3>+ Add One</h3></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Name</td>
-							<td><input type="text" name="name" /></td>
-						</tr>
-						<tr>
-							<td>Email</td>
-							<td><input type="text" name="email" /></td>
-						</tr>
-						<tr>
-							<td>Group</td>
-							<td>
-								<select name="group_name">
-									<option value="Select an Existing Group...">Select an Existing Group...</option>
-									<?php
-										//connect to database
-										include "../spt_config/mysql_config.php";
-										
-										//pull in current group names
-										$r = mysql_query("SELECT DISTINCT group_name FROM targets ORDER BY group_name") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-										while ($ra = mysql_fetch_assoc($r))
-											{
-												echo "<option value=\"".$ra['group_name']."\">".$ra['group_name']."</option>";
-											}
-									?>
-								</select>
-								, or add 
-								<input type="text" name="group_name_new" />
-								as a new group
-							</td>
-						</tr>
-						<tr>	
-							<td>
-								<input type="submit" />
-							</td>
-							<td></td>
-						</tr>
-					</table>
-				</form>
-				<table class="spt_table">
-					<tr>
-						<td><h3>+ Add Bunches</h3></td>
-					</tr>
-					<tr>
-						<td>			
+				<span class="button"><a href="#add_one"><img src="../images/plus_sm.png" alt="add" /> One</a></span>
+				<span class="button"><a href="#add_many"><img src="../images/plus_sm.png" alt="add" /> Many</a></span>
+				<div id="add_one">
+					<div>
+						<form action="target_upload_single.php" method="post" enctype="multipart/form-data">
+							<table id="add_single">
+								<tr>
+									<td>Name</td>
+									<td><input type="text" name="name" /></td>
+								</tr>
+								<tr>
+									<td>Email</td>
+									<td><input type="text" name="email" /></td>
+								</tr>
+								<tr>
+									<td>Existing Group</td>
+									<td>
+										<select name="group_name">
+											<option value="Select an Existing Group...">Select an Existing Group...</option>
+											<?php
+												//connect to database
+												include "../spt_config/mysql_config.php";
+												
+												//pull in current group names
+												$r = mysql_query("SELECT DISTINCT group_name FROM targets ORDER BY group_name") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+												while ($ra = mysql_fetch_assoc($r))
+													{
+														echo "<option value=\"".$ra['group_name']."\">".$ra['group_name']."</option>";
+													}
+											?>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td>
+										OR
+									</td>
+								</tr>
+								<tr>
+									<td>New Group</td>
+									<td> 
+										<input type="text" name="group_name_new" />
+									</td>
+								</tr>
+								<tr>	
+									<td></td>
+									<td>
+										<br />
+										<a href=""><img src="../images/x.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="image" src="../images/plus.png" alt="add" />
+									</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</div>
+				<div id="add_many">
+					<div>
+						<table id="add_bunches">
 							<form action="target_upload_batch.php" method="post" enctype="multipart/form-data">
-								<input type="file"  name="file" />
-								<input type="submit" value="Upload" />
+								<tr>
+									<td>
+										<input type="file"  name="file" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<br />
+										<a href=""><img src="../images/x.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<input type="image" src="../images/plus.png" alt="add" />
+									</td>
 							</form>
-						</td>
-					</tr>
-					<tr>				
-						<td><span>*import only csv files</span><br /></td>
-					</tr>
-					<tr>
-						<td><span>*columns should include <strong>name</strong>, <strong>email</strong>, <strong>group</strong> only and in that order</span></td>
-					</tr>
-				</table>
+						</table>
+					</div>
+				</div>
 				<table class="spt_table">
 					<tr>
-						<td><h3>Groups</h3></td>						
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>Name</td>
-						<td># of People</td>
-						<td>Delete</td>
+						<td><h3>Name</h3></td>
+						<td><h3>Quantity</h3></td>
+						<td><h3>Delete</h3></td>
 					</tr>
 					<?php
 						//connect to database
@@ -185,18 +200,84 @@
 						while ($ra = mysql_fetch_assoc($r))
 							{
 								echo "<tr>";
-								echo "<td><a href=\"group_list.php?g=".$ra['group_name']."\">".$ra['group_name']."</a></td>";
+								echo "<td><a href=\"?g=".$ra['group_name']."#group_list\">".$ra['group_name']."</a></td>";
 								$group_name = $ra['group_name'];
 								$r1 = mysql_query("SELECT COUNT(group_name) FROM targets WHERE group_name = '$group_name'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 								while($ra1 = mysql_fetch_assoc($r1))
 									{
 										echo "<td>".$ra1['COUNT(group_name)']."</td>";
 									}
-								echo "<td><a href=\"group_delete.php?g=".$ra['group_name']."\">X</a></td>";
+								echo "<td><a href=\"group_delete.php?g=".$ra['group_name']."\"><img src=\"../images/x_sm.png\" alt=\"delete\" /></a></td>";
 								echo "</tr>";
 							}
 					?>
 				</table>
+				<div  id="group_list">
+					<div>
+						<a href="."><img src="../images/x.png" alt="close" /></a>
+						<table id="group_user_list">
+							<tr>
+								<td><h3>Name</h3></td>
+								<td><h3>Email</h3></td>
+								<td><h3>Group</h3></td>
+								<td><h3>Delete</h3></td>
+							</tr>
+							<?php
+								//connect to database
+								include "../spt_config/mysql_config.php";
+								
+								if(isset($_REQUEST['g']))
+									{
+										$group = $_REQUEST['g'];
+									
+										//ensure the group name is under 50 characters
+										if(strlen($group) > 50)
+											{
+												$_SESSION['targets_alert_message'] = "group names cannot be over 50 characters";
+												header("location:../targets/#alert");
+												exit;
+											}
+										
+										//ensure the group name passed only has letters in it
+										if(preg_match('/[^a-zA-Z\s_0-9]/', $group))
+											{
+												$_SESSION['targets_alert_message'] = "group names may only contain letters";
+												header("location:../targets/#alert");
+												exit;
+											}
+											
+										//ensure that the group name exists in the database
+										$r = mysql_query("SELECT DISTINCT group_name FROM targets") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+										while ($ra = mysql_fetch_assoc($r))
+											{
+												if($ra['group_name'] == $group)
+													{
+														$match = 1;
+													}
+											}
+										if($match!=1)
+											{
+												$_SESSION['targets_alert_message'] = "this group does not exist";
+												header("location:../targets/#alert");
+												exit;
+											}
+										
+										//query for a list of groups ordered alphabetically
+										$r = mysql_query("SELECT id, name, email, group_name FROM targets WHERE group_name = '$group' ORDER BY name") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+										while ($ra = mysql_fetch_assoc($r))
+											{
+												echo "<tr>";
+												echo "<td>".$ra['name']."</td>";
+												echo "<td>".$ra['email']."</td>";
+												echo "<td>".$ra['group_name']."</td>";
+												echo "<td align = center><a href=\"target_delete.php?g=".$group."&u=".$ra['id']."\"><img src=\"../images/x_sm.png\" alt=\"delete\" /></a></td>";
+												echo "</tr>";		
+											}
+									}
+								?>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>

@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		group_delete.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,7 +50,7 @@
 	if($_SESSION['admin']!=1)
 		{
 			$_SESSION['targets_alert_message'] = "you do not have permission to delete groups";
-			header('location:../targets/');
+			header('location:../targets/#alert');
 			exit;
 		}
 
@@ -73,7 +73,7 @@
 
 //send user back to targets page with success message
 $_SESSION['targets_alert_message'] = "group deleted successfully";
-header('location:../targets/');
+header('location:../targets/#alert');
 exit;
 
 ?>

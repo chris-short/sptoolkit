@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_batch.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,7 +50,7 @@
 	if($_SESSION['admin']!=1)
 		{
 			$_SESSION['targets_alert_message'] = "you do not have permission to upload targets";
-			header('location:../targets/');
+			header('location:../targets/#alert');
 			exit;
 		}
 
@@ -58,7 +58,7 @@
 	if($_FILES["file"]["size"] > 20000000)
 		{
 	  		$_SESSION['targets_alert_message'] = 'max file size is 20MB';
-	  		header('location:../targets/');
+	  		header('location:../targets/#alert');
 	  		exit;
 	  	}
 
@@ -66,7 +66,7 @@
         if ($_FILES["file"]["error"] > 0)
 		{
 			$_SESSION['targets_alert_message'] = $_FILES["file"]["error"];
-			header('location:../targets/');
+			header('location:../targets/#alert');
 			exit;
 		}
 
@@ -96,7 +96,7 @@ foreach($lines as $line)
         if(!preg_match('/[,]/',$line))
             {
                 $_SESSION['targets_alert_message'] = "this file is not properly comma delimited";
-       	    	header('location:../targets/');
+       	    	header('location:../targets/#alert');
                 exit;
 
             }
@@ -112,7 +112,7 @@ foreach($lines as $line)
 		if(isset($line_contents[3]))
 		    {
 			$_SESSION['targets_alert_message'] = "you have too many columns, only populate a name, email and group column";
-			header('location:../targets/');
+			header('location:../targets/#alert');
 			exit;
 		    }
 
@@ -120,7 +120,7 @@ foreach($lines as $line)
 		if(!isset($line_contents[0]) || !isset($line_contents[1]) || !isset($line_contents[2]))
 		    {
 			$_SESSION['targets_alert_message'] = "you do not have at least three columns in all rows";
-			header('location:../targets/');
+			header('location:../targets/#alert');
 			exit;
 		    }
 	}
@@ -236,6 +236,6 @@ foreach($lines as $line2)
 			
 //send user back to targets page with success message
 	$_SESSION['targets_alert_message'] = $counter." of ".$counter_total." targets uploaded successfully";
-	header('location:../targets/');
+	header('location:../targets/#alert');
 	exit;
 ?>

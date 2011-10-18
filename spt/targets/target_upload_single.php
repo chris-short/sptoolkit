@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_single.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,7 +50,7 @@
 	if($_SESSION['admin']!=1)
 		{
 			$_SESSION['targets_alert_message'] = "you do not have permission to upload targets";
-			header('location:../targets/');
+			header('location:../targets/#alert');
 			exit;
 		}
 
@@ -62,7 +62,7 @@
 	else
 		{
 			$_SESSION['targets_alert_message'] = "you must enter a name";
-			header('location:../targets/');
+			header('location:../targets/#alert');
 			exit;
 		}
 		
@@ -74,7 +74,7 @@
 	else
 		{
 			$_SESSION['targets_alert_message'] = "you must enter an email address";
-			header('location:../targets/');
+			header('location:../targets/#alert');
 			exit;
 		}
 
@@ -94,7 +94,7 @@
 	else
 		{
 			$_SESSION['targets_alert_message'] = "you must select an existing group or create a new group";
-			header('location:../targets/');
+			header('location:../targets/#alert');
 			exit;
 		}
 
@@ -102,7 +102,7 @@
 	if($group_name == "Select an Existing Group..." && !isset($group_name_new))
 		{
 			$_SESSION['targets_alert_message'] = "you must select an existing group or create a new group";
-			header('location:../targets/');
+			header('location:../targets/#alert');
 			exit;
 		}
 		
@@ -110,7 +110,7 @@
 	if(preg_match('/[^A-Z\s\']/i', $name))
 		{
 			$_SESSION['targets_alert_message'] = "you have some invalid characters in the name";
-			header('location:../targets/');
+			header('location:../targets/#alert');
 			exit;
 		}
 		
@@ -118,7 +118,7 @@
 	if(!filter_var($email, FILTER_VALIDATE_EMAIL))
 		{
 			$_SESSION['targets_alert_message'] = "you must enter an actual email address";
-			header('location:../targets/');
+			header('location:../targets/#alert');
 			exit;
 		}
 		
@@ -138,7 +138,7 @@
 			if($match!= 1)
 				{
 					$_SESSION["targets_alert_message"] = "if your going to attempt to select a group that already exists, select one that already exists";
-					header('location:../targets/');
+					header('location:../targets/#alert');
 					exit;
 				}
 		}
@@ -147,7 +147,7 @@
 	if(preg_match('/[^A-Z0-9\s_-]/i', $group_name_new))
 		{
 			$_SESSION["targets_alert_message"] = "there are invalid characters in the group name";
-			header('location:../targets/');
+			header('location:../targets/#alert');
 			exit;
 		}
 	
@@ -165,7 +165,7 @@
 	
 //send user back to targets page with success message
 $_SESSION['targets_alert_message'] = $counter." target added successfully";
-header('location:../targets/');
+header('location:../targets/#alert');
 exit;
 
 ?>
