@@ -210,7 +210,7 @@
 									{
 										echo "<td>".$ra1['COUNT(group_name)']."</td>";
 									}
-								echo "<td><a href=\"group_delete.php?g=".$ra['group_name']."\"><img src=\"../images/x_sm.png\" alt=\"delete\" /></a></td>";
+								echo "<td><a href=\"group_delete.php?g=".$ra['group_name']."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
 								echo "</tr>";
 							}
 					?>
@@ -273,7 +273,7 @@
 												echo "<td>".$ra['name']."</td>";
 												echo "<td>".$ra['email']."</td>";
 												echo "<td>".$ra['group_name']."</td>";
-												echo "<td align = center><a href=\"target_delete.php?g=".$group."&u=".$ra['id']."\"><img src=\"../images/x_sm.png\" alt=\"delete\" /></a></td>";
+												echo "<td align = center><a href=\"target_delete.php?g=".$group."&u=".$ra['id']."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
 												echo "</tr>";		
 											}
 									}
