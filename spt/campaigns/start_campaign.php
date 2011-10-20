@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		start_campaign.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,6 +50,38 @@
 if($_SESSION['admin']!=1)
 	{
 		$_SESSION['campaigns_alert_message'] = "you do not have permission to start a campaign";
+		header('location:../campaigns/#alert');
+		exit;
+	}
+
+//ensure the campaign name is set
+if(!isset($_POST['campaign_name']))
+	{
+		$_SESSION['campaigns_alert_message'] = "you must give the campaign a name";
+		header('location:../campaigns/#alert');
+		exit;
+	}
+
+//ensure that the path was formulated
+if(!isset($_POST['spt_path']))
+	{
+		$_SESSION['campaigns_alert_message'] = "the host name could not be extracted properly";
+		header('location:../campaigns/#alert');
+		exit;
+	}
+
+//ensure a target group was selected
+if(!isset($_POST['target_groups']))
+	{
+		$_SESSION['campaigns_alert_message'] = "please select at least one target group";
+		header('location:../campaigns/#alert');
+		exit;
+	}
+
+//ensure a template is selected
+if(!isset($_POST['template_id']))
+	{
+		$_SESSION['campaigns_alert_message'] = "please select a template";
 		header('location:../campaigns/#alert');
 		exit;
 	}
