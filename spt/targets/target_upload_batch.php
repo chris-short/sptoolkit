@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_batch.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -186,14 +186,7 @@ foreach($lines as $line2)
 
 			}
 	
-		//increment the counter if its not the header row to determine how many lines were attempted
-		if(eregi('name', trim($line_contents2[0])) || eregi('email', trim($line_contents2[1])) || eregi('group', trim($line_contents2[2])))
-			{
-			}
-		else
-			{
-				$counter_total++;	
-			}
+		$counter_total++;
 		
 		//set temp counters back to 0
 		$temp_counter_bad_name = 0;
