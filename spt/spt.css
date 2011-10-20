@@ -64,6 +64,13 @@ a:hover
 		color: #999;
 	}
 
+img
+	{
+		border-style: initial;
+		border-color: initial;
+		border-width: 0px;
+	}
+	
 #delete_install_message
 	{
 		width: 400px;
