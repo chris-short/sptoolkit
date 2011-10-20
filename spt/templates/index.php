@@ -111,7 +111,7 @@
 										<td>".$ra['name']."</td>\n
 										<td>".$ra['description']."</td>\n
 										<td><img class= \"drop_shadow\" src=\"".$ra['id']."\screenshot.png\" alt=\"missing screenshot\" /></td>\n
-										<td><a href=\"delete_template.php?t=".$ra['id']."\"><img src=\"../images/x_sm.png\" alt=\"delete\" /></a></td>\n
+										<td><a href=\"delete_template.php?t=".$ra['id']."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
 										
 									</tr>\n";
 							}

@@ -133,7 +133,7 @@
 									}
 								
 								echo	"<td><a href=\"responses.php?c=".$ra['id']."&amp;f=link\">".$link."</a> / <a href=\"responses.php?c=".$ra['id']."&amp;f=post\">".$post."</a></td>";
-								echo	"<td><a href=\"delete_campaign.php?c=".$campaign_id."\"><img src=\"../images/x_sm.png\" alt=\"delete\" /></a></td>";
+								echo	"<td><a href=\"delete_campaign.php?c=".$campaign_id."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
 								echo	"</tr>";								
 							}
 					

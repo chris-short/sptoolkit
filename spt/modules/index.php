@@ -155,7 +155,7 @@
 										}
 									else
 										{
-											echo "<a href=\"module_uninstall.php?m=".$t."\"><img src=\"../images/x_sm.png\" alt=\"delete\" /></a>";
+											echo "<a href=\"module_uninstall.php?m=".$t."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a>";
 										}
 
 									echo "
