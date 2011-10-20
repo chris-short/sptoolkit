@@ -28,6 +28,7 @@
 	session_start();
 
 	//destroy the session
+	session_unset();
 	session_destroy();
 
 	//start a new session
