@@ -74,20 +74,25 @@
 					//check for alerts or notifications
 					if(isset($_SESSION['user_alert_message']))
 						{
+							//create alert popover
+							echo "<div id=\"alert\">";
+
 							//echo the alert message
-							echo "<h2>".$_SESSION['user_alert_message']."</h2>";
+							echo "<div>".$_SESSION['user_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 
 							//clear out the error message
 							unset($_SESSION['user_alert_message']);
-						}
 
-					//list currently logged in username and provide edit link
-					echo '<a href="user_form.php?user=1">'.$_SESSION['username'].'</a> ';
-					
+							//close alert popover
+							echo "</div>";
+						}
+				?>
+				<span class="button"><a href="#edit_user"><img src="../images/gear_sm.png" alt="edit" /> <?php echo $_SESSION['username']; ?></a></span>
+				<?php
 					//check to see if user is admin give them additional options
 					if($_SESSION['admin']==1)
 						{
-							echo " | <a href=\"user_form.php?user=2\"> + user</a>";
+							echo "<span class=\"button\"><a href=\"#add_user\"><img src=\"../images/plus_sm.png\" alt=\"add\" /> User</a></span>";
 						}
 				?>
 				<div>
@@ -166,6 +171,89 @@
 							}
 						?> 
 					</table>
+				</div>
+				<div id="edit_user">
+					<div>
+						<?php
+							//connect to database
+							include "../spt_config/mysql_config.php";
+							
+							//set parameter to variable
+							$current_user=$_SESSION['username'];
+
+							//create the sql statement to pull data about the current user
+							$r=mysql_query("SELECT fname, lname, username FROM users WHERE username = '$current_user'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+							$ra=mysql_fetch_assoc($r);
+
+							//generate form for the user to modify their data
+							echo 
+								"
+									<form id=\"edit_current_user\" method=\"post\" action=\"edit_user.php\">\n
+										<table id=\"edit_current_user\">\n
+											<tr>\n
+												<td>first name</td>\n
+												<td><input id=\"fname\" type=\"text\" name=\"fname\" value=\"".$ra['fname']."\" /></td>\n
+											</tr>\n
+											<tr>\n
+												<td>last name</td>\n
+												<td><input id=\"lname\" type=\"text\" name=\"lname\" value=\"".$ra['lname']."\" /></td>\n
+											</tr>\n
+											<tr>\n
+												<td>username</td>\n
+												<td><input id=\"username\" type=\"text\" name=\"username\" value=\"".$ra['username']."\"/></td>\n
+											</tr>\n
+											<tr>\n
+												<td>password</td>\n
+												<td><input id=\"password\" type=\"password\" name=\"password\" /></td>\n
+											</tr>\n
+											<tr>\n
+												<td></td>
+												<td>
+													<a href=\"\"><img src=\"../images/x.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+													<input type=\"image\" src=\"../images/gear.png\" alt=\"edit\" />
+												</td>\n
+											</tr>\n
+										</table>\n
+									</form>\n
+								";
+						?>
+					</div>
+				</div>
+				<div id="add_user">
+					<div>
+						<form id="add_user_table" method="post" action="add_user.php">
+							<table id="add_user_table">
+								<tr>
+									<td>first name</td>
+									<td><input id="fname" type="text" name="fname" /></td>
+								</tr>
+								<tr>
+									<td>last name</td>
+									<td><input id="lname" type="text" name="lname" /></td>
+								</tr>
+								<tr>
+									<td>email</td>
+									<td><input id="username" type="text" name="username" /></td>
+								</tr>
+								<tr>
+									<td>password</td>
+									<td><input id="password" type="password" name="password" /></td>
+								</tr>
+								<tr>
+									<td>admin</td>
+									<td><input id="admin" type="checkbox" name="a" /></td>
+								</tr>
+								<tr>
+									<td>disabled</td>
+									<td><input id="disabled" type="checkbox" name="disabled" /></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><input type="submit" value="submit" /></td>
+								</tr>
+							</table>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
