@@ -49,7 +49,7 @@
 //make sure the user is an admin
 	if($_SESSION['admin']!=1)
 		{
-			$_SESSION['new_template_alert_message'] = "you do not have permission to upload a template";
+			$_SESSION['templates_alert_message'] = "you do not have permission to upload a template";
 			header('location:../templates/#alert');
 			exit;
 		}
@@ -57,7 +57,7 @@
 //validate that a name is provided
 	if(!isset($_POST['name']))
 		{
-			$_SESSION['new_template_alert_message'] = 'you must enter a name';
+			$_SESSION['templates_alert_message'] = 'you must enter a name';
 			header('location:../templates/#alert');
 			exit;
 		}
@@ -65,7 +65,7 @@
 //ensure there are any valid characters in the name
 	if(preg_match('/[^a-zA-Z0-9\s\.-_\']/',$_POST['name']))
 		{
-			$_SESSION['new_template_alert_message'] = 'you have invalid characters in the name';
+			$_SESSION['templates_alert_message'] = 'you have invalid characters in the name';
 			header('location:../templates/#alert');
 			exit;
 		}
@@ -73,7 +73,7 @@
 //validate that a description is provided
 	if(!isset($_POST['description']))
 		{
-			$_SESSION['new_template_alert_message'] = 'you must enter a description';
+			$_SESSION['templates_alert_message'] = 'you must enter a description';
 			header('location:../templates/#alert');
 			exit;
 		}
@@ -81,7 +81,7 @@
 //ensure there are any valid characters in the description
 	if(preg_match('/[^a-zA-Z0-9\s\.-_\'!]/',$_POST['description']))
 		{
-			$_SESSION['new_template_alert_message'] = 'you have invalid characters in the description';
+			$_SESSION['templates_alert_message'] = 'you have invalid characters in the description';
 			header('location:../templates/#alert');
 			exit;
 		}
@@ -89,6 +89,39 @@
 //set values
 $name = $_POST['name'];
 $description = $_POST['description'];
+
+//validate a file was uploaded
+	if(!is_uploaded_file($_FILES['file']['tmp_name']))
+		{
+			$_SESSION['templates_alert_message'] = 'you must upload a file';
+			header('location:../templates/#alert');
+			exit;
+		}
+
+//ensure its a zip file
+	if(preg_match('/^(zip)\i/',$_FILES["file"]["type"]))
+		{
+			$_SESSION['templates_alert_message'] = 'you must only upload zip files';
+			header('location:../templates/#alert');
+			exit;
+		}
+
+//ensure that the file is under 20M
+	if($_FILES["file"]["size"] > 20000000)
+		{
+	  		$_SESSION['templates_alert_message'] = 'max file size is 20MB';
+	  		header('location:../templates/#alert');
+	  		exit;
+	  	}
+
+//ensure there are no errors
+	  if ($_FILES["file"]["error"] > 0)
+	    {
+	    	$_SESSION['templates_alert_message'] = $_FILES["file"]["error"];
+	    	header('location:../templates/#alert');
+	    	exit;
+	    }
+
 
 //add data to table
 include "../spt_config/mysql_config.php";
@@ -100,30 +133,6 @@ while($ra = mysql_fetch_assoc($r))
 	{
 		$id = $ra['max'];	
 	}
-
-//ensure its a zip file
-	if(preg_match('/^(zip)\i/',$_FILES["file"]["type"]))
-		{
-			$_SESSION['new_template_alert_message'] = 'you must only upload zip files';
-			header('location:../templates/#alert');
-			exit;
-		}
-
-//ensure that the file is under 20M
-	if($_FILES["file"]["size"] > 20000000)
-		{
-	  		$_SESSION['new_template_alert_message'] = 'max file size is 20MB';
-	  		header('location:../templates/#alert');
-	  		exit;
-	  	}
-
-//ensure there are no errors
-	  if ($_FILES["file"]["error"] > 0)
-	    {
-	    	$_SESSION['new_template_alert_message'] = $_FILES["file"]["error"];
-	    	header('location:../templates/#alert');
-	    	exit;
-	    }
 
 //create a temporary upload location
 	mkdir('temp_upload');
@@ -154,7 +163,7 @@ while($ra = mysql_fetch_assoc($r))
 		} 
 	else 
 		{
-			$_SESSION['new_template_alert_message'] = 'unzipping the file failed';
+			$_SESSION['templates_alert_message'] = 'unzipping the file failed';
 			header('location:../templates/#alert');
 			exit;
 		}
