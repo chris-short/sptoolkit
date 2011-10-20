@@ -53,7 +53,7 @@ include "../spt_config/mysql_config.php";
 if($_SESSION['username']==$_REQUEST['u'])
 	{
 		$_SESSION['user_alert_message'] = "don't attempt to use this method to edit your own information";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -65,7 +65,7 @@ while($ra=mysql_fetch_assoc($r))
 		if($ra['admin']!=1)
 			{
 				$_SESSION['user_alert_message'] = "you do not have permission to edit other people's information";
-				header('location:../users/');
+				header('location:../users/#alert');
 				exit;
 			}
 	}
@@ -83,7 +83,7 @@ if($original_username != $new_username)
 		if(!filter_var($new_username, FILTER_VALIDATE_EMAIL))
 			{
 				$_SESSION['user_alert_message'] = "you must enter a valid email address as the username";
-				header('location:../users/');
+				header('location:../users/#alert');
 				exit;
 			}
 
@@ -91,7 +91,7 @@ if($original_username != $new_username)
 		if(strlen($new_username) > 50)
 			{
 				$_SESSION['user_alert_message']="the username is too long";
-				header('location:../');
+				header('location:../users/#alert');
 				exit;
 			}
 
@@ -102,7 +102,7 @@ if($original_username != $new_username)
 				if($ra['username']==$new_username)
 					{
 						$_SESSION['user_alert_message'] = "this email address is already taken";
-						header('location:../users/');
+						header('location:../users/#alert');
 						exit;
 					}
 			}
@@ -115,7 +115,7 @@ $new_fname = $_POST['fname'];
 if(preg_match('/[^a-zA-Z]/', $new_fname))
 	{
 		$_SESSION['user_alert_message'] = "only letters are allowed in the first name field";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -123,7 +123,7 @@ if(preg_match('/[^a-zA-Z]/', $new_fname))
 if(strlen($new_fname) > 50)
 	{
 		$_SESSION['user_alert_message'] = "your first name is too long, please shorten below 50 characters";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -142,7 +142,7 @@ $new_lname = $_POST['lname'];
 if(strlen($new_lname) > 50)
 	{
 		$_SESSION['use_error_message'] = "your last name is too long, please shorten below 50 characters";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -150,7 +150,7 @@ if(strlen($new_lname) > 50)
 if(preg_match('/[^a-zA-Z]/', $new_lname))
 	{
 		$_SESSION['user_alert_message'] = "only letters are allowed in the last name field";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -158,7 +158,7 @@ if(preg_match('/[^a-zA-Z]/', $new_lname))
 if(strlen($new_lname) < 1)
 	{
 		$_SESSION['user_alert_message'] = "your last name must be at least 1 character long";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -172,7 +172,7 @@ if(!empty($_POST['password']))
 		if(preg_match('/[$+*"=&%]/', $temp_p))
 			{ 
 				$_SESSION['user_alert_message']="you must enter a valid password";
-				header('location:../users/');
+				header('location:../users/#alert');
 				exit;
 			} 
 		
@@ -180,7 +180,7 @@ if(!empty($_POST['password']))
 		if(strlen($temp_p) > 15 || strlen($temp_p) < 8)
 			{
 				$_SESSION['user_alert_message']="you must enter a valid password length";
-				header('location:../users/');
+				header('location:../users/#alert');
 				exit;
 			}
 		
@@ -217,6 +217,6 @@ if($original_username != $new_username)
 
 //send the user back to the users page once they've edited the user successfully
 $_SESSION['user_alert_message'] = "you have successfully edited the user";
-header('location:../users/');
+header('location:../users/#alert');
 exit;
 ?>

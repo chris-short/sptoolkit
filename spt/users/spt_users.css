@@ -22,7 +22,7 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#add_user
+#add_user, #edit_user, #edit_other_user
 	{
 		position: fixed;
 		top: 0;
@@ -35,20 +35,7 @@
 		z-index: 101;
 	}
 
-#edit_user
-	{
-		position: fixed;
-		top: 0;
-		left: 0;		
-		height: 100%;
-		width: 100%;
-		display: none;
-		background-color: rgba(0, 0, 0, 0.8);
-		text-align: center;
-		z-index: 100;
-	}
-
-#add_user div
+#add_user div, #edit_user div, #edit_other_user div
 	{
         margin: auto;
         background-color: #fff;
@@ -61,30 +48,12 @@
    		display: inline-block;
 	}
 
-#edit_user div
-	{
-        margin: auto;
-        background-color: #fff;
-        box-shadow: 4px 4px 5px #000;
-        border-radius: 5px;
-        padding: 20px;
-        margin: auto;
-   		margin-top: 50px;
-   		padding-top:10px;
-   		display: inline-block;
-	}
-
-#add_user:target
+#add_user:target, #edit_user:target, #edit_other_user:target
 	{
 		display: block;
 	}
 
-#edit_user:target
-	{
-		display: block;
-	}
-
-#edit_current_user, #add_user_table
+#edit_current_user, #add_user_table, #edit_others
 	{
 		width: 400px;
 		text-align: left;

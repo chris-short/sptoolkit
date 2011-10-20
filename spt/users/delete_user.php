@@ -53,7 +53,7 @@ include "../spt_config/mysql_config.php";
 if($_SESSION['admin']!=1)
 	{
 		$_SESSION['user_alert_message'] = "you do not have the privileges to delete users";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -64,7 +64,7 @@ $username=$_REQUEST['u'];
 if(!filter_var($username, FILTER_VALIDATE_EMAIL))
 	{
 		$_SESSION['user_alert_message'] = "you can only delete a user if you pass a valid email address";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -72,7 +72,7 @@ if(!filter_var($username, FILTER_VALIDATE_EMAIL))
 if($_SESSION['username']==$username)
 	{
 		$_SESSION['user_alert_message'] = "you cannot delete yourself";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -88,7 +88,7 @@ while($ra=mysql_fetch_assoc($r))
 if($count!=1)
 	{
 		$_SESSION['user_alert_message'] = "you are attempting to delete a user that does not exist";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -97,7 +97,7 @@ mysql_query("DELETE FROM users WHERE username = '$username'") or die('<div id="d
 
 //send the user back to the users page with a success message
 $_SESSION['user_alert_message'] = "user deleted successfully";
-header('location:../users/');
+header('location:../users/#alert');
 exit;
 
 ?>

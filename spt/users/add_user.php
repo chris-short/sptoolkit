@@ -53,7 +53,7 @@ include "../spt_config/mysql_config.php";
 if($_SESSION['admin']!=1)
 	{
 		$_SESSION['user_alert_message'] = "you do not have permission to add a user";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -64,7 +64,7 @@ $new_username = $_POST['username'];
 if(!filter_var($new_username, FILTER_VALIDATE_EMAIL))
 	{
 		$_SESSION['user_alert_message'] = "you must enter a valid email address";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -72,7 +72,7 @@ if(!filter_var($new_username, FILTER_VALIDATE_EMAIL))
 if(strlen($new_username) > 50)
 	{
 		$_SESSION['user_alert_message']="the username is too long";
-		header('location:../');
+		header('location:../#alert');
 		exit;
 	}
 
@@ -83,7 +83,7 @@ while($ra=mysql_fetch_assoc($r))
 		if($ra['username']==$new_username)
 			{
 				$_SESSION['user_alert_message'] = "this email address is already taken";
-				header('location:../users/');
+				header('location:../users/#alert');
 				exit;
 			}
 	}
@@ -96,7 +96,7 @@ $new_fname = $_POST['fname'];
 if(preg_match('/[^a-zA-Z]/', $new_fname))
 	{
 		$_SESSION['user_alert_message'] = "only letters are allowed in the first name field";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -104,7 +104,7 @@ if(preg_match('/[^a-zA-Z]/', $new_fname))
 if(strlen($new_fname) > 50)
 	{
 		$_SESSION['user_alert_message'] = "your first name is too long, please shorten below 50 characters";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -112,7 +112,7 @@ if(strlen($new_fname) > 50)
 if(strlen($new_fname) < 1)
 	{
 		$_SESSION['user_alert_message'] = "your first name must be at least 1 character long";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -123,7 +123,7 @@ $new_lname = $_POST['lname'];
 if(strlen($new_lname) > 50)
 	{
 		$_SESSION['use_error_message'] = "your last name is too long, please shorten below 50 characters";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -131,7 +131,7 @@ if(strlen($new_lname) > 50)
 if(preg_match('/[^a-zA-Z]/', $new_lname))
 	{
 		$_SESSION['user_alert_message'] = "only letters are allowed in the last name field";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -139,7 +139,7 @@ if(preg_match('/[^a-zA-Z]/', $new_lname))
 if(strlen($new_lname) < 1)
 	{
 		$_SESSION['user_alert_message'] = "your last name must be at least 1 character long";
-		header('location:../users/');
+		header('location:../users/#alert');
 		exit;
 	}
 
@@ -153,7 +153,7 @@ if(!empty($_POST['password']))
 		if(preg_match('/[$+*"=&%]/', $temp_p))
 			{ 
 				$_SESSION['user_alert_message']="you must enter a valid password";
-				header('location:../users/');
+				header('location:../users/#alert');
 				exit;
 			} 
 		
@@ -161,7 +161,7 @@ if(!empty($_POST['password']))
 		if(strlen($temp_p) > 15 || strlen($temp_p) < 8)
 			{
 				$_SESSION['user_alert_message']="you must enter a valid password length";
-				header('location:../users/');
+				header('location:../users/#alert');
 				exit;
 			}
 		
@@ -171,7 +171,7 @@ if(!empty($_POST['password']))
 else
 	{
 		$_SESSION['user_alert_message'] = "you must enter a password";
-		header('location"../users/');
+		header('location"../users/#alert');
 		exit;
 	}
 
@@ -197,6 +197,6 @@ else
 mysql_query("INSERT INTO users(fname, lname, username, password, admin, disabled) VALUES ('$new_fname','$new_lname','$new_username','$p','$a','$disabled')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 
 $_SESSION['user_alert_message'] = "user added successfully";
-header('location:../users/');
+header('location:../users/#alert');
 exit;
 ?>
