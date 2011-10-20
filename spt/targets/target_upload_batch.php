@@ -82,12 +82,10 @@ $counter_total = 0;
 $counter_bad_name = 0;
 $counter_bad_emails = 0;
 $counter_bad_group_name = 0;
-$counter_header_rows = 0;
 
 $temp_counter_bad_name = 0;
 $temp_counter_bad_emails = 0;
 $temp_counter_bad_group_name = 0;
-$temp_counter_header_rows = 0;
 
 //ensure there is a comma in every line
 foreach($lines as $line)
@@ -149,40 +147,30 @@ foreach($lines as $line2)
 			}
 		else
 			{
-				//increment bad group_name counter
+				//increment bad email counter
 				$temp_counter_bad_emails++;
 			}
 				
 		//validate the group name
 		if(eregi('/[$+*"=&%]/', trim($line_contents2[2])))
 			{
-				//increment header count
+				//increment bad group name count
 				$temp_counter_bad_group_name++;
 			}
 		else
 			{
 				$temp_group = trim($line_contents2[2]);	
 			}
-				
-		//check to see if this is the header row
-		if(eregi('name', trim($line_contents2[0])) || eregi('email', trim($line_contents2[1])) || eregi('group', trim($line_contents2[2])))
-			{
-				//increment header rows
-				$temp_counter_header_rows++;
-			}
-			
+							
 		//if there are any errors increment counters, otherwise write values to database
-		if($temp_counter_bad_name == 1 || $temp_counter_bad_emails == 1 || $temp_counter_bad_group_name == 1 || $temp_counter_header_rows == 1)
+		if($temp_counter_bad_name == 1 || $temp_counter_bad_emails == 1 || $temp_counter_bad_group_name == 1)
 			{
 				if($temp_counter_header_rows != 1)
 					{
 						$counter_bad_name = $temp_counter_bad_name + $counter_bad_name;
 						$counter_bad_emails = $temp_counter_bad_emails + $counter_bad_emails;
 						$counter_bad_group_name = $temp_counter_bad_group_name + $counter_bad_group_name;
-					}
-				
-				$counter_header_rows = $temp_counter_header_rows + $counter_header_rows;	
-					
+					}					
 			}
 
 		else
@@ -211,7 +199,6 @@ foreach($lines as $line2)
 		$temp_counter_bad_name = 0;
 		$temp_counter_bad_emails = 0;
 		$temp_counter_bad_group_name = 0;
-		$temp_counter_header_rows = 0;
 		
 	}
 
@@ -228,10 +215,6 @@ foreach($lines as $line2)
 	if($counter_bad_group_name > 0)
 		{
 			$_SESSION["bad_row_stats"][] = $counter_bad_group_name." rows excluded due to bad group names";
-		}
-	if($counter_header_rows > 1)
-		{
-			$_SESSION["bad_row_stats"][] = ($counter_header_rows-1)." rows excluded because they included header values";
 		}
 			
 //send user back to targets page with success message

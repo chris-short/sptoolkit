@@ -77,7 +77,7 @@
 							echo "<div id=\"alert\">";
 
 							//echo the alert message
-							echo "<div>".$_SESSION['targets_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+							echo "<div>".$_SESSION['targets_alert_message']."<br />";
 							
 							if(isset($_SESSION['bad_row_stats']))
 								{
@@ -90,7 +90,7 @@
 									//echo all bad row stats
 									while($count > 0)
 										{
-											echo "<li><h2>".$_SESSION['bad_row_stats'][($count-1)]."</h2></li>";
+											echo "<li>".$_SESSION['bad_row_stats'][($count-1)]."</li>";
 											$count--;
 										}
 									
@@ -100,6 +100,9 @@
 									//unset bad row stat session
 									unset ($_SESSION['bad_row_stats']);
 								}
+
+							//close the alert message
+							echo "<br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 
 							//close alert popover
 							echo "</div>";
