@@ -101,27 +101,51 @@
 			<div id="delete_install_message">
 				Installation files still exist!  What do you want to do?<br /><br />
 				<table class="center">
-				<tr>
-					<td>Go to Install</td>
-					<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-					<td>Delete & Login</td>
-				</tr>
-				<tr>
-					<td>
-						<form name="install_message_install" method="post" action="install.php" />
-							<input type="image" src="images/right-arrow.png" alt="begin installation" />
-						</form>
-					</td>
-					<td>
-					</td>
-					<td>
-						<form name="install_message_delete" method="post" action="">
-							<input type="hidden" name="delete_install" value="delete_install" />
-							<input type="image" src="images/trash.png" alt="delete and login" />
-						</form>
-					</td>
-				</tr>
+					<tr>
+						<td>Go to Install</td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+						<td>Delete & Login</td>
+					</tr>
+					<tr>
+						<td>
+							<form name="install_message_install" method="post" action="install.php" />
+								<input type="image" src="images/right-arrow.png" alt="begin installation" />
+							</form>
+						</td>
+						<td>
+						</td>
+						<td>
+							<form name="install_message_delete" method="post" action="">
+								<input type="hidden" name="delete_install" value="delete_install" />
+								<input type="image" src="images/trash.png" alt="delete and login" />
+							</form>
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
+
+		<!--forgot password-->
+		<div id="forgot_password">
+			<div>
+				<table>
+					<tr>
+						<td colspan=2>Provide your email address and we will<br />send you instructions on how to reset your password.</td>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td>
+							<form id="forgot_password_form" method="post" action="login/forgot_password.php">
+								<input type="text" name="email" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan=2><a href="."><img src="images/x.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="images/right-arrow.png" alt="edit" /></a></td>
+						</form>
+					</tr>
+				</table>
+			</div>
+		</div>
+
 	</body>
 </html>
