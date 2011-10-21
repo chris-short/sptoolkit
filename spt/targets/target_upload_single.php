@@ -107,7 +107,7 @@
 		}
 		
 //do a little validation on the name
-	if(preg_match('/[^A-Z\s\']/i', $name))
+	if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', $name))
 		{
 			$_SESSION['targets_alert_message'] = "you have some invalid characters in the name";
 			header('location:../targets/#alert');
@@ -144,7 +144,7 @@
 		}
 
 //if they are adding a new group name, validate it
-	if(preg_match('/[^A-Z0-9\s_-]/i', $group_name_new))
+	if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', $group_name_new))
 		{
 			$_SESSION["targets_alert_message"] = "there are invalid characters in the group name";
 			header('location:../targets/#alert');

@@ -130,7 +130,7 @@ foreach($lines as $line2)
 		$line_contents2 = explode(',',$line2);
 		
 		//validate name
-		if(eregi('/[$+*"=&%]/', trim($line_contents2[0])))
+		if(eregi('/[^a-zA-Z0-9_-\s!.()]/', trim($line_contents2[0])))
 			{
 				//increment bad name counter
 				$temp_counter_bad_name++;
@@ -152,7 +152,7 @@ foreach($lines as $line2)
 			}
 				
 		//validate the group name
-		if(eregi('/[$+*"=&%]/', trim($line_contents2[2])))
+		if(eregi('/[^a-zA-Z0-9_-\s!.()]/', trim($line_contents2[2])))
 			{
 				//increment bad group name count
 				$temp_counter_bad_group_name++;

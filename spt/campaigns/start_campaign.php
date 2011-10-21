@@ -93,7 +93,7 @@ $target_groups = $_POST['target_groups'];
 $template_id = $_POST['template_id'];
 
 //validate the campaign name
-if(preg_match('/[^a-zA-Z0-9\s-_]/', $campaign_name))
+if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', $campaign_name))
 	{
 		$_SESSION['campaigns_alert_message'] = "only letters are numbers are allowed in the campaign name";
 		header('location:../campaigns/#alert');

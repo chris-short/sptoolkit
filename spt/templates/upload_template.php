@@ -63,7 +63,7 @@
 		}
 
 //ensure there are any valid characters in the name
-	if(preg_match('/[^a-zA-Z0-9\s\.-_\']/',$_POST['name']))
+	if(preg_match('/[^a-zA-Z0-9_-\s!.()]/',$_POST['name']))
 		{
 			$_SESSION['templates_alert_message'] = 'you have invalid characters in the name';
 			header('location:../templates/#alert');
@@ -79,7 +79,7 @@
 		}
 
 //ensure there are any valid characters in the description
-	if(preg_match('/[^a-zA-Z0-9\s\.-_\'!]/',$_POST['description']))
+	if(preg_match('/[^a-zA-Z0-9_-\s!.()]/',$_POST['description']))
 		{
 			$_SESSION['templates_alert_message'] = 'you have invalid characters in the description';
 			header('location:../templates/#alert');
