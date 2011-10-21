@@ -78,7 +78,7 @@
 	$p = md5($_SESSION['salt'].$temp_p.$_SESSION['salt']);
 	
 	//grab all usernames and passwords from the database
-	$r = mysql_query('SELECT username, password, admin FROM users') or die ('<div id="die_error">Error: Had trouble connection to database.</div>');
+	$r = mysql_query('SELECT username, password, admin, disabled FROM users') or die ('<div id="die_error">Error: Had trouble connection to database.</div>');
 	
 	//start a loop to compare the data pulled from the database to the data submitted by user for each user in the database
 	while ($ra = mysql_fetch_assoc($r))
