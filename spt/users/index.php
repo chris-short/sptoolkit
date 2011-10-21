@@ -264,90 +264,95 @@
 							//set current user varaible with username from username session variable
 							$current_user=$_SESSION['username'];
 
-							//pull parameter and set to variable
-							$u=$_REQUEST['u'];
-
-							//validate that the email address entered is an actual email address
-							if(!filter_var($u, FILTER_VALIDATE_EMAIL))
+							//determine if user parameter is set
+							if(isset($_REQUEST['u']))
 								{
-									//set error message if not a valid email address
-									$_SESSION['user_alert_message'] = "please attempt to edit only valid email addresses";
-									header('location:../users/#alert');
-									exit;
-								}						
+									//pull parameter and set to variable
+									$u=$_REQUEST['u'];
 
-							//connect to database
-							include "../spt_config/mysql_config.php";
+									//validate that the email address entered is an actual email address
+									if(!filter_var($u, FILTER_VALIDATE_EMAIL))
+										{
+											//set error message if not a valid email address
+											$_SESSION['user_alert_message'] = "please attempt to edit only valid email addresses";
+											header('location:../users/#alert');
+											exit;
+										}						
 
-							//verify the entry is an actual email address in the database
-							$r=mysql_query("SELECT * FROM users") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-							while($ra=mysql_fetch_assoc($r))
-								{
-									if($ra['username']==$u)
+									//connect to database
+									include "../spt_config/mysql_config.php";
+
+									//verify the entry is an actual email address in the database
+									$r=mysql_query("SELECT * FROM users") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+									while($ra=mysql_fetch_assoc($r))
 										{
-											$count=1;
-										}	
-								}
-							if($count==1 && $_SESSION['admin']==1 && $u!=$current_user)
-								{				
-									$r=mysql_query("SELECT * FROM users WHERE username = '$u'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-									$ra=mysql_fetch_assoc($r);
-									echo "<form id=\"edit_others\" method=\"post\" action=\"edit_other_user.php?u=".$ra['username']."\">\n";
-									echo "<table id=\"edit_others\">\n";
-									echo "<tr>\n";
-									echo "<td>first name</td>\n";
-									echo "<td><input id=\"fname\" type=\"text\" name=\"fname\" value=\"";
-									echo $ra['fname'];
-									echo "\"/></td>\n";
-									echo "</tr>\n";
-									echo "<tr>\n";
-									echo "<td>lname</td>\n";
-									echo "<td><input id=\"lname\" type=\"text\" name=\"lname\" value=\"";
-									echo $ra['lname'];
-									echo "\"/></td>\n";
-									echo "</tr>\n";
-									echo "<tr>\n";
-									echo "<td>email</td>\n";
-									echo "<td><input id=\"username\" type=\"text\" name=\"u_new\" value=\"";
-									echo $ra['username'];
-									echo "\"/></td>\n";
-									echo "</tr>\n";
-									echo "<tr>\n";
-									echo "<td>password</td>\n";
-									echo "<td><input id=\"password\" type=\"password\" name=\"password\" /></td>\n";
-									echo "</tr>\n";
-									echo "<tr>\n";
-									echo "<td>admin</td>\n";
-									echo "<td><input id=\"admin\" type=\"checkbox\" name=\"admin\" ";
-									if($ra['admin']==1)
-										{
-											echo "checked";
+											if($ra['username']==$u)
+												{
+													$count=1;
+												}	
 										}
-									echo "/></td>\n";
-									echo "</tr>\n";
-									echo "<tr>\n";
-									echo "<td>disabled</td>\n";
-									echo "<td><input id=\"disabled\" type=\"checkbox\" name=\"disabled\" ";
-									if($ra['disabled']==1)
-										{
-											echo "checked";
+									if($count==1 && $_SESSION['admin']==1 && $u!=$current_user)
+										{				
+											$r=mysql_query("SELECT * FROM users WHERE username = '$u'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+											$ra=mysql_fetch_assoc($r);
+											echo "<form id=\"edit_others\" method=\"post\" action=\"edit_other_user.php?u=".$ra['username']."\">\n";
+											echo "<table id=\"edit_others\">\n";
+											echo "<tr>\n";
+											echo "<td>first name</td>\n";
+											echo "<td><input id=\"fname\" type=\"text\" name=\"fname\" value=\"";
+											echo $ra['fname'];
+											echo "\"/></td>\n";
+											echo "</tr>\n";
+											echo "<tr>\n";
+											echo "<td>lname</td>\n";
+											echo "<td><input id=\"lname\" type=\"text\" name=\"lname\" value=\"";
+											echo $ra['lname'];
+											echo "\"/></td>\n";
+											echo "</tr>\n";
+											echo "<tr>\n";
+											echo "<td>email</td>\n";
+											echo "<td><input id=\"username\" type=\"text\" name=\"u_new\" value=\"";
+											echo $ra['username'];
+											echo "\"/></td>\n";
+											echo "</tr>\n";
+											echo "<tr>\n";
+											echo "<td>password</td>\n";
+											echo "<td><input id=\"password\" type=\"password\" name=\"password\" /></td>\n";
+											echo "</tr>\n";
+											echo "<tr>\n";
+											echo "<td>admin</td>\n";
+											echo "<td><input id=\"admin\" type=\"checkbox\" name=\"admin\" ";
+											if($ra['admin']==1)
+												{
+													echo "checked";
+												}
+											echo "/></td>\n";
+											echo "</tr>\n";
+											echo "<tr>\n";
+											echo "<td>disabled</td>\n";
+											echo "<td><input id=\"disabled\" type=\"checkbox\" name=\"disabled\" ";
+											if($ra['disabled']==1)
+												{
+													echo "checked";
+												}
+											echo "/></td>\n";
+											echo "</tr>\n";
+											echo "<tr>\n";
+											echo "<td></td><td><a href=\"\"><img src=\"../images/x.png\" alt=\"cancel\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n";
+											echo "<input type=\"image\" src=\"../images/gear.png\" /></td>\n";
+											echo "</table>\n";
+											echo "</form>\n";
 										}
-									echo "/></td>\n";
-									echo "</tr>\n";
-									echo "<tr>\n";
-									echo "<td></td><td><a href=\"\"><img src=\"../images/x.png\" alt=\"cancel\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n";
-									echo "<input type=\"image\" src=\"../images/gear.png\" /></td>\n";
-									echo "</table>\n";
-									echo "</form>\n";
+									else
+										{
+											//set error message if the entered username doesn't match an existing one, the user isn't admin or the user being edited is the same as the logged in user
+											$_SESSION['user_alert_message'] = "you do not have the appropriate priveleges to edit this user";
+											header('location:../users/#alert');
+											exit;
+										}
 								}
-							else
-								{
-									//set error message if the entered username doesn't match an existing one, the user isn't admin or the user being edited is the same as the logged in user
-									$_SESSION['user_alert_message'] = "you do not have the appropriate priveleges to edit this user";
-									header('location:../users/#alert');
-									exit;
-								}
-						?>	
+
+					?>	
 					</div>
 				</div>
 			</div>
