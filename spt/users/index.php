@@ -338,7 +338,7 @@
 											echo "/></td>\n";
 											echo "</tr>\n";
 											echo "<tr>\n";
-											echo "<td></td><td><a href=\"\"><img src=\"../images/x.png\" alt=\"cancel\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n";
+											echo "<td></td><td><a href=\".\"><img src=\"../images/x.png\" alt=\"cancel\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n";
 											echo "<input type=\"image\" src=\"../images/gear.png\" /></td>\n";
 											echo "</table>\n";
 											echo "</form>\n";
