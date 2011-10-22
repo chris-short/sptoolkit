@@ -63,7 +63,7 @@
 	<body>
 		
 		<!--browser check-->
-		<?
+		<?php
 			//pull in browser script
 			include "includes/browser.php";
 
