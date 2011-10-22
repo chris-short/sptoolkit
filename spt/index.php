@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -62,6 +62,45 @@
 	
 	<body>
 		
+		<!--browser check-->
+		<?
+			//pull in browser script
+			include "includes/browser.php";
+
+			//put browser info into variable
+			$browser = new Browser();
+
+			//firefox check
+			if( $browser->getBrowser() == Browser::BROWSER_FIREFOX && $browser->getVersion() <= "7" ) 
+				{
+					echo 
+						"
+							<div id=\"browser_warning\">You are running an older version of Firefox (v".$browser->getVersion().") that has not been tested...Please update to the latest version of Firefox.</div>
+						";
+				}
+			if( $browser->getBrowser() == Browser::BROWSER_CHROME && $browser->getVersion() <= "14" )
+				{
+					echo 
+						"
+							<div id=\"browser_warning\">You are running an older version of Chrome (v".$browser->getVersion().") that has not been tested...Please update to the latest version.</div>
+						";
+				}
+			if( $browser->getBrowser() == Browser::BROWSER_IE && $browser->getVersion() <= "9" )
+				{
+					echo 
+						"
+							<div id=\"browser_warning\">You are running an older version of Internet Explorer (v".$browser->getVersion().")vthat has not been tested...Please update to the latest version.</div>
+						";
+				}
+			if( $browser->getBrowser() != Browser::BROWSER_IE && $browser->getBrowser() != Browser::BROWSER_CHROME && $browser->getBrowser() != Browser::BROWSER_FIREFOX)
+				{
+					echo
+						"
+							<div id=\"browser_warning\">You are running a web browser that has not been tested...Try the latest version of <a href=\"http://google.com/chrome\">Google Chrome</a>, <a href=\"http://microsoft.com/ie\">Microsoft Internet Explorer</a> or <a href=\"http://mozilla.org/firefox\">Mozilla Firefox</a></div>
+						";
+				}
+		?>
+
 		<!--login wrapper -->
 		<div id="login_wrapper">
 			
@@ -146,6 +185,5 @@
 				</table>
 			</div>
 		</div>
-
 	</body>
 </html>
