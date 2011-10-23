@@ -85,7 +85,7 @@
 							<div id=\"browser_warning\">You are running an older version of Chrome (v".$browser->getVersion().") that has not been tested...Please update to the latest version.</div>
 						";
 				}
-			if( $browser->getBrowser() == Browser::BROWSER_IE && $browser->getVersion() <= "9" )
+			if( $browser->getBrowser() == Browser::BROWSER_IE && $browser->getVersion() <= "8.9" )
 				{
 					echo 
 						"
