@@ -50,7 +50,7 @@
 if($_SESSION['admin']!=1)
 	{
 		$_SESSION['campaigns_alert_message'] = "you do not have permission to delete a campaign";
-		header('location:../campaigns/');
+		header('location:../campaigns/#alert');
 		exit;
 	}
 
@@ -71,7 +71,7 @@ while($ra = mysql_fetch_assoc($r))
 if($match!= 1)
 	{
 		$_SESSION['campaigns_alert_message'] = "you can only delete real campaign ids";
-		header('location:../campaigns/');
+		header('location:../campaigns/#alert');
 		exit;
 	}
 
@@ -82,7 +82,7 @@ mysql_query("DELETE FROM campaigns_responses WHERE campaign_id = '$campaign_id'"
 
 //send them back to the campaigns home page
 $_SESSION['campaigns_alert_message'] = "campaign deleted successfully";
-header('location:../campaigns/');
+header('location:../campaigns/#alert');
 exit;
 
 ?>
