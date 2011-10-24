@@ -55,16 +55,16 @@
 //make sure the user is an admin
 	if($_SESSION['admin']!=1)
 		{
-			$_SESSION['group_list_alert_message'] = "you do not have permission to delete targets";
-			header('location:../targets/?g='.$group_name.'#alert');
+			$_SESSION['targets_alert_message'] = "you do not have permission to delete targets";
+			header('location:../targets/#alert');
 			exit;
 		}
 	
 //ensure u only contains numbers
 	if(preg_match('/[^0-9]/', $target_to_delete))
 		{
-			$_SESSION['group_list_alert_message'] = "invalid characters in the parameter you were attempting to pass";
-			header('location:../targets/?g='.$group_name.'#alert');
+			$_SESSION['targets_alert_message'] = "invalid characters in the parameter you were attempting to pass";
+			header('location:../targets/#alert');
 			exit;
 		}
 
@@ -83,8 +83,8 @@
 		}
 
 //send user back to targets page with success message
-$_SESSION['group_list_alert_message'] = "target deleted successfully";
-header('location:../targets/?g='.$group_name.'#alert');
+$_SESSION['targets_alert_message'] = "target deleted successfully";
+header('location:../targets/#alert');
 exit;
 
 ?>

@@ -49,7 +49,7 @@
 //validate that the currently logged in user is an admin
 if($_SESSION['admin']!=1)
 	{
-		$_SESSION['user_error_message'] = "you do not have permission to delete a campaign";
+		$_SESSION['campaigns_alert_message'] = "you do not have permission to delete a campaign";
 		header('location:../campaigns/');
 		exit;
 	}
