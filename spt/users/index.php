@@ -317,7 +317,7 @@
 											echo "</tr>\n";
 											echo "<tr>\n";
 											echo "<td>password</td>\n";
-											echo "<td><input id=\"password\" type=\"password\" name=\"password\" autocomplete="off" /></td>\n";
+											echo "<td><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\" /></td>\n";
 											echo "</tr>\n";
 											echo "<tr>\n";
 											echo "<td>admin</td>\n";
