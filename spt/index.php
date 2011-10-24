@@ -116,7 +116,7 @@
 					</tr>
 					<tr>
 						<td class="td_right">password</td>
-						<td><input name="p" type="password" id="p" class="login_field" /></td>
+						<td><input name="p" type="password" id="p" class="login_field" autocomplete="off" /></td>
 					</tr>
 					<?php 
 						//look for login errors

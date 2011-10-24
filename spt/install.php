@@ -248,7 +248,7 @@
 										</tr>
 										<tr>
 											<td>Password</td>
-											<td><input type=\"password\" name=\"password\" /></td>
+											<td><input type=\"password\" name=\"password\" autocomplete=\"off\"/></td>
 										</tr>
 										<tr>
 											<td>Database</td>

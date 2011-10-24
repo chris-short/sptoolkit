@@ -204,7 +204,7 @@
 											</tr>\n
 											<tr>\n
 												<td>password</td>\n
-												<td><input id=\"password\" type=\"password\" name=\"password\" /></td>\n
+												<td><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\"/></td>\n
 											</tr>\n
 											<tr>\n
 												<td></td>
@@ -237,7 +237,7 @@
 								</tr>
 								<tr>
 									<td>password</td>
-									<td><input id="password" type="password" name="password" /></td>
+									<td><input id="password" type="password" name="password" autocomplete="off" /></td>
 								</tr>
 								<tr>
 									<td>admin</td>
@@ -317,7 +317,7 @@
 											echo "</tr>\n";
 											echo "<tr>\n";
 											echo "<td>password</td>\n";
-											echo "<td><input id=\"password\" type=\"password\" name=\"password\" /></td>\n";
+											echo "<td><input id=\"password\" type=\"password\" name=\"password\" autocomplete="off" /></td>\n";
 											echo "</tr>\n";
 											echo "<tr>\n";
 											echo "<td>admin</td>\n";
