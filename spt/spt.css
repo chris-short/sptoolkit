@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:		spt.css
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -115,7 +115,7 @@ img
 
 #login_form h1
 	{
-		color: #394FCC;
+		color: #FF0000;
 		font-size: 10px;
 	
 	}
@@ -216,7 +216,7 @@ img
         border-radius: 5px;
 	}
 
-#alert, #forgot_password
+#alert, #forgot_password, #forgot_alert
 	{
 		position: fixed;
 		top: 0;
@@ -229,7 +229,7 @@ img
 		z-index: 101;
 	}
 
-#alert div, #forgot_password div
+#alert div, #forgot_password div, #forgot_alert div
 	{
         margin: auto;
         background-color: #fff;
@@ -242,7 +242,7 @@ img
    		display: inline-block;
 	}
 
-#alert:target, #forgot_password:target
+#alert:target, #forgot_password:target, #forgot_alert:target
 	{
 		display: block;
 	}

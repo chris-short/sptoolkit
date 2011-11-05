@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -33,7 +33,7 @@
 
 	if(file_exists('install.php') && !preg_match('/installfiles=true/', $_SERVER['REQUEST_URI']))
 		{
-			header('location:index.php?installfiles=true#alert');
+			header('location:index.php?installfiles=true#install_files');
 		}
 
 	//sends you to the spt dashboard if your already authenticated
@@ -58,6 +58,7 @@
 		
 		<!--css-->
 		<link rel="stylesheet" href="spt.css" type="text/css" />
+
 	</head>
 	
 	<body>
@@ -101,39 +102,24 @@
 				}
 		?>
 
-		<!--login wrapper -->
-		<div id="login_wrapper">
-			
-			<!--logo-->
-			<div id="login_logo"><img src="images/logo.png" alt="logo"/></div>
-			
-			<!--login form-->
-			<form id="login_form" method="post" action="login/validator.php">
-				<table>
-					<tr>
-						<td class="td_right">email</td>
-						<td><input name="u" type="text" id="u" class="login_field" /></td>
-					</tr>
-					<tr>
-						<td class="td_right">password</td>
-						<td><input name="p" type="password" id="p" class="login_field" autocomplete="off" /></td>
-					</tr>
-					<?php 
-						//look for login errors
-						if(isset($_SESSION['login_error_message']))
-							{
-								echo "<tr><td colspan=\"2\"><h1>".$_SESSION['login_error_message']."</h1></td></tr>";
-								
-								//clear login error
-								unset($_SESSION['login_error_message']);
-							}
-					?>
-					<tr>
-						<td colspan="2"><input type="submit" value="login" /></td>
-					</tr>
-				</table>
-			</form>
-		</div>
+		<?php 
+			//look for login errors
+			if(isset($_SESSION['forgot_alert']))
+				{
+					//create alert popover
+					echo "<div id=\"forgot_alert\">\n";
+				
+
+					//echo the alert message
+					echo "<div>".$_SESSION['forgot_alert']."<br /><br /><a href=\"\"><img src=\"images/left-arrow.png\" alt=\"close\" /></a></div>";
+					
+					//unset the session
+					unset ($_SESSION['forgot_alert']);				
+
+					//close alert popover
+					echo "</div>";
+				}
+		?>
 
 		<!--alert-->
 		<div id="alert">
@@ -185,5 +171,45 @@
 				</table>
 			</div>
 		</div>
+
+		<!--login wrapper -->
+		<div id="login_wrapper">
+			
+			<!--logo-->
+			<div id="login_logo"><img src="images/logo.png" alt="logo"/></div>
+			
+			<!--login form-->
+			<form id="login_form" method="post" action="login/validator.php">
+				<table>
+					<tr>
+						<td class="td_right">email</td>
+						<td><input name="u" type="text" id="u" class="login_field" /></td>
+					</tr>
+					<tr>
+						<td class="td_right">password</td>
+						<td><input name="p" type="password" id="p" class="login_field" autocomplete="off" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><a href="#forgot_password">forgot password?</a></td>
+					</tr>
+					<?php 
+								//look for login errors
+								if(isset($_SESSION['login_error_message']))
+									{
+										//echo the alert message
+										echo "<tr><td></td><td><h1>".$_SESSION['login_error_message']."</h1></td></tr>";
+										
+										//unset the session
+										unset ($_SESSION['login_error_message']);				
+									}
+							?>					
+					<tr>
+						<td colspan="2"><input type="submit" value="login" /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
 	</body>
 </html>

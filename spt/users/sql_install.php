@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		sql_install.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -35,6 +35,9 @@
 			  `fname` varchar(50) DEFAULT NULL COMMENT 'first name',
 			  `lname` varchar(50) DEFAULT NULL COMMENT 'last name',
 			  `admin` int(1) NOT NULL DEFAULT '0' COMMENT '0-standard; 1-admin',
+  			  `preset_day` date NOT NULL DEFAULT '0001-01-01',
+  			  `preset_key` varchar(40) DEFAULT NULL,
+  			  `preset_enabled` int(1) NOT NULL DEFAULT '0',
 			  PRIMARY KEY (`id`),
 			  UNIQUE KEY `username` (`username`)
 			  )
