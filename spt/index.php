@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -122,7 +122,7 @@
 		?>
 
 		<!--alert-->
-		<div id="alert">
+		<div id="install_files">
 			<div id="delete_install_message">
 				Installation files still exist!  What do you want to do?<br /><br />
 				<table class="center">
