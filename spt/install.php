@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		install.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -417,7 +417,7 @@
 									}
 								
 								//pass temp password to new variable that has been salted and hashed
-								$p = md5($salt.$temp_p.$salt);
+								$p = sha1($salt.$temp_p.$salt);
 							}
 						else
 							{

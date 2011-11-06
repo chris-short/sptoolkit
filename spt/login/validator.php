@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		validator.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Login management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -75,7 +75,7 @@
 	
 	//set variables to their final destination before the comparison occurs
 	$u = $temp_u;
-	$p = md5($_SESSION['salt'].$temp_p.$_SESSION['salt']);
+	$p = sha1($_SESSION['salt'].$temp_p.$_SESSION['salt']);
 	
 	//grab all usernames and passwords from the database
 	$r = mysql_query('SELECT username, password, admin, disabled FROM users') or die ('<div id="die_error">Error: Had trouble connection to database.</div>');

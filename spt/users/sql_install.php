@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		sql_install.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,7 +30,7 @@
 			CREATE TABLE `users` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT,
 			  `username` varchar(50) NOT NULL DEFAULT '',
-			  `password` varchar(32) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL DEFAULT '',
+			  `password` varchar(40) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL DEFAULT '',
 			  `disabled` int(1) NOT NULL DEFAULT '0' COMMENT '0-enabled; 1-disabled',
 			  `fname` varchar(50) DEFAULT NULL COMMENT 'first name',
 			  `lname` varchar(50) DEFAULT NULL COMMENT 'last name',

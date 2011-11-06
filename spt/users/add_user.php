@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		add_user.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -166,7 +166,7 @@ if(!empty($_POST['password']))
 			}
 		
 		//pass temp password to new variable that has been salted and hashed
-		$p = md5($_SESSION['salt'].$temp_p.$_SESSION['salt']);
+		$p = sha1($_SESSION['salt'].$temp_p.$_SESSION['salt']);
 	}
 else
 	{
