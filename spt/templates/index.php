@@ -68,6 +68,65 @@
 			<?php include '../includes/sidebar.php'; ?>					
 
 			<!--content-->
+			<form method="post" action="upload_template.php" enctype="multipart/form-data">
+				<div id="add_template">
+					<div>
+						<table id="add_template_zip">
+							<tr>
+								<td>Name</td>
+								<td><input name="name" /></td>
+							</tr>
+							<tr>
+								<td>Description</td>
+								<td><textarea name="description" cols=50 rows=4></textarea></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><input type="file"  name="file" /></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>
+									<br />
+									<a href=""><img src="../images/x.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<input type="image" src="../images/plus.png" alt="add" />
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</form>
+
+			<form method="post" action="scrape_it.php" enctype="multipart/form-data">
+				<div id="add_scrape">
+					<div>
+						<table id="add_scrape_table">
+							<tr>
+								<td>Name</td>
+								<td><input name="name" /></td>
+							</tr>
+							<tr>
+								<td>Description</td>
+								<td><textarea name="description" cols=50 rows=4></textarea></td>
+							</tr>
+							<tr>
+								<td>URL</td>
+								<td><input name="url" /></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>
+									<br />
+									<a href=""><img src="../images/x.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<input type="image" src="../images/plus.png" alt="add" />
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</form>
+
+
 			<div id="content">
 				<?php
 					//check to see if the alert session is set
@@ -87,6 +146,7 @@
 						}
 				?>
 				<span class="button"><a href="#add_template"><img src="../images/plus_sm.png" alt="add" /> Template</a></span>
+				<span class="button"><a href="#add_scrape"><img src="../images/plus_sm.png" alt="add" /> Scrape</a></span>
 				<table class="spt_table">
 					<tr>
 						<td><h3>ID</h3></td>
@@ -117,34 +177,6 @@
 							}
 					?>
 				</table>
-				<form method="post" action="upload_template.php" enctype="multipart/form-data">
-					<div id="add_template">
-						<div>
-							<table id="add_template_zip">
-								<tr>
-									<td>Name</td>
-									<td><input name="name" /></td>
-								</tr>
-								<tr>
-									<td>Description</td>
-									<td><textarea name="description" cols=50 rows=4></textarea></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td><input type="file"  name="file" /></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td>
-										<br />
-										<a href=""><img src="../images/x.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<input type="image" src="../images/plus.png" alt="add" />
-									</td>
-								</tr>
-							</table>
-						</div>
-					</div>
-				</form>
 			</div>
 		</div>
 	</body>
