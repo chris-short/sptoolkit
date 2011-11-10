@@ -164,7 +164,7 @@ if(!empty($_POST['password']))
 			}
 		
 		//pass temp password to new variable that has been salted and hashed
-		$p = md5($_SESSION['salt'].$temp_p.$_SESSION['salt']);
+		$p = sha1($_SESSION['salt'].$temp_p.$_SESSION['salt']);
 	}
 //all entered variables should have been validated by now
 
