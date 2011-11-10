@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		5.0
+ * version:		5.5
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -188,33 +188,6 @@
 						</table>
 					</div>
 				</div>
-				<table class="spt_table">
-					<tr>
-						<td><h3>Name</h3></td>
-						<td><h3>Quantity</h3></td>
-						<td><h3>Delete</h3></td>
-					</tr>
-					<?php
-						//connect to database
-						include "../spt_config/mysql_config.php";
-						
-						//query for a list of groups ordered alphabetically
-						$r = mysql_query("SELECT DISTINCT group_name FROM targets ORDER BY group_name") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-						while ($ra = mysql_fetch_assoc($r))
-							{
-								echo "<tr>";
-								echo "<td><a href=\"?g=".$ra['group_name']."#group_list\">".$ra['group_name']."</a></td>";
-								$group_name = $ra['group_name'];
-								$r1 = mysql_query("SELECT COUNT(group_name) FROM targets WHERE group_name = '$group_name'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-								while($ra1 = mysql_fetch_assoc($r1))
-									{
-										echo "<td>".$ra1['COUNT(group_name)']."</td>";
-									}
-								echo "<td><a href=\"group_delete.php?g=".$ra['group_name']."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
-								echo "</tr>";
-							}
-					?>
-				</table>
 				<div  id="group_list">
 					<div>
 						<a href="."><img src="../images/x.png" alt="close" /></a>
@@ -265,22 +238,63 @@
 												exit;
 											}
 										
+										//start form to edit entire group list
+										echo
+											"
+												<form id=\"group_list_form\" action=\"group_edit.php\" method=\"post\">\n
+											";
+
 										//query for a list of groups ordered alphabetically
 										$r = mysql_query("SELECT id, name, email, group_name FROM targets WHERE group_name = '$group' ORDER BY name") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 										while ($ra = mysql_fetch_assoc($r))
 											{
 												echo "<tr>";
-												echo "<td>".$ra['name']."</td>";
-												echo "<td>".$ra['email']."</td>";
-												echo "<td>".$ra['group_name']."</td>";
+												echo "<td><input name= \"name_".$ra['id']."\" type=\"text\" value=\"".$ra['name']."\" class=\"invisible_input\"/></td>";
+												echo "<td><input name= \"email_".$ra['id']."\" type=\"text\" value=\"".$ra['email']."\" class=\"invisible_input\" /></td>";
+												echo "<td><input name= \"group_".$ra['id']."\" type=\"text\" value=\"".$ra['group_name']."\" class=\"invisible_input\" /></td>";
 												echo "<td align = center><a href=\"target_delete.php?g=".$group."&u=".$ra['id']."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
 												echo "</tr>";		
 											}
+
+										echo
+											"
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"image\" src=\"../images/gear.png\" alt=\"edit\" />
+												</form>
+											";
+
+
 									}
 								?>
 						</table>
 					</div>
 				</div>
+				<table class="spt_table">
+					<tr>
+						<td><h3>Name</h3></td>
+						<td><h3>Quantity</h3></td>
+						<td><h3>Delete</h3></td>
+					</tr>
+					<?php
+						//connect to database
+						include "../spt_config/mysql_config.php";
+						
+						//query for a list of groups ordered alphabetically
+						$r = mysql_query("SELECT DISTINCT group_name FROM targets ORDER BY group_name") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+						while ($ra = mysql_fetch_assoc($r))
+							{
+								echo "<tr>";
+								echo "<td><a href=\"?g=".$ra['group_name']."#group_list\">".$ra['group_name']."</a></td>";
+								$group_name = $ra['group_name'];
+								$r1 = mysql_query("SELECT COUNT(group_name) FROM targets WHERE group_name = '$group_name'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+								while($ra1 = mysql_fetch_assoc($r1))
+									{
+										echo "<td>".$ra1['COUNT(group_name)']."</td>";
+									}
+								echo "<td><a href=\"group_delete.php?g=".$ra['group_name']."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
+								echo "</tr>";
+							}
+					?>
+				</table>
 			</div>
 		</div>
 	</body>

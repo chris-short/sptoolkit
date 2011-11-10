@@ -63,3 +63,12 @@
 	{
 		width: 800px;	
 	}
+
+.invisible_input	
+	{
+		border: none;
+		text-align:center;
+		width:100%;
+
+	}
+
