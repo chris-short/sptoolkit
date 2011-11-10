@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		5.5
+ * version:		5.75
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -61,6 +61,27 @@
 		<!--css-->
 		<link rel="stylesheet" href="../spt.css" type="text/css" />
 		<link rel="stylesheet" href="spt_targets.css" type="text/css" />
+		
+		<!--scripts-->
+		<script type="text\javascript">
+			function update_target(id,type,data) 
+				{ 
+					// start it
+					var xmlHttp = new XMLHttpRequest(); 
+				 
+					//specify where to send it
+					xmlHttp.open("POST", "target_update.php", false); 
+					 
+					//send it
+					xmlHttp.send(id+","+type+","+data); 
+					
+					//specify what gets it
+					var results = document.getElementById(id); 
+				 
+					//update it
+					results.innerHTML = xmlHttp.responseText; 
+				}
+			</script>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -238,31 +259,23 @@
 												exit;
 											}
 										
-										//start form to edit entire group list
-										echo
-											"
-												<form id=\"group_list_form\" action=\"group_edit.php\" method=\"post\">\n
-											";
-
 										//query for a list of groups ordered alphabetically
 										$r = mysql_query("SELECT id, name, email, group_name FROM targets WHERE group_name = '$group' ORDER BY name") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 										while ($ra = mysql_fetch_assoc($r))
 											{
-												echo "<tr>";
-												echo "<td><input name= \"name_".$ra['id']."\" type=\"text\" value=\"".$ra['name']."\" class=\"invisible_input\"/></td>";
-												echo "<td><input name= \"email_".$ra['id']."\" type=\"text\" value=\"".$ra['email']."\" class=\"invisible_input\" /></td>";
-												echo "<td><input name= \"group_".$ra['id']."\" type=\"text\" value=\"".$ra['group_name']."\" class=\"invisible_input\" /></td>";
-												echo "<td align = center><a href=\"target_delete.php?g=".$group."&u=".$ra['id']."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
-												echo "</tr>";		
+												//build a row for each member of the group wrapped in a form that will dynamically edit each entry as changes are made
+												echo 
+													"
+														<tr>\n
+															<form>\n
+																<td><input id=\"".$ra['id']."_name\" onBlur=\"update_target(".$ra['id'].", name, this)\" type=\"text\" value=\"".$ra['name']."\" class=\"invisible_input\"/></td>\n
+																<td><input id=\"".$ra['id']."_email\" onBlur=\"update_target(".$ra['id'].", email, this)\" type=\"text\" value=\"".$ra['email']."\" class=\"invisible_input\" /></td>\n
+																<td><input id=\"".$ra['id']."_group\" onBlur=\"update_target(".$ra['id'].", group, this)\" type=\"text\" value=\"".$ra['group_name']."\" class=\"invisible_input\" /></td>\n
+																<td align = center><a href=\"target_delete.php?g=".$group."&u=".$ra['id']."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
+															</form>
+														</tr>
+													";
 											}
-
-										echo
-											"
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"image\" src=\"../images/gear.png\" alt=\"edit\" />
-												</form>
-											";
-
-
 									}
 								?>
 						</table>
@@ -296,6 +309,6 @@
 					?>
 				</table>
 			</div>
-		</div>
+		</div>	
 	</body>
 </html>
