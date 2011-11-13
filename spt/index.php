@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -28,7 +28,8 @@
 	//if install file exists prompt user to delete it
 	if(isset($_POST['delete_install']))
 		{
-			unlink('install.php');	
+			unlink('install.php');
+			header('location:index.php?#deleted');
 		}
 
 	if(file_exists('install.php') && !preg_match('/installfiles=true/', $_SERVER['REQUEST_URI']))
