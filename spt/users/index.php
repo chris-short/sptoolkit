@@ -101,7 +101,7 @@
 										<td></td>
 										<td>
 											<a href=\"\"><img src=\"../images/x.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<input type=\"image\" src=\"../images/gear.png\" alt=\"edit\" />
+											<input type=\"image\" src=\"../images/thumbs-up.png\" alt=\"edit\" />
 										</td>\n
 									</tr>\n
 								</table>\n
@@ -230,7 +230,7 @@
 									echo "</tr>\n";
 									echo "<tr>\n";
 									echo "<td></td><td><a href=\".\"><img src=\"../images/x.png\" alt=\"cancel\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n";
-									echo "<input type=\"image\" src=\"../images/gear.png\" /></td>\n";
+									echo "<input type=\"image\" src=\"../images/thumbs-up.png\" /></td>\n";
 									echo "</table>\n";
 									echo "</form>\n";
 								}
