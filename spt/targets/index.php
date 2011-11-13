@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -195,7 +195,7 @@
 										<input type="file"  name="file" />
 									</td>
 									<td>
-										<a class="tooltip" href="#"><img src="../images/tooltip.png" alt="tooltip.png" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.</span></a>
+										<a class="tooltip" href=""><img src="../images/tooltip.png" alt="tooltip.png" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.</span></a>
 									</td>
 								</tr>
 								<tr>
@@ -211,7 +211,10 @@
 				</div>
 				<div  id="group_list">
 					<div>
-						<a href="."><img src="../images/x.png" alt="close" /></a>
+						<span>
+							<h1 id="group_list_title"><?php echo $_REQUEST['g'];?></h1>
+							<span id="group_list_actions"><a href="."><img src="../images/x.png" alt="close" /></a></span>
+						</span>
 						<table id="group_user_list">
 							<tr>
 								<td><h3>Name</h3></td>

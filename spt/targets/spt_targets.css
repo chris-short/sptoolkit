@@ -1,7 +1,7 @@
 /*css - targets*/
 /**
  * file:		spt_targets.css
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -62,6 +62,15 @@
 #group_user_list
 	{
 		width: 800px;	
+	}
+#group_list_title
+	{
+		float:left;
+	}
+
+#group_list_actions
+	{
+		float:right;
 	}
 
 .invisible_input	
