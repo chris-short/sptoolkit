@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		scrape_it.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -103,16 +103,17 @@ $url = $parsed_url['scheme']."://".$parsed_url['host'];
 				}
 		}
 
-	//find and replace relative links 	
-	f_and_r('#(href|src)="([^/][^/])([^:|\#"]*)(?:")#', '$1="'.$url.'/$2"', 'temp_upload/index.htm');
-	//f_and_r('#(href|src)="([^http])#', '$1="'.$url.'/', 'temp_upload/index.htm');
-
 	//fix double relative, absolute paths
-	f_and_r('#href="([/][/])#', 'href="http://','temp_upload/index.htm');
-	f_and_r('#src="([/][/])#', 'src="http://','temp_upload/index.htm');
+	f_and_r('#(async|src|href)="//#', '$1="http://','temp_upload/index.htm');
+
+	//find and replace relative links 	
+	f_and_r('#(async|href|src)="([^:|\#"]*")#', '$1="'.$url.'/$2"', 'temp_upload/index.htm');
 
 	//fix inline css url links
 	f_and_r('#url\(//#', 'url(http://', 'temp_upload/index.htm');
+
+	//fix double backslashes
+	f_and_r('#(http(|s)://.*?)(//)#', '$1/', 'temp_upload/index.htm');	
 
 	//replace post destination to spt
 	f_and_r('#action="(.*?)"#', 'action="../../campaigns/response.php"', 'temp_upload/index.htm');
