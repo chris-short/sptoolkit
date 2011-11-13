@@ -61,27 +61,23 @@
 		<!--css-->
 		<link rel="stylesheet" href="../spt.css" type="text/css" />
 		<link rel="stylesheet" href="spt_targets.css" type="text/css" />
-		
+
 		<!--scripts-->
-		<script type="text\javascript">
-			function update_target(id,type,data) 
+		<script language="Javascript" type="text/javascript">
+			function updateTarget(id,column,data) 
 				{ 
-					// start it
-					var xmlHttp = new XMLHttpRequest(); 
-				 
-					//specify where to send it
-					xmlHttp.open("POST", "target_update.php", false); 
-					 
-					//send it
-					xmlHttp.send(id+","+type+","+data); 
+					//begin new request
+					xmlhttp = new XMLHttpRequest();
+
+					//send update request
+					xmlhttp.open("POST","target_update.php",false);
+					xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+					xmlhttp.send("id="+id+"&column="+column+"&data="+data);
 					
-					//specify what gets it
-					var results = document.getElementById(id); 
-				 
-					//update it
-					results.innerHTML = xmlHttp.responseText; 
 				}
-			</script>
+		</script>
+
+		
 	</head>
 	<body>
 		<div id="wrapper">
@@ -267,12 +263,10 @@
 												echo 
 													"
 														<tr>\n
-															<form>\n
-																<td><input id=\"".$ra['id']."_name\" onBlur=\"update_target(".$ra['id'].", name, this)\" type=\"text\" value=\"".$ra['name']."\" class=\"invisible_input\"/></td>\n
-																<td><input id=\"".$ra['id']."_email\" onBlur=\"update_target(".$ra['id'].", email, this)\" type=\"text\" value=\"".$ra['email']."\" class=\"invisible_input\" /></td>\n
-																<td><input id=\"".$ra['id']."_group\" onBlur=\"update_target(".$ra['id'].", group, this)\" type=\"text\" value=\"".$ra['group_name']."\" class=\"invisible_input\" /></td>\n
+																<td><input id=\"".$ra['id']."_name\" onchange=\"updateTarget(".$ra['id'].",'name',this.value)\" type=\"text\" value=\"".$ra['name']."\" class=\"invisible_input\"/></td>\n
+																<td><input id=\"".$ra['id']."_email\" onchange=\"updateTarget(".$ra['id'].",'email',this.value)\" type=\"text\" value=\"".$ra['email']."\" class=\"invisible_input\" /></td>\n
+																<td><input id=\"".$ra['id']."_group\" onchange=\"updateTarget(".$ra['id'].",'group_name',this.value)\" type=\"text\" value=\"".$ra['group_name']."\" class=\"invisible_input\" /></td>\n
 																<td align = center><a href=\"target_delete.php?g=".$group."&u=".$ra['id']."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
-															</form>
 														</tr>
 													";
 											}

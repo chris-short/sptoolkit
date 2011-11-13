@@ -46,10 +46,20 @@ elseif($_SESSION['ip']!=md5($_SESSION['salt'].$_SERVER['REMOTE_ADDR'].$_SESSION[
 		exit;
 	}
 		
-//recieve post
-$update_info=$_POST;
+//set target id
+$target_id=$_POST['id'];
 
-echo $update_info;
+//set target type
+$target_column=$_POST['column'];
+
+//set target data
+$target_data=$_POST['data'];
+
+//connect to database
+include "../spt_config/mysql_config.php";
+
+//update
+mysql_query("UPDATE targets SET $target_column = '$target_data' WHERE id= '$target_id'");
 		
 ?>
 
