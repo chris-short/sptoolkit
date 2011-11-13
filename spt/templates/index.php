@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -76,7 +76,7 @@
 								<td>Name</td>
 								<td><input name="name" /></td>
 								<td>
-									<a class="tooltip"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>Select the template file to be uploaded and click the add button.  You can only upload templates packaged using the ZIP file format.<br /><br />Be sure to see the documentation section of the spt website for full details on the required contents of a template.</span></a>
+									<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Select the template file to be uploaded and click the add button.  You can only upload templates packaged using the ZIP file format.<br /><br />Be sure to see the documentation section of the spt website for full details on the required contents of a template.</span></a>
 								</td>
 							</tr>
 							<tr>
@@ -108,7 +108,7 @@
 								<td>Name</td>
 								<td><input name="name" /></td>
 								<td>
-									<a class="tooltip"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>Enter the name, description and full URL for the site to be scraped.  To find out what the <strong>correct and full</strong> URL is, browse to the site first in your browser.<br /><br />For example, if you enter <strong>http://www.targetsite.com</strong>  into your browser and the address changes to <strong>http://www.targetsite.com?sid=42</strong>, then that's the actual URL you want to enter here.  Anything else will most likely result in you scraping an error 302 page instead of the actual target site.<br /><br />The scraper may or may not always parse the target site correctly due to the extreme wide variety of website coding methodologies.  Please let us know via the spt website contact form of any issues you see including the site you had problems with.<br /><br /><strong>NOTE:</strong>  After you scrape a site, you will wind up with the 'index.htm' file.  You will need to place the rest of the template files into the directory the the scrape process created for your new template.  Be sure to see the documentation section of the spt website for full details on the required contents of a template.</span></a>
+									<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter the name, description and full URL for the site to be scraped.  To find out what the <strong>correct and full</strong> URL is, browse to the site first in your browser.<br /><br />For example, if you enter <strong>http://www.targetsite.com</strong>  into your browser and the address changes to <strong>http://www.targetsite.com?sid=42</strong>, then that's the actual URL you want to enter here.  Anything else will most likely result in you scraping an error 302 page instead of the actual target site.<br /><br />The scraper may or may not always parse the target site correctly due to the extreme wide variety of website coding methodologies.  Please let us know via the spt website contact form of any issues you see including the site you had problems with.<br /><br /><strong>NOTE:</strong>  After you scrape a site, you will wind up with the 'index.htm' file.  You will need to place the rest of the template files into the directory the the scrape process created for your new template.  Be sure to see the documentation section of the spt website for full details on the required contents of a template.</span></a>
 								</td>
 							</tr>
 							<tr>

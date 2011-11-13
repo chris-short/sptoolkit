@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		8.0
+ * version:		9.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -139,7 +139,7 @@
 									<td>Name</td>
 									<td><input type="text" name="name" /></td>
 									<td>
-										<a class="tooltip"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>Enter the target's name, valid email address and then select an existing or new group to add the new target to.</span></a>
+										<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter the target's name, valid email address and then select an existing or new group to add the new target to.</span></a>
 									</td>
 								</tr>
 								<tr>
@@ -198,7 +198,7 @@
 										<input type="file"  name="file" />
 									</td>
 									<td>
-										<a class="tooltip"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.</span></a>
+										<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.</span></a>
 									</td>
 								</tr>
 								<tr>
@@ -217,7 +217,7 @@
 						<span>
 							<h1 id="group_list_title"><?php echo $_REQUEST['g'];?></h1>
 							<span id="group_list_actions">
-								<a class="tooltip"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>You can easily edit any individual cell by clicking on it and making your changes.  Changes are automatically saved when you click anywhere <strong>outside</strong> of the cell just edited.</span></a>
+								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>You can easily edit any individual cell by clicking on it and making your changes.  Changes are automatically saved when you click anywhere <strong>outside</strong> of the cell just edited.</span></a>
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<a href="."><img src="../images/x.png" alt="close" /></a>
 							</span>
