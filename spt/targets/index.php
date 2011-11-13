@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		7.0
+ * version:		8.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -214,18 +214,15 @@
 				</div>
 				<div  id="group_list">
 					<div>
-						
+						<span>
+							<h1 id="group_list_title"><?php echo $_REQUEST['g'];?></h1>
+							<span id="group_list_actions">
+								<a class="tooltip"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>You can easily edit any individual cell by clicking on it and making your changes.  Changes are automatically saved when you click anywhere <strong>outside</strong> of the cell just edited.</span></a>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<a href="."><img src="../images/x.png" alt="close" /></a>
+							</span>
+						</span>
 						<table id="group_user_list">
-							<tr>
-								<td></td>
-								<td>
-									<a href="."><img src="../images/x.png" alt="close" /></a>
-								</td>
-								<td>
-									<a class="tooltip"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>You can easily edit any individual cell by clicking on it (notice the cell highlight, except in IE) and making your changes.  Changes are saved when you click outside of the cell just edited.</span></a>
-								</td>
-								<td></td>
-							</tr>
 							<tr>
 								<td><h3>Name</h3></td>
 								<td><h3>Email</h3></td>
