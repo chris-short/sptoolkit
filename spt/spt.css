@@ -313,10 +313,10 @@ img
 	  z-index: 999;
 	  color: #000;
 	  width: 230px;
-	  margin-left:40px;
-	  margin-bottom:px;
+	  margin-left:-127px;
+	  margin-top:30px;
 	  padding: 10px;
-	  opacity: .9;
+	  opacity: .95;
 	  background-color: #ffff00;
 	  background-image: -webkit-linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,0));
 	  background-image: -moz-linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,0));
