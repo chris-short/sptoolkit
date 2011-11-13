@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -63,6 +63,206 @@
 		<link rel="stylesheet" href="spt_users.css" type="text/css" />
 	</head>
 	<body>
+		<div id="edit_user">
+			<div>
+				<?php
+					//connect to database
+					include "../spt_config/mysql_config.php";
+					
+					//set parameter to variable
+					$current_user=$_SESSION['username'];
+
+					//create the sql statement to pull data about the current user
+					$r=mysql_query("SELECT fname, lname, username FROM users WHERE username = '$current_user'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+					$ra=mysql_fetch_assoc($r);
+
+					//generate form for the user to modify their data
+					echo 
+						"
+							<form id=\"edit_current_user\" method=\"post\" action=\"edit_user.php\">\n
+								<table id=\"edit_current_user\">\n
+									<tr>\n
+										<td>first name</td>\n
+										<td><input id=\"fname\" type=\"text\" name=\"fname\" value=\"".$ra['fname']."\" /></td>\n
+									</tr>\n
+									<tr>\n
+										<td>last name</td>\n
+										<td><input id=\"lname\" type=\"text\" name=\"lname\" value=\"".$ra['lname']."\" /></td>\n
+									</tr>\n
+									<tr>\n
+										<td>username</td>\n
+										<td><input id=\"username\" type=\"text\" name=\"username\" value=\"".$ra['username']."\"/></td>\n
+									</tr>\n
+									<tr>\n
+										<td>password</td>\n
+										<td><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\"/></td>\n
+									</tr>\n
+									<tr>\n
+										<td></td>
+										<td>
+											<a href=\"\"><img src=\"../images/x.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<input type=\"image\" src=\"../images/gear.png\" alt=\"edit\" />
+										</td>\n
+									</tr>\n
+								</table>\n
+							</form>\n
+						";
+				?>
+			</div>
+		</div>
+		<div id="add_user">
+			<div>
+				<form id="add_user_table" method="post" action="add_user.php">
+					<table id="add_user_table">
+						<tr>
+							<td>first name</td>
+							<td><input id="fname" type="text" name="fname" /></td>
+						</tr>
+						<tr>
+							<td>last name</td>
+							<td><input id="lname" type="text" name="lname" /></td>
+						</tr>
+						<tr>
+							<td>email</td>
+							<td><input id="username" type="text" name="username" /></td>
+						</tr>
+						<tr>
+							<td>password</td>
+							<td><input id="password" type="password" name="password" autocomplete="off" /></td>
+						</tr>
+						<tr>
+							<td>admin</td>
+							<td><input id="admin" type="checkbox" name="a" /></td>
+						</tr>
+						<tr>
+							<td>disabled</td>
+							<td><input id="disabled" type="checkbox" name="disabled" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<a href=""><img src="../images/x.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="image" src="../images/plus.png" alt="add" />
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+		<div id="edit_other_user">
+			<div>
+				<?php
+					//set current user varaible with username from username session variable
+					$current_user=$_SESSION['username'];
+
+					//determine if user parameter is set
+					if(isset($_REQUEST['u']))
+						{
+							//pull parameter and set to variable
+							$u=$_REQUEST['u'];
+
+							//validate that the email address entered is an actual email address
+							if(!filter_var($u, FILTER_VALIDATE_EMAIL))
+								{
+									//set error message if not a valid email address
+									$_SESSION['user_alert_message'] = "please attempt to edit only valid email addresses";
+									header('location:../users/#alert');
+									exit;
+								}						
+
+							//connect to database
+							include "../spt_config/mysql_config.php";
+
+							//verify the entry is an actual email address in the database
+							$r=mysql_query("SELECT * FROM users") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+							while($ra=mysql_fetch_assoc($r))
+								{
+									if($ra['username']==$u)
+										{
+											$count=1;
+										}	
+								}
+							if($count==1 && $_SESSION['admin']==1 && $u!=$current_user)
+								{				
+									$r=mysql_query("SELECT * FROM users WHERE username = '$u'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+									$ra=mysql_fetch_assoc($r);
+									echo "<form id=\"edit_others\" method=\"post\" action=\"edit_other_user.php?u=".$ra['username']."\">\n";
+									echo "<table id=\"edit_others\">\n";
+									echo "<tr>\n";
+									echo "<td>first name</td>\n";
+									echo "<td><input id=\"fname\" type=\"text\" name=\"fname\" value=\"";
+									echo $ra['fname'];
+									echo "\"/></td>\n";
+									echo "</tr>\n";
+									echo "<tr>\n";
+									echo "<td>lname</td>\n";
+									echo "<td><input id=\"lname\" type=\"text\" name=\"lname\" value=\"";
+									echo $ra['lname'];
+									echo "\"/></td>\n";
+									echo "</tr>\n";
+									echo "<tr>\n";
+									echo "<td>email</td>\n";
+									echo "<td><input id=\"username\" type=\"text\" name=\"u_new\" value=\"";
+									echo $ra['username'];
+									echo "\"/></td>\n";
+									echo "</tr>\n";
+									echo "<tr>\n";
+									echo "<td>password</td>\n";
+									echo "<td><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\" /></td>\n";
+									echo "</tr>\n";
+									echo "<tr>\n";
+									echo "<td>admin</td>\n";
+									echo "<td><input id=\"admin\" type=\"checkbox\" name=\"admin\" ";
+									if($ra['admin']==1)
+										{
+											echo "checked";
+										}
+									echo "/></td>\n";
+									echo "</tr>\n";
+									echo "<tr>\n";
+									echo "<td>disabled</td>\n";
+									echo "<td><input id=\"disabled\" type=\"checkbox\" name=\"disabled\" ";
+									if($ra['disabled']==1)
+										{
+											echo "checked";
+										}
+									echo "/></td>\n";
+									echo "</tr>\n";
+									echo "<tr>\n";
+									echo "<td></td><td><a href=\".\"><img src=\"../images/x.png\" alt=\"cancel\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n";
+									echo "<input type=\"image\" src=\"../images/gear.png\" /></td>\n";
+									echo "</table>\n";
+									echo "</form>\n";
+								}
+							else
+								{
+									//set error message if the entered username doesn't match an existing one, the user isn't admin or the user being edited is the same as the logged in user
+									$_SESSION['user_alert_message'] = "you do not have the appropriate priveleges to edit this user";
+									header('location:../users/#alert');
+									exit;
+								}
+						}
+				?>
+			</div>	
+		</div>
+		<?php 
+			//check for alerts or notifications
+			if(isset($_SESSION['user_alert_message']))
+				{
+					//create alert popover
+					echo "<div id=\"alert\">";
+
+					//echo the alert message
+					echo "<div>".$_SESSION['user_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+
+					//clear out the error message
+					unset($_SESSION['user_alert_message']);
+
+					//close alert popover
+					echo "</div>";
+				}
+		?>
+
 		<div id="wrapper">
 
 			<!--sidebar-->
@@ -70,23 +270,6 @@
 
 			<!--content-->
 			<div id="content">
-				<?php 
-					//check for alerts or notifications
-					if(isset($_SESSION['user_alert_message']))
-						{
-							//create alert popover
-							echo "<div id=\"alert\">";
-
-							//echo the alert message
-							echo "<div>".$_SESSION['user_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
-
-							//clear out the error message
-							unset($_SESSION['user_alert_message']);
-
-							//close alert popover
-							echo "</div>";
-						}
-				?>
 				<span class="button"><a href="#edit_user"><img src="../images/gear_sm.png" alt="edit" /> <?php echo $_SESSION['username']; ?></a></span>
 				<?php
 					//check to see if user is admin give them additional options
@@ -171,189 +354,6 @@
 							}
 						?> 
 					</table>
-				</div>
-				<div id="edit_user">
-					<div>
-						<?php
-							//connect to database
-							include "../spt_config/mysql_config.php";
-							
-							//set parameter to variable
-							$current_user=$_SESSION['username'];
-
-							//create the sql statement to pull data about the current user
-							$r=mysql_query("SELECT fname, lname, username FROM users WHERE username = '$current_user'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-							$ra=mysql_fetch_assoc($r);
-
-							//generate form for the user to modify their data
-							echo 
-								"
-									<form id=\"edit_current_user\" method=\"post\" action=\"edit_user.php\">\n
-										<table id=\"edit_current_user\">\n
-											<tr>\n
-												<td>first name</td>\n
-												<td><input id=\"fname\" type=\"text\" name=\"fname\" value=\"".$ra['fname']."\" /></td>\n
-											</tr>\n
-											<tr>\n
-												<td>last name</td>\n
-												<td><input id=\"lname\" type=\"text\" name=\"lname\" value=\"".$ra['lname']."\" /></td>\n
-											</tr>\n
-											<tr>\n
-												<td>username</td>\n
-												<td><input id=\"username\" type=\"text\" name=\"username\" value=\"".$ra['username']."\"/></td>\n
-											</tr>\n
-											<tr>\n
-												<td>password</td>\n
-												<td><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\"/></td>\n
-											</tr>\n
-											<tr>\n
-												<td></td>
-												<td>
-													<a href=\"\"><img src=\"../images/x.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-													<input type=\"image\" src=\"../images/gear.png\" alt=\"edit\" />
-												</td>\n
-											</tr>\n
-										</table>\n
-									</form>\n
-								";
-						?>
-					</div>
-				</div>
-				<div id="add_user">
-					<div>
-						<form id="add_user_table" method="post" action="add_user.php">
-							<table id="add_user_table">
-								<tr>
-									<td>first name</td>
-									<td><input id="fname" type="text" name="fname" /></td>
-								</tr>
-								<tr>
-									<td>last name</td>
-									<td><input id="lname" type="text" name="lname" /></td>
-								</tr>
-								<tr>
-									<td>email</td>
-									<td><input id="username" type="text" name="username" /></td>
-								</tr>
-								<tr>
-									<td>password</td>
-									<td><input id="password" type="password" name="password" autocomplete="off" /></td>
-								</tr>
-								<tr>
-									<td>admin</td>
-									<td><input id="admin" type="checkbox" name="a" /></td>
-								</tr>
-								<tr>
-									<td>disabled</td>
-									<td><input id="disabled" type="checkbox" name="disabled" /></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td>
-										<a href=""><img src="../images/x.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										<input type="image" src="../images/plus.png" alt="add" />
-									</td>
-								</tr>
-							</table>
-						</form>
-					</div>
-				</div>
-				<div id="edit_other_user">
-					<div>
-						<?php
-							//set current user varaible with username from username session variable
-							$current_user=$_SESSION['username'];
-
-							//determine if user parameter is set
-							if(isset($_REQUEST['u']))
-								{
-									//pull parameter and set to variable
-									$u=$_REQUEST['u'];
-
-									//validate that the email address entered is an actual email address
-									if(!filter_var($u, FILTER_VALIDATE_EMAIL))
-										{
-											//set error message if not a valid email address
-											$_SESSION['user_alert_message'] = "please attempt to edit only valid email addresses";
-											header('location:../users/#alert');
-											exit;
-										}						
-
-									//connect to database
-									include "../spt_config/mysql_config.php";
-
-									//verify the entry is an actual email address in the database
-									$r=mysql_query("SELECT * FROM users") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-									while($ra=mysql_fetch_assoc($r))
-										{
-											if($ra['username']==$u)
-												{
-													$count=1;
-												}	
-										}
-									if($count==1 && $_SESSION['admin']==1 && $u!=$current_user)
-										{				
-											$r=mysql_query("SELECT * FROM users WHERE username = '$u'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-											$ra=mysql_fetch_assoc($r);
-											echo "<form id=\"edit_others\" method=\"post\" action=\"edit_other_user.php?u=".$ra['username']."\">\n";
-											echo "<table id=\"edit_others\">\n";
-											echo "<tr>\n";
-											echo "<td>first name</td>\n";
-											echo "<td><input id=\"fname\" type=\"text\" name=\"fname\" value=\"";
-											echo $ra['fname'];
-											echo "\"/></td>\n";
-											echo "</tr>\n";
-											echo "<tr>\n";
-											echo "<td>lname</td>\n";
-											echo "<td><input id=\"lname\" type=\"text\" name=\"lname\" value=\"";
-											echo $ra['lname'];
-											echo "\"/></td>\n";
-											echo "</tr>\n";
-											echo "<tr>\n";
-											echo "<td>email</td>\n";
-											echo "<td><input id=\"username\" type=\"text\" name=\"u_new\" value=\"";
-											echo $ra['username'];
-											echo "\"/></td>\n";
-											echo "</tr>\n";
-											echo "<tr>\n";
-											echo "<td>password</td>\n";
-											echo "<td><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\" /></td>\n";
-											echo "</tr>\n";
-											echo "<tr>\n";
-											echo "<td>admin</td>\n";
-											echo "<td><input id=\"admin\" type=\"checkbox\" name=\"admin\" ";
-											if($ra['admin']==1)
-												{
-													echo "checked";
-												}
-											echo "/></td>\n";
-											echo "</tr>\n";
-											echo "<tr>\n";
-											echo "<td>disabled</td>\n";
-											echo "<td><input id=\"disabled\" type=\"checkbox\" name=\"disabled\" ";
-											if($ra['disabled']==1)
-												{
-													echo "checked";
-												}
-											echo "/></td>\n";
-											echo "</tr>\n";
-											echo "<tr>\n";
-											echo "<td></td><td><a href=\".\"><img src=\"../images/x.png\" alt=\"cancel\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n";
-											echo "<input type=\"image\" src=\"../images/gear.png\" /></td>\n";
-											echo "</table>\n";
-											echo "</form>\n";
-										}
-									else
-										{
-											//set error message if the entered username doesn't match an existing one, the user isn't admin or the user being edited is the same as the logged in user
-											$_SESSION['user_alert_message'] = "you do not have the appropriate priveleges to edit this user";
-											header('location:../users/#alert');
-											exit;
-										}
-								}
-
-					?>	
-					</div>
 				</div>
 			</div>
 		</div>
