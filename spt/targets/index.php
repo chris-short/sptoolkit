@@ -195,7 +195,7 @@
 										<input type="file"  name="file" />
 									</td>
 									<td>
-										<a class="tooltip" href="#"><img src="../images/tooltip.png" alt="tooltip.png" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.</span></a>
+										<a class="tooltip" href="#"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.</span></a>
 									</td>
 								</tr>
 								<tr>
