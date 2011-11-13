@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		5.75
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -194,6 +194,9 @@
 									<td>
 										<input type="file"  name="file" />
 									</td>
+									<td>
+										<a class="tooltip" href="#"><img src="../images/tooltip.png" alt="tooltip.png" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.</span></a>
+									</td>
 								</tr>
 								<tr>
 									<td>
@@ -201,6 +204,7 @@
 										<a href=""><img src="../images/x.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 										<input type="image" src="../images/plus.png" alt="add" />
 									</td>
+									<td></td>
 							</form>
 						</table>
 					</div>
