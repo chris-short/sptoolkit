@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		7.0
+ * version:		8.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -149,6 +149,9 @@
 							<tr>
 								<td>Name</td>
 								<td><input name="campaign_name" /></td>
+								<td>
+									<a class="tooltip"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>To start a new campaign, specify the campaign name, select one or more groups of targets and then select the template to be used.<br /><br /><strong>WARNING:</strong>  Emails will be sent as soon as you click the email icon.</span></a>
+								</td>
 							</tr>
 							<tr>
 								<?php

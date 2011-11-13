@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -95,6 +95,9 @@
 								<tr>
 									<td>
 										<input type="file"  name="file" />
+									</td>
+									<td>
+										<a class="tooltip"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>Select the module file to be uploaded and click the add button.  You can only upload modules packaged using the ZIP file format.<br /><br />Be sure to see the documentation section of the spt website for full details on the required contents of a module.</span></a>
 									</td>
 								</tr>
 								<tr>

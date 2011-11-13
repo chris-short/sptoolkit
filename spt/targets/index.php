@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -138,6 +138,9 @@
 								<tr>
 									<td>Name</td>
 									<td><input type="text" name="name" /></td>
+									<td>
+										<a class="tooltip"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>Enter the target's name, valid email address and then select an existing or new group to add the new target to.</span></a>
+									</td>
 								</tr>
 								<tr>
 									<td>Email</td>
@@ -195,7 +198,7 @@
 										<input type="file"  name="file" />
 									</td>
 									<td>
-										<a class="tooltip" href="#"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.</span></a>
+										<a class="tooltip"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.</span></a>
 									</td>
 								</tr>
 								<tr>
@@ -211,8 +214,18 @@
 				</div>
 				<div  id="group_list">
 					<div>
-						<a href="."><img src="../images/x.png" alt="close" /></a>
+						
 						<table id="group_user_list">
+							<tr>
+								<td></td>
+								<td>
+									<a href="."><img src="../images/x.png" alt="close" /></a>
+								</td>
+								<td>
+									<a class="tooltip"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>You can easily edit any individual cell by clicking on it (notice the cell highlight, except in IE) and making your changes.  Changes are saved when you click outside of the cell just edited.</span></a>
+								</td>
+								<td></td>
+							</tr>
 							<tr>
 								<td><h3>Name</h3></td>
 								<td><h3>Email</h3></td>

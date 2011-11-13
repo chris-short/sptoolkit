@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -84,6 +84,7 @@
 									<tr>\n
 										<td>first name</td>\n
 										<td><input id=\"fname\" type=\"text\" name=\"fname\" value=\"".$ra['fname']."\" /></td>\n
+										<td><a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"lightbulb.png\" /><span>You can edit the details of your own user account here.  Your password must be 8-15 characters long.</span></a></td>\n	
 									</tr>\n
 									<tr>\n
 										<td>last name</td>\n
@@ -117,6 +118,9 @@
 						<tr>
 							<td>first name</td>
 							<td><input id="fname" type="text" name="fname" /></td>
+							<td>
+								<a class="tooltip"><img src="../images/lightbulb.png" alt="lightbulb.png" /><span>Enter the first name, last name, valid email address and initial password (8-15 characters in length) for the new spt user.  You can also select to have the user's new account be disabled initially (useful for pre-staging accounts) and whether or not the new user should be an amdin in the spt.</span></a>
+							</td>
 						</tr>
 						<tr>
 							<td>last name</td>
