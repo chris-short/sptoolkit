@@ -218,7 +218,7 @@
 							<h1 id="group_list_title"><?php echo $_REQUEST['g'];?></h1>
 							<span id="group_list_actions">
 								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>You can easily edit any individual cell by clicking on it and making your changes.  Changes are automatically saved when you click anywhere <strong>outside</strong> of the cell just edited.</span></a>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								&nbsp;&nbsp;&nbsp;
 								<a href="."><img src="../images/x.png" alt="close" /></a>
 							</span>
 						</span>
@@ -230,13 +230,15 @@
 								<td><h3>Delete</h3></td>
 							</tr>
 							<?php
+
 								//connect to database
 								include "../spt_config/mysql_config.php";
-								
+
 								if(isset($_REQUEST['g']))
 									{
+
 										$group = $_REQUEST['g'];
-									
+
 										//ensure the group name is under 50 characters
 										if(strlen($group) > 50)
 											{
@@ -244,9 +246,9 @@
 												header("location:../targets/#alert");
 												exit;
 											}
-										
+
 										//ensure the group name passed only has letters in it
-										if(preg_match('/[^a-zA-Z\s_0-9]/', $group))
+										if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', $group))
 											{
 												$_SESSION['targets_alert_message'] = "group names may only contain letters";
 												header("location:../targets/#alert");
@@ -262,6 +264,7 @@
 														$match = 1;
 													}
 											}
+
 										if($match!=1)
 											{
 												$_SESSION['targets_alert_message'] = "this group does not exist";

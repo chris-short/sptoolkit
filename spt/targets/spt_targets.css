@@ -72,3 +72,12 @@
 
 	}
 
+#group_list_title
+	{
+		float:left;
+	}
+
+#group_list_actions
+	{
+		float:right;
+	}

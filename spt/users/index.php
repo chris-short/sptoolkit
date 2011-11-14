@@ -190,53 +190,62 @@
 								{				
 									$r=mysql_query("SELECT * FROM users WHERE username = '$u'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 									$ra=mysql_fetch_assoc($r);
-									echo "<form id=\"edit_others\" method=\"post\" action=\"edit_other_user.php?u=".$ra['username']."\">\n";
-									echo "<table id=\"edit_others\">\n";
-									echo "<tr>\n";
-									echo "<td>first name</td>\n";
-									echo "<td><input id=\"fname\" type=\"text\" name=\"fname\" value=\"";
-									echo $ra['fname'];
-									echo "\"/></td>\n";
-									echo "</tr>\n";
-									echo "<tr>\n";
-									echo "<td>lname</td>\n";
-									echo "<td><input id=\"lname\" type=\"text\" name=\"lname\" value=\"";
-									echo $ra['lname'];
-									echo "\"/></td>\n";
-									echo "</tr>\n";
-									echo "<tr>\n";
-									echo "<td>email</td>\n";
-									echo "<td><input id=\"username\" type=\"text\" name=\"u_new\" value=\"";
-									echo $ra['username'];
-									echo "\"/></td>\n";
-									echo "</tr>\n";
-									echo "<tr>\n";
-									echo "<td>password</td>\n";
-									echo "<td><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\" /></td>\n";
-									echo "</tr>\n";
-									echo "<tr>\n";
-									echo "<td>admin</td>\n";
-									echo "<td><input id=\"admin\" type=\"checkbox\" name=\"admin\" ";
+									echo 
+										"
+											<form id=\"edit_others\" method=\"post\" action=\"edit_other_user.php?u=".$ra['username']."\">\n
+												<table id=\"edit_others\">\n
+													<tr>\n
+														<td>first name</td>\n
+														<td><input id=\"fname\" type=\"text\" name=\"fname\" value=\"".$ra['fname']."\"/></td>\n
+														<td>
+															<a class=\"tooltip\">
+																<img src=\"../images/lightbulb.png\" alt=\"help\" />
+																<span>You can edit the details of this user account here.  The password must be 8-15 characters long.</span>
+															</a>
+														</td>
+													</tr>\n
+													<tr>\n
+														<td>lname</td>\n
+														<td><input id=\"lname\" type=\"text\" name=\"lname\" value=\"".$ra['lname']."\" /></td>\n
+													</tr>\n
+													<tr>\n
+														<td>email</td>\n
+														<td><input id=\"username\" type=\"text\" name=\"u_new\" value=\"".$ra['username']."\"/></td>\n
+													</tr>\n
+													<tr>\n
+														<td>password</td>\n
+														<td><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\" /></td>\n
+													</tr>\n
+													<tr>\n
+														<td>admin</td>\n
+														<td><input id=\"admin\" type=\"checkbox\" name=\"admin\"
+										";
 									if($ra['admin']==1)
 										{
 											echo "checked";
 										}
-									echo "/></td>\n";
-									echo "</tr>\n";
-									echo "<tr>\n";
-									echo "<td>disabled</td>\n";
-									echo "<td><input id=\"disabled\" type=\"checkbox\" name=\"disabled\" ";
+									echo 
+										"
+														/></td>\n
+													</tr>\n
+													<tr>\n
+														<td>disabled</td>\n
+														<td><input id=\"disabled\" type=\"checkbox\" name=\"disabled\"
+										";
 									if($ra['disabled']==1)
 										{
 											echo "checked";
 										}
-									echo "/></td>\n";
-									echo "</tr>\n";
-									echo "<tr>\n";
-									echo "<td></td><td><a href=\".\"><img src=\"../images/x.png\" alt=\"cancel\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n";
-									echo "<input type=\"image\" src=\"../images/thumbs-up.png\" /></td>\n";
-									echo "</table>\n";
-									echo "</form>\n";
+									echo 
+										"
+														/></td>\n
+													</tr>\n
+													<tr>\n
+														<td></td>
+														<td><a href=\".\"><img src=\"../images/x.png\" alt=\"cancel\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"image\" src=\"../images/thumbs-up.png\" /></td>\n
+												</table>\n
+											</form>\n
+										";
 								}
 							else
 								{
