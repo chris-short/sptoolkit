@@ -119,7 +119,7 @@
 							<td>first name</td>
 							<td><input id="fname" type="text" name="fname" /></td>
 							<td>
-								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter the first name, last name, valid email address and initial password (8-15 characters in length) for the new spt user.  You can also select to have the user's new account be disabled initially (useful for pre-staging accounts) and whether or not the new user should be an amdin in the spt.</span></a>
+								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter the first name, last name, valid email address and initial password (8-15 characters in length) for the new spt user.  You can also select to have the user's new account be disabled initially (useful for pre-staging accounts) and whether or not the new user should be an admin in the spt.</span></a>
 							</td>
 						</tr>
 						<tr>
