@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -173,7 +173,7 @@
 							{
 								echo	"
 									<tr>
-										<td><a href=\"".$ra['id']."\">".$ra['id']."</a></td>\n
+										<td><a href=\"".$ra['id']."\" target=\"_blank\">".$ra['id']."</a></td>\n
 										<td>".$ra['name']."</td>\n
 										<td>".$ra['description']."</td>\n
 										<td><img class= \"drop_shadow\" src=\"".$ra['id']."\screenshot.png\" alt=\"missing screenshot\" /></td>\n
