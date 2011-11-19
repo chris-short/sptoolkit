@@ -192,7 +192,7 @@
 					</tr>
 					<tr>
 						<td></td>
-						<td><span id="spt"><a href="http://www.sptoolkit.com/project/change-log/" target="_blank">v0.2</a> <a>|</a> <a href="#forgot_password">forgot password?</a></span></td>
+						<td><span id="spt"><a href="http://www.sptoolkit.com/project/change-log" target="_blank">v0.2</a> <a>|</a> <a href="#forgot_password">forgot password?</a></span></td>
 					</tr>
 					<?php 
 								//look for login errors
