@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		scrape_it.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -90,7 +90,7 @@ if($_SESSION['admin']!=1)
 		{
 			//set error message and send them back to template page
 			$_SESSION['templates_alert_message']="please enter a description";
-			header('location:../templates#');
+			header('location:../templates/#');
 			exit;
 		}
 
@@ -106,7 +106,8 @@ if($_SESSION['admin']!=1)
 	    curl_close($rawhtml);
 	    if (!$output) 
 		    {
-				echo "Nothing was returned.  Try verifying the URL you provided.";
+				$_SESSION['templates_alert_message']="no output was returned from this URL";
+				header('location:../templates/#');
 				exit;
 			}
 	    return $output;
