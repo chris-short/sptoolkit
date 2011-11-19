@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		9.0
+ * version:		10.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -110,7 +110,7 @@
 									<tr>
 										<td><a href=\"?c=".$ra['id']."#responses\">".$ra['id']."</a></td>\n
 										<td>".$ra['campaign_name']."</td>\n
-										<td><a href=\"../templates/".$ra['template_id']."/\">".$ra['name']."</a></td>\n
+										<td><a href=\"../templates/".$ra['template_id']."/\" target=\"_blank\">".$ra['name']."</a></td>\n
 										<td>
 								";
 								
