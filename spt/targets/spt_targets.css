@@ -62,6 +62,7 @@
 #group_user_list
 	{
 		width: 800px;	
+		float:left;
 	}
 
 .invisible_input	
@@ -72,12 +73,17 @@
 
 	}
 
-#group_list_title
+#group_list_header
 	{
-		float:left;
+		width:100%;
 	}
 
-#group_list_actions
+.left
 	{
-		float:right;
+		text-align:left;
+	}
+
+.right
+	{
+		text-align:right;
 	}
