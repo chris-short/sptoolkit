@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		module_upload.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -55,7 +55,7 @@
 		}
 
 //ensure its a zip file
-	if ($_FILES["file"]["type"] != "application/zip") 
+	if(preg_match('/^(zip)\i/',$_FILES["file"]["type"])) 
 		{
 			$_SESSION['module_alert_message'] = 'you must only upload zip files';
 			header('location:../modules/#alert');
@@ -109,23 +109,31 @@
 		}
 
 //upload zip file to temp upload location
-	mkdir("upload");
-	move_uploaded_file($_FILES["file"]["tmp_name"],"upload/".$_FILES["file"]["name"]);
-
+	mkdir('upload');
+	move_uploaded_file($_FILES["file"]["tmp_name"], "upload/".$_FILES["file"]["name"]);
+	
 //delete existing code if an upgrade
 	if($module_upgrade == 1)
 		{
 			rmdir('../'.$module_name);
 			$_SESSION['installed_module_upgrade'] = 1;
 		}
+//determine what the filename of the file is
+	$filename = $_FILES["file"]["name"];
 
+//get directory name for the new module
+	$basename = basename($filename, ".zip");
+		
 //extract file to its final destination
 	$zip = new ZipArchive;
 	$res = $zip->open('upload/'.$filename);
 	if ($res === TRUE) 
 		{
-			$zip->extractTo('../');
+			$zip->extractTo('../'.$basename.'/');
 	    	$zip->close();
+			
+			//go delete the original
+			unlink('upload/'.$filename);
 		} 
 	else 
 		{
