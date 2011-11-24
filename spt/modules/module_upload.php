@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		module_upload.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -109,6 +109,7 @@
 		}
 
 //upload zip file to temp upload location
+	mkdir("upload");
 	move_uploaded_file($_FILES["file"]["tmp_name"],"upload/".$_FILES["file"]["name"]);
 
 //delete existing code if an upgrade

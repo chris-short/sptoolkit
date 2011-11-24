@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		module_cleanup.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -71,6 +71,9 @@
 						
 						//delete the install file
 						unlink('../'.$_SESSION['installed_module'].'install.php');
+
+						//delete the upload directory
+						rmdir("upload");
 						header('location:../modules/#alert');
 						exit;
 					}
@@ -84,6 +87,9 @@
 						
 						//delete the install file
 						unlink('../'.$_SESSION['installed_module'].'install.php');
+
+						//delete the upload directory
+						rmdir("upload");
 						header('location:../modules/#alert');
 						exit;
 					}
