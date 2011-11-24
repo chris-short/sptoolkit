@@ -1,9 +1,9 @@
 <?php
 /**
  * file:		email.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
- * component:	Outlook 2010 manual clone template
+ * component:	Standard email template
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license:		GNU/GPL, see license.htm.
  * 
