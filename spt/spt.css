@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:		spt.css
- * version:		9.0
+ * version:		10.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -302,7 +302,7 @@ img
 	  text-decoration: none;
 	  outline: none;
 	  text-align: left;
-
+	  font-family: Verdana, Arial, Helvetica, sans-serif;
 	}
 
 .tooltip span
@@ -312,7 +312,7 @@ img
 	  left: 50%;
 	  z-index: 999;
 	  color: #000;
-	  width: 230px;
+	  width: 330px;
 	  margin-top:33px;
 	  margin-left:-127px;
 	  padding: 10px;
@@ -340,4 +340,3 @@ img
 	{
 	  visibility: visible;
 	}
-
