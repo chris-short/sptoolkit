@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		10.0
+ * version:		11.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -64,84 +64,24 @@
 	</head>
 	<body>
 		<div id="wrapper">
-			<!--sidebar-->
-			<?php include '../includes/sidebar.php'; ?>					
+			<!--popovers-->
+			<?php
+				//check to see if the alert session is set
+				if(isset($_SESSION['campaigns_alert_message']))
+					{
+						//create alert popover
+						echo "<div id=\"alert\">";
 
-			<!--content-->
-			<div id="content">
-				<?php
-					//check to see if the alert session is set
-					if(isset($_SESSION['campaigns_alert_message']))
-						{
-							//create alert popover
-							echo "<div id=\"alert\">";
-
-							//echo the alert message
-							echo "<div>".$_SESSION['campaigns_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
-							
-							//unset the seession
-							unset ($_SESSION['campaigns_alert_message']);				
-
-							//close alert popover
-							echo "</div>";
-						}
-				?>
-				<span class="button"><a href="#add_campaign"><img src="../images/plus_sm.png" alt="add" /> Campaign</a></span>
-				<table class="spt_table">
-					<tr>
-						<td><h3>ID</h3></td>
-						<td><h3>Name</h3></td>
-						<td><h3>Template</h3></td>
-						<td><h3>Target Groups</h3></td>
-						<td><h3>Responses (Links/Posts)</h3></td>
-						<td><h3>Delete</h3></td>
-					</tr>
-					
-					<?php
-					
-						//connect to database
-						include "../spt_config/mysql_config.php";
+						//echo the alert message
+						echo "<div>".$_SESSION['campaigns_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 						
-						//pull in list of all campaigns
-						$r = mysql_query("SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, templates.name as name FROM campaigns JOIN templates ON campaigns.template_id = templates.id") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-						while ($ra = mysql_fetch_assoc($r))
-							{
-								echo	"
-									<tr>
-										<td><a href=\"?c=".$ra['id']."#responses\">".$ra['id']."</a></td>\n
-										<td>".$ra['campaign_name']."</td>\n
-										<td><a href=\"../templates/".$ra['template_id']."/\" target=\"_blank\">".$ra['name']."</a></td>\n
-										<td>
-								";
-								
-								$campaign_id = $ra['id'];
-								
-								//pull in groups
-								$r3=mysql_query("SELECT group_name FROM campaigns_and_groups WHERE campaign_id = '$campaign_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-								while($ra3=mysql_fetch_assoc($r3))
-									{
-										echo	"<a href=\"?c=".$ra['id']."&amp;g=".$ra3['group_name']."#responses\">".$ra3['group_name']."</a><br />\n";
-									}
-								echo "</td>";
-										
-								$r2 = mysql_query("SELECT count(target_id) as count, sum(link) as link, sum(if(length(post) > 0, 1, 0)) as post FROM campaigns_responses WHERE campaign_id = '$campaign_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-								while($ra2=mysql_fetch_assoc($r2))
-									{
-										$link = $ra2['link'];
-										$post = $ra2['post'];
-										
-									}
-								
-								echo	"<td><a href=\"?c=".$ra['id']."&amp;f=link#responses\">".$link."</a> / <a href=\"?c=".$ra['id']."&amp;f=post#responses\">".$post."</a></td>";
-								echo	"<td><a href=\"delete_campaign.php?c=".$campaign_id."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
-								echo	"</tr>";								
-							}
-					
-					?>
-				</table>
-			</div>
+						//unset the seession
+						unset ($_SESSION['campaigns_alert_message']);				
 
-			<!--new campaign-->
+						//close alert popover
+						echo "</div>";
+					}
+			?>
 			<div id="add_campaign">
 				<div>
 					<form method="post" action="start_campaign.php">
@@ -210,8 +150,6 @@
 					</form>
 				</div>
 			</div>
-
-			<!--responses-->
 			<div id="responses">
 				<div>
 					<?php
@@ -389,6 +327,66 @@
 						echo "</table>";
 					?>
 				</div>
+			</div>
+
+			<!--sidebar-->
+			<?php include '../includes/sidebar.php'; ?>					
+
+			<!--content-->
+			<div id="content">
+				<span class="button"><a href="#add_campaign"><img src="../images/plus_sm.png" alt="add" /> Campaign</a></span>
+				<table class="spt_table">
+					<tr>
+						<td><h3>ID</h3></td>
+						<td><h3>Name</h3></td>
+						<td><h3>Template</h3></td>
+						<td><h3>Target Groups</h3></td>
+						<td><h3>Responses (Links/Posts)</h3></td>
+						<td><h3>Delete</h3></td>
+					</tr>
+					
+					<?php
+					
+						//connect to database
+						include "../spt_config/mysql_config.php";
+						
+						//pull in list of all campaigns
+						$r = mysql_query("SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, templates.name as name FROM campaigns JOIN templates ON campaigns.template_id = templates.id") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+						while ($ra = mysql_fetch_assoc($r))
+							{
+								echo	"
+									<tr>
+										<td><a href=\"?c=".$ra['id']."#responses\">".$ra['id']."</a></td>\n
+										<td>".$ra['campaign_name']."</td>\n
+										<td><a href=\"../templates/".$ra['template_id']."/\" target=\"_blank\">".$ra['name']."</a></td>\n
+										<td>
+								";
+								
+								$campaign_id = $ra['id'];
+								
+								//pull in groups
+								$r3=mysql_query("SELECT group_name FROM campaigns_and_groups WHERE campaign_id = '$campaign_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+								while($ra3=mysql_fetch_assoc($r3))
+									{
+										echo	"<a href=\"?c=".$ra['id']."&amp;g=".$ra3['group_name']."#responses\">".$ra3['group_name']."</a><br />\n";
+									}
+								echo "</td>";
+										
+								$r2 = mysql_query("SELECT count(target_id) as count, sum(link) as link, sum(if(length(post) > 0, 1, 0)) as post FROM campaigns_responses WHERE campaign_id = '$campaign_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+								while($ra2=mysql_fetch_assoc($r2))
+									{
+										$link = $ra2['link'];
+										$post = $ra2['post'];
+										
+									}
+								
+								echo	"<td><a href=\"?c=".$ra['id']."&amp;f=link#responses\">".$link."</a> / <a href=\"?c=".$ra['id']."&amp;f=post#responses\">".$post."</a></td>";
+								echo	"<td><a href=\"delete_campaign.php?c=".$campaign_id."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
+								echo	"</tr>";								
+							}
+					
+					?>
+				</table>
 			</div>
 		</div>
 	</body>
