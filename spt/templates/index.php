@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		7.0
+ * version:		8.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -64,10 +64,7 @@
 	</head>
 	<body>
 		<div id="wrapper">
-			<!--sidebar-->
-			<?php include '../includes/sidebar.php'; ?>					
-
-			<!--content-->
+			<!--popovers-->
 			<form method="post" action="upload_template.php" enctype="multipart/form-data">
 				<div id="add_template">
 					<div>
@@ -132,25 +129,30 @@
 				</div>
 			</form>
 
+			<?php
+				//check to see if the alert session is set
+				if(isset($_SESSION['templates_alert_message']))
+					{
+						//create alert popover
+						echo "<div id=\"alert\">";
 
+						//echo the alert message
+						echo "<div>".$_SESSION['templates_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+						
+						//unset the seession
+						unset ($_SESSION['templates_alert_message']);
+						
+						//close alert popover
+						echo "</div>";
+					}
+			?>
+
+
+			<!--sidebar-->
+			<?php include '../includes/sidebar.php'; ?>					
+
+			<!--content-->
 			<div id="content">
-				<?php
-					//check to see if the alert session is set
-					if(isset($_SESSION['templates_alert_message']))
-						{
-							//create alert popover
-							echo "<div id=\"alert\">";
-
-							//echo the alert message
-							echo "<div>".$_SESSION['templates_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
-							
-							//unset the seession
-							unset ($_SESSION['templates_alert_message']);
-							
-							//close alert popover
-							echo "</div>";
-						}
-				?>
 				<span class="button"><a href="#add_template"><img src="../images/plus_sm.png" alt="add" /> Template</a></span>
 				<span class="button"><a href="#add_scrape"><img src="../images/plus_sm.png" alt="add" /> Scrape</a></span>
 				<table class="spt_table">
