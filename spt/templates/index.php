@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		8.0
+ * version:		9.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -105,7 +105,7 @@
 								<td>Name</td>
 								<td><input name="name" /></td>
 								<td>
-									<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter the name, description and full URL for the site to be scraped.  To find out what the <strong>correct and full</strong> URL is, browse to the site first in your browser.<br /><br />For example, if you enter <strong>http://www.targetsite.com</strong>  into your browser and the address changes to <strong>http://www.targetsite.com?sid=42</strong>, then that's the actual URL you want to enter here.  Anything else will most likely result in you scraping an error 302 page instead of the actual target site.<br /><br />The scraper may or may not always parse the target site correctly due to the extreme wide variety of website coding methodologies.  Please let us know via the spt website contact form of any issues you see including the site you had problems with.<br /><br /><strong>NOTE:</strong>  After you scrape a site, you will wind up with the 'index.htm' file.  You will need to edit the rest of the template files in the new template's directory created during the scrape process.</span></a>
+									<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter the name, description and full URL for the site to be scraped as well as the details of the email that will be sent when using this template in a campaign.<br /><br />To find out what the <strong>correct and full</strong> URL is, browse to the site first in your browser.<br /><br />For example, if you enter <strong>http://www.targetsite.com</strong>  into your browser and the address changes to <strong>http://www.targetsite.com?sid=42</strong>, then that's the actual URL you want to enter here.  Anything else will most likely result in you scraping an error 302 page instead of the actual target site.<br /><br />The scraper may or may not always parse the target site correctly due to the extreme wide variety of website coding methodologies.  We recommend downloading and installing the editor module if you are comfortable with manually editing html so that you may fix any problems that might exist after the scrape.  Also, please let us know via the spt website contact form of any issues you see including the site you had problems with.<br /><br /><strong>NOTE:</strong>  After you scrape a site, you will wind up with 'index.htm', 'email.php' and 'return.htm' in a directory reflecting the template id within the templates directory.  You will need to manually edit these files by browsing to them or using the available edior module if you'd like to customize your scrapes further.</span></a>
 								</td>
 							</tr>
 							<tr>
@@ -115,6 +115,34 @@
 							<tr>
 								<td>URL</td>
 								<td><input name="url" /></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><td>
+							</tr>
+							<tr>
+								<td><h3>Email</h3></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>Subject</td>
+								<td><input name="email_subject" /></td>
+							</tr>
+							<tr>
+								<td>From Address</td>
+								<td><input name="email_from" /></td>
+							</tr>
+							<tr>
+								<td>Title</td>
+								<td><input name="email_title" /></td>
+							</tr>
+							<tr>
+								<td>Message</td>
+								<td><textarea name="email_message" cols=50 rows=4></textarea></td>
+							</tr>
+							<tr>
+								<td>Fake Link</td>
+								<td><input name="email_fake_link" /></td>
 							</tr>
 							<tr>
 								<td></td>

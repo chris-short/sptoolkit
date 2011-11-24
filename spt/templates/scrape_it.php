@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		scrape_it.php
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -64,7 +64,7 @@ if($_SESSION['admin']!=1)
 		{
 			//set error message and send them back to template page
 			$_SESSION['templates_alert_message']="please enter a URL";
-			header('location:../templates/#');
+			header('location:../templates/#alert');
 			exit;
 		}
 
@@ -77,7 +77,7 @@ if($_SESSION['admin']!=1)
 		{
 			//set error message and send them back to template page
 			$_SESSION['templates_alert_message']="please enter a name";
-			header('location:../templates/#');
+			header('location:../templates/#alert');
 			exit;
 		}
 
@@ -90,7 +90,7 @@ if($_SESSION['admin']!=1)
 		{
 			//set error message and send them back to template page
 			$_SESSION['templates_alert_message']="please enter a description";
-			header('location:../templates/#');
+			header('location:../templates/#alert');
 			exit;
 		}
 
@@ -107,7 +107,7 @@ if($_SESSION['admin']!=1)
 	    if (!$output) 
 		    {
 				$_SESSION['templates_alert_message']="no output was returned from this URL";
-				header('location:../templates/#');
+				header('location:../templates/#alert');
 				exit;
 			}
 	    return $output;
@@ -174,6 +174,36 @@ copy("temp_upload/index.htm", $template_id."/index.htm");
 copy("temp_upload/return.htm", $template_id."/return.htm");
 copy("temp_upload/email.php", $template_id."/email.php");
 copy("temp_upload/screenshot.png", $template_id."/screenshot.png");
+
+//find and replace email subject if set
+if(isset($_POST['email_subject']))
+	{
+		f_and_r('#Insert Subject Here#', $_POST['email_subject'], $template_id.'/email.php');		
+	}
+
+//find and replace email from address if set
+if(isset($_POST['email_from']))
+	{
+		f_and_r('#postmaster@domain.com#', $_POST['email_from'], $template_id.'/email.php');		
+	}
+
+//find and replace email title if set
+if(isset($_POST['email_title']))
+	{
+		f_and_r('#Title Goes Here#', $_POST['email_title'], $template_id.'/email.php');		
+	}
+
+//find and replace email message if set
+if(isset($_POST['email_message']))
+	{
+		f_and_r('#Your message will go here.#', $_POST['email_message'], $template_id.'/email.php');		
+	}
+
+//find and replace email fake link if set
+if(isset($_POST['email_fake_link']))
+	{
+		f_and_r('#https://fake_display_link_goes_here.com/login#', $_POST['email_fake_link'], $template_id.'/email.php');		
+	}
 
 //add information to the database
 mysql_query("INSERT INTO templates (id, name, description) VALUES ('$template_id','$name','$description')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
