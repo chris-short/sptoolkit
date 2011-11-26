@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		12.0
+ * version:		13.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -179,6 +179,34 @@
 							<td> 
 								<input type="text" name="group_name_new" />
 							</td>
+						</tr>
+						<tr>
+							<td><br /></td>
+							<td><br /></td>
+						</tr>
+						<tr>
+							<td><h3>Custom Attributes</h3</td>
+							<td></td>
+						</tr>
+						<?php
+								//determine what the custom field names are
+								$r = mysql_query("SELECT * FROM targets");
+								$custom1 = mysql_field_name($r,4);
+								$custom2 = mysql_field_name($r,5);
+								$custom3 = mysql_field_name($r,6);
+
+						?>
+						<tr>
+							<td><?php echo $custom1 ?></td>
+							<td><input type="text" name="custom1" /></td>
+						</tr>
+						<tr>
+							<td><?php echo $custom2 ?></td>
+							<td><input type="text" name="custom2" /></td>
+						</tr>
+						<tr>
+							<td><?php echo $custom3 ?></td>
+							<td><input type="text" name="custom3" /></td>
 						</tr>
 						<tr>	
 							<td></td>

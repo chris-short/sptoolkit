@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_single.php
- * version:		2.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -150,16 +150,35 @@
 			header('location:../targets/#alert');
 			exit;
 		}
-	
+
+//determine what the custom field names are
+$r = mysql_query("SELECT * FROM targets");
+$custom1 = mysql_field_name($r,4);
+$custom2 = mysql_field_name($r,5);
+$custom3 = mysql_field_name($r,6);
+
+//pull in custom values
+	if(isset($_POST['custom1']))
+		{
+			$custom1_value = $_POST['custom1'];
+		}
+	if(isset($_POST['custom2']))
+		{
+			$custom2_value = $_POST['custom2'];
+		}
+	if(isset($_POST['custom3']))
+		{
+			$custom3_value = $_POST['custom3'];
+		}	
 //enter the value in the database
 	//if existing group is selected
 	if($group_name != "Select an Existing Group..." && isset($group_name))
 		{
-			mysql_query("INSERT INTO targets (name, email, group_name) VALUES ('$name', '$email', '$group_name')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+			mysql_query("INSERT INTO targets (name, email, group_name, `$custom1`, `$custom2`, `$custom3`) VALUES ('$name', '$email', '$group_name', '$custom1_value', '$custom2_value', '$custom3_value')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 		}
 	else
 		{
-			mysql_query("INSERT INTO targets (name, email, group_name) VALUES ('$name', '$email', '$group_name_new')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+			mysql_query("INSERT INTO targets (name, email, group_name, `$custom1`, `$custom2`, `$custom3`) VALUES ('$name', '$email', '$group_name_new', '$custom1_value', '$custom2_value', '$custom3_value')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 		}
 
 	
