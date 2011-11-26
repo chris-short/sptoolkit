@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		11.0
+ * version:		12.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -72,10 +72,7 @@
 					//send update request
 					xmlhttp.open("POST","custom_update.php",false);
 					xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-					xmlhttp.send("c="+custom+"&n="+value);
-
-					alert(xmlhttp.responseText);
-					
+					xmlhttp.send("c="+custom+"&n="+value);					
 				}
 		</script>
 		<script language="Javascript" type="text/javascript">
@@ -94,6 +91,49 @@
 		
 	</head>
 	<body>
+		<?php
+			//check to see if the alert session is set
+			if(isset($_SESSION['targets_alert_message']))
+				{
+					//create alert popover
+					echo "<div id=\"alert\">";
+
+					//echo the alert message
+					echo "<div>".$_SESSION['targets_alert_message']."<br />";
+					
+					if(isset($_SESSION['bad_row_stats']))
+						{
+							//count how many stats there are
+							$count = count($_SESSION['bad_row_stats']);
+							
+							//start the list
+							echo "<ul>";
+							
+							//echo all bad row stats
+							while($count > 0)
+								{
+									echo "<li>".$_SESSION['bad_row_stats'][($count-1)]."</li>";
+									$count--;
+								}
+							
+							//end the list
+							echo "</ul>";
+							
+							//unset bad row stat session
+							unset ($_SESSION['bad_row_stats']);
+						}
+
+					//close the alert message
+					echo "<br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+
+					//close alert popover
+					echo "</div>";
+
+					//unset the seession
+					unset ($_SESSION['targets_alert_message']);		
+							
+				}
+		?>
 		<div id="add_one">
 			<div>
 				<form action="target_upload_single.php" method="post" enctype="multipart/form-data">
@@ -313,49 +353,6 @@
 
 			<!--content-->
 			<div id="content">
-				<?php
-					//check to see if the alert session is set
-					if(isset($_SESSION['targets_alert_message']))
-						{
-							//create alert popover
-							echo "<div id=\"alert\">";
-
-							//echo the alert message
-							echo "<div>".$_SESSION['targets_alert_message']."<br />";
-							
-							if(isset($_SESSION['bad_row_stats']))
-								{
-									//count how many stats there are
-									$count = count($_SESSION['bad_row_stats']);
-									
-									//start the list
-									echo "<ul>";
-									
-									//echo all bad row stats
-									while($count > 0)
-										{
-											echo "<li>".$_SESSION['bad_row_stats'][($count-1)]."</li>";
-											$count--;
-										}
-									
-									//end the list
-									echo "</ul>";
-									
-									//unset bad row stat session
-									unset ($_SESSION['bad_row_stats']);
-								}
-
-							//close the alert message
-							echo "<br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
-
-							//close alert popover
-							echo "</div>";
-
-							//unset the seession
-							unset ($_SESSION['targets_alert_message']);		
-									
-						}
-				?>
 				<span class="button"><a href="#add_one"><img src="../images/plus_sm.png" alt="add" /> One</a></span>
 				<span class="button"><a href="#add_many"><img src="../images/plus_sm.png" alt="add" /> Many</a></span>
 				<table class="spt_table">
