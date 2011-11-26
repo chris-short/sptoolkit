@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		sql_install.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -32,6 +32,9 @@
 		  `email` varchar(255) NOT NULL,
 		  `name` varchar(255) NOT NULL,
 		  `group_name` varchar(50) NOT NULL,
+		  `custom1` varchar(255),
+		  `custom2` varchar(255),
+		  `custom3` varchar(255),
 		  PRIMARY KEY (`id`)
 		)    
 	";

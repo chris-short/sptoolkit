@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_update.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -45,6 +45,14 @@ elseif($_SESSION['ip']!=md5($_SESSION['salt'].$_SERVER['REMOTE_ADDR'].$_SESSION[
 		header('location:../');
 		exit;
 	}
+
+//make sure the user is an admin
+	if($_SESSION['admin']!=1)
+		{
+			$_SESSION['targets_alert_message'] = "you do not have permission to update targets";
+			header('location:../targets/#alert');
+			exit;
+		}
 		
 //set target id
 $target_id=$_POST['id'];
