@@ -253,7 +253,7 @@
 						<td class="right">
 							<a class="tooltip">
 								<img src="../images/lightbulb.png" alt="help" />
-								<span>You can easily edit any individual cell by clicking on it and making your changes.  Changes are automatically saved when you click anywhere <strong>outside</strong> of the cell just edited.
+								<span>You can easily edit any individual, underlined cell by clicking on it and making your changes.  Changes are automatically saved when you click anywhere <strong>outside</strong> of the cell just edited. Changing the 3 custom column headings will require you to edit the header row of bulk target upload files. 
 								</span>
 							</a>
 							&nbsp;&nbsp;&nbsp;
