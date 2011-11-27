@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		13.0
+ * version:		14.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -345,7 +345,7 @@
 														<td class=\"target_cell\"><input id=\"".$ra[0]."_".$custom1."\" onchange=\"updateTarget(".$ra[0].",'".$custom1."',this.value)\" type=\"text\" value=\"".$ra[4]."\" class=\"invisible_input\" /></td>\n
 														<td class=\"target_cell\"><input id=\"".$ra[0]."_".$custom2."\" onchange=\"updateTarget(".$ra[0].",'".$custom2."',this.value)\" type=\"text\" value=\"".$ra[5]."\" class=\"invisible_input\" /></td>\n
 														<td class=\"target_cell\"><input id=\"".$ra[0]."_".$custom3."\" onchange=\"updateTarget(".$ra[0].",'".$custom3."',this.value)\" type=\"text\" value=\"".$ra[6]."\" class=\"invisible_input\" /></td>\n
-														<td><a href=\"target_delete.php?g=".$group."&u=".$ra[0]."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
+														<td><a href=\"target_delete.php?g=".$ra[3]."&u=".$ra[0]."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
 												</tr>
 											";
 									}
@@ -366,7 +366,7 @@
 														<td class=\"target_cell\"><input id=\"".$ra[0]."_".$custom1."\" onchange=\"updateTarget(".$ra[0].",'".$custom1."',this.value)\" type=\"text\" value=\"".$ra[4]."\" class=\"invisible_input\" /></td>\n
 														<td class=\"target_cell\"><input id=\"".$ra[0]."_".$custom2."\" onchange=\"updateTarget(".$ra[0].",'".$custom2."',this.value)\" type=\"text\" value=\"".$ra[5]."\" class=\"invisible_input\" /></td>\n
 														<td class=\"target_cell\"><input id=\"".$ra[0]."_".$custom3."\" onchange=\"updateTarget(".$ra[0].",'".$custom3."',this.value)\" type=\"text\" value=\"".$ra[6]."\" class=\"invisible_input\" /></td>\n
-														<td><a href=\"target_delete.php?g=".$group."&u=".$ra[0]."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
+														<td><a href=\"target_delete.php?g=".$ra[3]."&u=".$ra[0]."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
 												</tr>
 											";
 									}
