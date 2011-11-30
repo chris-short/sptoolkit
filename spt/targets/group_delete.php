@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		group_delete.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -57,23 +57,33 @@
 //pull in group
 	$group_to_delete = $_REQUEST['g'];
 
-//pull in all group names and compare to entered data
-	//connect to database
+//connect to database
 	include "../spt_config/mysql_config.php";
+
+//ensure that the group is not part of an active campaign 
+	$r = mysql_query("SELECT group_name FROM campaigns_and_groups WHERE group_name = '$group_to_delete'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+	if(mysql_num_rows($r))
+		{
+			$_SESSION['targets_alert_message'] = "you cannot delete a group that is part of an active campaign";
+			header('location:../targets/#alert');
+			exit;	
+		}
+
+//pull in all group names and compare to entered data
 	$r = mysql_query("SELECT DISTINCT group_name FROM targets") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 	while ($ra = mysql_fetch_assoc($r))
 		{
 			echo $group_to_delete."<br />";
 			echo $ra['group_name']."<br /><br />";
-			if(eregi($group_to_delete, $ra['group_name']))
+			if(preg_match($group_to_delete, $ra['group_name']))
 				{
 					mysql_query("DELETE FROM targets WHERE group_name = '$group_to_delete'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 				}
 		}
 
 //send user back to targets page with success message
-$_SESSION['targets_alert_message'] = "group deleted successfully";
-header('location:../targets/#alert');
-exit;
+	$_SESSION['targets_alert_message'] = "group deleted successfully";
+	header('location:../targets/#alert');
+	exit;
 
 ?>
