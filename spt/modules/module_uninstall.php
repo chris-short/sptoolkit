@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		module_uninstall.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -70,7 +70,7 @@
 				$r2=mysql_query("SELECT * FROM modules_dependencies WHERE depends_on = '$module'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 				if(mysql_num_rows($r2) > 0)
 					{
-						$_SESSION['module_alert_message'] = 'this module is depended on';
+						$_SESSION['module_alert_message'] = 'This module is depended on.  You must uninstall the module that depends on this Module first.';
 						header('location:../modules/#alert');
 						exit;
 					}
@@ -78,9 +78,37 @@
 				//proceed with the uninstall
 				if($ra['name'] == $module)
 					{
+						//run the uninstall script if it exists
+						if(file_exists("../".$ra['directory_name']."/uninstall.php"))
+							{
+								include("../".$ra['directory_name']."/uninstall.php");
+							}
+
 						//delete the directory
 						$path = "../".$ra['directory_name'];
-						rmdir($path);
+
+						//function with loop to delete the entire directory
+   						function remove_dir($path)
+   						{
+   							if (is_dir($path)) 
+   							{ 
+     							$objects = scandir($path); 
+     							foreach ($objects as $object) 
+     								{
+     									if ($object != "." && $object != "..") 
+     										{
+     											if (filetype($path."/".$object) == "dir") remove_dir($path."/".$object); 
+     											else unlink($path."/".$object); 
+     										}
+									}
+								
+								reset($objects); 
+								rmdir($path); 
+   							} 	
+   						}
+
+						//delete the directory
+						remove_dir($path);
 
 						//get the db name to prepare for table listing
 						$db_name = $_SESSION['spt_db_name'];

@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_batch.php
- * version:		4.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -112,7 +112,7 @@ foreach($lines as $line)
 
 	$header_line = explode(',',$lines[0]);
 
-	if($header_line[0] != "name" OR $header_line[1] != "email" OR $header_line[2] != "group" OR $header_line[3] != $custom1 OR $header_line[4] != $custom2 OR trim($header_line[5]) != $custom3)
+	if(strtolower($header_line[0]) != "name" OR strtolower($header_line[1]) != "email" OR strtolower($header_line[2]) != "group" OR strtolower($header_line[3]) != strtolower($custom1) OR strtolower($header_line[4]) != strtolower($custom2) OR strtolower(trim($header_line[5])) != strtolower($custom3))
 		{
 			$_SESSION['targets_alert_message'] = "the header row does not match the column names in the database";
        	    header('location:../targets/#alert');
@@ -150,7 +150,7 @@ foreach($lines as $line)
 		$line_contents = explode(',',$line);
 		
 		//leave out the header row
-		if($line_contents[0] != "name" && $line_contents[1] != "email" && $line_contents[2] != "group" && $line_contents[3] != $custom1 && $line_contents[4] != $custom2 && trim($line_contents[5]) != $custom3)
+		if(strtolower($line_contents[0]) != "name" && strtolower($line_contents[1]) != "email" && strtolower($line_contents[2]) != "group" && strtolower($line_contents[3]) != strtolower($custom1) && strtolower($line_contents[4]) != strtolower($custom2) && strtolower(trim($line_contents[5])) != strtolower($custom3))
 			{
 				//validate name
 				if(eregi('/[^a-zA-Z0-9_-\s!.()]/', trim($line_contents[0])))

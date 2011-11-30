@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -286,7 +286,7 @@
 				<span class="button"><a href="#edit_user"><img src="../images/gear_sm.png" alt="edit" /> <?php echo $_SESSION['username']; ?></a></span>
 				<?php
 					//check to see if user is admin give them additional options
-					if($_SESSION['admin']==1)
+					if(isset($_SESSION['admin'])==1)
 						{
 							echo "<span class=\"button\"><a href=\"#add_user\"><img src=\"../images/plus_sm.png\" alt=\"add\" /> User</a></span>";
 						}
@@ -338,7 +338,7 @@
 								echo "</td>\n";
 								
 								//if the user is an admin and this record is not their own allow them to edit the user
-								if($_SESSION['admin']==1 && $_SESSION['username']!=$ra['username'])
+								if(isset($_SESSION['admin'])==1 && $_SESSION['username']!=$ra['username'])
 									{
 										echo "<td><a href=\"?u=";
 										echo $ra['username'];
@@ -351,7 +351,7 @@
 									}
 
 								//if the user is an admin and this record is not their own allow them to delete the user
-								if($_SESSION['admin']==1 && $_SESSION['username']!=$ra['username'])
+								if(isset($_SESSION['admin'])==1 && $_SESSION['username']!=$ra['username'])
 									{
 										echo "<td><a href=\"delete_user.php?u=";
 										echo $ra['username'];

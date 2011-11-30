@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_delete.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -49,9 +49,6 @@
 //pull in target
 	$target_to_delete = $_REQUEST['u'];
 
-//pull in group
-	$group_name = $_REQUEST['g'];
-
 //make sure the user is an admin
 	if($_SESSION['admin']!=1)
 		{
@@ -68,15 +65,25 @@
 			exit;
 		}
 
-//pull in all target ids and compare to entered data
 	//connect to database
 	include "../spt_config/mysql_config.php";
+	
+	//make sure target is not part of an active campaign
+	$r = mysql_query("SELECT target_id FROM campaigns_responses WHERE target_id = '$target_to_delete'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+	if(mysql_num_rows($r))
+		{
+			$_SESSION['targets_alert_message'] = "you cannot delete a target that is part of an active campaign";
+			header('location:../targets/#alert');
+			exit;	
+		}
+	
+	//pull in all target ids and compare to entered data
 	$r = mysql_query("SELECT DISTINCT id FROM targets") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 	while ($ra = mysql_fetch_assoc($r))
 		{
 			echo $target_to_delete."<br />";
 			echo $ra['id']."<br /><br />";
-			if(eregi($target_to_delete, $ra['id']))
+			if($target_to_delete == $ra['id'])
 				{
 					mysql_query("DELETE FROM targets WHERE id = '$target_to_delete'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 				}
