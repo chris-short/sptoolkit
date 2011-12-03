@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		response.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -27,25 +27,28 @@ session_start();
 //if values are being posted recieve all parameters into an array
 if ($_POST)
 	{
-		$post = implode(',', array_keys($_POST));
+		$post = implode('<br />', array_keys($_POST));
 		
 		//pull in session variables
 		$target_id = $_SESSION['target_id'];
 		$campaign_id = $_SESSION['campaign_id'];
 		$template_id = $_SESSION['template_id'];
 		
+		//get the time when the data was posted
+		$post_time = date('Y-m-d H:i:s');
+
 		//connect to database
 		include "../spt_config/mysql_config.php";
 		
 		//insert post metrics into database
-		mysql_query("UPDATE campaigns_responses SET post = '$post' WHERE campaign_id = '$campaign_id' AND target_id = '$target_id'");
+		mysql_query("UPDATE campaigns_responses SET post = '$post', post_time = '$post_time' WHERE campaign_id = '$campaign_id' AND target_id = '$target_id'");
 		
 		//send them back to the template
 		header('location:../templates/'.$template_id.'/return.htm');
 		exit;
 		
 	}
-//collect all URL parameters from the email link and generate sessions and record the link click to the appropriate target
+//collect all URL parameters and analytical data from the email link and generate sessions and record the link click to the appropriate target
 else
 	{
 		//get parameters
@@ -65,6 +68,26 @@ else
 				header('location:http://127.0.0.1');
 				exit;
 			}
+		
+		//get the ip address
+		$target_ip = $_SERVER['REMOTE_ADDR'];
+
+		//get the time when the link was clicked
+		$link_time = date('Y-m-d H:i:s');
+
+		//get browser info
+			//pull in browser script
+			include "../includes/browser.php";
+
+			//put browser info into variable
+			$browser_info = new Browser();
+
+			//get browser type and version
+			$browser_type = $browser_info->getBrowser();
+			$browser_version = $browser_info->getVersion();
+			
+			//get OS
+			$os = $browser_info->getPlatform();
 			
 		//connect to the database
 		include "../spt_config/mysql_config.php";
@@ -82,7 +105,7 @@ else
 		//if a match happened record that they clicked the link
 		if($match == 1)
 			{
-				mysql_query("UPDATE campaigns_responses SET link = 1 WHERE campaign_id = '$campaign_id' AND target_id = '$target_id'");
+				mysql_query("UPDATE campaigns_responses SET link = 1, ip = '$target_ip', os = '$os', browser = '$browser_type', browser_version = '$browser_version', link_time = '$link_time'  WHERE campaign_id = '$campaign_id' AND target_id = '$target_id'");
 				
 				//determine what template this campaign uses
 				$r = mysql_query("SELECT template_id FROM campaigns WHERE id = '$campaign_id'");
