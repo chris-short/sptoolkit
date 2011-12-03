@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		14.0
+ * version:		15.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -383,6 +383,7 @@
 			<div id="content">
 				<span class="button"><a href="#add_one"><img src="../images/plus_sm.png" alt="add" /> One</a></span>
 				<span class="button"><a href="#add_many"><img src="../images/plus_sm.png" alt="add" /> Many</a></span>
+				<span class="button"><a href="targets.csv"><img src="../images/list_sm.png" alt="template" /> Template</a></span>
 				<table class="spt_table">
 					<tr>
 						<td><h3>Group Name</h3></td>
