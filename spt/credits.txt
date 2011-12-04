@@ -13,9 +13,3 @@ Here is a listing of things we've used that someone else created.
 -- Author: Chris Schuld 
 -- Author site: http://chrisschuld.com/projects/browser-php-detecting-a-users-browser-from-php/
 -- Download: http://chrisschuld.com/wp-content/uploads/2010/07/Browser-1-9.zip
-
-# Sylized quotes.
-
--- Author: Paul Robinson 
--- Author site: http://return-true.com/2010/07/creating-a-stylized-pull-quote-or-block-quote-using-css/
--- Download: n/a
