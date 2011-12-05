@@ -43,6 +43,16 @@
       )
   ";
 
+  mysql_query($sql) or die(mysql_error());
+
+  //Add first entry to training table
+  $sql = 
+    "
+        INSERT INTO `training` (name, description) VALUES ('Default','Default training package')
+    ";
+
+  mysql_query($sql) or die(mysql_error());
+
   //Campaigns Table
   $sql = "ALTER TABLE `campaigns` ADD `training_id` int(10)";
   
