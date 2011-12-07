@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		group_delete.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -73,9 +73,8 @@
 	$r = mysql_query("SELECT DISTINCT group_name FROM targets") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 	while ($ra = mysql_fetch_assoc($r))
 		{
-			echo $group_to_delete."<br />";
-			echo $ra['group_name']."<br /><br />";
-			if(preg_match($group_to_delete, $ra['group_name']))
+			$current_group_name = $ra['group_name'];
+			if(preg_match('/'.$group_to_delete.'/', $current_group_name))
 				{
 					mysql_query("DELETE FROM targets WHERE group_name = '$group_to_delete'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 				}
