@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		file_update.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Editor
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -54,11 +54,17 @@
 			exit;
 		}
 
-//validate both template id and file are set
-if(!isset($_REQUEST['t']) OR !isset($_REQUEST['f']))
+//validate template id OR package id is set and filename is set
+if(!isset($_REQUEST['f']))
 	{
-		$_SESSION['editor_alert_message'] = "Please specify a template and file.";
+		$_SESSION['editor_alert_message'] = "Please specify a file.";
 		header('location:.#alert');
+		exit;
+	}
+if(!isset($_REQUEST['t']) && !isset($_REQUEST['p']))
+	{
+		$_SESSION['editor_alert_message'] = "Please specify a package or template id.";
+		header('location.#alert');
 		exit;
 	}
 
@@ -69,12 +75,35 @@ if(preg_match('/[^0-9]/', $_REQUEST['t']))
 		header('location:.#alert');
 		exit;
 	}
+//validate the package id
+if(preg_match('/[^0-9]/', $_REQUEST['p']))
+	{
+		$_SESSION['editor_alert_message'] = "Please select a valid package.";
+		header('location:.#alert');
+		exit;
+	}
 
-$template = $_REQUEST['t'];
+
+if(isset($_REQUEST['p']))
+	{
+		$package = $_REQUEST['p'];
+	}
+if(isset($_REQUEST['t']))
+	{
+		$template = $_REQUEST['t'];		
+	}
 $file = $_REQUEST['f'];
 $changes = $_POST['file'];
 
-file_put_contents("../templates/".$template."/".$file, $changes);
+if(isset($template))
+	{
+		file_put_contents("../templates/".$template."/".$file, $changes);		
+	}
+
+if(isset($package))
+	{
+		file_put_contents("../education/".$package."/".$file, $changes);		
+	}
 
 $_SESSION['editor_alert_message'] = "Your changes have been saved";
 header('location:.#alert');

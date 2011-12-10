@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Editor
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -67,12 +67,20 @@
 
 		<!--script-->
 		<script language="Javascript" type="text/javascript">
-			function selectFile(template_id,file) 
+			function selectTemplate(template_id,file) 
 				{ 
 					//re-direct
 					window.location = ".?t="+template_id+"&f="+file;								
 				}
 		</script>
+		<script language="Javascript" type="text/javascript">
+			function selectPackage(package_id,file) 
+				{ 
+					//re-direct
+					window.location = ".?p="+package_id+"&f="+file;								
+				}
+		</script>
+
 
 
 	</head>
@@ -104,9 +112,9 @@
 
 			<!--content-->
 			<div id="content">
-				<form id="editor_form" method="post" action="file_update.php?t=<?php echo $_REQUEST['t']."&f=".$_REQUEST['f']?>">
+				<form id="editor_form" method="post" action="file_update.php?<?php if(isset($_REQUEST['t'])){echo "t=".$_REQUEST['t']."&f=".$_REQUEST['f'];}if(isset($_REQUEST['p'])){echo "p=".$_REQUEST['p']."&f=".$_REQUEST['f'];}?>">
 					<?php
-						if(!isset($_REQUEST['t']))
+						if(!isset($_REQUEST['t']) && !isset($_REQUEST['p']))
 							{
 								//connect to database
 								include "../spt_config/mysql_config.php";
@@ -117,26 +125,35 @@
 								//error if there are no templates
 								if(mysql_num_rows($r)==0)
 									{
-										$_SESSION['templates_alert_message'] = "You do not have any templates.  Please create a template first.";
-										header('location:../templates/#alert');
-										exit;
-									}
-								else
-									{
-										//create a popover that will list all templates and and available files to edit
 										echo 
 											"
 												<table id=\"editor_buttons\"></table>
 												<div id=\"template_select\">\n\t
 													<div>
-														<span>Select a file to edit from one of the templates listed below: </span>\n
-														<br \><br \>
+														<span><h1>Templates:</h1></span>\n
+														<table id=\"template_list\">\n\t
+															<tr>
+																<td>There are no tempaltes to edit.</td>
+															</tr>
+														</table>
+													</div>
+												</div>
+											";
+									}
+								else
+									{
+										echo 
+											"
+												<table id=\"editor_buttons\"></table>
+												<div id=\"template_select\">\n\t
+													<div>
+														<span><h1>Templates:</h1></span>\n
 														<table id=\"template_list\">\n\t
 											";		
 										while($ra = mysql_fetch_assoc($r))
 											{
 													//start template row
-													echo "<tr><td>".$ra['name']."</td><td><select onchange=\"selectFile(".$ra['id'].",this.value)\"><option value=\"\">select file...</option>";
+													echo "<tr><td>".$ra['name']."</td><td><select onchange=\"selectTemplate(".$ra['id'].",this.value)\"><option value=\"\">select file...</option>";
 
 													//query template directory for files
 													$files = scandir('../templates/'.$ra['id'].'/');
@@ -173,13 +190,89 @@
 													</div>
 												</div>
 											";
+									}
+							
+								//pull in all the package id's and names
+								$r = mysql_query("SELECT id,name FROM education") or die('<div id="die_error">There is a problem with the database...please try again later</div>');;
+
+								//error if there are no templates
+								if(mysql_num_rows($r)==0)
+									{
+										echo 
+											"
+												<table id=\"editor_buttons\"></table>
+												<div id=\"template_select\">\n\t
+													<div>
+														<span><h1>Education Packages:</h1></span>\n
+														<table id=\"template_list\">\n\t
+															<tr>
+																<td>There are no packages to edit.</td>
+															</tr>
+														</table>
+													</div>
+												</div>
+											";
 										exit;
 									}
+								else
+									{
+										echo 
+											"
+												<table id=\"editor_buttons\"></table>
+												<div id=\"template_select\">\n\t
+													<div>
+														<span><h1>Education Packages:</h1></span>\n
+														<table id=\"template_list\">\n\t
+											";		
+										while($ra = mysql_fetch_assoc($r))
+											{
+													//start template row
+													echo "<tr><td>".$ra['name']."</td><td><select onchange=\"selectPackage(".$ra['id'].",this.value)\"><option value=\"\">select file...</option>";
+
+													//query template directory for files
+													$files = scandir('../education/'.$ra['id'].'/');
+													
+													//do this process for each item
+													foreach($files as $file)
+														{
+															//determine if the item is a directory or file
+															if(!is_dir($file))
+																{
+																	//break apart the filename
+																	$file_array = explode(".",$file);
+
+																	//look for htm, php and html files
+																	if($file_array[1] == "htm" OR $file_array[1] == "php" OR $file_array[1] == "html" OR $file_array[1] == "css" OR $file_array[1] == "js")
+																		{
+																			if($file == "license.htm")
+																			{ }
+																			else
+																			{
+																			//add the file to the drop-down
+																			echo "<option value=\"".$file."\">".$file."</option>";
+																			}
+																		}
+																}
+														}
+													
+													//finish the template row
+													echo "</select></td></tr>\n";
+											}
+										echo
+											"
+														</table>
+													</div>
+												</div>
+											";
+										exit;
+									}
+
+
 							}
 						else if(!isset($_REQUEST['f']))
 							{
 								//send them back to select a template and file
-								$_SESSION['editor_alert_message'] = "Please select a template and file first.";
+								$_SESSION['editor_alert_message'] = "Please select a file first.";
 								header('location:.#alert');
 								exit;
 							}
@@ -191,9 +284,50 @@
 								header('location:.#alert');
 								exit;
 							}
+							
+						//validate the template id
+						if(preg_match('/[^0-9]/', $_REQUEST['p']))
+							{
+								$_SESSION['editor_alert_message'] = "Please select a valid package.";
+								header('location:.#alert');
+								exit;
+							}
+
 						
+						//validate the filename
+						$filename_array = explode('.',$_REQUEST['f']);
+						$count = 0;
+						foreach($filename_array as $file_part)
+							{
+								$count++;
+							}
+
+						if($count > 2)
+							{
+								$_SESSION['editor_alert_message'] = "That filename is invalid.";
+								header('location:.#alert');
+								exit;
+							}
+
+						//validate that only a template or a package is specified
+						if(isset($_REQUEST['t']) && isset($_REQUEST['p']))
+							{
+								$_SESSION['editor_alert_message'] = "Please specify only a template or a package...not both.";
+								header('location:.#alert');
+								exit;
+							}
+
 						//pull in data
-						$data = file_get_contents("../templates/".$_REQUEST['t']."/".$_REQUEST['f']);
+						if(isset($_REQUEST['t']))
+							{
+								$data = file_get_contents("../templates/".$_REQUEST['t']."/".$_REQUEST['f']);		
+							}
+
+						if(isset($_REQUEST['p']))
+							{
+								$data = file_get_contents("../education/".$_REQUEST['p']."/".$_REQUEST['f']);		
+							}
+						
 						
 						//show buttons
 						echo 
