@@ -13,3 +13,9 @@ Here is a listing of things we've used that someone else created.
 -- Author: Chris Schuld 
 -- Author site: http://chrisschuld.com/projects/browser-php-detecting-a-users-browser-from-php/
 -- Download: http://chrisschuld.com/wp-content/uploads/2010/07/Browser-1-9.zip
+
+# Geolocation of target IP addresses
+
+-- Author: Daniel Gattermann
+-- Author site: http://daniel-gattermann.de/
+-- Usage: http://geomaplookup.net/

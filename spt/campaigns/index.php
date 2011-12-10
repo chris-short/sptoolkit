@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		12.0
+ * version:		13.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -338,7 +338,7 @@
 										$post = $ra['post'];
 									}
 								echo "<td>".$post."</td>";
-								echo "<td>".$ra['ip']."</td>";
+								echo "<td><a href=\"http://geomaplookup.net/?ip=".$ra['ip']."\" target=\"blank\">".$ra['ip']."</a></td>";
 								echo "<td>".$ra['browser']."</td>";
 								echo "<td>".$ra['browser_version']."</td>";
 								echo "<td>".$ra['os']."</td>";
