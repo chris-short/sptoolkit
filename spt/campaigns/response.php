@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		response.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -33,6 +33,8 @@ if ($_POST)
 		$target_id = $_SESSION['target_id'];
 		$campaign_id = $_SESSION['campaign_id'];
 		$template_id = $_SESSION['template_id'];
+		$education_id = $_SESSION['education_id'];
+		$education_timing = $_SESSION['education_timing'];
 		
 		//get the time when the data was posted
 		$post_time = date('Y-m-d H:i:s');
@@ -43,6 +45,13 @@ if ($_POST)
 		//insert post metrics into database
 		mysql_query("UPDATE campaigns_responses SET post = '$post', post_time = '$post_time' WHERE campaign_id = '$campaign_id' AND target_id = '$target_id'");
 		
+		//if education needs to be done after POST send them there
+		if($education_id > 0 && $education_timing == 2)
+			{
+				header('location:../education/'.$education_id.'/');
+				exit;
+			}
+
 		//send them back to the template
 		header('location:../templates/'.$template_id.'/return.htm');
 		exit;
@@ -107,16 +116,28 @@ else
 			{
 				mysql_query("UPDATE campaigns_responses SET link = 1, ip = '$target_ip', os = '$os', browser = '$browser_type', browser_version = '$browser_version', link_time = '$link_time'  WHERE campaign_id = '$campaign_id' AND target_id = '$target_id'");
 				
-				//determine what template this campaign uses
-				$r = mysql_query("SELECT template_id FROM campaigns WHERE id = '$campaign_id'");
+				//determine what template and education this campaign is using
+				$r = mysql_query("SELECT template_id, education_id, education_timing FROM campaigns WHERE id = '$campaign_id'");
 				while($ra = mysql_fetch_assoc($r))
 					{
 						$template_id = $ra['template_id'];
+						$education_id = $ra['education_id'];
+						$education_timing = $ra['education_timing'];
 						
 						//set session variables
 						$_SESSION['campaign_id'] = $campaign_id;
 						$_SESSION['target_id'] = $target_id;
 						$_SESSION['template_id'] = $template_id;
+						$_SESSION['education_id'] = $education_id;
+						$_SESSION['education_timing'] = $education_timing;
+
+						//if the campaign is set to education immediately, send the target to be educated
+						if($education_id > 0 && $education_timing == 1)
+							{
+								header('location:../education/'.$education_id.'/');
+								exit;		
+							}
+						
 						
 						//send the user to the appropriate template
 						header('location:../templates/'.$template_id.'/');

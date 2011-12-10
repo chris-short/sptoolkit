@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		13.0
+ * version:		14.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -136,11 +136,34 @@
 											$r = mysql_query('SELECT id, name FROM templates');
 											while($ra=mysql_fetch_assoc($r))
 												{
-													echo "<option value=\"".$ra['id']."\">".$ra['name']."</option>";
+													echo "<option value=".$ra['id'].">".$ra['name']."</option>";
 												}
 										?>	
 									</select>
 								</td>
+							</tr>
+							<tr>
+								<td>Education</td>
+								<td>
+									<select name = "education_id">
+										<option value="0">None</option>
+										<?php
+											//connect to database
+											include('../spt_config/mysql_config.php');
+											
+											//query for all groups
+											$r = mysql_query('SELECT id, name FROM education');
+											while($ra=mysql_fetch_assoc($r))
+												{
+													echo "<option value=".$ra['id'].">".$ra['name']."</option>";
+												}
+										?>	
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><input type="radio" name="education_timing" value="1" /> Educate Immediatly<br /><input type="radio" name="education_timing" value="2" /> Educate After Post</td>
 							</tr>
 							<tr>
 								<td></td>

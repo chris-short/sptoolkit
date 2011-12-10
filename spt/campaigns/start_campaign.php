@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		start_campaign.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -91,6 +91,8 @@ $campaign_name = $_POST['campaign_name'];
 $spt_path = $_POST['spt_path'];
 $target_groups = $_POST['target_groups'];
 $template_id = $_POST['template_id'];
+$education_id = $_POST['education_id'];
+if(isset($_POST['education_timing'])){$education_timing = $_POST['education_timing'];}
 
 //validate the campaign name
 if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', $campaign_name))
@@ -148,8 +150,44 @@ if($match != 1)
 		exit;
 	}
 
+//validate the education package exists
+$r = mysql_query('SELECT id FROM education') or die ('<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>');
+while($ra = mysql_fetch_assoc($r))
+	{
+		if($education_id==$ra['id'] OR $education_id==0)
+			{
+				$match1 = 1;
+			}
+	}
+if($match1 != 1)
+	{
+		$_SESSION['campaigns_alert_message'] = "please select a valid education package";
+		header('location:../campaigns/#alert');
+		exit;
+	}
+
+//validate the education timing if set
+if(isset($education_timing))
+	{
+		if($education_timing == 1 OR $education_timing == 2)
+			{
+				$match2 = 1;
+			}
+	}
+else
+	{
+		$education_timing == 0;
+		$match2 = 1;
+	}
+if($match2 != 1)
+	{
+		$_SESSION['campaigns_alert_message'] = "please select a valid education timing option";
+		header('location:../campaigns/#alert');
+		exit;
+	}
+
 //create the campaign
-mysql_query("INSERT INTO campaigns (campaign_name, template_id, domain_name) VALUES ('$campaign_name', '$template_id', '$spt_path')") or die('<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>');
+mysql_query("INSERT INTO campaigns (campaign_name, template_id, domain_name, education_id, education_timing) VALUES ('$campaign_name', '$template_id', '$spt_path', '$education_id', '$education_timing')") or die('<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>');
 
 //get the id of this campaign
 $r = mysql_query("SELECT MAX(id) as campaign_id FROM campaigns") or die('<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>');
