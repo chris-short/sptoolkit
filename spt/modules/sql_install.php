@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		sql_install.php
- * version:		1.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,9 +30,7 @@
       CREATE TABLE `modules` (
           `name` varchar(50) NOT NULL DEFAULT '' COMMENT 'module name',
           `directory_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'name of the directory',
-          `author` varchar(50) NOT NULL,
           `description` longtext NOT NULL,
-          `author_email` varchar(50) NOT NULL,
           `installed_date` date NOT NULL,
           `enabled` int(1) NOT NULL DEFAULT '0' COMMENT '0-disabled; 1-enabled',
           `core` int(1) NOT NULL DEFAULT '0'
@@ -44,7 +42,7 @@
   //Upload Module Data
   $sql = 
     "
-      INSERT INTO `modules` VALUES ('Dashboard','dashboard','--','The dashboard is a landing page for the application that provides a quick look at everything that is going on in spt.  It is a required, core module.  Think of it as your homepage in spt.','admin@sptoolkit.com','2011-08-21',1,1),('Modules','modules','--','The modules module manages all other modules.  Yes, that sentence had the word module in it too many times.  All modules depend on this module for installation and uninstallation.  This module is a required, core module.','admin@sptoolkit.com','2011-08-21',1,1),('Users','users','--','The users module manages users and permissions regarding access to spt.  It is a required, core module for which all modules depend.','admin@sptoolkit.com','2011-08-21',1,1),('Targets','targets','--','This module allows you to manage lists of people and their email addresses.  It also allows you to place people into groups.','admin@sptoolkit.com','2011-08-26',1,0),('Campaigns','campaigns','--','This module manages a phishing campaign from start to finish.','admin@sptoolkit.com','2011-08-29',1,0),('Templates','templates','--','The Template module manages all aspects of templates that are used in campaigns.','admin@sptoolkit.com','2011-08-29',1,0)
+      INSERT INTO `modules` VALUES ('Dashboard','dashboard','The dashboard is a landing page for the application that provides a quick look at everything that is going on in spt.  It is a required, core module.  Think of it as your homepage in spt.','2011-08-21',1,1),('Modules','modules','The modules module manages all other modules.  Yes, that sentence had the word module in it too many times.  All modules depend on this module for installation and uninstallation.  This module is a required, core module.','2011-08-21',1,1),('Users','users','The users module manages users and permissions regarding access to spt.  It is a required, core module for which all modules depend.','2011-08-21',1,1),('Targets','targets','This module allows you to manage lists of people and their email addresses.  It also allows you to place people into groups.','2011-08-26',1,1),('Campaigns','campaigns','This module manages a phishing campaign from start to finish.','2011-08-29',1,1),('Templates','templates','The Template module manages all aspects of templates that are used in campaigns.','2011-08-29',1,1),('Education','education','The education module allows you to manage educational packages that can be utilized in campaigns.','2011-12-4',1,1)
     ";
 
   mysql_query($sql) or die(mysql_error());
@@ -63,7 +61,7 @@
   //Upload Module Dependency Data
   $sql = 
     "
-      INSERT INTO `modules_dependencies` VALUES ('Dashboard','Users'),('Modules','Users'),('Campaigns','Targets'),('Targets','Users'),('Campaigns','Users'),('Campaigns','Templates'),('Templates','Users')
+      INSERT INTO `modules_dependencies` VALUES ('Dashboard','Users'),('Modules','Users'),('Campaigns','Targets'),('Targets','Users'),('Campaigns','Users'),('Campaigns','Templates'),('Templates','Users'),('Education','Campaigns'),('Campaigns','Education'),('Education','Users')
     ";
 
   mysql_query($sql) or die(mysql_error());

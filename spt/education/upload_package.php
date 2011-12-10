@@ -3,7 +3,7 @@
  * file:		upload_package.php
  * version:		1.0
  * package:		Simple Phishing Toolkit (spt)
- * component:	Training management
+ * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license:		GNU/GPL, see license.htm.
  * 
@@ -29,7 +29,7 @@
 	if($_SESSION['authenticated']!=1)
 		{
 			//for potential return
-			$_SESSION['came_from']='training';
+			$_SESSION['came_from']='education';
 			
 			//set error message and send them back to login
 			$_SESSION['login_error_message']="login first";
@@ -49,7 +49,7 @@
 //make sure the user is an admin
 	if($_SESSION['admin']!=1)
 		{
-			$_SESSION['training_alert_message'] = "you do not have permission to upload a training package";
+			$_SESSION['education_alert_message'] = "you do not have permission to upload a package";
 			header('location:#alert');
 			exit;
 		}
@@ -57,7 +57,7 @@
 //validate that a name is provided
 	if(!isset($_POST['name']))
 		{
-			$_SESSION['training_alert_message'] = 'you must enter a name';
+			$_SESSION['education_alert_message'] = 'you must enter a name';
 			header('location:#alert');
 			exit;
 		}
@@ -65,7 +65,7 @@
 //ensure there are any valid characters in the name
 	if(preg_match('/[^a-zA-Z0-9_-\s!.()]/',$_POST['name']))
 		{
-			$_SESSION['training_alert_message'] = 'you have invalid characters in the name';
+			$_SESSION['education_alert_message'] = 'you have invalid characters in the name';
 			header('location:#alert');
 			exit;
 		}
@@ -73,7 +73,7 @@
 //validate that a description is provided
 	if(!isset($_POST['description']))
 		{
-			$_SESSION['training_alert_message'] = 'you must enter a description';
+			$_SESSION['education_alert_message'] = 'you must enter a description';
 			header('location:#alert');
 			exit;
 		}
@@ -81,7 +81,7 @@
 //ensure there aren't any invalid characters in the description
 	if(preg_match('/[^a-zA-Z0-9_-\s!.()]/',$_POST['description']))
 		{
-			$_SESSION['training_alert_message'] = 'you have invalid characters in the description';
+			$_SESSION['education_alert_message'] = 'you have invalid characters in the description';
 			header('location:#alert');
 			exit;
 		}
@@ -96,7 +96,7 @@ $description = $_POST['description'];
 			//ensure its a zip file
 				if(preg_match('/^(zip)\i/',$_FILES["file"]["type"]))
 					{
-						$_SESSION['training_alert_message'] = 'you must only upload zip files';
+						$_SESSION['education_alert_message'] = 'you must only upload zip files';
 						header('location:#alert');
 						exit;
 					}
@@ -104,7 +104,7 @@ $description = $_POST['description'];
 			//ensure that the file is under 20M
 				if($_FILES["file"]["size"] > 100000000)
 					{
-				  		$_SESSION['training_alert_message'] = 'max file size is 100MB';
+				  		$_SESSION['education_alert_message'] = 'max file size is 100MB';
 				  		header('location:#alert');
 				  		exit;
 				  	}
@@ -112,17 +112,17 @@ $description = $_POST['description'];
 			//ensure there are no errors
 				  if ($_FILES["file"]["error"] > 0)
 				    {
-				    	$_SESSION['training_alert_message'] = $_FILES["file"]["error"];
+				    	$_SESSION['education_alert_message'] = $_FILES["file"]["error"];
 				    	header('location:#alert');
 				    	exit;
 				    }
 
 			//add data to table
 				include "../spt_config/mysql_config.php";
-				mysql_query("INSERT INTO training (name, description) VALUES ('$name','$description')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+				mysql_query("INSERT INTO education (name, description) VALUES ('$name','$description')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 
-				//figure out the id of this new training package
-				$r = mysql_query("SELECT MAX(id) as max FROM training") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+				//figure out the id of this new education package
+				$r = mysql_query("SELECT MAX(id) as max FROM education") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 				while($ra = mysql_fetch_assoc($r))
 					{
 						$id = $ra['max'];	
@@ -142,7 +142,7 @@ $description = $_POST['description'];
 					$res = $zip->open('temp_upload/'.$filename);
 					if ($res === TRUE) 
 						{
-							$zip->extractTo('../training/'.$id.'/');
+							$zip->extractTo('../education/'.$id.'/');
 							$zip->close();
 							
 							//go delete the original
@@ -151,8 +151,8 @@ $description = $_POST['description'];
 						} 
 					else 
 						{
-							$_SESSION['training_alert_message'] = 'unzipping the file failed';
-							header('location:../training/#alert');
+							$_SESSION['education_alert_message'] = 'unzipping the file failed';
+							header('location:../education/#alert');
 							exit;
 						}
 
@@ -161,10 +161,10 @@ $description = $_POST['description'];
 		{
 			//add data to table
 				include "../spt_config/mysql_config.php";
-				mysql_query("INSERT INTO training (name, description) VALUES ('$name','$description')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+				mysql_query("INSERT INTO education (name, description) VALUES ('$name','$description')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 
-				//figure out the id of this new training package
-				$r = mysql_query("SELECT MAX(id) as max FROM training") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+				//figure out the id of this new education package
+				$r = mysql_query("SELECT MAX(id) as max FROM education") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 				while($ra = mysql_fetch_assoc($r))
 					{
 						$id = $ra['max'];	
@@ -173,14 +173,14 @@ $description = $_POST['description'];
 				//make a directory for the new templated id
 					mkdir($id);
 
-				//copy default files into new training package directory
+				//copy default files into new education package directory
 					copy("temp_upload/index.htm", $id."/index.htm");
 					copy("temp_upload/default.css", $id."/default.css");
 					copy("temp_upload/logo.png", $id."/logo.png");
 		}
 
 
-	$_SESSION['training_alert_message'] = 'training package added successfully';
-	header('location:../training/#alert');
+	$_SESSION['education_alert_message'] = 'education package added successfully';
+	header('location:../education/#alert');
 	exit;
 ?>

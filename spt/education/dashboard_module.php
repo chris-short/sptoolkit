@@ -1,9 +1,8 @@
-<?php
-/**
- * file:		install.php
- * version:		2.0
+<!--
+ * file:		dashboard_module.php
+ * version:		1.0
  * package:		Simple Phishing Toolkit (spt)
- * component:	Editor
+ * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license:		GNU/GPL, see license.htm.
  * 
@@ -20,23 +19,19 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
-**/
+-->
 
-  //This is the install script for the editor
-  
-  //Modules Table
-  $sql = 
-    "
-      INSERT INTO `modules` VALUES ('Editor','editor','The editor gives you basic web based editing of your template files. Eliminating the need to access files at the command line or attempting to find the files within the templates directory of your spt installation','2011-11-23',1,1)  
-	";
+<h1>Education</h1>
+<table>
+    <tr>
+        <td>Number of Packages</td>
+        <?php
+            //determine how many campaigns there are
+            $r = mysql_query("SELECT * FROM education") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+            echo "<td>".mysql_num_rows($r)."</td>";
+        ?>
+    </tr>
+</table>
 
-  mysql_query($sql) or die(mysql_error());
 
-  //Module Dependency Table
-  $sql = 
-  	"
-  		INSERT INTO `modules_dependencies` VALUES ('Editor','Templates')
-  	";
 
-  mysql_query($sql) or die(mysql_error());
-?>

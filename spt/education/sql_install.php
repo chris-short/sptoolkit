@@ -1,9 +1,9 @@
 <?php
 /**
- * file:		install.php
- * version:		2.0
+ * file:		sql_install.php
+ * version:		1.0
  * package:		Simple Phishing Toolkit (spt)
- * component:	Editor
+ * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license:		GNU/GPL, see license.htm.
  * 
@@ -22,21 +22,27 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-  //This is the install script for the editor
+  //This is the install script for the education module
   
-  //Modules Table
+  //Education Table
   $sql = 
     "
-      INSERT INTO `modules` VALUES ('Editor','editor','The editor gives you basic web based editing of your template files. Eliminating the need to access files at the command line or attempting to find the files within the templates directory of your spt installation','2011-11-23',1,1)  
-	";
+      CREATE TABLE `education` (
+        `id` int(10) NOT NULL AUTO_INCREMENT,
+        `name` varchar(255) DEFAULT NULL,
+        `description` longtext,
+        PRIMARY KEY (`id`)
+      )
+  ";
 
   mysql_query($sql) or die(mysql_error());
 
-  //Module Dependency Table
+  //Add first entry to education table
   $sql = 
-  	"
-  		INSERT INTO `modules_dependencies` VALUES ('Editor','Templates')
-  	";
+    "
+        INSERT INTO `education` (name, description) VALUES ('Default','Default education package')
+    ";
 
   mysql_query($sql) or die(mysql_error());
+    
 ?>

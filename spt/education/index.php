@@ -3,7 +3,7 @@
  * file:		index.php
  * version:		1.0
  * package:		Simple Phishing Toolkit (spt)
- * component:	Training management
+ * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license:		GNU/GPL, see license.htm.
  * 
@@ -29,7 +29,7 @@
 	if($_SESSION['authenticated']!=1)
 		{
 			//for potential return
-			$_SESSION['came_from']='training';
+			$_SESSION['came_from']='education';
 			
 			//set error message and send them back to login
 			$_SESSION['login_error_message']="login first";
@@ -49,7 +49,7 @@
 <!DOCTYPE HTML> 
 <html>
 	<head>
-		<title>spt - training</title>
+		<title>spt - education</title>
 		
 		<!--meta-->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -60,7 +60,7 @@
 		
 		<!--css-->
 		<link rel="stylesheet" href="../spt.css" type="text/css" />
-		<link rel="stylesheet" href="spt_training.css" type="text/css" />
+		<link rel="stylesheet" href="spt_education.css" type="text/css" />
 	</head>
 	<body>
 		<div id="wrapper">
@@ -73,7 +73,7 @@
 								<td>Name</td>
 								<td><input name="name" /></td>
 								<td>
-									<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter the new package's name and description.  You also have the option to upload a zip file with your training package's content or leave the upload field blank and a default package will be created for you that you you may then edit to your liking.</span></a>
+									<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter the new package's name and description.  You also have the option to upload a zip file with your package's content or leave the upload field blank and a default package will be created for you that you you may then edit to your liking.</span></a>
 								</td>
 							</tr>
 							<tr>
@@ -98,16 +98,16 @@
 			</form>
 			<?php
 				//check to see if the alert session is set
-				if(isset($_SESSION['training_alert_message']))
+				if(isset($_SESSION['education_alert_message']))
 					{
 						//create alert popover
 						echo "<div id=\"alert\">";
 
 						//echo the alert message
-						echo "<div>".$_SESSION['training_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+						echo "<div>".$_SESSION['education_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 						
 						//unset the seession
-						unset ($_SESSION['training_alert_message']);
+						unset ($_SESSION['education_alert_message']);
 						
 						//close alert popover
 						echo "</div>";
@@ -135,7 +135,7 @@
 						include "../spt_config/mysql_config.php";
 						
 						//pull in list of all templates
-						$r = mysql_query("SELECT * FROM training") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+						$r = mysql_query("SELECT * FROM education") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 						while ($ra = mysql_fetch_assoc($r))
 							{
 								echo	"

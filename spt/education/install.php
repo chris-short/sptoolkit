@@ -3,7 +3,7 @@
  * file:		install.php
  * version:		1.0
  * package:		Simple Phishing Toolkit (spt)
- * component:	Training
+ * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license:		GNU/GPL, see license.htm.
  * 
@@ -22,20 +22,12 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-  //This is the install script for the training module
+  //This is the install script for the education module
   
-  //Modules Table
+  //Education Table
   $sql = 
     "
-      INSERT INTO `modules` VALUES ('Training','training','--','The training module allows you to manage training packages that can be utilized in campaigns.','1@sptoolkit.com','2011-12-4',1,0)  
-	";
-
-  mysql_query($sql) or die(mysql_error());
-
-  //Training Table
-  $sql = 
-    "
-      CREATE TABLE `training` (
+      CREATE TABLE `education` (
         `id` int(10) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) DEFAULT NULL,
         `description` longtext,
@@ -45,24 +37,11 @@
 
   mysql_query($sql) or die(mysql_error());
 
-  //Add first entry to training table
+  //Add first entry to education table
   $sql = 
     "
-        INSERT INTO `training` (name, description) VALUES ('Default','Default training package')
+        INSERT INTO `education` (name, description) VALUES ('Default','Default education package')
     ";
-
-  mysql_query($sql) or die(mysql_error());
-
-  //Campaigns Table
-  $sql = "ALTER TABLE `campaigns` ADD `training_id` int(10)";
-  
-  mysql_query($sql) or die(mysql_error());
-
-  //Module Dependency Table
-  $sql = 
-  	"
-  		INSERT INTO `modules_dependencies` VALUES ('Training','Campaigns')
-  	";
 
   mysql_query($sql) or die(mysql_error());
     

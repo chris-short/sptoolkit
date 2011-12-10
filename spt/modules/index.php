@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -117,7 +117,6 @@
 					<table id="installed_module_list" class="spt_table">
 						<tr>
 							<td><h3>Name</h3></td>
-							<td><h3>Author</h3></td>
 							<td><h3>Dependencies</h3></td>
 							<td><h3>Description</h3></td>
 							<td><h3>Uninstall</h3></td>
@@ -133,7 +132,6 @@
 									echo "
 											<tr>\n
 												<td>".$ra['name']."</td>\n
-												<td>".$ra['author']."</td>\n
 												<td class=\"td_center\">";
 
 									//set the current module name to a temp variable

@@ -3,7 +3,7 @@
  * file:		delete_package.php
  * version:		1.0
  * package:		Simple Phishing Toolkit (spt)
- * component:	Training management
+ * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license:		GNU/GPL, see license.htm.
  * 
@@ -29,7 +29,7 @@
 	if($_SESSION['authenticated']!=1)
 		{
 			//for potential return
-			$_SESSION['came_from']='training';
+			$_SESSION['came_from']='education';
 			
 			//set error message and send them back to login
 			$_SESSION['login_error_message']="login first";
@@ -49,50 +49,50 @@
 //validate that the currently logged in user is an admin
 if($_SESSION['admin']!=1)
 	{
-		$_SESSION['training_alert_message'] = "you do not have permission to delete a training package";
-		header('location:../training/#alert');
+		$_SESSION['education_alert_message'] = "you do not have permission to delete a package";
+		header('location:../education/#alert');
 		exit;
 	}
 
-//get training id
-$training_id = $_REQUEST['t'];
+//get education id
+$education_id = $_REQUEST['t'];
 
 
-//validate the training id
+//validate the education id
 include "../spt_config/mysql_config.php";
-$r = mysql_query("SELECT id FROM training") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+$r = mysql_query("SELECT id FROM education") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 while($ra = mysql_fetch_assoc($r))
 	{
-		if($ra['id']==$training_id)
+		if($ra['id']==$education_id)
 			{
 				$match = 1;
 			}
 	}
 if($match!= 1)
 	{
-		$_SESSION['training_alert_message'] = "you specified an invalid training package";
-		header('location:../training/#alert');
+		$_SESSION['education_alert_message'] = "you specified an invalid package";
+		header('location:../education/#alert');
 		exit;
 	}
 
-//verify this training package is not used in an existing campaign
-$r = mysql_query("SELECT DISTINCT training_id FROM campaigns") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+//verify this education package is not used in an existing campaign
+$r = mysql_query("SELECT DISTINCT education_id FROM campaigns") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 while($ra = mysql_fetch_assoc($r))
 	{
-		if($ra['training_id']==$training_id)
+		if($ra['education_id']==$education_id)
 			{
 				$match2 = 1;
 			}
 	}
 if($match2 == 1)
 	{
-		$_SESSION['training_alert_message'] = "you cannot delete a training package that is currently used by a campaign";
-		header('location:../training/#alert');
+		$_SESSION['education_alert_message'] = "you cannot delete a package that is currently used by a campaign";
+		header('location:../education/#alert');
 		exit;
 	}
 
-//delete the training directory from the filesystem
-$dir = $training_id;
+//delete the education directory from the filesystem
+$dir = $education_id;
 
 function delTree($dir) { 
     $files = glob( $dir . '*', GLOB_MARK ); 
@@ -107,12 +107,12 @@ function delTree($dir) {
 
 delTree($dir);
 
-//delete the training from the database
-mysql_query("DELETE FROM training WHERE id = '$training_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+//delete the education from the database
+mysql_query("DELETE FROM education WHERE id = '$education_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 
-//send them back to the training home page
-$_SESSION['training_alert_message'] = "training package deleted successfully";
-header('location:../training/#alert');
+//send them back to the education home page
+$_SESSION['education_alert_message'] = "education package deleted successfully";
+header('location:../education/#alert');
 exit;
 
 ?>
