@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		upload_package.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,7 +50,7 @@
 	if($_SESSION['admin']!=1)
 		{
 			$_SESSION['education_alert_message'] = "you do not have permission to upload a package";
-			header('location:#alert');
+			header('location:.#alert');
 			exit;
 		}
 		
@@ -58,7 +58,7 @@
 	if(!isset($_POST['name']))
 		{
 			$_SESSION['education_alert_message'] = 'you must enter a name';
-			header('location:#alert');
+			header('location:.#alert');
 			exit;
 		}
 
@@ -66,7 +66,7 @@
 	if(preg_match('/[^a-zA-Z0-9_-\s!.()]/',$_POST['name']))
 		{
 			$_SESSION['education_alert_message'] = 'you have invalid characters in the name';
-			header('location:#alert');
+			header('location:.#alert');
 			exit;
 		}
 
@@ -74,7 +74,7 @@
 	if(!isset($_POST['description']))
 		{
 			$_SESSION['education_alert_message'] = 'you must enter a description';
-			header('location:#alert');
+			header('location:.#alert');
 			exit;
 		}
 
@@ -82,7 +82,7 @@
 	if(preg_match('/[^a-zA-Z0-9_-\s!.()]/',$_POST['description']))
 		{
 			$_SESSION['education_alert_message'] = 'you have invalid characters in the description';
-			header('location:#alert');
+			header('location:.#alert');
 			exit;
 		}
 
@@ -97,7 +97,7 @@ $description = $_POST['description'];
 				if(preg_match('/^(zip)\i/',$_FILES["file"]["type"]))
 					{
 						$_SESSION['education_alert_message'] = 'you must only upload zip files';
-						header('location:#alert');
+						header('location:.#alert');
 						exit;
 					}
 
@@ -105,7 +105,7 @@ $description = $_POST['description'];
 				if($_FILES["file"]["size"] > 100000000)
 					{
 				  		$_SESSION['education_alert_message'] = 'max file size is 100MB';
-				  		header('location:#alert');
+				  		header('location:.#alert');
 				  		exit;
 				  	}
 
@@ -113,7 +113,7 @@ $description = $_POST['description'];
 				  if ($_FILES["file"]["error"] > 0)
 				    {
 				    	$_SESSION['education_alert_message'] = $_FILES["file"]["error"];
-				    	header('location:#alert');
+				    	header('location:.#alert');
 				    	exit;
 				    }
 
