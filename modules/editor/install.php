@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		install.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Editor
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -27,7 +27,7 @@
   //Modules Table
   $sql = 
     "
-      INSERT INTO `modules` VALUES ('Editor','editor','The editor gives you basic web based editing of your template files. Eliminating the need to access files at the command line or attempting to find the files within the templates directory of your spt installation','2011-11-23',1,1)  
+      INSERT INTO `modules` VALUES ('Editor','editor','The editor gives you basic web based editing of your template and education files. This eliminates the need to access files at the command line or attempting to find the files within the templates directory of your spt installation for an offline edit.','2011-11-23',1,0)  
 	";
 
   mysql_query($sql) or die(mysql_error());
