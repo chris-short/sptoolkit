@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		file_update.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Editor
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -49,7 +49,7 @@
 	//validate that the currently logged in user is an admin
 		if($_SESSION['admin']!=1)
 		{
-			$_SESSION['editor_alert_message'] = "you do not have permission to edit template files";
+			$_SESSION['editor_alert_message'] = "you do not have permission to edit files";
 			header('location:.#alert');
 			exit;
 		}
