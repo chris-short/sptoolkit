@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		15.0
+ * version:		16.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -229,7 +229,7 @@
 								<input type="file"  name="file" />
 							</td>
 							<td>
-								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.</span></a>
+								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.<br /><br />You can download a template targets CSV file from the main targets page.</span></a>
 							</td>
 						</tr>
 						<tr>
