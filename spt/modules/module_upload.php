@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		module_upload.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -93,7 +93,7 @@
 			$module_upgrade = 1;
 		}
 	//pull all module names and do the check if its not an upgrade
-	if($module_upgrade != 1)
+	if(!isset($module_upgrade))
 		{
 			include "../spt_config/mysql_config.php";
 			$r = mysql_query("SELECT name FROM modules") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
@@ -113,7 +113,7 @@
 	move_uploaded_file($_FILES["file"]["tmp_name"], "upload/".$_FILES["file"]["name"]);
 	
 //delete existing code if an upgrade
-	if($module_upgrade == 1)
+	if(isset($module_upgrade))
 		{
 			rmdir('../'.$module_name);
 			$_SESSION['installed_module_upgrade'] = 1;
