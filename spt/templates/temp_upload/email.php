@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		email.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Standard email template
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -35,6 +35,7 @@ $subject = 'Insert Subject Here';
 $headers = "From: postmaster@domain.com\r\n";
 $headers .= "Reply-To: ".$current_target_email_address."\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
+$headers .= "X-Mailer: sent with the simple phishing toolkit www.sptoolkit.com\r\n";
 
 //uncomment out this line if you'd like to use HTML in the email
 $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";

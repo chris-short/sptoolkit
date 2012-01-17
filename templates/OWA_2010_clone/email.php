@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		email.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Outlook 2010 manual clone template
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -35,6 +35,7 @@ $subject = 'Update Your Webmail Account';
 $headers = "From: postmaster@microsoft.com\r\n";
 $headers .= "Reply-To: ".$current_target_email_address."\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
+$headers .= "X-Mailer: sent with the simple phishing toolkit www.sptoolkit.com\r\n";
 
 //uncomment out this line if you'd like to use HTML in the email
 $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
