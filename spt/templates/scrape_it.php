@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		scrape_it.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -56,11 +56,7 @@ if($_SESSION['admin']!=1)
 
 
 //get URL from passed parameter
-	if(isset($_POST['url']))
-		{
-			$url = $_POST['url'];
-		}
-	else
+	if(!isset($_POST['url']))
 		{
 			//set error message and send them back to template page
 			$_SESSION['templates_alert_message']="please enter a URL";
@@ -68,10 +64,23 @@ if($_SESSION['admin']!=1)
 			exit;
 		}
 
+//validate url
+	if(!filter_var($_POST['url'], FILTER_SANITIZE_URL))
+		{
+			$_SESSION['templates_alert_message']="please enter a valid URL";
+			header('location:../templates/#alert');
+			exit;			
+		}
+
+	else
+		{
+			$url = filter_var($_POST['url'], FILTER_SANITIZE_URL);			
+		}
+
 //get name from passed parameter
 	if(isset($_POST['name']))
 		{
-			$name = $_POST['name'];
+			$name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
 		}
 	else
 		{
@@ -84,7 +93,7 @@ if($_SESSION['admin']!=1)
 //get description from passed parameter
 	if(isset($_POST['description']))
 		{
-			$description = $_POST['description'];
+			$description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
 		}
 	else
 		{
@@ -178,31 +187,31 @@ copy("temp_upload/screenshot.png", $template_id."/screenshot.png");
 //find and replace email subject if set
 if(isset($_POST['email_subject']))
 	{
-		f_and_r('#Insert Subject Here#', $_POST['email_subject'], $template_id.'/email.php');		
+		f_and_r('#Insert Subject Here#', filter_var($_POST['email_subject'],FILTER_SANITIZE_MAGIC_QUOTES), $template_id.'/email.php');		
 	}
 
 //find and replace email from address if set
 if(isset($_POST['email_from']))
 	{
-		f_and_r('#postmaster@domain.com#', $_POST['email_from'], $template_id.'/email.php');		
+		f_and_r('#postmaster@domain.com#', filter_var($_POST['email_from'], FILTER_SANITIZE_EMAIL), $template_id.'/email.php');		
 	}
 
 //find and replace email title if set
 if(isset($_POST['email_title']))
 	{
-		f_and_r('#Title Goes Here#', $_POST['email_title'], $template_id.'/email.php');		
+		f_and_r('#Title Goes Here#', filter_var($_POST['email_title'], FILTER_SANITIZE_STRING), $template_id.'/email.php');		
 	}
 
 //find and replace email message if set
 if(isset($_POST['email_message']))
 	{
-		f_and_r('#Your message will go here.#', $_POST['email_message'], $template_id.'/email.php');		
+		f_and_r('#Your message will go here.#', filter_var($_POST['email_message'], FILTER_SANITIZE_STRING), $template_id.'/email.php');		
 	}
 
 //find and replace email fake link if set
 if(isset($_POST['email_fake_link']))
 	{
-		f_and_r('#https://fake_display_link_goes_here.com/login#', $_POST['email_fake_link'], $template_id.'/email.php');		
+		f_and_r('#https://fake_display_link_goes_here.com/login#', filter_var($_POST['email_fake_link'], FILTER_SANITIZE_URL), $template_id.'/email.php');		
 	}
 
 //add information to the database
