@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		14.0
+ * version:		15.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -247,7 +247,7 @@
 							}
 						
 						//pull data for entire campaign if group and filters are NOT set
-						if(!isset($group) && !isset($filter))
+						if(!isset($group) && !isset($filter) && isset($campaign_id))
 							{
 								$r = mysql_query("SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.name AS name, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.campaign_id = '$campaign_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 							
@@ -306,7 +306,7 @@
 							<table id=\"campaign_list_header\">
 								<tr>
 									<td class=\"left\">
-										<h1>".$title."</h1>
+										<h1>";if(isset($title)){echo $title;}echo "</h1>
 									</td>
 									<td class=\"right\">
 										<a class=\"tooltip\">
