@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		start_campaign.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -102,14 +102,6 @@ if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', $campaign_name))
 		exit;
 	}
 
-//validate the domain name
-if(preg_match('/[^a-zA-Z0-9\-\_\.\\]/', $spt_path))
-	{
-		$_SESSION['campaigns_alert_message'] = "please enter a valid domain name";
-		header('location:../campaigns/#alert');
-		exit;
-	}
-
 //connect to database
 include "../spt_config/mysql_config.php";
 
@@ -176,7 +168,7 @@ if(isset($education_timing))
 	}
 else
 	{
-		$education_timing == 0;
+		$education_timing = 0;
 		$match2 = 1;
 	}
 if($match2 != 1)

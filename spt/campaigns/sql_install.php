@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		sql_install.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -58,7 +58,7 @@
         `target_id` int(10) NOT NULL,
         `campaign_id` int(10) NOT NULL,
         `link` int(1) NOT NULL DEFAULT '0',
-        `post` varchar(255) NOT NULL,
+        `post` varchar(255) DEFAULT NULL,
         `link_time` datetime DEFAULT NULL,
         `post_time` datetime DEFAULT NULL,
         `ip` varchar(255) DEFAULT NULL,
