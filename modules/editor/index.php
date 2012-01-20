@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Editor
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -133,7 +133,7 @@
 														<span><h1>Templates:</h1></span>\n
 														<table id=\"template_list\">\n\t
 															<tr>
-																<td>There are no tempaltes to edit.</td>
+																<td>There are no templates to edit.</td>
 															</tr>
 														</table>
 													</div>
@@ -206,7 +206,7 @@
 														<span><h1>Education Packages:</h1></span>\n
 														<table id=\"template_list\">\n\t
 															<tr>
-																<td>There are no packages to edit.</td>
+																<td>There are no education packages to edit.</td>
 															</tr>
 														</table>
 													</div>
