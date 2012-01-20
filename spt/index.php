@@ -62,7 +62,7 @@
 
 	</head>
 	
-	<body>
+	<body onload='login_form.u.focus()'>
 		
 		<!--browser check-->
 		<?php
@@ -180,7 +180,7 @@
 			<div id="login_logo"><img src="images/logo.png" alt="logo"/></div>
 			
 			<!--login form-->
-			<form id="login_form" method="post" action="login/validator.php">
+			<form name="login_form" id="login_form" method="post" action="login/validator.php">
 				<table>
 					<tr>
 						<td class="td_right">email</td>
@@ -192,7 +192,7 @@
 					</tr>
 					<tr>
 						<td></td>
-						<td><span id="spt"><a href="http://www.sptoolkit.com/download/" target="_blank">v0.41</a> <a>|</a> <a href="#forgot_password">forgot password?</a></span></td>
+						<td><span id="spt"><a href="http://www.sptoolkit.com/download/" target="_blank">v0.42</a> <a>|</a> <a href="#forgot_password">forgot password?</a></span></td>
 					</tr>
 					<?php 
 								//look for login errors
