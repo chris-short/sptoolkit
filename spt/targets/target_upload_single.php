@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_single.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -183,7 +183,7 @@ $custom3 = mysql_field_name($r,6);
 
 	
 //send user back to targets page with success message
-$_SESSION['targets_alert_message'] = $counter." target added successfully";
+$_SESSION['targets_alert_message'] = "target added successfully";
 header('location:../targets/#alert');
 exit;
 
