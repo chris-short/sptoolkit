@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		12.0
+ * version:		13.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -192,7 +192,7 @@
 					</tr>
 					<tr>
 						<td></td>
-						<td><span id="spt"><a href="http://www.sptoolkit.com/download/" target="_blank">v0.42</a> <a>|</a> <a href="#forgot_password">forgot password?</a></span></td>
+						<td><?php include "includes/version.txt";?></td>
 					</tr>
 					<?php 
 								//look for login errors
