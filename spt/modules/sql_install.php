@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		sql_install.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -31,7 +31,7 @@
           `name` varchar(50) NOT NULL DEFAULT '' COMMENT 'module name',
           `directory_name` varchar(50) NOT NULL DEFAULT '' COMMENT 'name of the directory',
           `description` longtext NOT NULL,
-          `installed_date` date NOT NULL,
+          `module_date` date NOT NULL,
           `enabled` int(1) NOT NULL DEFAULT '0' COMMENT '0-disabled; 1-enabled',
           `core` int(1) NOT NULL DEFAULT '0'
         )    
