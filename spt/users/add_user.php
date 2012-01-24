@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		add_user.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -90,15 +90,7 @@ while($ra=mysql_fetch_assoc($r))
 
 
 //validate the first name
-$new_fname = $_POST['fname'];
-
-//make sure its only letters
-if(preg_match('/[^a-zA-Z]/', $new_fname))
-	{
-		$_SESSION['user_alert_message'] = "only letters are allowed in the first name field";
-		header('location:../users/#alert');
-		exit;
-	}
+$new_fname = filter_var($_POST['fname'], FILTER_SANITIZE_STRING);
 
 //make sure its under 50 characters
 if(strlen($new_fname) > 50)
@@ -117,20 +109,12 @@ if(strlen($new_fname) < 1)
 	}
 
 //validate the last name
-$new_lname = $_POST['lname'];
+$new_lname = filter_var($_POST['lname'], FILTER_SANITIZE_STRING);
 
 //make sure its under 50 characters
 if(strlen($new_lname) > 50)
 	{
 		$_SESSION['use_error_message'] = "your last name is too long, please shorten below 50 characters";
-		header('location:../users/#alert');
-		exit;
-	}
-
-//make sure it only contains letters
-if(preg_match('/[^a-zA-Z]/', $new_lname))
-	{
-		$_SESSION['user_alert_message'] = "only letters are allowed in the last name field";
 		header('location:../users/#alert');
 		exit;
 	}

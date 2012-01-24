@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_batch.php
- * version:		7.0
+ * version:		8.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -81,11 +81,9 @@ $counter = 0;
 $counter_total = 0;
 $counter_bad_name = 0;
 $counter_bad_emails = 0;
-$counter_bad_group_name = 0;
 
 $temp_counter_bad_name = 0;
 $temp_counter_bad_emails = 0;
-$temp_counter_bad_group_name = 0;
 
 //ensure there is a comma in every line
 foreach($lines as $line)
@@ -174,25 +172,17 @@ foreach($lines as $line)
 						$temp_counter_bad_emails++;
 					}
 						
-				//validate the group name
-				if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', trim($line_contents[2])))
-					{
-						//increment bad group name count
-						$temp_counter_bad_group_name++;
-					}
-				else
-					{
-						$temp_group = trim($line_contents[2]);	
-					}
+				//set the group name
+				$temp_group = filter_var(trim($line_contents[2]), FILTER_SANITIZE_STRING);	
+					
 									
 				//if there are any errors increment counters, otherwise write values to database
-				if($temp_counter_bad_name == 1 || $temp_counter_bad_emails == 1 || $temp_counter_bad_group_name == 1)
+				if($temp_counter_bad_name == 1 || $temp_counter_bad_emails == 1)
 					{
 						if($temp_counter_header_rows != 1)
 							{
 								$counter_bad_name = $temp_counter_bad_name + $counter_bad_name;
 								$counter_bad_emails = $temp_counter_bad_emails + $counter_bad_emails;
-								$counter_bad_group_name = $temp_counter_bad_group_name + $counter_bad_group_name;
 							}					
 					}
 
@@ -220,7 +210,6 @@ foreach($lines as $line)
 				//set temp counters back to 0
 				$temp_counter_bad_name = 0;
 				$temp_counter_bad_emails = 0;
-				$temp_counter_bad_group_name = 0;
 			}
 		
 	}
@@ -234,10 +223,6 @@ foreach($lines as $line)
 	if($counter_bad_emails > 0)
 		{
 			$_SESSION["bad_row_stats"][] = $counter_bad_emails." rows excluded due to bad email addresses";
-		}
-	if($counter_bad_group_name > 0)
-		{
-			$_SESSION["bad_row_stats"][] = $counter_bad_group_name." rows excluded due to bad group names";
 		}
 			
 //send user back to targets page with success message

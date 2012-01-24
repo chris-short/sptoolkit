@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		16.0
+ * version:		17.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -289,20 +289,12 @@
 						if(isset($_REQUEST['g']))
 							{
 
-								$group = $_REQUEST['g'];
+								$group = filter_var($_REQUEST['g'], FILTER_SANITIZE_STRING);
 
 								//ensure the group name is under 50 characters
 								if(strlen($group) > 50)
 									{
 										$_SESSION['targets_alert_message'] = "group names cannot be over 50 characters";
-										header("location:../targets/#alert");
-										exit;
-									}
-
-								//ensure the group name passed only has letters in it
-								if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', $group))
-									{
-										$_SESSION['targets_alert_message'] = "group names may only contain letters";
 										header("location:../targets/#alert");
 										exit;
 									}

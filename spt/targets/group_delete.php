@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		group_delete.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -55,7 +55,7 @@
 		}
 
 //pull in group
-	$group_to_delete = $_REQUEST['g'];
+	$group_to_delete = filter_var($_REQUEST['g'], FILTER_SANITIZE_STRING);
 
 //connect to database
 	include "../spt_config/mysql_config.php";

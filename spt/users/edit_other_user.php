@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		edit_other_user.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -109,15 +109,7 @@ if($original_username != $new_username)
 	}
 
 //validate the first name
-$new_fname = $_POST['fname'];
-
-//make sure its only letters
-if(preg_match('/[^a-zA-Z]/', $new_fname))
-	{
-		$_SESSION['user_alert_message'] = "only letters are allowed in the first name field";
-		header('location:../users/#alert');
-		exit;
-	}
+$new_fname = filter_var($_POST['fname'], FILTER_SANITIZE_STRING);
 
 //make sure its under 50 characters
 if(strlen($new_fname) > 50)
@@ -136,20 +128,12 @@ if(strlen($new_fname) < 1)
 	}
 
 //validate the last name
-$new_lname = $_POST['lname'];
+$new_lname = filter_var($_POST['lname'], FILTER_SANITIZE_STRING);
 
 //make sure its under 50 characters
 if(strlen($new_lname) > 50)
 	{
 		$_SESSION['use_error_message'] = "your last name is too long, please shorten below 50 characters";
-		header('location:../users/#alert');
-		exit;
-	}
-
-//make sure it only contains letters
-if(preg_match('/[^a-zA-Z]/', $new_lname))
-	{
-		$_SESSION['user_alert_message'] = "only letters are allowed in the last name field";
 		header('location:../users/#alert');
 		exit;
 	}
@@ -167,15 +151,7 @@ if(!empty($_POST['password']))
 	{
 		//pull in password to temp variable
 		$temp_p = $_POST['password'];
-		
-		//validate the password doesn't have any characters that are not allowed
-		if(preg_match('/[$+*"=&%]/', $temp_p))
-			{ 
-				$_SESSION['user_alert_message']="you must enter a valid password";
-				header('location:../users/#alert');
-				exit;
-			} 
-		
+				
 		//validate that the password is an acceptable length
 		if(strlen($temp_p) > 15 || strlen($temp_p) < 8)
 			{

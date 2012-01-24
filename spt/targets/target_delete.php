@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_delete.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -46,9 +46,6 @@
 			exit;
 		}
 
-//pull in target
-	$target_to_delete = $_REQUEST['u'];
-
 //make sure the user is an admin
 	if($_SESSION['admin']!=1)
 		{
@@ -56,14 +53,9 @@
 			header('location:../targets/#alert');
 			exit;
 		}
-	
-//ensure u only contains numbers
-	if(preg_match('/[^0-9]/', $target_to_delete))
-		{
-			$_SESSION['targets_alert_message'] = "invalid characters in the parameter you were attempting to pass";
-			header('location:../targets/#alert');
-			exit;
-		}
+
+//pull in target
+	$target_to_delete = filter_var($_REQUEST['u'], FILTER_SANITIZE_NUMBER_INT);
 
 	//connect to database
 	include "../spt_config/mysql_config.php";
