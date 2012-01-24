@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		start_campaign.php
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -97,7 +97,7 @@ if(isset($_POST['education_timing'])){$education_timing = $_POST['education_timi
 //validate the campaign name
 if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', $campaign_name))
 	{
-		$_SESSION['campaigns_alert_message'] = "only letters are numbers are allowed in the campaign name";
+		$_SESSION['campaigns_alert_message'] = "only letters and numbers are allowed to be used in the campaign name";
 		header('location:../campaigns/#alert');
 		exit;
 	}
