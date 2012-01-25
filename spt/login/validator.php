@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		validator.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Login management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -64,15 +64,7 @@
 			header('location:../');
 			exit;
 		}
-	
-	//validate the password does not contain any $ + * " = & %
-	if(preg_match('/[$+*"=&%]/', $temp_p))
-		{ 
-			$_SESSION['login_error_message']="invalid login attempt";
-			header('location:../');
-			exit;
-		} 
-	
+		
 	//set variables to their final destination before the comparison occurs
 	$u = $temp_u;
 	$p = sha1($_SESSION['salt'].$temp_p.$_SESSION['salt']);

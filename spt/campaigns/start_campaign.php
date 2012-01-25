@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		start_campaign.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -63,7 +63,7 @@ if(!isset($_POST['campaign_name']))
 	}
 
 //ensure that the path was formulated
-if(!isset($_POST['spt_path']))
+if(!filter_var($_POST['spt_path'], FILTER_VALIDATE_URL))
 	{
 		$_SESSION['campaigns_alert_message'] = "the host name could not be extracted properly";
 		header('location:../campaigns/#alert');
@@ -87,20 +87,12 @@ if(!isset($_POST['template_id']))
 	}
 
 //recieve the entered values and put into variables
-$campaign_name = $_POST['campaign_name'];
+$campaign_name = filter_var($_POST['campaign_name'], FILTER_SANITIZE_STRING);
 $spt_path = $_POST['spt_path'];
-$target_groups = $_POST['target_groups'];
-$template_id = $_POST['template_id'];
-$education_id = $_POST['education_id'];
-if(isset($_POST['education_timing'])){$education_timing = $_POST['education_timing'];}
-
-//validate the campaign name
-if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', $campaign_name))
-	{
-		$_SESSION['campaigns_alert_message'] = "only letters and numbers are allowed to be used in the campaign name";
-		header('location:../campaigns/#alert');
-		exit;
-	}
+$target_groups = filter_var($_POST['target_groups'], FILTER_SANITIZE_STRING);
+$template_id = filter_var($_POST['template_id'], FILTER_SANITIZE_NUMBER_INT);
+$education_id = filter_var($_POST['education_id'], FILTER_SANITIZE_NUMBER_INT);
+if(isset($_POST['education_timing'])){$education_timing = filter_var($_POST['education_timing'], FILTER_SANITIZE_NUMBER_INT);}
 
 //connect to database
 include "../spt_config/mysql_config.php";
@@ -116,13 +108,12 @@ foreach($target_groups as $group)
 						$match = 1;
 					}
 			}
-		if($match!=1)
+		if(!isset($match))
 			{
 				$_SESSION['campaigns_alert_message'] = "invalid group";
 				header('location:../campaigns/#alert');
 				exit;
 			}
-		$match = 0;
 	}
 
 
@@ -132,10 +123,10 @@ while($ra = mysql_fetch_assoc($r))
 	{
 		if($template_id==$ra['id'])
 			{
-				$match = 1;
+				$match0 = 1;
 			}
 	}
-if($match != 1)
+if(!isset($match0))
 	{
 		$_SESSION['campaigns_alert_message'] = "please select a valid template";
 		header('location:../campaigns/#alert');
@@ -151,7 +142,7 @@ while($ra = mysql_fetch_assoc($r))
 				$match1 = 1;
 			}
 	}
-if($match1 != 1)
+if(!isset($match1))
 	{
 		$_SESSION['campaigns_alert_message'] = "please select a valid education package";
 		header('location:../campaigns/#alert');
@@ -199,13 +190,18 @@ foreach($target_groups as $group)
 		while($ra = mysql_fetch_assoc($r))
 			{
 				$target_id = $ra['id'];
-				//populate the campaign response table with placeholders for when the target cliks or posts
-				mysql_query("INSERT INTO campaigns_responses (target_id, campaign_id ) VALUES ('$target_id', '$campaign_id')") or die('<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>');
+
+				//generate a random key
+				$random_number = mt_rand(1000000000,9999999999);
+				$response_id = sha1($random_number);
+
+				//populate the campaign response table with placeholders for when the target clicks the links or posts data
+				mysql_query("INSERT INTO campaigns_responses (target_id, campaign_id, response_id) VALUES ('$target_id', '$campaign_id', '$response_id')") or die('<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>');
 			}
 	}
 
 //get all the necessary email addresses
-$r = mysql_query("SELECT targets.email as email, targets.id as id FROM targets JOIN campaigns_responses ON targets.id = campaigns_responses.target_id WHERE campaigns_responses.campaign_id = '$campaign_id'") or die('<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>');
+$r = mysql_query("SELECT targets.email as email, targets.id as id, campaigns_responses.response_id as response_id FROM targets JOIN campaigns_responses ON targets.id = campaigns_responses.target_id WHERE campaigns_responses.campaign_id = '$campaign_id'") or die('<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>');
 
 //using the built-in php mail function which depends on the php.ini file and the servers mail settings
 while($ra = mysql_fetch_assoc($r))
@@ -213,9 +209,10 @@ while($ra = mysql_fetch_assoc($r))
 		//set the current email address
 		$current_target_email_address = $ra['email'];
 		$current_target_id = $ra['id'];
+		$current_response_id = $ra['response_id'];
 		
 		//formulate link
-		$link = "http://".$spt_path."/campaigns/response.php?c=".$campaign_id."&t=".$current_target_id;
+		$link = "http://".$spt_path."/campaigns/response.php?r=".$current_response_id;
 		
 		//pull in all the email variables from the specified template
 		include "../templates/".$template_id."/email.php";
@@ -224,12 +221,6 @@ while($ra = mysql_fetch_assoc($r))
 		//send the email
 		mail($current_target_email_address, $subject, $message, $headers);
 	}
-
-//need to add a method to send email directly using telnet
-//reference: http://www.mustap.com/phpzone_post_95_sending-email-in-php-the-hac
-
-//need to add imap capabilities as well
-
 
 //send them back after your finished sending emails
 $_SESSION['campaigns_alert_message'] = "emails have been sent...sit back and wait for the responses :)";

@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		15.0
+ * version:		16.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -183,7 +183,7 @@
 						//pull in campaign id
 						if(isset($_REQUEST['c']))
 							{
-								$campaign_id = $_REQUEST['c'];
+								$campaign_id = filter_var($_REQUEST['c'], FILTER_SANITIZE_NUMBER_INT);
 								
 								//go ahead and perform validation
 								$r = mysql_query("SELECT DISTINCT campaign_id FROM campaigns_responses") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
@@ -205,7 +205,7 @@
 						//pull in filter and group
 						if(isset($_REQUEST['f']))
 							{
-								$filter = $_REQUEST['f'];
+								$filter = filter_var($_REQUEST['f'], FILTER_SANITIZE_STRING);
 								
 								//go ahead and preform validation
 								if($filter!="link" && $filter!="post")
@@ -217,7 +217,7 @@
 							}
 						if(isset($_REQUEST['g']))
 							{
-								$group = $_REQUEST['g'];
+								$group = filter_var($_REQUEST['g'], FILTER_SANITIZE_STRING);
 								
 								//go ahead and perform validation
 								$r = mysql_query("SELECT DISTINCT group_name FROM targets") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
@@ -228,7 +228,7 @@
 												$group_match = 1;
 											}
 									}
-								if($group_match!=1)
+								if(!isset($group_match)
 									{
 										$_SESSION['campaigns_alert_message'] = "please select a valid group";
 										header('location:../campaigns/#alert');

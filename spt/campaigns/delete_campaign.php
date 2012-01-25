@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		delete_campaign.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -55,7 +55,7 @@ if($_SESSION['admin']!=1)
 	}
 
 //get campaign id
-$campaign_id = $_REQUEST['c'];
+$campaign_id = filter_var($_REQUEST['c'], FILTER_SANITIZE_NUMBER_INT);
 
 
 //validate the campaign id
@@ -68,7 +68,7 @@ while($ra = mysql_fetch_assoc($r))
 				$match = 1;
 			}
 	}
-if($match!= 1)
+if(isset($match))
 	{
 		$_SESSION['campaigns_alert_message'] = "you can only delete real campaign ids";
 		header('location:../campaigns/#alert');

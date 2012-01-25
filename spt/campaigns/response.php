@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		response.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -61,23 +61,15 @@ if ($_POST)
 else
 	{
 		//get parameters
-		$campaign_id = $_REQUEST['c'];
-		$target_id = $_REQUEST['t'];
-		
-		//validate that the campaign parameter is only numbers, if it isn't...confuse them :>
-		if(preg_match('/[^0-9]/', $campaign_id) || preg_match('/[^0-9]/', $target_id))
+		$response_id = filter_var($_REQUEST['r'], FILTER_SANITIZE_STRING);
+
+		//check to see if the response id is the right length
+		if(strlen($response_id)!=40)
 			{
 				header('location:http://127.0.0.1');
 				exit;
 			}
-			
-		//validate that the campaign parameter is of resonable length
-		if(strlen($campaign_id) > 10 || strlen($target_id) > 10)
-			{
-				header('location:http://127.0.0.1');
-				exit;
-			}
-		
+				
 		//get the ip address
 		$target_ip = $_SERVER['REMOTE_ADDR'];
 
@@ -101,21 +93,27 @@ else
 		//connect to the database
 		include "../spt_config/mysql_config.php";
 		
-		//validate that the campaign id and target IDs exist
-		$r = mysql_query("SELECT target_id, campaign_id FROM campaigns_responses");
-		while($ra = mysql_fetch_assoc($r))
+		//validate that the response id is legit
+		$r = mysql_query("SELECT response_id FROM campaigns_responses WHERE response_id = '$response_id'");
+		if(mysql_num_rows($r)==1)
 			{
-				if($ra['target_id'] == $target_id && $ra['campaign_id'] == $campaign_id)
-					{
-						$match = 1;
-					}
+				$match = 1;
 			}
 
 		//if a match happened record that they clicked the link
-		if($match == 1)
+		if(isset($match))
 			{
-				mysql_query("UPDATE campaigns_responses SET link = 1, ip = '$target_ip', os = '$os', browser = '$browser_type', browser_version = '$browser_version', link_time = '$link_time'  WHERE campaign_id = '$campaign_id' AND target_id = '$target_id'");
-				
+			
+				//get campaign id for this response
+				$r = mysql_query("SELECT campaign_id, target_id FROM campaigns_responses WHERE response_id = '$response_id'");
+				while($ra = mysql_fetch_assoc($r))
+					{
+						$campaign_id = $ra['campaign_id'];
+						$target_id = $ra['target_id'];
+					}
+
+				mysql_query("UPDATE campaigns_responses SET link = 1, ip = '$target_ip', os = '$os', browser = '$browser_type', browser_version = '$browser_version', link_time = '$link_time'  WHERE response_id = '$response_id'");				
+
 				//determine what template and education this campaign is using
 				$r = mysql_query("SELECT template_id, education_id, education_timing FROM campaigns WHERE id = '$campaign_id'");
 				while($ra = mysql_fetch_assoc($r))

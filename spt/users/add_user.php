@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		add_user.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -132,15 +132,7 @@ if(!empty($_POST['password']))
 	{
 		//pull in password to temp variable
 		$temp_p = $_POST['password'];
-		
-		//validate the password doesn't have any characters that are not allowed
-		if(preg_match('/[$+*"=&%]/', $temp_p))
-			{ 
-				$_SESSION['user_alert_message']="you must enter a valid password";
-				header('location:../users/#alert');
-				exit;
-			} 
-		
+				
 		//validate that the password is an acceptable length
 		if(strlen($temp_p) > 15 || strlen($temp_p) < 8)
 			{

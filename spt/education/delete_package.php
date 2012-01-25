@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		delete_package.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -55,7 +55,7 @@ if($_SESSION['admin']!=1)
 	}
 
 //get education id
-$education_id = $_REQUEST['t'];
+$education_id = filter_var($_REQUEST['t'], FILTER_SANITIZE_NUMBER_INT);
 
 
 //validate the education id
@@ -68,7 +68,7 @@ while($ra = mysql_fetch_assoc($r))
 				$match = 1;
 			}
 	}
-if($match!= 1)
+if(!isset($match))
 	{
 		$_SESSION['education_alert_message'] = "you specified an invalid package";
 		header('location:../education/#alert');
@@ -84,7 +84,7 @@ while($ra = mysql_fetch_assoc($r))
 				$match2 = 1;
 			}
 	}
-if($match2 == 1)
+if(isset($match2))
 	{
 		$_SESSION['education_alert_message'] = "you cannot delete a package that is currently used by a campaign";
 		header('location:../education/#alert');

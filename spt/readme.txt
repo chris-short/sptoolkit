@@ -35,20 +35,6 @@ Are you ready to install the spt and try it for yourself?  Great!  Check out our
 
 Installation quick steps are presented below.
 
-## Allowable characters ##
-
-When working with with any of the input fields inside the spt, the following groups of characters are allowed:
-
-	a-z
-	A-Z
-	0-9
-	_
-	-
-	.
-	! (not in email addresses)
-	[space] (not in email addresses)
-	@ (only in email addresses)
-
 ## The Basics ##
 
 	1.  Create and configure the MySQL database.  spt will need a MySQL database to house its data, so go ahead and create that database and configure the associated user account for the new database with ALL PRIVILEGES assigned to it.  Be sure you record the database name, user name and password in a safe place–you'll need it soon to install spt!

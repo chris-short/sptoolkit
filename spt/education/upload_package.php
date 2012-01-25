@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		upload_package.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -62,14 +62,6 @@
 			exit;
 		}
 
-//ensure there are any valid characters in the name
-	if(preg_match('/[^a-zA-Z0-9_-\s!.()]/',$_POST['name']))
-		{
-			$_SESSION['education_alert_message'] = 'you have invalid characters in the name';
-			header('location:.#alert');
-			exit;
-		}
-
 //validate that a description is provided
 	if(!isset($_POST['description']))
 		{
@@ -78,17 +70,9 @@
 			exit;
 		}
 
-//ensure there aren't any invalid characters in the description
-	if(preg_match('/[^a-zA-Z0-9_-\s!.()]/',$_POST['description']))
-		{
-			$_SESSION['education_alert_message'] = 'you have invalid characters in the description';
-			header('location:.#alert');
-			exit;
-		}
-
 //set values
-$name = $_POST['name'];
-$description = $_POST['description'];
+$name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+$description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
 
 //validate a file was uploaded
 	if(is_uploaded_file($_FILES['file']['tmp_name']))
