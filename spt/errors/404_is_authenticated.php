@@ -37,7 +37,6 @@
 		
 		<!--css-->
 		<link rel="stylesheet" href="../spt.css" type="text/css" />
-		<link rel="stylesheet" href="spt_module_template.css" type="text/css" />
 
 	</head>
 	<body>
