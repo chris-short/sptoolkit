@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		start_campaign.php
- * version:		8.0
+ * version:		9.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -201,9 +201,15 @@ while($ra = mysql_fetch_assoc($r))
 		//pull in all the email variables from the specified template
 		include "../templates/".$template_id."/email.php";
 
-				
-		//send the email
-		mail($current_target_email_address, $subject, $message, $headers);
+		//send the email and force the envelope sender if the email template specifies
+		if(isset($f_sender))
+			{
+				mail($current_target_email_address, $subject, $message, $headers, $f_sender);
+			}
+		else
+			{
+				mail($current_target_email_address, $subject, $message, $headers );	
+			}		
 	}
 
 //send them back after your finished sending emails
