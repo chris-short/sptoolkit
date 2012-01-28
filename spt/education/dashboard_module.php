@@ -1,6 +1,6 @@
 <!--
  * file:		dashboard_module.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -21,7 +21,7 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<h1>Education</h1>
+<h1><a href="../education">Education</a></h1>
 <table>
     <tr>
         <td>Number of Packages</td>

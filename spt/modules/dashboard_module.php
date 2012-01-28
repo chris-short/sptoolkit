@@ -1,6 +1,6 @@
 <!--
  * file:		dashboard_module.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -21,7 +21,7 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<h1>Modules</h1>
+<h1><a href="../modules">Modules</a></h1>
 <table>
     <tr>
         <td>Number of Modules</td>
