@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -125,7 +125,7 @@
 								echo	"
 									<tr>
 										<td><a href=\"".$ra['id']."\" target=\"_blank\">".$ra['id']."</a></td>\n
-										<td>".$ra['name']."</td>\n
+										<td><a href=\"".$ra['id']."\" target=\"_blank\">".$ra['name']."</a></td>\n
 										<td>".$ra['description']."</td>\n
 										<td><a href=\"delete_package.php?t=".$ra['id']."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
 										
