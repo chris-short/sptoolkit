@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		scrape_it.php
- * version:		7.0
+ * version:		8.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,29 +22,13 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-	//start session
-	session_start();
-	
-	//check for authenticated session
-	if($_SESSION['authenticated']!=1)
-		{
-			//for potential return
-			$_SESSION['came_from']='templates';
-			
-			//set error message and send them back to login
-			$_SESSION['login_error_message']="login first";
-			header('location:../');
-			exit;
-		}
-	
-	//check for session hijacking
-	elseif($_SESSION['ip']!=md5($_SESSION['salt'].$_SERVER['REMOTE_ADDR'].$_SESSION['salt']))
-		{
-			//set error message and send them back to login
-			$_SESSION['login_error_message']="your ip address must have changed, please authenticate again";
-			header('location:../');
-			exit;
-		}
+	// verify session is authenticated and not hijacked
+	$includeContent = "../includes/is_authenticated.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_authenticated.php');
+	}
 
 //validate that the currently logged in user is an admin
 if($_SESSION['admin']!=1)
