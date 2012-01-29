@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		8.0
+ * version:		9.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -57,16 +57,16 @@
 
 				<?php
 					//check to see if there are any alerts
-					if(isset($_SESSION['module_alert_message']))
+					if(isset($_SESSION['alert_message']))
 						{
 							//create alert popover
 							echo "<div id=\"alert\">";
 
 							//echo the alert message
-							echo "<div>".$_SESSION['module_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+							echo "<div>".$_SESSION['alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 							
 							//clear the alert session after it is written
-							unset($_SESSION['module_alert_message']);
+							unset($_SESSION['alert_message']);
 
 							//close alert popover
 							echo "</div>";

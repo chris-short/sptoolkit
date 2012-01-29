@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		module_uninstall.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,13 +30,13 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 	
-	//make sure the user is an admin
-		if($_SESSION['admin']!=1)
-			{
-				$_SESSION['module_alert_message'] = "you do not have permission to uninstall a module";
-				header('location:../modules/#alert');
-				exit;
-			}
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
+	}
 
 	//pull in the passed module to be uninstalled
 	$module = $_REQUEST['m'];
@@ -54,8 +54,8 @@
 				$r2=mysql_query("SELECT * FROM modules_dependencies WHERE depends_on = '$module'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 				if(mysql_num_rows($r2) > 0)
 					{
-						$_SESSION['module_alert_message'] = 'This module is depended on.  You must uninstall the module that depends on this Module first.';
-						header('location:../modules/#alert');
+						$_SESSION['alert_message'] = 'This module is depended on.  You must uninstall the module that depends on this Module first.';
+						header('location:./#alert');
 						exit;
 					}
 				
@@ -114,14 +114,14 @@
 						mysql_query("DELETE FROM modules WHERE name = '$module'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 
 						//if the uninstall went well send them back
-						$_SESSION['module_alert_message'] = 'uninstall successful';
-						header('location:../modules/#alert');
+						$_SESSION['alert_message'] = 'uninstall successful';
+						header('location:./#alert');
 						exit;
 
 					}
 			}
 		//if the uninstall did not happen, send them back with an alert
-		$_SESSION['module_alert_message'] = "you must only uninstall valid, non-core modules";
-		header('location:../modules/#alert');
+		$_SESSION['alert_message'] = "you must only uninstall valid, non-core modules";
+		header('location:./#alert');
 		exit;
 ?>

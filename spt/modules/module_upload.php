@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		module_upload.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,19 +30,19 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 
-//make sure the user is an admin
-	if($_SESSION['admin']!=1)
-		{
-			$_SESSION['module_alert_message'] = "you do not have permission to upload a module";
-			header('location:../modules/#alert');
-			exit;
-		}
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
+	}
 
 //ensure its a zip file
 	if(preg_match('/^(zip)\i/',$_FILES["file"]["type"])) 
 		{
-			$_SESSION['module_alert_message'] = 'you must only upload zip files';
-			header('location:../modules/#alert');
+			$_SESSION['alert_message'] = 'you must only upload zip files';
+			header('location:./#alert');
 			exit;
 		}
 			else
@@ -50,16 +50,16 @@
 //ensure that the file is under 20M
 	if($_FILES["file"]["size"] > 20000000)
 		{
-	  		$_SESSION['module_alert_message'] = 'max file size is 20MB';
-	  		header('location:../modules/#alert');
+	  		$_SESSION['alert_message'] = 'max file size is 20MB';
+	  		header('location:./#alert');
 	  		exit;
 	  	}
 
 //ensure there are no errors
 	  if ($_FILES["file"]["error"] > 0)
 	    {
-	    	$_SESSION['module_alert_message'] = $_FILES["file"]["error"];
-	    	header('location:../modules/#alert');
+	    	$_SESSION['alert_message'] = $_FILES["file"]["error"];
+	    	header('location:./#alert');
 	    	exit;
 	    }
 
@@ -85,8 +85,8 @@
 				{
 					if($module_name == $ra['name'])
 						{
-							$_SESSION['module_alert_message'] = 'there is already a module by this name and there was not an upgrade flag set';
-							header('location:../modules/#alert');
+							$_SESSION['alert_message'] = 'there is already a module by this name and there was not an upgrade flag set';
+							header('location:./#alert');
 							exit;
 						}
 				}	
@@ -121,8 +121,8 @@
 		} 
 	else 
 		{
-    		$_SESSION['module_alert_message'] = 'unzipping the file failed';
-    		header('location:../modules/#alert');
+    		$_SESSION['alert_message'] = 'unzipping the file failed';
+    		header('location:./#alert');
     		exit;
 		}
 

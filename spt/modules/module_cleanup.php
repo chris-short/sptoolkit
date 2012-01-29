@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		module_cleanup.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,18 +30,18 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 
-	//make sure the user is an admin
-		if($_SESSION['admin']!=1)
-			{
-				$_SESSION['module_alert_message'] = "you do not have permission to upload a module";
-				header('location:../modules/#alert');
-				exit;
-			}
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
+	}
 
 	//verify that their truly was a module just installed
 		if(!isset($_SESSION['installed_module']))
 			{
-				$_SESSION['module_alert_message'] = 'you must install a module before you can do the cleanup';			
+				$_SESSION['alert_message'] = 'you must install a module before you can do the cleanup';			
 			}
 		else
 			{
@@ -51,14 +51,14 @@
 						
 						//delete the zip file
 						unlink('upload/'.$_SESSION['installed_module'].'.zip');
-						$_SESSION['module_alert_message'] = "install has completed successfully";
+						$_SESSION['alert_message'] = "install has completed successfully";
 						
 						//delete the install file
 						unlink('../'.$_SESSION['installed_module'].'install.php');
 
 						//delete the upload directory
 						rmdir("upload");
-						header('location:../modules/#alert');
+						header('location:./#alert');
 						exit;
 					}
 				
@@ -67,14 +67,14 @@
 					{
 						//delete the upgrade zip file
 						unlink('upload/'.$_SESSION['installed_module'].'.upgrade.zip');
-						$_SESSION['module_alert_message'] = "upgrade has completed successfully";
+						$_SESSION['alert_message'] = "upgrade has completed successfully";
 						
 						//delete the install file
 						unlink('../'.$_SESSION['installed_module'].'install.php');
 
 						//delete the upload directory
 						rmdir("upload");
-						header('location:../modules/#alert');
+						header('location:./#alert');
 						exit;
 					}
 			}
