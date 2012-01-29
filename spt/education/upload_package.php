@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		upload_package.php
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,13 +30,13 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 
-//make sure the user is an admin
-	if($_SESSION['admin']!=1)
-		{
-			$_SESSION['alert_message'] = "you do not have permission to upload a package";
-			header('location:./#alert');
-			exit;
-		}
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
+	}
 		
 //validate that a name is provided
 	if(!isset($_POST['name']))
