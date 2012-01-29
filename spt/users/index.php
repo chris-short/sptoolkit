@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		8.0
+ * version:		9.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -154,8 +154,8 @@
 							if(!filter_var($u, FILTER_VALIDATE_EMAIL))
 								{
 									//set error message if not a valid email address
-									$_SESSION['user_alert_message'] = "please attempt to edit only valid email addresses";
-									header('location:../users/#alert');
+									$_SESSION['alert_message'] = "please attempt to edit only valid email addresses";
+									header('location:./#alert');
 									exit;
 								}						
 
@@ -235,8 +235,8 @@
 							else
 								{
 									//set error message if the entered username doesn't match an existing one, the user isn't admin or the user being edited is the same as the logged in user
-									$_SESSION['user_alert_message'] = "you do not have the appropriate priveleges to edit this user";
-									header('location:../users/#alert');
+									$_SESSION['alert_message'] = "you do not have the appropriate priveleges to edit this user";
+									header('location:./#alert');
 									exit;
 								}
 						}
@@ -245,16 +245,16 @@
 		</div>
 		<?php 
 			//check for alerts or notifications
-			if(isset($_SESSION['user_alert_message']))
+			if(isset($_SESSION['alert_message']))
 				{
 					//create alert popover
 					echo "<div id=\"alert\">";
 
 					//echo the alert message
-					echo "<div>".$_SESSION['user_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+					echo "<div>".$_SESSION['alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 
 					//clear out the error message
-					unset($_SESSION['user_alert_message']);
+					unset($_SESSION['alert_message']);
 
 					//close alert popover
 					echo "</div>";

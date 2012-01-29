@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		add_user.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,12 +30,12 @@ if(file_exists($includeContent)){
 	header('location:../errors/404_is_authenticated.php');
 }
 
-//validate that the currently logged in user is an admin
-if($_SESSION['admin']!=1)
-	{
-		$_SESSION['user_alert_message'] = "you do not have permission to add a user";
-		header('location:../users/#alert');
-		exit;
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
 	}
 
 //connect to database
@@ -47,15 +47,15 @@ $new_username = $_POST['username'];
 //validate that the newly entered username is a valid email address
 if(!filter_var($new_username, FILTER_VALIDATE_EMAIL))
 	{
-		$_SESSION['user_alert_message'] = "you must enter a valid email address";
-		header('location:../users/#alert');
+		$_SESSION['alert_message'] = "you must enter a valid email address";
+		header('location:./#alert');
 		exit;
 	}
 
 //validate that the username is not too long
 if(strlen($new_username) > 50)
 	{
-		$_SESSION['user_alert_message']="the username is too long";
+		$_SESSION['alert_message']="the username is too long";
 		header('location:../#alert');
 		exit;
 	}
@@ -66,8 +66,8 @@ while($ra=mysql_fetch_assoc($r))
 	{
 		if($ra['username']==$new_username)
 			{
-				$_SESSION['user_alert_message'] = "this email address is already taken";
-				header('location:../users/#alert');
+				$_SESSION['alert_message'] = "this email address is already taken";
+				header('location:./#alert');
 				exit;
 			}
 	}
@@ -79,16 +79,16 @@ $new_fname = filter_var($_POST['fname'], FILTER_SANITIZE_STRING);
 //make sure its under 50 characters
 if(strlen($new_fname) > 50)
 	{
-		$_SESSION['user_alert_message'] = "your first name is too long, please shorten below 50 characters";
-		header('location:../users/#alert');
+		$_SESSION['alert_message'] = "your first name is too long, please shorten below 50 characters";
+		header('location:./#alert');
 		exit;
 	}
 
 //make sure its over 1 character
 if(strlen($new_fname) < 1)
 	{
-		$_SESSION['user_alert_message'] = "your first name must be at least 1 character long";
-		header('location:../users/#alert');
+		$_SESSION['alert_message'] = "your first name must be at least 1 character long";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -99,15 +99,15 @@ $new_lname = filter_var($_POST['lname'], FILTER_SANITIZE_STRING);
 if(strlen($new_lname) > 50)
 	{
 		$_SESSION['use_error_message'] = "your last name is too long, please shorten below 50 characters";
-		header('location:../users/#alert');
+		header('location:./#alert');
 		exit;
 	}
 
 //make sure its at least 1 character in length
 if(strlen($new_lname) < 1)
 	{
-		$_SESSION['user_alert_message'] = "your last name must be at least 1 character long";
-		header('location:../users/#alert');
+		$_SESSION['alert_message'] = "your last name must be at least 1 character long";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -120,8 +120,8 @@ if(!empty($_POST['password']))
 		//validate that the password is an acceptable length
 		if(strlen($temp_p) > 15 || strlen($temp_p) < 8)
 			{
-				$_SESSION['user_alert_message']="you must enter a valid password length";
-				header('location:../users/#alert');
+				$_SESSION['alert_message']="you must enter a valid password length";
+				header('location:./#alert');
 				exit;
 			}
 		
@@ -130,7 +130,7 @@ if(!empty($_POST['password']))
 	}
 else
 	{
-		$_SESSION['user_alert_message'] = "you must enter a password";
+		$_SESSION['alert_message'] = "you must enter a password";
 		header('location"../users/#alert');
 		exit;
 	}
@@ -156,7 +156,7 @@ else
 
 mysql_query("INSERT INTO users(fname, lname, username, password, admin, disabled) VALUES ('$new_fname','$new_lname','$new_username','$p','$a','$disabled')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 
-$_SESSION['user_alert_message'] = "user added successfully";
-header('location:../users/#alert');
+$_SESSION['alert_message'] = "user added successfully";
+header('location:./#alert');
 exit;
 ?>

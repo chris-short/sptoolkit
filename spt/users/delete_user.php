@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		delete_user.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -33,12 +33,12 @@ if(file_exists($includeContent)){
 //connect to database
 include "../spt_config/mysql_config.php";
 
-//ensure the user is an admin
-if($_SESSION['admin']!=1)
-	{
-		$_SESSION['user_alert_message'] = "you do not have the privileges to delete users";
-		header('location:../users/#alert');
-		exit;
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
 	}
 
 //pull in user from parameter and validate
@@ -47,16 +47,16 @@ $username=$_REQUEST['u'];
 //validate that the passed username is a valid email address
 if(!filter_var($username, FILTER_VALIDATE_EMAIL))
 	{
-		$_SESSION['user_alert_message'] = "you can only delete a user if you pass a valid email address";
-		header('location:../users/#alert');
+		$_SESSION['alert_message'] = "you can only delete a user if you pass a valid email address";
+		header('location:./#alert');
 		exit;
 	}
 
 //ensure the user is not attempting to delete themselves
 if($_SESSION['username']==$username)
 	{
-		$_SESSION['user_alert_message'] = "you cannot delete yourself";
-		header('location:../users/#alert');
+		$_SESSION['alert_message'] = "you cannot delete yourself";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -71,8 +71,8 @@ while($ra=mysql_fetch_assoc($r))
 	}
 if($count!=1)
 	{
-		$_SESSION['user_alert_message'] = "you are attempting to delete a user that does not exist";
-		header('location:../users/#alert');
+		$_SESSION['alert_message'] = "you are attempting to delete a user that does not exist";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -80,8 +80,8 @@ if($count!=1)
 mysql_query("DELETE FROM users WHERE username = '$username'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 
 //send the user back to the users page with a success message
-$_SESSION['user_alert_message'] = "user deleted successfully";
-header('location:../users/#alert');
+$_SESSION['alert_message'] = "user deleted successfully";
+header('location:./#alert');
 exit;
 
 ?>
