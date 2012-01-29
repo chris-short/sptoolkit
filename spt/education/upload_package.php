@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		upload_package.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -33,24 +33,24 @@
 //make sure the user is an admin
 	if($_SESSION['admin']!=1)
 		{
-			$_SESSION['education_alert_message'] = "you do not have permission to upload a package";
-			header('location:.#alert');
+			$_SESSION['alert_message'] = "you do not have permission to upload a package";
+			header('location:./#alert');
 			exit;
 		}
 		
 //validate that a name is provided
 	if(!isset($_POST['name']))
 		{
-			$_SESSION['education_alert_message'] = 'you must enter a name';
-			header('location:.#alert');
+			$_SESSION['alert_message'] = 'you must enter a name';
+			header('location:./#alert');
 			exit;
 		}
 
 //validate that a description is provided
 	if(!isset($_POST['description']))
 		{
-			$_SESSION['education_alert_message'] = 'you must enter a description';
-			header('location:.#alert');
+			$_SESSION['alert_message'] = 'you must enter a description';
+			header('location:./#alert');
 			exit;
 		}
 
@@ -64,24 +64,24 @@ $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
 			//ensure its a zip file
 				if(preg_match('/^(zip)\i/',$_FILES["file"]["type"]))
 					{
-						$_SESSION['education_alert_message'] = 'you must only upload zip files';
-						header('location:.#alert');
+						$_SESSION['alert_message'] = 'you must only upload zip files';
+						header('location:./#alert');
 						exit;
 					}
 
 			//ensure that the file is under 20M
 				if($_FILES["file"]["size"] > 100000000)
 					{
-				  		$_SESSION['education_alert_message'] = 'max file size is 100MB';
-				  		header('location:.#alert');
+				  		$_SESSION['alert_message'] = 'max file size is 100MB';
+				  		header('location:./#alert');
 				  		exit;
 				  	}
 
 			//ensure there are no errors
 				  if ($_FILES["file"]["error"] > 0)
 				    {
-				    	$_SESSION['education_alert_message'] = $_FILES["file"]["error"];
-				    	header('location:.#alert');
+				    	$_SESSION['alert_message'] = $_FILES["file"]["error"];
+				    	header('location:./#alert');
 				    	exit;
 				    }
 
@@ -119,8 +119,8 @@ $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
 						} 
 					else 
 						{
-							$_SESSION['education_alert_message'] = 'unzipping the file failed';
-							header('location:../education/#alert');
+							$_SESSION['alert_message'] = 'unzipping the file failed';
+							header('location:./#alert');
 							exit;
 						}
 
@@ -148,7 +148,7 @@ $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
 		}
 
 
-	$_SESSION['education_alert_message'] = 'education package added successfully';
-	header('location:../education/#alert');
+	$_SESSION['alert_message'] = 'education package added successfully';
+	header('location:./#alert');
 	exit;
 ?>

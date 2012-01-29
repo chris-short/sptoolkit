@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		delete_package.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -33,8 +33,8 @@
 //validate that the currently logged in user is an admin
 if($_SESSION['admin']!=1)
 	{
-		$_SESSION['education_alert_message'] = "you do not have permission to delete a package";
-		header('location:../education/#alert');
+		$_SESSION['alert_message'] = "you do not have permission to delete a package";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -54,8 +54,8 @@ while($ra = mysql_fetch_assoc($r))
 	}
 if(!isset($match))
 	{
-		$_SESSION['education_alert_message'] = "you specified an invalid package";
-		header('location:../education/#alert');
+		$_SESSION['alert_message'] = "you specified an invalid package";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -70,8 +70,8 @@ while($ra = mysql_fetch_assoc($r))
 	}
 if(isset($match2))
 	{
-		$_SESSION['education_alert_message'] = "you cannot delete a package that is currently used by a campaign";
-		header('location:../education/#alert');
+		$_SESSION['alert_message'] = "you cannot delete a package that is currently used by a campaign";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -95,8 +95,8 @@ delTree($dir);
 mysql_query("DELETE FROM education WHERE id = '$education_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 
 //send them back to the education home page
-$_SESSION['education_alert_message'] = "education package deleted successfully";
-header('location:../education/#alert');
+$_SESSION['alert_message'] = "education package deleted successfully";
+header('location:./#alert');
 exit;
 
 ?>

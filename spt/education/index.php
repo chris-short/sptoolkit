@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -82,16 +82,16 @@
 			</form>
 			<?php
 				//check to see if the alert session is set
-				if(isset($_SESSION['education_alert_message']))
+				if(isset($_SESSION['alert_message']))
 					{
 						//create alert popover
 						echo "<div id=\"alert\">";
 
 						//echo the alert message
-						echo "<div>".$_SESSION['education_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+						echo "<div>".$_SESSION['alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 						
 						//unset the seession
-						unset ($_SESSION['education_alert_message']);
+						unset ($_SESSION['alert_message']);
 						
 						//close alert popover
 						echo "</div>";
