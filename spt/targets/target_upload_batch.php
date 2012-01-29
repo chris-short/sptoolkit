@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_batch.php
- * version:		9.0
+ * version:		10.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -134,16 +134,8 @@ foreach($lines as $line)
 		//leave out the header row
 		if(strtolower($line_contents[0]) != "name" && strtolower($line_contents[1]) != "email" && strtolower($line_contents[2]) != "group" && strtolower($line_contents[3]) != strtolower($custom1) && strtolower($line_contents[4]) != strtolower($custom2) && strtolower(trim($line_contents[5])) != strtolower($custom3))
 			{
-				//validate name
-				if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', trim($line_contents[0])))
-					{
-						//increment bad name counter
-						$temp_counter_bad_name++;
-					}
-				else
-					{
-						$temp_name = trim($line_contents[0]);
-					}
+				//filter name
+				$temp_name = filter_var(trim($line_contents[0], FILTER_SANITIZE_STRING);
 
 				//validate email
 				if(filter_var(trim($line_contents[1]), FILTER_VALIDATE_EMAIL))
