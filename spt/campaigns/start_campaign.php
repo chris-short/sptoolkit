@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		start_campaign.php
- * version:		9.0
+ * version:		10.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,50 +30,42 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 
-//validate that the currently logged in user is an admin
-if($_SESSION['admin']!=1)
-	{
-		$_SESSION['campaigns_alert_message'] = "you do not have permission to start a campaign";
-		header('location:../campaigns/#alert');
-		exit;
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
 	}
 
 //ensure the campaign name is set
 if(!isset($_POST['campaign_name']))
 	{
-		$_SESSION['campaigns_alert_message'] = "you must give the campaign a name";
-		header('location:../campaigns/#alert');
-		exit;
-	}
-
-//ensure that the path was formulated
-if(!filter_var($_POST['spt_path'], FILTER_VALIDATE_URL))
-	{
-		$_SESSION['campaigns_alert_message'] = "the host name could not be extracted properly";
-		header('location:../campaigns/#alert');
+		$_SESSION['alert_message'] = "you must give the campaign a name";
+		header('location:./#alert');
 		exit;
 	}
 
 //ensure a target group was selected
 if(!isset($_POST['target_groups']))
 	{
-		$_SESSION['campaigns_alert_message'] = "please select at least one target group";
-		header('location:../campaigns/#alert');
+		$_SESSION['alert_message'] = "please select at least one target group";
+		header('location:./#alert');
 		exit;
 	}
 
 //ensure a template is selected
 if(!isset($_POST['template_id']))
 	{
-		$_SESSION['campaigns_alert_message'] = "please select a template";
-		header('location:../campaigns/#alert');
+		$_SESSION['alert_message'] = "please select a template";
+		header('location:./#alert');
 		exit;
 	}
 
 //recieve the entered values and put into variables
 $campaign_name = filter_var($_POST['campaign_name'], FILTER_SANITIZE_STRING);
 $spt_path = $_POST['spt_path'];
-$target_groups = filter_var($_POST['target_groups'], FILTER_SANITIZE_STRING);
+$target_groups = $_POST['target_groups'];
 $template_id = filter_var($_POST['template_id'], FILTER_SANITIZE_NUMBER_INT);
 $education_id = filter_var($_POST['education_id'], FILTER_SANITIZE_NUMBER_INT);
 if(isset($_POST['education_timing'])){$education_timing = filter_var($_POST['education_timing'], FILTER_SANITIZE_NUMBER_INT);}
@@ -94,8 +86,8 @@ foreach($target_groups as $group)
 			}
 		if(!isset($match))
 			{
-				$_SESSION['campaigns_alert_message'] = "invalid group";
-				header('location:../campaigns/#alert');
+				$_SESSION['alert_message'] = "invalid group";
+				header('location:./#alert');
 				exit;
 			}
 	}
@@ -112,8 +104,8 @@ while($ra = mysql_fetch_assoc($r))
 	}
 if(!isset($match0))
 	{
-		$_SESSION['campaigns_alert_message'] = "please select a valid template";
-		header('location:../campaigns/#alert');
+		$_SESSION['alert_message'] = "please select a valid template";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -128,8 +120,8 @@ while($ra = mysql_fetch_assoc($r))
 	}
 if(!isset($match1))
 	{
-		$_SESSION['campaigns_alert_message'] = "please select a valid education package";
-		header('location:../campaigns/#alert');
+		$_SESSION['alert_message'] = "please select a valid education package";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -148,8 +140,8 @@ else
 	}
 if($match2 != 1)
 	{
-		$_SESSION['campaigns_alert_message'] = "please select a valid education timing option";
-		header('location:../campaigns/#alert');
+		$_SESSION['alert_message'] = "please select a valid education timing option";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -213,7 +205,7 @@ while($ra = mysql_fetch_assoc($r))
 	}
 
 //send them back after your finished sending emails
-$_SESSION['campaigns_alert_message'] = "emails have been sent...sit back and wait for the responses :)";
-header('location:../campaigns/#alert');
+$_SESSION['alert_message'] = "emails have been sent...sit back and wait for the responses :)";
+header('location:./#alert');
 
 ?>

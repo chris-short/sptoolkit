@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		17.0
+ * version:		18.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -51,16 +51,16 @@
 			<!--popovers-->
 			<?php
 				//check to see if the alert session is set
-				if(isset($_SESSION['campaigns_alert_message']))
+				if(isset($_SESSION['alert_message']))
 					{
 						//create alert popover
 						echo "<div id=\"alert\">";
 
 						//echo the alert message
-						echo "<div>".$_SESSION['campaigns_alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+						echo "<div>".$_SESSION['alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 						
 						//unset the seession
-						unset ($_SESSION['campaigns_alert_message']);				
+						unset ($_SESSION['alert_message']);				
 
 						//close alert popover
 						echo "</div>";
@@ -180,8 +180,8 @@
 									}
 								if($campaign_match!=1)
 									{
-										$_SESSION['campaigns_alert_message'] = "please select a valid campaign";
-										header('location:../campaigns/#alert');
+										$_SESSION['alert_message'] = "please select a valid campaign";
+										header('location:./#alert');
 										exit;
 									}
 							}
@@ -194,8 +194,8 @@
 								//go ahead and preform validation
 								if($filter!="link" && $filter!="post")
 									{
-										$_SESSION['campaigns_alert_message'] = "please use a valid filter";
-										header('location:../campaigns/#alert');
+										$_SESSION['alert_message'] = "please use a valid filter";
+										header('location:./#alert');
 										exit;
 									}
 							}
@@ -212,10 +212,10 @@
 												$group_match = 1;
 											}
 									}
-								if(!isset($group_match)
+								if(!isset($group_match))
 									{
-										$_SESSION['campaigns_alert_message'] = "please select a valid group";
-										header('location:../campaigns/#alert');
+										$_SESSION['alert_message'] = "please select a valid group";
+										header('location:./#alert');
 										exit;
 									}
 								
@@ -224,8 +224,8 @@
 						//if group and filter are both set send them back
 						if(isset($filter) && isset($group))
 							{
-								$_SESSION['campaigns_alert_message'] = "you cannot pass both a filter and a group";
-								header('location:../campaigns/#alert');
+								$_SESSION['alert_message'] = "you cannot pass both a filter and a group";
+								header('location:./#alert');
 								exit;
 								
 							}

@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		delete_campaign.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,17 +30,16 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 
-//validate that the currently logged in user is an admin
-if($_SESSION['admin']!=1)
-	{
-		$_SESSION['campaigns_alert_message'] = "you do not have permission to delete a campaign";
-		header('location:../campaigns/#alert');
-		exit;
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
 	}
 
 //get campaign id
 $campaign_id = filter_var($_REQUEST['c'], FILTER_SANITIZE_NUMBER_INT);
-
 
 //validate the campaign id
 include "../spt_config/mysql_config.php";
@@ -52,10 +51,10 @@ while($ra = mysql_fetch_assoc($r))
 				$match = 1;
 			}
 	}
-if(isset($match))
+if(!isset($match))
 	{
-		$_SESSION['campaigns_alert_message'] = "you can only delete real campaign ids";
-		header('location:../campaigns/#alert');
+		$_SESSION['alert_message'] = "you can only delete real campaign ids";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -65,8 +64,8 @@ mysql_query("DELETE FROM campaigns_and_groups WHERE campaign_id = '$campaign_id'
 mysql_query("DELETE FROM campaigns_responses WHERE campaign_id = '$campaign_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 
 //send them back to the campaigns home page
-$_SESSION['campaigns_alert_message'] = "campaign deleted successfully";
-header('location:../campaigns/#alert');
+$_SESSION['alert_message'] = "campaign deleted successfully";
+header('location:./#alert');
 exit;
 
 ?>

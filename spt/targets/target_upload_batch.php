@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_batch.php
- * version:		10.0
+ * version:		12.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -135,7 +135,7 @@ foreach($lines as $line)
 		if(strtolower($line_contents[0]) != "name" && strtolower($line_contents[1]) != "email" && strtolower($line_contents[2]) != "group" && strtolower($line_contents[3]) != strtolower($custom1) && strtolower($line_contents[4]) != strtolower($custom2) && strtolower(trim($line_contents[5])) != strtolower($custom3))
 			{
 				//filter name
-				$temp_name = filter_var(trim($line_contents[0], FILTER_SANITIZE_STRING);
+				$temp_name = filter_var(trim($line_contents[0]), FILTER_SANITIZE_STRING);
 
 				//validate email
 				if(filter_var(trim($line_contents[1]), FILTER_VALIDATE_EMAIL))
@@ -155,11 +155,8 @@ foreach($lines as $line)
 				//if there are any errors increment counters, otherwise write values to database
 				if($temp_counter_bad_name == 1 || $temp_counter_bad_emails == 1)
 					{
-						if($temp_counter_header_rows != 1)
-							{
-								$counter_bad_name = $temp_counter_bad_name + $counter_bad_name;
-								$counter_bad_emails = $temp_counter_bad_emails + $counter_bad_emails;
-							}					
+						$counter_bad_name = $temp_counter_bad_name + $counter_bad_name;
+						$counter_bad_emails = $temp_counter_bad_emails + $counter_bad_emails;
 					}
 
 				else
