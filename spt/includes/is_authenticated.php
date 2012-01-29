@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		is_authenticated.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -30,8 +30,8 @@ if($_SESSION['authenticated']!=1)
 	{
 			
 	//set error message and send them back to login
-	$_SESSION['login_error_message']="login first";
-	header('location:../');
+	$_SESSION['alert_message']="login first";
+	header('location:../#alert');
 	exit;
 	}
 	
@@ -39,8 +39,8 @@ if($_SESSION['authenticated']!=1)
 elseif($_SESSION['ip']!=md5($_SESSION['salt'].$_SERVER['REMOTE_ADDR'].$_SESSION['salt']))
 	{
 	//set error message and send them back to login
-	$_SESSION['login_error_message']="your ip address must have changed, please authenticate again";
-	header('location:../');
+	$_SESSION['alert_message']="your ip address must have changed, please authenticate again";
+	header('location:../#alert');
 	exit;
 	}
 	

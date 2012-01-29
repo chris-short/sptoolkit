@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		forgot_password.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -82,8 +82,8 @@
 				}
 			
 			//if they haven't logged in by now shoot them back to the login page
-			$_SESSION['forgot_alert']="your key is not valid";
-			header('location:../#forgot_alert');
+			$_SESSION['alert_message']="your key is not valid";
+			header('location:../#alert');
 			exit;
 		}
 	else
@@ -91,8 +91,8 @@
 			//ensure that something was posted
 			if(!isset($_POST['email']))
 				{
-					$_SESSION['forgot_alert'] = "you must enter an email address";
-					header('location:../#forgot_alert');
+					$_SESSION['alert_message'] = "you must enter an email address";
+					header('location:../#alert');
 					exit;
 				}
 
@@ -102,16 +102,16 @@
 			//validate email address
 			if(!filter_var($email, FILTER_VALIDATE_EMAIL))
 				{
-					$_SESSION['forgot_alert'] = "you must enter a valid email address";
-					header('location:../#forgot_alert');
+					$_SESSION['alert_message'] = "you must enter a valid email address";
+					header('location:../#alert');
 					exit;
 				}
 			
 			//validate that the username is not too long
 			if(strlen($new_username) > 50)
 				{
-					$_SESSION['forgot_alert']="you must enter a valid email address";
-					header('location:../#forgot_alert');
+					$_SESSION['alert_message']="you must enter a valid email address";
+					header('location:../#alert');
 					exit;
 				}
 
@@ -169,8 +169,8 @@
 					mail($email, $subject, $message, $headers);
 
 					//send back to login page with instructions to check their email
-					$_SESSION['forgot_alert'] = "check your email for a one-time use link that will allow you to login and reset your password";
-					header('location:../#forgot_alert');
+					$_SESSION['alert_message'] = "check your email for a one-time use link that will allow you to login and reset your password";
+					header('location:../#alert');
 					exit;
 
 				}
@@ -178,8 +178,8 @@
 			//if the email address entered does not match an existing username then send them back
 			else
 				{
-					$_SESSION['forgot_alert']="you must enter a valid email address";
-					header('location:../#forgot_alert');
+					$_SESSION['alert_message']="you must enter a valid email address";
+					header('location:../#alert');
 					exit;
 				}
 		}

@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		validator.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Login management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -44,24 +44,24 @@
 	//validate the username/email address
 	if(!filter_var($temp_u, FILTER_VALIDATE_EMAIL))
 		{
-			$_SESSION['login_error_message']="invalid login attempt";
-			header('location:../');
+			$_SESSION['alert_message']="invalid login attempt";
+			header('location:../#alert');
 			exit;
 		}
 	
 	//validate the username/email address length
 	if(strlen($temp_u) > 50)
 		{
-			$_SESSION['login_error_message']="invalid login attempt";
-			header('location:../');
+			$_SESSION['alert_message']="invalid login attempt";
+			header('location:../#alert');
 			exit;
 		}
 	
 	//validate the password length
 	if(strlen($temp_p) > 15 || strlen($temp_p) < 8)
 		{
-			$_SESSION['login_error_message']="invalid login attempt";
-			header('location:../');
+			$_SESSION['alert_message']="invalid login attempt";
+			header('location:../#alert');
 			exit;
 		}
 		
@@ -90,15 +90,7 @@
 							//create an admin session
 							$_SESSION['admin']=1;
 						}
-					
-					//if they tried to go to a specific page before they authenticated then try to send them where they were attempting to go
-					if(isset($_SESSION['came_from']))
-						{
-							//craft the link to where they came from
-							header('location:../'.$_SESSION['came_from'].'/');
-							exit;
-						}
-					
+										
 					//send authenticated user to the dashboard
 					header('location:../dashboard/');
 					exit;
@@ -106,8 +98,8 @@
 		}
 	
 	//if they make it this far with no match then send them back to the login page with an error
-	$_SESSION['login_error_message']="invalid login attempt";
-	header('location:../');
+	$_SESSION['alert_message']="invalid login attempt";
+	header('location:../#alert');
 	exit;
 ?>
 

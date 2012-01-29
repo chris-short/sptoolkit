@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		13.0
+ * version:		14.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -105,17 +105,17 @@
 
 		<?php 
 			//look for login errors
-			if(isset($_SESSION['forgot_alert']))
+			if(isset($_SESSION['alert_message']))
 				{
 					//create alert popover
-					echo "<div id=\"forgot_alert\">\n";
+					echo "<div id=\"alert\">\n";
 				
 
 					//echo the alert message
-					echo "<div>".$_SESSION['forgot_alert']."<br /><br /><a href=\"\"><img src=\"images/left-arrow.png\" alt=\"close\" /></a></div>";
+					echo "<div>".$_SESSION['alert_message']."<br /><br /><a href=\"\"><img src=\"images/left-arrow.png\" alt=\"close\" /></a></div>";
 					
 					//unset the session
-					unset ($_SESSION['forgot_alert']);				
+					unset ($_SESSION['alert_message']);				
 
 					//close alert popover
 					echo "</div>";
@@ -194,17 +194,6 @@
 						<td></td>
 						<td><?php include "includes/version.txt";?></td>
 					</tr>
-					<?php 
-								//look for login errors
-								if(isset($_SESSION['login_error_message']))
-									{
-										//echo the alert message
-										echo "<tr><td></td><td><h1>".$_SESSION['login_error_message']."</h1></td></tr>";
-										
-										//unset the session
-										unset ($_SESSION['login_error_message']);				
-									}
-							?>					
 					<tr>
 						<td colspan="2"><input type="submit" value="login" /></td>
 					</tr>
