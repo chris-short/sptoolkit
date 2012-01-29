@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		delete_template.php
- * version:		3.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,12 +30,12 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 
-//validate that the currently logged in user is an admin
-if($_SESSION['admin']!=1)
-	{
-		$_SESSION['templates_alert_message'] = "you do not have permission to delete a template";
-		header('location:../templates/#alert');
-		exit;
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
 	}
 
 //get template id
@@ -54,8 +54,8 @@ while($ra = mysql_fetch_assoc($r))
 	}
 if(!isset($match))
 	{
-		$_SESSION['templates_alert_message'] = "you specified an invalid template";
-		header('location:../templates/#alert');
+		$_SESSION['alert_message'] = "you specified an invalid template";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -68,10 +68,10 @@ while($ra = mysql_fetch_assoc($r))
 				$match2 = 1;
 			}
 	}
-if(!isset($match2))
+if(isset($match2))
 	{
-		$_SESSION['templates_alert_message'] = "you cannot delete a template that is currently used by a campaign";
-		header('location:../templates/#alert');
+		$_SESSION['alert_message'] = "you cannot delete a template that is currently used by a campaign";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -95,8 +95,8 @@ delTree($dir);
 mysql_query("DELETE FROM templates WHERE id = '$template_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 
 //send them back to the template home page
-$_SESSION['templates_alert_message'] = "template deleted successfully";
-header('location:../templates/#alert');
+$_SESSION['alert_message'] = "template deleted successfully";
+header('location:./#alert');
 exit;
 
 ?>

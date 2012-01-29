@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		scrape_it.php
- * version:		8.0
+ * version:		9.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,29 +30,28 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 
-//validate that the currently logged in user is an admin
-if($_SESSION['admin']!=1)
-	{
-		$_SESSION['templates_alert_message'] = "you do not have permission to scrape sites";
-		header('location:../templates/#alert');
-		exit;
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
 	}
-
 
 //get URL from passed parameter
 	if(!isset($_POST['url']))
 		{
 			//set error message and send them back to template page
-			$_SESSION['templates_alert_message']="please enter a URL";
-			header('location:../templates/#alert');
+			$_SESSION['alert_message']="please enter a URL";
+			header('location:./#alert');
 			exit;
 		}
 
 //validate url
 	if(!filter_var($_POST['url'], FILTER_SANITIZE_URL))
 		{
-			$_SESSION['templates_alert_message']="please enter a valid URL";
-			header('location:../templates/#alert');
+			$_SESSION['alert_message']="please enter a valid URL";
+			header('location:./#alert');
 			exit;			
 		}
 
@@ -69,8 +68,8 @@ if($_SESSION['admin']!=1)
 	else
 		{
 			//set error message and send them back to template page
-			$_SESSION['templates_alert_message']="please enter a name";
-			header('location:../templates/#alert');
+			$_SESSION['alert_message']="please enter a name";
+			header('location:./#alert');
 			exit;
 		}
 
@@ -82,8 +81,8 @@ if($_SESSION['admin']!=1)
 	else
 		{
 			//set error message and send them back to template page
-			$_SESSION['templates_alert_message']="please enter a description";
-			header('location:../templates/#alert');
+			$_SESSION['alert_message']="please enter a description";
+			header('location:./#alert');
 			exit;
 		}
 
@@ -99,8 +98,8 @@ if($_SESSION['admin']!=1)
 	    curl_close($rawhtml);
 	    if (!$output) 
 		    {
-				$_SESSION['templates_alert_message']="no output was returned from this URL";
-				header('location:../templates/#alert');
+				$_SESSION['alert_message']="no output was returned from this URL";
+				header('location:./#alert');
 				exit;
 			}
 	    return $output;
@@ -202,7 +201,7 @@ if(isset($_POST['email_fake_link']))
 mysql_query("INSERT INTO templates (id, name, description) VALUES ('$template_id','$name','$description')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 
 //send them back to template page with a success message
-$_SESSION['templates_alert_message']="Template installed successfully!";
+$_SESSION['alert_message']="Template installed successfully!";
 header('location:../templates');
 exit;
 

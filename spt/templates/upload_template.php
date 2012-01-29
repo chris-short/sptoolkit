@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		upload_template.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,27 +30,27 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 
-//make sure the user is an admin
-	if($_SESSION['admin']!=1)
-		{
-			$_SESSION['templates_alert_message'] = "you do not have permission to upload a template";
-			header('location:../templates/#alert');
-			exit;
-		}
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
+	}
 		
 //validate that a name is provided
 	if(!isset($_POST['name']))
 		{
-			$_SESSION['templates_alert_message'] = 'you must enter a name';
-			header('location:../templates/#alert');
+			$_SESSION['alert_message'] = 'you must enter a name';
+			header('location:./#alert');
 			exit;
 		}
 
 //validate that a description is provided
 	if(!isset($_POST['description']))
 		{
-			$_SESSION['templates_alert_message'] = 'you must enter a description';
-			header('location:../templates/#alert');
+			$_SESSION['alert_message'] = 'you must enter a description';
+			header('location:./#alert');
 			exit;
 		}
 
@@ -61,32 +61,32 @@ $description = filter_var($_POST['description'],FILTER_SANITIZE_STRING);
 //validate a file was uploaded
 	if(!is_uploaded_file($_FILES['file']['tmp_name']))
 		{
-			$_SESSION['templates_alert_message'] = 'you must upload a file';
-			header('location:../templates/#alert');
+			$_SESSION['alert_message'] = 'you must upload a file';
+			header('location:./#alert');
 			exit;
 		}
 
 //ensure its a zip file
 	if(preg_match('/^(zip)\i/',$_FILES["file"]["type"]))
 		{
-			$_SESSION['templates_alert_message'] = 'you must only upload zip files';
-			header('location:../templates/#alert');
+			$_SESSION['alert_message'] = 'you must only upload zip files';
+			header('location:./#alert');
 			exit;
 		}
 
 //ensure that the file is under 20M
 	if($_FILES["file"]["size"] > 20000000)
 		{
-	  		$_SESSION['templates_alert_message'] = 'max file size is 20MB';
-	  		header('location:../templates/#alert');
+	  		$_SESSION['alert_message'] = 'max file size is 20MB';
+	  		header('location:./#alert');
 	  		exit;
 	  	}
 
 //ensure there are no errors
 	  if ($_FILES["file"]["error"] > 0)
 	    {
-	    	$_SESSION['templates_alert_message'] = $_FILES["file"]["error"];
-	    	header('location:../templates/#alert');
+	    	$_SESSION['alert_message'] = $_FILES["file"]["error"];
+	    	header('location:./#alert');
 	    	exit;
 	    }
 
@@ -131,13 +131,13 @@ while($ra = mysql_fetch_assoc($r))
 		} 
 	else 
 		{
-			$_SESSION['templates_alert_message'] = 'unzipping the file failed';
-			header('location:../templates/#alert');
+			$_SESSION['alert_message'] = 'unzipping the file failed';
+			header('location:./#alert');
 			exit;
 		}
 
 
-	$_SESSION['templates_alert_message'] = 'template added successfully';
-	header('location:../templates/#alert');
+	$_SESSION['alert_message'] = 'template added successfully';
+	header('location:./#alert');
 	exit;
 ?>
