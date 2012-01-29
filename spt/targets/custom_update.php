@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		custom_update.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,13 +30,13 @@ if(file_exists($includeContent)){
 	header('location:../errors/404_is_authenticated.php');
 }
 		
-//make sure the user is an admin
-	if($_SESSION['admin']!=1)
-		{
-			$_SESSION['targets_alert_message'] = "you do not have permission to upload targets";
-			header('location:../targets/#alert');
-			exit;
-		}
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
+	}
 
 //make sure parameters are set they are set
 if(isset($_POST['c']) && isset($_POST['n']))

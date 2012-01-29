@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		18.0
+ * version:		19.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -78,13 +78,13 @@
 	<body>
 		<?php
 			//check to see if the alert session is set
-			if(isset($_SESSION['targets_alert_message']))
+			if(isset($_SESSION['alert_message']))
 				{
 					//create alert popover
 					echo "<div id=\"alert\">";
 
 					//echo the alert message
-					echo "<div>".$_SESSION['targets_alert_message']."<br />";
+					echo "<div>".$_SESSION['alert_message']."<br />";
 					
 					if(isset($_SESSION['bad_row_stats']))
 						{
@@ -115,7 +115,7 @@
 					echo "</div>";
 
 					//unset the seession
-					unset ($_SESSION['targets_alert_message']);		
+					unset ($_SESSION['alert_message']);		
 							
 				}
 		?>
@@ -279,8 +279,8 @@
 								//ensure the group name is under 50 characters
 								if(strlen($group) > 50)
 									{
-										$_SESSION['targets_alert_message'] = "group names cannot be over 50 characters";
-										header("location:../targets/#alert");
+										$_SESSION['alert_message'] = "group names cannot be over 50 characters";
+										header("location:./#alert");
 										exit;
 									}
 									
@@ -296,8 +296,8 @@
 
 								if($match!=1)
 									{
-										$_SESSION['targets_alert_message'] = "this group does not exist";
-										header("location:../targets/#alert");
+										$_SESSION['alert_message'] = "this group does not exist";
+										header("location:./#alert");
 										exit;
 									}
 								

@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_single.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,13 +30,13 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 
-//make sure the user is an admin
-	if($_SESSION['admin']!=1)
-		{
-			$_SESSION['targets_alert_message'] = "you do not have permission to upload targets";
-			header('location:../targets/#alert');
-			exit;
-		}
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
+	}
 
 //validate name is set and if so throw it in a variable
 	if(isset($_POST['name']))
@@ -45,8 +45,8 @@
 		}
 	else
 		{
-			$_SESSION['targets_alert_message'] = "you must enter a name";
-			header('location:../targets/#alert');
+			$_SESSION['alert_message'] = "you must enter a name";
+			header('location:./#alert');
 			exit;
 		}
 		
@@ -57,8 +57,8 @@
 		}
 	else
 		{
-			$_SESSION['targets_alert_message'] = "you must enter an email address";
-			header('location:../targets/#alert');
+			$_SESSION['alert_message'] = "you must enter an email address";
+			header('location:./#alert');
 			exit;
 		}
 
@@ -77,32 +77,32 @@
 		}
 	else
 		{
-			$_SESSION['targets_alert_message'] = "you must select an existing group or create a new group";
-			header('location:../targets/#alert');
+			$_SESSION['alert_message'] = "you must select an existing group or create a new group";
+			header('location:./#alert');
 			exit;
 		}
 
 //make sure that if they did not select an existing group that the new group is actually set
 	if($group_name == "Select an Existing Group..." && !isset($group_name_new))
 		{
-			$_SESSION['targets_alert_message'] = "you must select an existing group or create a new group";
-			header('location:../targets/#alert');
+			$_SESSION['alert_message'] = "you must select an existing group or create a new group";
+			header('location:./#alert');
 			exit;
 		}
 		
 //do a little validation on the name
 	if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', $name))
 		{
-			$_SESSION['targets_alert_message'] = "you have some invalid characters in the name";
-			header('location:../targets/#alert');
+			$_SESSION['alert_message'] = "you have some invalid characters in the name";
+			header('location:./#alert');
 			exit;
 		}
 		
 //do a little validation on the email
 	if(!filter_var($email, FILTER_VALIDATE_EMAIL))
 		{
-			$_SESSION['targets_alert_message'] = "you must enter an actual email address";
-			header('location:../targets/#alert');
+			$_SESSION['alert_message'] = "you must enter an actual email address";
+			header('location:./#alert');
 			exit;
 		}
 		
@@ -121,8 +121,8 @@
 				}
 			if($match!= 1)
 				{
-					$_SESSION["targets_alert_message"] = "if your going to attempt to select a group that already exists, select one that already exists";
-					header('location:../targets/#alert');
+					$_SESSION["alert_message"] = "if your going to attempt to select a group that already exists, select one that already exists";
+					header('location:./#alert');
 					exit;
 				}
 		}
@@ -130,8 +130,8 @@
 //if they are adding a new group name, validate it
 	if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', $group_name_new))
 		{
-			$_SESSION["targets_alert_message"] = "there are invalid characters in the group name";
-			header('location:../targets/#alert');
+			$_SESSION["alert_message"] = "there are invalid characters in the group name";
+			header('location:./#alert');
 			exit;
 		}
 
@@ -167,8 +167,8 @@ $custom3 = mysql_field_name($r,6);
 
 	
 //send user back to targets page with success message
-$_SESSION['targets_alert_message'] = "target added successfully";
-header('location:../targets/#alert');
+$_SESSION['alert_message'] = "target added successfully";
+header('location:./#alert');
 exit;
 
 ?>

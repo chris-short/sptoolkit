@@ -30,27 +30,27 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 
-//make sure the user is an admin
-	if($_SESSION['admin']!=1)
-		{
-			$_SESSION['targets_alert_message'] = "you do not have permission to upload targets";
-			header('location:../targets/#alert');
-			exit;
-		}
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
+	}
 
 //ensure that the file is under 20M
 	if($_FILES["file"]["size"] > 20000000)
 		{
-	  		$_SESSION['targets_alert_message'] = 'max file size is 20MB';
-	  		header('location:../targets/#alert');
+	  		$_SESSION['alert_message'] = 'max file size is 20MB';
+	  		header('location:./#alert');
 	  		exit;
 	  	}
 
 //ensure there are no errors
         if ($_FILES["file"]["error"] > 0)
 		{
-			$_SESSION['targets_alert_message'] = "you either did not select a file or there was a problem with it";
-			header('location:../targets/#alert');
+			$_SESSION['alert_message'] = "you either did not select a file or there was a problem with it";
+			header('location:./#alert');
 			exit;
 		}
 
@@ -75,8 +75,8 @@ foreach($lines as $line)
         
         if(!preg_match('/[,]/',$line))
             {
-                $_SESSION['targets_alert_message'] = "this file is not properly comma delimited";
-       	    	header('location:../targets/#alert');
+                $_SESSION['alert_message'] = "this file is not properly comma delimited";
+       	    	header('location:./#alert');
                 exit;
 
             }
@@ -96,8 +96,8 @@ foreach($lines as $line)
 
 	if(strtolower($header_line[0]) != "name" OR strtolower($header_line[1]) != "email" OR strtolower($header_line[2]) != "group" OR strtolower($header_line[3]) != strtolower($custom1) OR strtolower($header_line[4]) != strtolower($custom2) OR strtolower(trim($header_line[5])) != strtolower($custom3))
 		{
-			$_SESSION['targets_alert_message'] = "the header row does not match the column names in the database";
-       	    header('location:../targets/#alert');
+			$_SESSION['alert_message'] = "the header row does not match the column names in the database";
+       	    header('location:./#alert');
             exit;
 		}
 
@@ -111,16 +111,16 @@ foreach($lines as $line)
 		//ensure there are no more than 6 columns
 		if(isset($line_contents[6]))
 		    {
-			$_SESSION['targets_alert_message'] = "you have too many columns, 6 columns is the max";
-			header('location:../targets/#alert');
+			$_SESSION['alert_message'] = "you have too many columns, 6 columns is the max";
+			header('location:./#alert');
 			exit;
 		    }
 
 		//ensure there are at least three columns
 		if(!isset($line_contents[0]) || !isset($line_contents[1]) || !isset($line_contents[2]))
 		    {
-			$_SESSION['targets_alert_message'] = "you do not have at least three columns in all rows";
-			header('location:../targets/#alert');
+			$_SESSION['alert_message'] = "you do not have at least three columns in all rows";
+			header('location:./#alert');
 			exit;
 		    }
 	}
@@ -199,7 +199,7 @@ foreach($lines as $line)
 		}
 			
 //send user back to targets page with success message
-	$_SESSION['targets_alert_message'] = $counter." of ".$counter_total." targets uploaded successfully";
-	header('location:../targets/#alert');
+	$_SESSION['alert_message'] = $counter." of ".$counter_total." targets uploaded successfully";
+	header('location:./#alert');
 	exit;
 ?>

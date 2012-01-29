@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		group_delete.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,13 +30,13 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 
-//make sure the user is an admin
-	if($_SESSION['admin']!=1)
-		{
-			$_SESSION['targets_alert_message'] = "you do not have permission to delete groups";
-			header('location:../targets/#alert');
-			exit;
-		}
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
+	}
 
 //pull in group
 	$group_to_delete = filter_var($_REQUEST['g'], FILTER_SANITIZE_STRING);
@@ -48,8 +48,8 @@
 	$r = mysql_query("SELECT group_name FROM campaigns_and_groups WHERE group_name = '$group_to_delete'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 	if(mysql_num_rows($r))
 		{
-			$_SESSION['targets_alert_message'] = "you cannot delete a group that is part of an active campaign";
-			header('location:../targets/#alert');
+			$_SESSION['alert_message'] = "you cannot delete a group that is part of an active campaign";
+			header('location:./#alert');
 			exit;	
 		}
 
@@ -65,8 +65,8 @@
 		}
 
 //send user back to targets page with success message
-	$_SESSION['targets_alert_message'] = "group deleted successfully";
-	header('location:../targets/#alert');
+	$_SESSION['alert_message'] = "group deleted successfully";
+	header('location:./#alert');
 	exit;
 
 ?>
