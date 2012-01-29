@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		file_update.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Editor
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -33,37 +33,37 @@
 	//validate that the currently logged in user is an admin
 		if($_SESSION['admin']!=1)
 		{
-			$_SESSION['editor_alert_message'] = "you do not have permission to edit files";
-			header('location:.#alert');
+			$_SESSION['alert_message'] = "you do not have permission to edit files";
+			header('location:./#alert');
 			exit;
 		}
 
 //validate template id OR package id is set and filename is set
 if(!isset($_REQUEST['f']))
 	{
-		$_SESSION['editor_alert_message'] = "Please specify a file.";
-		header('location:.#alert');
+		$_SESSION['alert_message'] = "Please specify a file.";
+		header('location:./#alert');
 		exit;
 	}
 if(!isset($_REQUEST['t']) && !isset($_REQUEST['p']))
 	{
-		$_SESSION['editor_alert_message'] = "Please specify a package or template id.";
-		header('location.#alert');
+		$_SESSION['alert_message'] = "Please specify a package or template id.";
+		header('location:./#alert');
 		exit;
 	}
 
 //validate the template id
 if(preg_match('/[^0-9]/', $_REQUEST['t']))
 	{
-		$_SESSION['editor_alert_message'] = "Please select a valid template.";
-		header('location:.#alert');
+		$_SESSION['alert_message'] = "Please select a valid template.";
+		header('location:./#alert');
 		exit;
 	}
 //validate the package id
 if(preg_match('/[^0-9]/', $_REQUEST['p']))
 	{
-		$_SESSION['editor_alert_message'] = "Please select a valid package.";
-		header('location:.#alert');
+		$_SESSION['alert_message'] = "Please select a valid package.";
+		header('location:./#alert');
 		exit;
 	}
 
@@ -89,8 +89,8 @@ if(isset($package))
 		file_put_contents("../education/".$package."/".$file, $changes);		
 	}
 
-$_SESSION['editor_alert_message'] = "Your changes have been saved";
-header('location:.#alert');
+$_SESSION['alert_message'] = "Your changes have been saved";
+header('location:./#alert');
 exit;
 
 ?>

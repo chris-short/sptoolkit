@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Editor
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -71,13 +71,13 @@
 	<body>
 		<?php
 			//check to see if the alert session is set
-			if(isset($_SESSION['editor_alert_message']))
+			if(isset($_SESSION['alert_message']))
 				{
 					//create alert popover
 					echo "<div id=\"alert\">";
 
 					//echo the alert message
-					echo "<div>".$_SESSION['editor_alert_message']."<br />";
+					echo "<div>".$_SESSION['alert_message']."<br />";
 					
 					//close the alert message
 					echo "<br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
@@ -86,7 +86,7 @@
 					echo "</div>";
 
 					//unset the seession
-					unset ($_SESSION['editor_alert_message']);		
+					unset ($_SESSION['alert_message']);		
 							
 				}
 		?>
@@ -256,24 +256,24 @@
 						else if(!isset($_REQUEST['f']))
 							{
 								//send them back to select a template and file
-								$_SESSION['editor_alert_message'] = "Please select a file first.";
-								header('location:.#alert');
+								$_SESSION['alert_message'] = "Please select a file first.";
+								header('location:./#alert');
 								exit;
 							}
 
 						//validate the template id
 						if(preg_match('/[^0-9]/', $_REQUEST['t']))
 							{
-								$_SESSION['editor_alert_message'] = "Please select a valid template.";
-								header('location:.#alert');
+								$_SESSION['alert_message'] = "Please select a valid template.";
+								header('location:./#alert');
 								exit;
 							}
 							
 						//validate the template id
 						if(preg_match('/[^0-9]/', $_REQUEST['p']))
 							{
-								$_SESSION['editor_alert_message'] = "Please select a valid package.";
-								header('location:.#alert');
+								$_SESSION['alert_message'] = "Please select a valid package.";
+								header('location:./#alert');
 								exit;
 							}
 
@@ -288,16 +288,16 @@
 
 						if($count > 2)
 							{
-								$_SESSION['editor_alert_message'] = "That filename is invalid.";
-								header('location:.#alert');
+								$_SESSION['alert_message'] = "That filename is invalid.";
+								header('location:./#alert');
 								exit;
 							}
 
 						//validate that only a template or a package is specified
 						if(isset($_REQUEST['t']) && isset($_REQUEST['p']))
 							{
-								$_SESSION['editor_alert_message'] = "Please specify only a template or a package...not both.";
-								header('location:.#alert');
+								$_SESSION['alert_message'] = "Please specify only a template or a package...not both.";
+								header('location:./#alert');
 								exit;
 							}
 
