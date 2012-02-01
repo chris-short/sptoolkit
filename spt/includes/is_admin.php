@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		is_admin.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -25,7 +25,7 @@
 //validate that the currently logged in user is an admin
 if($_SESSION['admin']!=1)
 	{
-		$_SESSION['alert_message'] = "you do not have permission to delete a campaign";
+		$_SESSION['alert_message'] = "you do not have permission to perform the attempted action";
 		header('location:#alert');
 		exit;
 	}
