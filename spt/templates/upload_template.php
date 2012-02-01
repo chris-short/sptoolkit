@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		upload_template.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -102,9 +102,6 @@ while($ra = mysql_fetch_assoc($r))
 		$id = $ra['max'];	
 	}
 
-//create a temporary upload location
-	mkdir('temp_upload');
-
 //upload zip file to temp upload location
 	move_uploaded_file($_FILES["file"]["tmp_name"], "temp_upload/".$_FILES["file"]["name"]);
 
@@ -123,11 +120,7 @@ while($ra = mysql_fetch_assoc($r))
 			$zip->close();
 			
 			//go delete the original
-			unlink('temp_upload/'.$filename);
-
-			//delete the temp upload directory
-			rmdir('temp_upload');
-		
+			unlink('temp_upload/'.$filename);		
 		} 
 	else 
 		{
