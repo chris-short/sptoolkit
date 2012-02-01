@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		delete_package.php
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -86,7 +86,6 @@ function delTree($dir) {
         else 
             unlink( $file ); 
     } 
-    rmdir( $dir ); 
 }
 
 delTree($dir);

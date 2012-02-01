@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		file_update.php
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Editor
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -52,42 +52,46 @@ if(!isset($_REQUEST['t']) && !isset($_REQUEST['p']))
 		exit;
 	}
 
-//validate the template id
-if(preg_match('/[^0-9]/', $_REQUEST['t']))
-	{
-		$_SESSION['alert_message'] = "Please select a valid template.";
-		header('location:./#alert');
-		exit;
-	}
-//validate the package id
-if(preg_match('/[^0-9]/', $_REQUEST['p']))
-	{
-		$_SESSION['alert_message'] = "Please select a valid package.";
-		header('location:./#alert');
-		exit;
-	}
-
-
-if(isset($_REQUEST['p']))
-	{
-		$package = $_REQUEST['p'];
-	}
+//validate the template id and put the data
 if(isset($_REQUEST['t']))
 	{
-		$template = $_REQUEST['t'];		
-	}
-$file = $_REQUEST['f'];
-$changes = $_POST['file'];
+		if(!filter_var($_REQUEST['t'], FILTER_VALIDATE_INT))
+			{
+				$_SESSION['alert_message'] = "Please select a valid template.";
+				header('location:./#alert');
+				exit;
+			}
 
-if(isset($template))
-	{
-		file_put_contents("../templates/".$template."/".$file, $changes);		
+		$template = $_REQUEST['t'];
+		$file = $_REQUEST['f'];
+		$changes = $_POST['file'];
+
+		if(isset($template))
+			{
+				file_put_contents("../templates/".$template."/".$file, $changes);		
+			}
 	}
 
-if(isset($package))
+//validate the package id and put the data
+if(isset($_REQUEST['p']))
 	{
-		file_put_contents("../education/".$package."/".$file, $changes);		
+		if(!filter_var($_REQUEST['p'], FILTER_VALIDATE_INT))
+			{	
+				$_SESSION['alert_message'] = "Please select a valid package.";
+				header('location:./#alert');
+				exit;
+			}	
+
+		$package = $_REQUEST['p'];	
+		$file = $_REQUEST['f'];
+		$changes = $_POST['file'];
+
+		if(isset($package))
+			{
+				file_put_contents("../education/".$package."/".$file, $changes);		
+			}
 	}
+
 
 $_SESSION['alert_message'] = "Your changes have been saved";
 header('location:./#alert');
