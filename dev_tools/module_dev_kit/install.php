@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		install.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module Template
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -28,7 +28,7 @@
   
   $sql = 
     "
-      INSERT INTO `modules` VALUES ('Module Name goes here','Module directory name goes here','Module description goes here.','Date Module created goes here',1,0)  
+      INSERT INTO `modules` VALUES ('Module Name goes here','Module directory name goes here','Module description goes here.','Date Module created goes here',0)  
 	";
 
   mysql_query($sql) or die(mysql_error());

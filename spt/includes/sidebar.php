@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		sidebar.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -33,7 +33,7 @@ echo
 	";
 	//lists links dependent upon what modules are installed
 	include '../spt_config/mysql_config.php';
-	$results=mysql_query('SELECT * FROM modules WHERE enabled=1 AND name != "Dashboard" ORDER BY name') or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+	$results=mysql_query('SELECT * FROM modules WHERE name != "Dashboard" ORDER BY name') or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 	while($row=mysql_fetch_assoc($results))
 		{
 			echo "<li><a href=\"../".$row['directory_name']."/\">".$row['name']."</a></li>\n";
