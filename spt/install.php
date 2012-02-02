@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		install.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -98,6 +98,12 @@
 							";
 
 						//Ensure all files are readable, writeable and executable.
+						echo 
+							"
+								<tr>
+									<td>Appropriate Permissions</td>
+							";
+
 						foreach (glob("*") as $entity) 
 							{
 								if(is_dir($entity))
@@ -125,13 +131,7 @@
 										$permission_error = 1;
 									}
 							}
-						
-						echo 
-							"
-								<tr>
-									<td>Appropriate Permissions</td>
-							";
-						
+												
 						if($permission_error==1)
 							{
 								echo
@@ -150,15 +150,15 @@
 						echo "</tr>";
 
 						//Verify Sendmail is installed
-						$sendmail_path = ini_get("sendmail_path");
-
 						echo 
 							"
 								<tr>
-									<td>Sendmail Installed</td>
+									<td>Sendmail path in php.ini</td>
 							";
 
-						if(!isset($sendmail_path))
+						$sendmail_path = ini_get("sendmail_path");
+
+						if(!file_exists($sendmail_path))
 							{
 								echo
 									"
@@ -176,15 +176,15 @@
 						echo "</tr>";
 
 						//Verify CuRL is installed
-						$curl_version = curl_version();
-
 						echo 
 							"
 								<tr>
 									<td>PHP cURL Installed</td>
 							";
 
-						if(!isset($curl_version))
+						$phpinfo = phpinfo();
+
+						if(!preg_match('#cURL#', $phpinfo))
 							{
 								echo
 									"
