@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		install.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -75,8 +75,188 @@
 							";
 					}
 
-				//Step 2 - Install Database
+				//Step 2 - Environmental Checks
 				if(isset($_POST['step2']) && $_POST['step2']=="complete")
+					{
+						//set install status to step 2 if step 1 has already been completed
+						$_SESSION['install_status']=3;
+					}
+
+				if(isset($_SESSION['install_status']) && $_SESSION['install_status']==2)
+					{
+						
+						//Start Table
+						echo "<table id=\"enviro_checks\">";
+
+						//Environmental check introduction
+						echo 
+							"
+								<tr>
+									<td colspan=2>Let's do some basic environmental checks before we get started.  Please remediate any problems listed below that have an X next to them.  Hover over the X for further explanation.
+									</td>
+								</tr>
+							";
+
+						//Ensure all files are readable, writeable and executable.
+						foreach (glob("*") as $entity) 
+							{
+								if(is_dir($entity))
+									{
+										foreach (glob($entity."/"."*") as $sub_entity) 
+											{
+												if(is_dir($sub_entity))
+													{
+														foreach (glob($sub_entity."/"."*") as $sub_sub_entity) 
+															{
+																if(!is_readable($sub_sub_entity) || !is_writable($sub_sub_entity) || !is_executable($sub_sub_entity))
+																	{
+																		$permission_error = 1;
+																	}
+															}		
+													}
+												if(!is_readable($sub_entity) || !is_writable($sub_entity) || !is_executable($sub_entity))
+													{
+														$permission_error = 1;
+													}
+											}
+									}
+								if(!is_readable($entity) || !is_writable($entity) || !is_executable($entity))
+									{
+										$permission_error = 1;
+									}
+							}
+						
+						echo 
+							"
+								<tr>
+									<td>Appropriate Permissions</td>
+							";
+						
+						if($permission_error==1)
+							{
+								echo
+									"
+										<td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/x.png\" alt=\"problem\" /><span>The account that PHP runs under needs read, write and execute permissions for spt to function properly.  Visit sptoolkit.com for troubleshooting information.</span></a></td>
+									";
+							}
+						else
+							{
+								echo 
+									"
+										<td class=\"td_center\"><img src=\"images/thumbs-up.png\" alt=\"success\" /></td>
+									";
+							}
+						
+						echo "</tr>";
+
+						//Verify Sendmail is installed
+						$sendmail_path = ini_get("sendmail_path");
+
+						echo 
+							"
+								<tr>
+									<td>Sendmail Installed</td>
+							";
+
+						if(!isset($sendmail_path))
+							{
+								echo
+									"
+										<td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/x.png\" alt=\"problem\" /><span>Sendmail must be installed to send emails.  A quick look at your php.ini file says there is no sendmail path.  If this is expected proceed on.  Otherwise check out sptoolkit.com installtion information.</span></a></td>
+									";
+							}
+						else
+							{
+								echo 
+									"
+										<td class=\"td_center\"><img src=\"images/thumbs-up.png\" alt=\"success\" /></td>
+									";
+							}
+
+						echo "</tr>";
+
+						//Verify CuRL is installed
+						$curl_version = curl_version();
+
+						echo 
+							"
+								<tr>
+									<td>PHP cURL Installed</td>
+							";
+
+						if(!isset($curl_version))
+							{
+								echo
+									"
+										<td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/x.png\" alt=\"problem\" /><span>cURL must be installed to scrape websites.  A quick cURL version check came up empty handed.  If this is expected or you don't plan to use the spt scraper proceed on.  Otherwise check out sptoolkit.com for installation information.</span></a></td>
+									";
+							}
+						else
+							{
+								echo 
+									"
+										<td class=\"td_center\"><img src=\"images/thumbs-up.png\" alt=\"success\" /></td>
+									";
+							}
+
+						echo "</tr>";
+
+						//Ensure all enviromental checks pass
+						if(isset($permission_error) OR !isset($sendmail_path) OR !isset($curl_version))
+							{
+								$enviro_checks = 0;
+							}
+						else
+							{
+								$enviro_checks = 1;
+							}
+
+						//Provide buttons to check again or proceed with caution
+						if($enviro_checks == 0)
+							{
+								echo 
+									"
+										<tr>
+											<td>
+												<form id=\"step_2_1\" method=\"post\" action=\"\">
+													<input type=\"hidden\" name=\"step1\" value=\"complete\" />
+													<input type=\"submit\" value=\"Check Again\" />
+												</form>
+											</td>
+											<td>
+												<form id=\"step_2_2\" method=\"post\" action=\"\">
+													<input type=\"hidden\" name=\"step2\" value=\"complete\" />
+													<input type=\"submit\" value=\"Proceed Anyways\" />
+												</form>
+											</td>
+										</tr>
+									";
+							}
+
+						//Provide a button to proceed if all checks pass
+						if($enviro_checks == 1)
+							{
+								echo 
+									"
+										<tr>
+											<td></td>
+											<td>
+												<form id=\"step_2\" method=\"post\" action=\"\">
+													<input type=\"hidden\" name=\"step2\" value=\"complete\" />
+													<input type=\"submit\" value=\"Proceed!\" />
+												</form>
+											</td>
+										</tr>
+									";
+							}
+						
+						//End Table
+						echo "</table>";
+
+					}
+
+				//Step 3 - Install Database
+				if(isset($_POST['step3']) && $_POST['step3']=="complete")
 						{
 							//validate the database config data
 								$host = $_POST['host'];
@@ -88,7 +268,7 @@
 									//validate that all fields were entered
 									if(!$host || !$port || !$username || !$password || !$database)
 										{
-											$_SESSION['install_status']=2;
+											$_SESSION['install_status']=3;
 											echo
 												"
 													Please enter something in all fields!<br /><br />
@@ -102,7 +282,7 @@
 									//validate the host has only acceptable characters and at least one period
 										if(preg_match('/[^a-zA-Z0-9-\.]/', $host))
 											{
-												$_SESSION['install_status']=2;
+												$_SESSION['install_status']=3;
 												echo
 													"
 														Please enter a valid hostname!<br /><br />
@@ -116,7 +296,7 @@
 									//validate that the port is of valid length
 										if($port < 1 || $port > 65535)
 											{
-												$_SESSION['install_status']=2;
+												$_SESSION['install_status']=3;
 												echo
 													"
 														Please enter a port number between 1 and 65535<br /><br />
@@ -132,7 +312,7 @@
 
 								if(!$link)
 									{
-										$_SESSION['install_status']=2;
+										$_SESSION['install_status']=3;
 										echo
 											"
 												Could not connect to ".$host.":".$port.".<br /><br />
@@ -149,7 +329,7 @@
 
 								if(!$dbcheck)
 									{
-										$_SESSION['install_status']=2;
+										$_SESSION['install_status']=3;
 										echo
 											"
 												Could not connect to ".$database.".<br /><br />
@@ -214,7 +394,7 @@
 								echo "</ul>";
 								
 								//set the install status to move along to step 3
-								$_SESSION['install_status']=3;
+								$_SESSION['install_status']=4;
 
 								//provide the button to move along
 								echo
@@ -226,11 +406,11 @@
 								exit;
 						}
 
-				if(isset($_SESSION['install_status']) && $_SESSION['install_status']==2)
+				if(isset($_SESSION['install_status']) && $_SESSION['install_status']==3)
 					{
 						echo
 							"
-								<form id=\"step_2\" method=\"post\" action=\"\">
+								<form id=\"step_3\" method=\"post\" action=\"\">
 									<span>Do you have a database we can use?<br /><br />...If not, you'll need one (MySQL at that).  Please come back when you have one.</span>
 									<br /><br />
 									<table>
@@ -254,7 +434,7 @@
 											<td>Database</td>
 											<td><input type=\"database\" name=\"database\" /></td>
 										</tr>
-											<input type=\"hidden\" name=\"step2\" value=\"complete\" />
+											<input type=\"hidden\" name=\"step3\" value=\"complete\" />
 										<tr>
 											<td><br /><input type=\"submit\" value=\"Install Database!\" /></td>
 										</tr>
@@ -263,8 +443,8 @@
 							";
 					}
 
-				//Step 3 - Configure Salt
-				if(isset($_SESSION['install_status']) && $_SESSION['install_status']==3)
+				//Step 4 - Configure Salt
+				if(isset($_SESSION['install_status']) && $_SESSION['install_status']==4)
 					{
 						$salt = '';
 						
@@ -287,11 +467,11 @@
 						include "spt_config/mysql_config.php";
 						mysql_query("INSERT INTO salt (salt) VALUES ('$salt')");
 
-						$_SESSION['install_status']=4;
+						$_SESSION['install_status']=5;
 					}
 
-				//Step 4 - Configure First User
-				if(isset($_POST['step4']) && $_POST['step4'] == "complete")
+				//Step 5 - Configure First User
+				if(isset($_POST['step5']) && $_POST['step5'] == "complete")
 					{
 						//validate that the newly entered username is a valid email address
 						$new_username = $_POST['username'];
@@ -435,9 +615,10 @@
 						include "spt_config/mysql_config.php";
 						mysql_query("INSERT INTO users(fname, lname, username, password, admin, disabled) VALUES ('$new_fname','$new_lname','$new_username','$p','1','0')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 
-						$_SESSION['install_status']=5;
+						$_SESSION['install_status']=6;
 					}
-				if(isset($_SESSION['install_status']) && $_SESSION['install_status']==4)
+
+				if(isset($_SESSION['install_status']) && $_SESSION['install_status']==5)
 					{
 						echo
 							"
@@ -460,7 +641,7 @@
 											<td>Password</td>
 											<td><input type=\"password\" name=\"password\" /></td>
 										</tr>
-											<input type=\"hidden\" name=\"step4\" value=\"complete\" />
+											<input type=\"hidden\" name=\"step5\" value=\"complete\" />
 										<tr>
 											<td><br /><input type=\"submit\" value=\"Create User\" /></td>
 											<td></td>
@@ -470,8 +651,8 @@
 							";
 					}
 
-				//Step 5 - Send User to login page
-				if(isset($_SESSION['install_status']) && $_SESSION['install_status']==5)
+				//Step 6 - Send User to login page
+				if(isset($_SESSION['install_status']) && $_SESSION['install_status']==6)
 					{
 						echo
 							"
