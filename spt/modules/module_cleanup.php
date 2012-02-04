@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		module_cleanup.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,6 +50,12 @@
 					{
 						//delete the upload directory
 						rmdir("upload");
+
+						//delete the install file
+						unlink('../'.$_SESSION['installed_module'].'/install.php');
+
+						//set alert message and send them back
+						$_SESSION['alert_message'] = 'The '.$_SESSION['installed_module'].' module has been successfully installed.  Look over to the left for a link to your new module!';			
 						header('location:./#alert');
 						exit;
 					}
@@ -59,13 +65,15 @@
 					{
 						//delete the upgrade zip file
 						unlink('upload/'.$_SESSION['installed_module'].'.upgrade.zip');
-						$_SESSION['alert_message'] = "upgrade has completed successfully";
 						
 						//delete the install file
-						unlink('../'.$_SESSION['installed_module'].'install.php');
+						unlink('../'.$_SESSION['installed_module'].'/install.php');
 
 						//delete the upload directory
 						rmdir("upload");
+
+						//set alert message and send them back
+						$_SESSION['alert_message'] = 'The '.$_SESSION['installed_module'].' module has been successfully upgraded!';
 						header('location:./#alert');
 						exit;
 					}
