@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		start_campaign.php
- * version:		10.0
+ * version:		11.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -177,7 +177,7 @@ foreach($target_groups as $group)
 	}
 
 //get all the necessary email addresses
-$r = mysql_query("SELECT targets.email as email, targets.id as id, campaigns_responses.response_id as response_id FROM targets JOIN campaigns_responses ON targets.id = campaigns_responses.target_id WHERE campaigns_responses.campaign_id = '$campaign_id'") or die('<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>');
+$r = mysql_query("SELECT targets.email as email, targets.id as id, campaigns_responses.response_id as response_id FROM campaigns_responses JOIN targets ON targets.id = campaigns_responses.target_id WHERE campaigns_responses.campaign_id = '$campaign_id'") or die('<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>');
 
 //using the built-in php mail function which depends on the php.ini file and the servers mail settings
 while($ra = mysql_fetch_assoc($r))
