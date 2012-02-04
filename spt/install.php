@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		install.php
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -157,8 +157,9 @@
 							";
 
 						$sendmail_path = ini_get("sendmail_path");
+						$sendmail_path = preg_match('/([^\s]*)/', $sendmail_path, $matches);
 
-						if(!file_exists($sendmail_path))
+						if(!file_exists($matches[0]))
 							{
 								echo
 									"
@@ -171,6 +172,7 @@
 									"
 										<td class=\"td_center\"><img src=\"images/thumbs-up.png\" alt=\"success\" /></td>
 									";
+								$sendmail_good = "true";
 							}
 
 						echo "</tr>";
@@ -182,9 +184,9 @@
 									<td>PHP cURL Installed</td>
 							";
 
-						$phpinfo = phpinfo();
-
-						if(!preg_match('#cURL#', $phpinfo))
+						$loaded_extensions = get_loaded_extensions();
+												
+						if(!in_array('curl', $loaded_extensions))
 							{
 								echo
 									"
@@ -197,12 +199,13 @@
 									"
 										<td class=\"td_center\"><img src=\"images/thumbs-up.png\" alt=\"success\" /></td>
 									";
+								$curl_good = "true";
 							}
 
 						echo "</tr>";
 
 						//Ensure all enviromental checks pass
-						if(isset($permission_error) OR !isset($sendmail_path) OR !isset($curl_version))
+						if(isset($permission_error) OR !isset($sendmail_good) OR !isset($curl_good))
 							{
 								$enviro_checks = 0;
 							}
