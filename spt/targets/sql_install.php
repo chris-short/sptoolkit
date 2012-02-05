@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		sql_install.php
- * version:		2.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -32,13 +32,21 @@
 		  `email` varchar(255) NOT NULL,
 		  `name` varchar(255) NOT NULL,
 		  `group_name` varchar(50) NOT NULL,
-		  `custom1` varchar(255),
-		  `custom2` varchar(255),
-		  `custom3` varchar(255),
 		  PRIMARY KEY (`id`)
 		)    
 	";
 
   mysql_query($sql) or die(mysql_error());
 
+  //Targets Metrics Table
+  $sql = 
+  	"
+  		CREATE TABLE `targets_metrics` (
+  			`field_name` varchar(155) NOT NULL,
+  			`shown` int(1) NOT NULL
+  		)
+  	";
+
+  mysql_query($sql) or die(mysql_error());
+  	
 ?>

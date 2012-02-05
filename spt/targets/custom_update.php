@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		custom_update.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,29 +50,9 @@ if(isset($_POST['c']) && isset($_POST['n']))
 		//connect to database
 		include "../spt_config/mysql_config.php";
 
-		//determine what the custom field names are
-		$r = mysql_query("SELECT * FROM targets");
-		$custom1 = mysql_field_name($r,4);
-		$custom2 = mysql_field_name($r,5);
-		$custom3 = mysql_field_name($r,6);
-
-		if($c == "custom1")
-			{
-				$sql = "ALTER TABLE `targets` CHANGE `$custom1` `$n` varchar(255);";
-				mysql_query($sql);
-			}
-		if($c == "custom2")
-			{
-				$sql = "ALTER TABLE `targets` CHANGE `$custom2` `$n` varchar(255);";
-				mysql_query($sql);
-			}
-		if($c == "custom3")
-			{
-				$sql = "ALTER TABLE `targets` CHANGE `$custom3` `$n` varchar(255);";
-				mysql_query($sql);
-			}
+		//change the column name
+		mysql_query("ALTER TABLE `targets` CHANGE `$c` `$n` varchar(255);";
+		mysql_query("UPDATE targets_metrics SET field_name = '$n' WHERE field_name = '$c'";
 	}
-	
-echo $sql;
 ?>
 

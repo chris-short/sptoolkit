@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		20.0
+ * version:		22.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -70,6 +70,28 @@
 					xmlhttp.open("POST","target_update.php",false);
 					xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 					xmlhttp.send("id="+id+"&column="+column+"&data="+data);
+					
+				}
+		</script>
+		<script language="Javascript" type="text/javascript">
+			function updateMetrics(field_name) 
+				{ 
+					//begin new request
+					xmlhttp = new XMLHttpRequest();
+
+					//get checked status
+					var check = document.getElementById("checkbox_"+field_name).checked;
+
+					//send update request
+					xmlhttp.open("POST","update_metrics.php",false);
+					xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+					xmlhttp.send("field_name="+field_name+"&shown="+check);
+
+					if (xmlhttp.responseText != "set")
+					  {
+					  	window.location = ".#alert"
+					  	window.location.reload()
+					  }					
 					
 				}
 		</script>
@@ -229,6 +251,71 @@
 				</table>
 			</div>
 		</div>
+		<div id="metrics">
+			<div>
+				<form action="add_metric.php" method="post" enctype="multipart/form-data">
+					<table id="add metric">
+						<tr>
+							<td colspan=2></td>
+							<td>
+								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Adding a metric will create a new column in the database for tracking target metrics.<br /><br />Check the box next to 3 metrics and those will be the 3 that are displayed in the group list pop-over.</span></a>
+							&nbsp;&nbsp;&nbsp;
+							<a href="."><img src="../images/x.png" alt="close" /></a>
+							</td>
+						</tr>
+						<tr>
+							<td>Add Metric</td>
+							<td><input type="text" name="metric" /></td>
+							<td><input type="image" src="../images/plus.png" alt="add" /></td>
+							<td></td>
+						</tr>
+					</table>
+				</form>
+					<table id="manage_metrics">
+						<tr>
+							<td>-</td>
+							<td>Name</td>
+							<td>-</td>
+						</tr>
+						<tr>
+							<td>-</td>
+							<td>Email</td>
+							<td>-</td>
+						</tr>
+						<tr>
+							<td>-</td>
+							<td>Group</td>
+							<td>-</td>
+						</tr>
+						<?php
+							
+							//connect to database
+							include "../spt_config/mysql_config.php";
+
+							//query for all metrics
+							$r = mysql_query("SELECT * FROM targets_metrics");
+
+							while($ra = mysql_fetch_assoc($r))
+								{
+									echo "<tr>
+										<td><input id=\"checkbox_".$ra['field_name']."\"type=\"checkbox\" name=\"".$ra['field_name']."\" onclick=\"updateMetrics('".$ra['field_name']."')\" value=\"".$ra['field_name']."\"";
+									
+									if($ra['shown']==1)
+										{
+											echo "checked";
+										}
+									
+									echo "
+										></td>
+										<td>".$ra['field_name']."</td>
+										<td><a href=\"delete_metric.php?m=".$ra['field_name']."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>
+										</tr>
+									";
+								}
+						?>
+					</table>
+			</div>
+		</div>
 		<div  id="group_list">
 			<div>
 				<table id="group_list_header">
@@ -255,16 +342,13 @@
 						<td><h3>Group</h3></td>
 						<?php 
 							
-							//get the current custom column Names
-							$r = mysql_query("SELECT * FROM targets");
-							$custom1 = mysql_field_name($r,4);
-							$custom2 = mysql_field_name($r,5);
-							$custom3 = mysql_field_name($r,6);
-
+							//get the list of columns that should be shown
+							$r = mysql_query("SELECT field_name FROM targets_metrics WHERE shown = 1 ORDER BY field_name ASC");
+							while($ra = mysql_fetch_assoc($r))
+								{
+									echo "<td><h3>".$ra['field_name']."</h3></td>";
+								}
 						?>
-						<td class="target_cell"><h3><input id="custom1" onchange="updateCustom('custom1',this.value)" value="<?php echo $custom1; ?>" class="invisible_input"/></h3></td>
-						<td class="target_cell"><h3><input id="custom2" onchange="updateCustom('custom2',this.value)" value="<?php echo $custom2; ?>" class="invisible_input"/></h3></td>
-						<td class="target_cell"><h3><input id="custom3" onchange="updateCustom('custom3',this.value)" value="<?php echo $custom3; ?>" class="invisible_input"/></h3></td>
 						<td></td>
 					</tr>
 					<?php
@@ -301,29 +385,33 @@
 										header("location:./#alert");
 										exit;
 									}
-								
-								//determine what the custom field names are
-								$r = mysql_query("SELECT * FROM targets");
-								$custom1 = mysql_field_name($r,4);
-								$custom2 = mysql_field_name($r,5);
-								$custom3 = mysql_field_name($r,6);
-					
+													
 								//query for a list of group members ordered alphabetically
 								$r = mysql_query("SELECT * FROM targets WHERE group_name = '$group' ORDER BY name") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-								while ($ra = mysql_fetch_array($r))
+								while ($ra = mysql_fetch_assoc($r))
 									{
 										
 										//build a row for each member of the group wrapped in a form that will dynamically edit each entry as changes are made
 										echo 
 											"
 												<tr>\n
-														<td class=\"target_cell\"><input id=\"".$ra[0]."_name\" onchange=\"updateTarget(".$ra[0].",'name',this.value)\" type=\"text\" value=\"".$ra[2]."\" class=\"invisible_input\"/></td>\n
-														<td class=\"target_cell\"><input id=\"".$ra[0]."_email\" onchange=\"updateTarget(".$ra[0].",'email',this.value)\" type=\"text\" value=\"".$ra[1]."\" class=\"invisible_input\" /></td>\n
-														<td class=\"target_cell\"><input id=\"".$ra[0]."_group\" onchange=\"updateTarget(".$ra[0].",'group_name',this.value)\" type=\"text\" value=\"".$ra[3]."\" class=\"invisible_input\" /></td>\n
-														<td class=\"target_cell\"><input id=\"".$ra[0]."_".$custom1."\" onchange=\"updateTarget(".$ra[0].",'".$custom1."',this.value)\" type=\"text\" value=\"".$ra[4]."\" class=\"invisible_input\" /></td>\n
-														<td class=\"target_cell\"><input id=\"".$ra[0]."_".$custom2."\" onchange=\"updateTarget(".$ra[0].",'".$custom2."',this.value)\" type=\"text\" value=\"".$ra[5]."\" class=\"invisible_input\" /></td>\n
-														<td class=\"target_cell\"><input id=\"".$ra[0]."_".$custom3."\" onchange=\"updateTarget(".$ra[0].",'".$custom3."',this.value)\" type=\"text\" value=\"".$ra[6]."\" class=\"invisible_input\" /></td>\n
-														<td><a href=\"target_delete.php?g=".$ra[3]."&u=".$ra[0]."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
+														<td class=\"target_cell\"><input id=\"".$ra['id']."_name\" onchange=\"updateTarget(".$ra['id'].",'name',this.value)\" type=\"text\" value=\"".$ra['name']."\" class=\"invisible_input\"/></td>\n
+														<td class=\"target_cell\"><input id=\"".$ra['id']."_email\" onchange=\"updateTarget(".$ra['id'].",'email',this.value)\" type=\"text\" value=\"".$ra['email']."\" class=\"invisible_input\" /></td>\n
+														<td class=\"target_cell\"><input id=\"".$ra['id']."_group\" onchange=\"updateTarget(".$ra['id'].",'group_name',this.value)\" type=\"text\" value=\"".$ra['group_name']."\" class=\"invisible_input\" /></td>\n";
+														
+										//get the list of columns that should be shown
+										$r2 = mysql_query("SELECT field_name FROM targets_metrics WHERE shown = 1 ORDER BY field_name ASC");
+										while($ra2 = mysql_fetch_assoc($r2))
+											{
+												$field_name = $ra2['field_name'];
+
+												echo "
+														<td class=\"target_cell\"><input id=\"".$ra['id']."_".$ra2['field_name']."\" onchange=\"updateTarget(".$ra['id'].",'".$ra2['field_name']."',this.value)\" type=\"text\" value=\"".$ra[$field_name]."\" class=\"invisible_input\" /></td>\n
+													";
+											}
+
+										echo "
+														<td><a href=\"target_delete.php?g=".$ra['group_name']."&u=".$ra['id']."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
 												</tr>
 											";
 									}
@@ -332,19 +420,31 @@
 							{
 								//query for a list of group members ordered alphabetically
 								$r = mysql_query("SELECT * FROM targets") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-								while ($ra = mysql_fetch_array($r))
+								while ($ra = mysql_fetch_assoc($r))
 									{
 										//build a row for each member of the group wrapped in a form that will dynamically edit each entry as changes are made
 										echo 
 											"
 												<tr>\n
-														<td class=\"target_cell\"><input id=\"".$ra[0]."_name\" onchange=\"updateTarget(".$ra[0].",'name',this.value)\" type=\"text\" value=\"".$ra[2]."\" class=\"invisible_input\"/></td>\n
-														<td class=\"target_cell\"><input id=\"".$ra[0]."_email\" onchange=\"updateTarget(".$ra[0].",'email',this.value)\" type=\"text\" value=\"".$ra[1]."\" class=\"invisible_input\" /></td>\n
-														<td class=\"target_cell\"><input id=\"".$ra[0]."_group\" onchange=\"updateTarget(".$ra[0].",'group_name',this.value)\" type=\"text\" value=\"".$ra[3]."\" class=\"invisible_input\" /></td>\n
-														<td class=\"target_cell\"><input id=\"".$ra[0]."_".$custom1."\" onchange=\"updateTarget(".$ra[0].",'".$custom1."',this.value)\" type=\"text\" value=\"".$ra[4]."\" class=\"invisible_input\" /></td>\n
-														<td class=\"target_cell\"><input id=\"".$ra[0]."_".$custom2."\" onchange=\"updateTarget(".$ra[0].",'".$custom2."',this.value)\" type=\"text\" value=\"".$ra[5]."\" class=\"invisible_input\" /></td>\n
-														<td class=\"target_cell\"><input id=\"".$ra[0]."_".$custom3."\" onchange=\"updateTarget(".$ra[0].",'".$custom3."',this.value)\" type=\"text\" value=\"".$ra[6]."\" class=\"invisible_input\" /></td>\n
-														<td><a href=\"target_delete.php?g=".$ra[3]."&u=".$ra[0]."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
+														<td class=\"target_cell\"><input id=\"".$ra['id']."_name\" onchange=\"updateTarget(".$ra['id'].",'name',this.value)\" type=\"text\" value=\"".$ra['name']."\" class=\"invisible_input\"/></td>\n
+														<td class=\"target_cell\"><input id=\"".$ra['id']."_email\" onchange=\"updateTarget(".$ra['id'].",'email',this.value)\" type=\"text\" value=\"".$ra['email']."\" class=\"invisible_input\" /></td>\n
+														<td class=\"target_cell\"><input id=\"".$ra['id']."_group\" onchange=\"updateTarget(".$ra['id'].",'group_name',this.value)\" type=\"text\" value=\"".$ra['group_name']."\" class=\"invisible_input\" /></td>\n";
+																																		
+										//get the list of columns that should be shown
+										$r2 = mysql_query("SELECT field_name FROM targets_metrics WHERE shown = 1 ORDER BY field_name ASC");
+										while($ra2 = mysql_fetch_assoc($r2))
+											{
+												
+												$field_name = $ra2['field_name'];
+
+												echo
+													"
+														<td class=\"target_cell\"><input id=\"".$ra['id']."_".$ra2['field_name']."\" onchange=\"updateTarget(".$ra['id'].",'".$ra2['field_name']."',this.value)\" type=\"text\" value=\"".$ra[$field_name]."\" class=\"invisible_input\" /></td>\n
+													";
+											}
+
+										echo "
+														<td><a href=\"target_delete.php?g=".$ra['group_name']."&u=".$ra['id']."\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
 												</tr>
 											";
 									}
@@ -361,6 +461,7 @@
 			<div id="content">
 				<span class="button"><a href="#add_one"><img src="../images/plus_sm.png" alt="add" /> One</a></span>
 				<span class="button"><a href="#add_many"><img src="../images/plus_sm.png" alt="add" /> Many</a></span>
+				<span class="button"><a href="#metrics"><img src="../images/list_sm.png" alt="metrics" /> Metrics</a></span>
 				<span class="button"><a href="targets.csv"><img src="../images/list_sm.png" alt="template" /> Template</a></span>
 				<table class="spt_table">
 					<tr>

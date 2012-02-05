@@ -1,7 +1,7 @@
 /*css - targets*/
 /**
  * file:		spt_targets.css
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,7 +22,7 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#add_one, #add_many, #group_list
+#add_one, #add_many, #group_list, #metrics
 	{
 		position: fixed;
 		top: 0;
@@ -36,7 +36,7 @@
 		overflow:auto;
 	}
 
-#add_one div, #add_many div
+#add_one div, #add_many div, #metrics div
 	{
         margin: auto;
         background-color: #fff;
@@ -61,7 +61,7 @@
    		display: inline-block;
 	}
 
-#add_one:target, #add_many:target, #group_list:target
+#add_one:target, #add_many:target, #group_list:target, #metrics:target
 	{
 		display: block;
 	}
@@ -81,6 +81,22 @@
 #group_list_header
 	{
 		width:100%;
+	}
+
+#metrics table
+	{
+		margin: auto;	
+	}
+
+#manage_metrics
+	{
+		width:75%;
+		text-align:left;
+	}
+
+#manage_metrics td
+	{
+		padding-left:15px;
 	}
 
 .invisible_input	
