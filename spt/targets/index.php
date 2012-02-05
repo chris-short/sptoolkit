@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		19.0
+ * version:		20.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -73,6 +73,7 @@
 					
 				}
 		</script>
+		<script type="text/javascript" src="../includes/escape.js"></script>
 		
 	</head>
 	<body>
