@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		22.0
+ * version:		23.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -197,25 +197,19 @@
 							<td></td>
 						</tr>
 						<?php
-								//determine what the custom field names are
-								$r = mysql_query("SELECT * FROM targets");
-								$custom1 = mysql_field_name($r,4);
-								$custom2 = mysql_field_name($r,5);
-								$custom3 = mysql_field_name($r,6);
-
+							//query for all metrics
+							$r = mysql_query("SELECT * FROM targets_metrics");
+							while($ra = mysql_fetch_assoc($r))
+								{
+									echo 
+										"
+											<tr>
+												<td>".$ra['field_name']."</td>
+												<td><input type=\"text\" name=\"".$ra['field_name']."\" /></td>
+											</tr>
+										";	
+								}
 						?>
-						<tr>
-							<td><?php echo $custom1 ?></td>
-							<td><input type="text" name="custom1" /></td>
-						</tr>
-						<tr>
-							<td><?php echo $custom2 ?></td>
-							<td><input type="text" name="custom2" /></td>
-						</tr>
-						<tr>
-							<td><?php echo $custom3 ?></td>
-							<td><input type="text" name="custom3" /></td>
-						</tr>
 						<tr>	
 							<td></td>
 							<td>
@@ -237,7 +231,7 @@
 								<input type="file"  name="file" />
 							</td>
 							<td>
-								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.<br /><br />You can download a template targets CSV file from the main targets page.</span></a>
+								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.  If you do not match the current set of column headings, the upload will fail.<br /><br />Export the current list by clicking on the export button, even if you have no targets it will make a good template.</span></a>
 							</td>
 						</tr>
 						<tr>
@@ -258,7 +252,7 @@
 						<tr>
 							<td colspan=2></td>
 							<td>
-								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Adding a metric will create a new column in the database for tracking target metrics.<br /><br />Check the box next to 3 metrics and those will be the 3 that are displayed in the group list pop-over.</span></a>
+								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Adding a metric will create a new column in the database for tracking target metrics.<br /><br />Check the box next to 5 metrics and those will be the 5 that are displayed in the group list pop-over.</span></a>
 							&nbsp;&nbsp;&nbsp;
 							<a href="."><img src="../images/x.png" alt="close" /></a>
 							</td>
@@ -326,7 +320,7 @@
 						<td class="right">
 							<a class="tooltip">
 								<img src="../images/lightbulb.png" alt="help" />
-								<span>You can easily edit any individual, underlined cell by clicking on it and making your changes.  Changes are automatically saved when you click anywhere <strong>outside</strong> of the cell just edited. Changing the 3 custom column headings will require you to edit the header row of bulk target upload files. 
+								<span>You can easily edit any cell by clicking on it and making your changes.  Changes are automatically saved when you click anywhere <strong>outside</strong> of the cell just edited. 
 								</span>
 							</a>
 							&nbsp;&nbsp;&nbsp;
@@ -462,7 +456,7 @@
 				<span class="button"><a href="#add_one"><img src="../images/plus_sm.png" alt="add" /> One</a></span>
 				<span class="button"><a href="#add_many"><img src="../images/plus_sm.png" alt="add" /> Many</a></span>
 				<span class="button"><a href="#metrics"><img src="../images/list_sm.png" alt="metrics" /> Metrics</a></span>
-				<span class="button"><a href="targets.csv"><img src="../images/list_sm.png" alt="template" /> Template</a></span>
+				<span class="button"><a href="target_export.php"><img src="../images/list_sm.png" alt="template" /> Export</a></span>
 				<table class="spt_table">
 					<tr>
 						<td><h3>Group Name</h3></td>

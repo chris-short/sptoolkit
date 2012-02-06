@@ -1,7 +1,7 @@
 <?php
 /**
- * file:		delete_metric.php
- * version:		2.0
+ * file:		target_export.php
+ * version:		1.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -38,42 +38,44 @@
 		header('location:../errors/404_is_admin.php');
 	}
 
-//get posted metric
-$metric = filter_var($_REQUEST['m'], FILTER_SANITIZE_STRING);
-
 //connect to database
 include "../spt_config/mysql_config.php";
 
-//validate the column headings are only letters and underscores
-if(preg_match('#[^0-9a-zA-Z_]#', $metric))
-	{
-		$_SESSION['alert_message'] = "Metrics can only have letters, numbers and underscores";
-		header('location:./#alert');
-		exit;
-	}
+//set counter
+$output = "";
+$count = 0;
 
-//validate the new metric does already exist
+//get target columns
 $r = mysql_query("SHOW COLUMNS FROM targets");
 while($ra = mysql_fetch_assoc($r))
 	{
-		if($ra['Field']==$metric)
+		if($ra['Field'] != 'id')
 			{
-				$match = 1;
+				$output .= $ra['Field'].",";
+				$count++;	
+			} 
+	}
+
+//go to next line
+$output .= "\n";
+
+//get data
+$r2 = mysql_query("SELECT * FROM targets");
+while($ra2 = mysql_fetch_row($r2))
+	{
+		for ($i=1;$i<$count;$i++)
+			{
+				$output .= $ra2[$i].",";
 			}
+		$output .= "\n";
 	}
 
-if(isset($match))
-	{
-		mysql_query("DELETE FROM targets_metrics WHERE field_name = '$metric'");
-		mysql_query("ALTER TABLE targets DROP COLUMN $metric");
-		header('location:./#metrics');
-		exit;
-	}
-else
-	{
-		$_SESSION['alert_message'] = "That metric does not exist";
-		header('location:./#alert');
-		exit;
-	}
-
+//setup file
+header("Content-type: application/vnd.ms-excel");
+header("Content-disposition: csv" . date("Y-m-d") . ".csv");
+header( "Content-disposition: filename=target_export.csv");
+ 
+print $output;
+ 
+exit;		
 ?>
