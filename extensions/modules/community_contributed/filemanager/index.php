@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	File Manager module
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -31,34 +31,27 @@
  * Module contributed by cyk10id (http://vulnes.com)
  **/
 	
-	//start session
-	session_start();
+	// verify session is authenticated and not hijacked
+	$includeContent = "../includes/is_authenticated.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_authenticated.php');
+	}
 	
-	//check for authenticated session
-	if($_SESSION['authenticated']!=1)
-		{
-			//for potential return
-			$_SESSION['came_from']='filemanager';
-			
-			//set error message and send them back to login
-			$_SESSION['login_error_message']="login first";
-			header('location:../');
-			exit;
-		}
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
+	}
 	
-	//check for session hijacking
-	elseif($_SESSION['ip']!=md5($_SESSION['salt'].$_SERVER['REMOTE_ADDR'].$_SESSION['salt']))
-		{
-			//set error message and send them back to login
-			$_SESSION['login_error_message']="your ip address must have changed, please authenticate again";
-			header('location:../');
-			exit;
-		}
 ?>
 <!DOCTYPE HTML> 
 <html>
 	<head>
-		<title>spt - FileManager</title>
+		<title>spt - File Manager</title>
 		
 		<!--meta-->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -73,27 +66,24 @@
 
 	</head>
 	<body>
-		<?php
-			//check to see if the alert session is set
-			if(isset($_SESSION['filemanager_alert_message']))
-				{
-					//create alert popover
-					echo "<div id=\"alert\">";
+	
+	<?php
+		//check to see if the alert session is set
+		if(isset($_SESSION['alert_message']))
+			{
+				//create alert popover
+				echo "<div id=\"alert\">";
 
-					//echo the alert message
-					echo "<div>".$_SESSION['filemanager_alert_message']."<br />";
-					
-					//close the alert message
-					echo "<br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+				//echo the alert message
+				echo "<div>".$_SESSION['alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+				
+				//unset the seession
+				unset ($_SESSION['alert_message']);				
 
-					//close alert popover
-					echo "</div>";
-
-					//unset the seession
-					unset ($_SESSION['filemanager_alert_message']);		
-							
-				}
-		?>
+				//close alert popover
+				echo "</div>";
+			}
+	?>
 		<div id="wrapper">
 			<!--sidebar-->
 			<?php include '../includes/sidebar.php'; ?>					
@@ -102,7 +92,8 @@
 			<div id="content">
 				
 				<?php
-
+				
+// change charset as needed
 $site_charset = 'utf-8';
 $lang = 'en';
 $homedir = './';
