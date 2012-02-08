@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_batch.php
- * version:		13.0
+ * version:		14.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,7 +22,7 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-	// verify session is authenticated and not hijacked
+// verify session is authenticated and not hijacked
 	$includeContent = "../includes/is_authenticated.php";
 	if(file_exists($includeContent)){
 		require_once $includeContent;
@@ -30,7 +30,7 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 
-	// verify user is an admin
+// verify user is an admin
 	$includeContent = "../includes/is_admin.php";
 	if(file_exists($includeContent)){
 		require_once $includeContent;
@@ -59,15 +59,6 @@
 
 //pull in file
 	$lines = file($_FILES["file"]["tmp_name"]);
-
-//initialize counters
-	$counter = 0;
-	$counter_total = 0;
-	$counter_bad_name = 0;
-	$counter_bad_emails = 0;
-
-	$temp_counter_bad_name = 0;
-	$temp_counter_bad_emails = 0;
 
 //ensure there is a comma in every line
 	foreach($lines as $line)
@@ -100,7 +91,7 @@
 				{
 					if(strtolower($ra['Field']) != trim(strtolower($header_line[$c])))
 						{
-							$_SESSION['alert_message'] = "the header row does not match the column names in the database".$ra['Field']."|".$header_line[$c];
+							$_SESSION['alert_message'] = "the header row does not match the column names in the database. The value <strong>".$ra['Field']."</strong> does not match <strong>".$header_line[$c]."</strong>";
 				       	    header('location:./#alert');
 				            exit;
 						}	
@@ -108,9 +99,6 @@
 				}
 			$c2++;
 		}
-
-//get number of fields
-$field_count = mysql_num_fields($r);
 
 //ensure there are at least the three required fields
 	foreach($lines as $line)
@@ -121,14 +109,26 @@ $field_count = mysql_num_fields($r);
 			//ensure there are at least three columns
 			if(!isset($line_contents[0]) || !isset($line_contents[1]) || !isset($line_contents[2]))
 			    {
-					$_SESSION['alert_message'] = "you do not have at least the first three required columns";
+					$_SESSION['alert_message'] = "you do not have at least the first three required columns in all rows";
 					header('location:./#alert');
 					exit;
 			    }
 		}
 
-//set counter
+//initialize counters
 	$c = 0;
+
+	$counter = 0;
+	$counter_total = 0;
+	$column_count = -1;
+
+	$counter_bad_emails = 0;
+	$counter_bad_columns = 0;
+
+	$temp_counter_bad_emails = 0;
+	$temp_counter_bad_columns = 0;
+
+	$field_count = mysql_num_rows($r);
 
 //validate each column of data and if all columns validate write the entire line to the database
 	foreach($lines as $line)
@@ -139,7 +139,7 @@ $field_count = mysql_num_fields($r);
 					//separate each line into an array based on the comma delimiter
 					$line_contents = explode(',',$line);
 					
-					//filter name
+					//sanitize name
 					$temp_name = filter_var(trim($line_contents[1]), FILTER_SANITIZE_STRING);
 
 					//validate email
@@ -155,11 +155,18 @@ $field_count = mysql_num_fields($r);
 							
 					//set the group name
 					$temp_group = filter_var(trim($line_contents[2]), FILTER_SANITIZE_STRING);	
+
+					//ensure the rows has the right number of columns
+					if(count($line_contents) != ($field_count-1))
+						{
+							//increment the bad columns counter
+							$temp_counter_bad_columns++;
+						}
 						
 					//if there are any errors increment counters, otherwise write values to database
-					if($temp_counter_bad_name == 1 || $temp_counter_bad_emails == 1)
+					if($temp_counter_bad_columns == 1 || $temp_counter_bad_emails == 1)
 						{
-							$counter_bad_name = $temp_counter_bad_name + $counter_bad_name;
+							$counter_bad_columns = $temp_counter_bad_columns + $counter_bad_columns;
 							$counter_bad_emails = $temp_counter_bad_emails + $counter_bad_emails;
 						}
 
@@ -170,48 +177,44 @@ $field_count = mysql_num_fields($r);
 
 							//insert data
 							mysql_query("INSERT INTO targets (name, email, group_name) VALUES ('$temp_name','$temp_email','$temp_group')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-
+						
 							$r = mysql_query("SHOW COLUMNS FROM targets");
 							while($ra = mysql_fetch_row($r))
 								{
-									echo "field count".$field_count."<br />";
-
-									print_r($ra);
-									$value = $line_contents[$field_count];
-
-									echo "column".$column."<br />";
-
-									echo "value".$value."<br />";
-
-									mysql_query("UPDATE targets SET $column = '$value' WHERE email = '$temp_email'");
-
-									$field_count--;
+									
+									if($ra[0] == "email" OR $ra[0] == "name" OR $ra[0] == "group_name" OR $ra[0] == "id")
+										{}
+									else
+										{
+											$column = $ra[0];
+											$value = $line_contents[$column_count];
+										}
+									$column_count++;
+									//add the appropriate value to the appropriate column
+									mysql_query("UPDATE targets SET $column = '$value' WHERE email = '$temp_email'");			
 
 								}
-							
-
-							exit;
-
-							//increment counter
-							$counter++;
-					
-							$counter_total++;
-							
-							//set temp counters back to 0
-							$temp_counter_bad_name = 0;
-							$temp_counter_bad_emails = 0;
 						}
+
+						//increment counter
+						$counter++;
+				
+						$counter_total++;
+						
+						//set temp counters back to 0
+						$temp_counter_bad_columns = 0;
+						$temp_counter_bad_emails = 0;
+						
 				}
-			
 			//increment counter
 			$c++;
 		}
 
 
 //send stats back if there were bad rows
-	if($counter_bad_name > 0)
+	if($counter_bad_columns > 0)
 		{
-			$_SESSION["bad_row_stats"][] = $counter_bad_name." rows excluded due to names with bad values";
+			$_SESSION["bad_row_stats"][] = $counter_bad_columns." rows excluded because there were not enough columns";
 		}
 	if($counter_bad_emails > 0)
 		{
