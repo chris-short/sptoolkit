@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		install.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	FileManager module
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -26,7 +26,7 @@
   
   $sql = 
     "
-      INSERT INTO `modules` VALUES ('File Manager','filemanager','A file manager based on the webadmin.php script that allows you to perform various functions on files within the dashboard','2012-02-03',1,0)  
+      INSERT INTO `modules` VALUES ('File Manager','filemanager','A file manager based on the webadmin.php script that allows you to perform various functions on files within the dashboard','2012-02-03',0)  
 	";
 
   mysql_query($sql) or die(mysql_error());
