@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		sql_install.php
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -34,6 +34,7 @@
         `domain_name` varchar(255) NOT NULL,
         `education_id` int(10) NOT NULL,
         `education_timing` int(10) NOT NULL,
+        `date_sent` varchar(255) NOT NULL,
         PRIMARY KEY (`id`)
       )
     ";

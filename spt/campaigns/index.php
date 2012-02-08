@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		19.0
+ * version:		20.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -172,6 +172,13 @@
 						if(isset($_REQUEST['c']))
 							{
 								$campaign_id = filter_var($_REQUEST['c'], FILTER_SANITIZE_NUMBER_INT);
+
+								//get campaign name
+								$r = mysql_query("SELECT campaign_name FROM campaigns WHERE id = '$campaign_id'");
+								while($ra = mysql_fetch_assoc($r))
+									{
+										$campaign_name = $ra['campaign_name'];
+									}
 								
 								//go ahead and perform validation
 								$r = mysql_query("SELECT DISTINCT campaign_id FROM campaigns_responses") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
@@ -240,7 +247,7 @@
 								$r = mysql_query("SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.name AS name, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.campaign_id = '$campaign_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 							
 								//title the page with the campaign number
-								$title = "<h3>Campaign ".$campaign_id." Responses</h3>";
+								$title = "<h3>".$campaign_name." :: All Responses</h3>";
 							}
 						
 						//pull data if a group is set
@@ -249,7 +256,7 @@
 								$r = mysql_query("SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.name AS name, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE targets.group_name = '$group' AND campaigns_responses.campaign_id = '$campaign_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 								
 								//title the page with the campaign number
-								$title = "<h3>Campaign ".$campaign_id." Responses - ".$group."</h3>";
+								$title = "<h3>".$campaign_name." :: ".$group."</h3>";
 
 							}
 							
@@ -262,14 +269,14 @@
 										$r = mysql_query("SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.name AS name, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.link = 1 AND campaigns_responses.campaign_id = '$campaign_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 										
 										//title the page with the campaign number
-										$title = "<h3>Campaign ".$campaign_id." Responses";
+										$title = "<h3>".$campaign_name;
 										
 										if(isset($group))
 											{
-												$title .= " - ".$group." Group";	
+												$title .= " :: ".$group;	
 											}
 										
-										$title .= " - Links</h3>";
+										$title .= " :: Links</h3>";
 									}
 								
 								//if filter is for posts
@@ -278,17 +285,52 @@
 										$r = mysql_query("SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.name AS name, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time  FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.post != \"\"  AND campaigns_responses.campaign_id = '$campaign_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 										
 										//title the page with the campaign number
-										$title = "<h3>Campaign ".$campaign_id." Responses";
+										$title = "<h3>".$campaign_name;
 										
 										if(isset($group))
 											{
-												$title .= " - ".$group." Group";
+												$title .= " :: ".$group;
 											}
 											
-										$title .= " - Posts</h3>";
+										$title .= " :: Posts</h3>";
 									}
 							}
 					
+						//get basic campaign data
+						$r2 = mysql_query("SELECT date_sent, campaign_name, domain_name, education_id, template_id, education_timing FROM campaigns WHERE id = '$campaign_id'");
+						while($ra2 = mysql_fetch_assoc($r2))
+							{
+								$date_sent = $ra2['date_sent'];
+								$campaign_name = $ra2['campaign_name'];
+								$formulated_url = "http://".$ra2['domain_name']."/campaigns/response.php?r=random_key_for_each_target";
+								$template_url = "http://".$ra2['domain_name']."/".$ra2['education_id'];
+								$education_id = $ra2['education_id'];
+								$template_id = $ra2['template_id'];
+								if($education_timing == 1)
+									{
+										$education = "Immediatly";
+									}
+								if($education_timing == 0)
+									{
+										$education = "None";
+									}
+								if($education_timing == 2)
+									{
+										$education = "After POST";
+									}
+							}
+						$r3 = mysql_query("SELECT name FROM education WHERE id = '$education_id'");
+						while($ra3 = mysql_fetch_assoc($r3))
+							{
+								$education_name = $ra3['name'];
+							}
+
+						$r4 = mysql_query("SELECT name FROM templates WHERE id = '$template_id'");
+						while($ra4 = mysql_fetch_assoc($r4))
+							{
+								$template_name = $ra4['name'];
+							}
+						
 						//print the table header
 						echo "
 							<table id=\"campaign_list_header\">
@@ -305,6 +347,25 @@
 										&nbsp;&nbsp;&nbsp;
 										<a href=\".\"><img src=\"../images/x.png\" alt=\"close\" /></a>
 									</td>
+								</tr>
+							</table>
+							<br />
+							<table class=\"left\">
+								<tr>
+									<td>Date Sent</td>
+									<td>".$date_sent."</td>
+								</tr>
+								<tr>
+									<td>Template</td>
+									<td><a href=\"../templates/".$template_id."\" target=\"_blank\">".$template_name."</a></td>
+								</tr>
+								<tr>
+									<td>Education Package</td>
+									<td><a href=\"../education/".$education_id."\" target=\"_blank\">".$education_name."</a></td>
+								</tr>
+								<tr>
+									<td>Education Timing</td>
+									<td>".$education."</td>
 								</tr>
 							</table>
 							<br />
@@ -369,10 +430,10 @@
 				<span class="button"><a href="#add_campaign"><img src="../images/plus_sm.png" alt="add" /> Campaign</a></span>
 				<table class="spt_table">
 					<tr>
-						<td><h3>ID</h3></td>
 						<td><h3>Name</h3></td>
-						<td><h3>Template</h3></td>
 						<td><h3>Target Groups</h3></td>
+						<td><h3>Template</h3></td>
+						<td><h3>Education</h3></td>
 						<td><h3>Responses (Links/Posts)</h3></td>
 						<td><h3>Delete</h3></td>
 					</tr>
@@ -383,14 +444,12 @@
 						include "../spt_config/mysql_config.php";
 						
 						//pull in list of all campaigns
-						$r = mysql_query("SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, templates.name as name FROM campaigns JOIN templates ON campaigns.template_id = templates.id") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+						$r = mysql_query("SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id JOIN education ON campaigns.education_id = education.id") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 						while ($ra = mysql_fetch_assoc($r))
 							{
 								echo	"
 									<tr>
-										<td><a href=\"?c=".$ra['id']."#responses\">".$ra['id']."</a></td>\n
-										<td>".$ra['campaign_name']."</td>\n
-										<td><a href=\"../templates/".$ra['template_id']."/\" target=\"_blank\">".$ra['name']."</a></td>\n
+										<td><a href=\"?c=".$ra['id']."#responses\">".$ra['campaign_name']."</a></td>\n
 										<td>
 								";
 								
@@ -403,6 +462,8 @@
 										echo	"<a href=\"?c=".$ra['id']."&amp;g=".$ra3['group_name']."#responses\">".$ra3['group_name']."</a><br />\n";
 									}
 								echo "</td>";
+								echo "<td><a href=\"../templates/".$ra['template_id']."/\" target=\"_blank\">".$ra['name']."</a></td>\n";
+								echo "<td><a href=\"../education/".$ra['education_id']."/\" target=\"_blank\">".$ra['education_name']."</a></td>\n";
 										
 								$r2 = mysql_query("SELECT count(target_id) as count, sum(link) as link, sum(if(length(post) > 0, 1, 0)) as post FROM campaigns_responses WHERE campaign_id = '$campaign_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 								while($ra2=mysql_fetch_assoc($r2))
