@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_single.php
- * version:		10.0
+ * version:		11.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,7 +41,7 @@
 //validate first name is set and if so throw it in a variable
 	if(isset($_POST['fname']))
 		{
-			$fname = $_POST['fname'];
+			$fname = filter_var($_POST['fname'], FILTER_SANITIZE_STRING);
 		}
 	else
 		{
@@ -53,7 +53,7 @@
 //validate last name is set and if so throw it in a variable
 	if(isset($_POST['lname']))
 		{
-			$lname = $_POST['lname'];
+			$lname = filter_var($_POST['lname'], FILTER_SANITIZE_STRING);
 		}
 	else
 		{
@@ -101,15 +101,7 @@
 			header('location:./#alert');
 			exit;
 		}
-		
-//do a little validation on the name
-	if(preg_match('/[^a-zA-Z0-9_-\s!.()]/', $name))
-		{
-			$_SESSION['alert_message'] = "you have some invalid characters in the name";
-			header('location:./#alert');
-			exit;
-		}
-		
+				
 //do a little validation on the email
 	if(!filter_var($email, FILTER_VALIDATE_EMAIL))
 		{

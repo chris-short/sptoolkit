@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		install.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -132,7 +132,7 @@
 									}
 							}
 												
-						if($permission_error==1)
+						if(isset($permission_error))
 							{
 								echo
 									"

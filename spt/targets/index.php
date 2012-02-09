@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		24.0
+ * version:		25.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -235,7 +235,7 @@
 								<input type="file"  name="file" />
 							</td>
 							<td>
-								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Upload a csv file with a header row that contains a column for the required columns (name, email, group) as well as any additional attributes you have added.  If you do not match the current set of column headings, the upload will fail.<br /><br />Export the current list by clicking on the export button, even if you have no targets it will make a good template.</span></a>
+								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Upload a csv file with a header row that contains a column for the required columns (fname, lname email, group) as well as any additional attributes you have added.  If you do not match the current set of column headings, the upload will fail.<br /><br />Export the current list by clicking on the export button, even if you have no targets it will make a good template.</span></a>
 							</td>
 						</tr>
 						<tr>
@@ -272,7 +272,12 @@
 					<table id="manage_metrics">
 						<tr>
 							<td>-</td>
-							<td>Name</td>
+							<td>First Name</td>
+							<td>-</td>
+						</tr>
+						<tr>
+							<td>-</td>
+							<td>Last Name</td>
 							<td>-</td>
 						</tr>
 						<tr>
@@ -378,7 +383,7 @@
 											}
 									}
 
-								if($match!=1)
+								if(!isset($match))
 									{
 										$_SESSION['alert_message'] = "this group does not exist";
 										header("location:./#alert");
@@ -386,7 +391,7 @@
 									}
 													
 								//query for a list of group members ordered alphabetically
-								$r = mysql_query("SELECT * FROM targets WHERE group_name = '$group' ORDER BY name") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+								$r = mysql_query("SELECT * FROM targets WHERE group_name = '$group' ORDER BY fname") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 								while ($ra = mysql_fetch_assoc($r))
 									{
 										
