@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	File Manager module
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -37,14 +37,6 @@
 		require_once $includeContent;
 	}else{
 		header('location:../errors/404_is_authenticated.php');
-	}
-	
-	// verify user is an admin
-	$includeContent = "../includes/is_admin.php";
-	if(file_exists($includeContent)){
-		require_once $includeContent;
-	}else{
-		header('location:../errors/404_is_admin.php');
 	}
 	
 ?>
