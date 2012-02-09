@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		sql_install.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,7 +30,8 @@
 		CREATE TABLE `targets` (
 		  `id` int(6) NOT NULL AUTO_INCREMENT,
 		  `email` varchar(255) NOT NULL,
-		  `name` varchar(255) NOT NULL,
+		  `fname` varchar(255) NOT NULL,
+      `lname` varchar(255) NOT NULL,
 		  `group_name` varchar(50) NOT NULL,
 		  PRIMARY KEY (`id`)
 		)    

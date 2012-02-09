@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_single.php
- * version:		8.0
+ * version:		10.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -38,18 +38,30 @@
 		header('location:../errors/404_is_admin.php');
 	}
 
-//validate name is set and if so throw it in a variable
-	if(isset($_POST['name']))
+//validate first name is set and if so throw it in a variable
+	if(isset($_POST['fname']))
 		{
-			$name = $_POST['name'];
+			$fname = $_POST['fname'];
 		}
 	else
 		{
-			$_SESSION['alert_message'] = "you must enter a name";
+			$_SESSION['alert_message'] = "you must enter a first name";
 			header('location:./#alert');
 			exit;
 		}
-		
+
+//validate last name is set and if so throw it in a variable
+	if(isset($_POST['lname']))
+		{
+			$lname = $_POST['lname'];
+		}
+	else
+		{
+			$_SESSION['alert_message'] = "you must enter a last name";
+			header('location:./#alert');
+			exit;
+		}
+
 //validate email is set and if so throw it in a variable
 	if(isset($_POST['email']))
 		{
@@ -139,11 +151,11 @@
 	//if existing group is selected
 	if($group_name != "Select an Existing Group..." && isset($group_name))
 		{
-			mysql_query("INSERT INTO targets (name, email, group_name) VALUES ('$name', '$email', '$group_name')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+			mysql_query("INSERT INTO targets (fname, lname, email, group_name) VALUES ('$fname', '$lname', '$email', '$group_name')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 		}
 	else
 		{
-			mysql_query("INSERT INTO targets (name, email, group_name) VALUES ('$name', '$email', '$group_name_new')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+			mysql_query("INSERT INTO targets (fname, lname, email, group_name) VALUES ('$fname', '$lname', '$email', '$group_name_new')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 		}
 
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		23.0
+ * version:		24.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -147,11 +147,15 @@
 				<form action="target_upload_single.php" method="post" enctype="multipart/form-data">
 					<table id="add_single">
 						<tr>
-							<td>Name</td>
-							<td><input type="text" name="name" /></td>
+							<td>First Name</td>
+							<td><input type="text" name="fname" /></td>
 							<td>
 								<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter the target's name, valid email address and then select an existing or new group to add the new target to.</span></a>
 							</td>
+						</tr>
+						<tr>
+							<td>Last Name</td>
+							<td><input type="text" name="lname" /></td>
 						</tr>
 						<tr>
 							<td>Email</td>
@@ -331,7 +335,8 @@
 				<br />
 				<table id="group_user_list">
 					<tr>
-						<td><h3>Name</h3></td>
+						<td><h3>First Name</h3></td>
+						<td><h3>Last Name</h3></td>
 						<td><h3>Email</h3></td>
 						<td><h3>Group</h3></td>
 						<?php 
@@ -389,7 +394,8 @@
 										echo 
 											"
 												<tr>\n
-														<td class=\"target_cell\"><input id=\"".$ra['id']."_name\" onchange=\"updateTarget(".$ra['id'].",'name',this.value)\" type=\"text\" value=\"".$ra['name']."\" class=\"invisible_input\"/></td>\n
+														<td class=\"target_cell\"><input id=\"".$ra['id']."_fname\" onchange=\"updateTarget(".$ra['id'].",'fname',this.value)\" type=\"text\" value=\"".$ra['fname']."\" class=\"invisible_input\"/></td>\n
+														<td class=\"target_cell\"><input id=\"".$ra['id']."_lname\" onchange=\"updateTarget(".$ra['id'].",'lname',this.value)\" type=\"text\" value=\"".$ra['lname']."\" class=\"invisible_input\"/></td>\n
 														<td class=\"target_cell\"><input id=\"".$ra['id']."_email\" onchange=\"updateTarget(".$ra['id'].",'email',this.value)\" type=\"text\" value=\"".$ra['email']."\" class=\"invisible_input\" /></td>\n
 														<td class=\"target_cell\"><input id=\"".$ra['id']."_group\" onchange=\"updateTarget(".$ra['id'].",'group_name',this.value)\" type=\"text\" value=\"".$ra['group_name']."\" class=\"invisible_input\" /></td>\n";
 														
@@ -420,7 +426,8 @@
 										echo 
 											"
 												<tr>\n
-														<td class=\"target_cell\"><input id=\"".$ra['id']."_name\" onchange=\"updateTarget(".$ra['id'].",'name',this.value)\" type=\"text\" value=\"".$ra['name']."\" class=\"invisible_input\"/></td>\n
+														<td class=\"target_cell\"><input id=\"".$ra['id']."_fname\" onchange=\"updateTarget(".$ra['id'].",'fname',this.value)\" type=\"text\" value=\"".$ra['fname']."\" class=\"invisible_input\"/></td>\n
+														<td class=\"target_cell\"><input id=\"".$ra['id']."_lname\" onchange=\"updateTarget(".$ra['id'].",'lname',this.value)\" type=\"text\" value=\"".$ra['lname']."\" class=\"invisible_input\"/></td>\n
 														<td class=\"target_cell\"><input id=\"".$ra['id']."_email\" onchange=\"updateTarget(".$ra['id'].",'email',this.value)\" type=\"text\" value=\"".$ra['email']."\" class=\"invisible_input\" /></td>\n
 														<td class=\"target_cell\"><input id=\"".$ra['id']."_group\" onchange=\"updateTarget(".$ra['id'].",'group_name',this.value)\" type=\"text\" value=\"".$ra['group_name']."\" class=\"invisible_input\" /></td>\n";
 																																		

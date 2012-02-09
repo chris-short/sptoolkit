@@ -139,8 +139,11 @@
 					//separate each line into an array based on the comma delimiter
 					$line_contents = explode(',',$line);
 					
-					//sanitize name
-					$temp_name = filter_var(trim($line_contents[1]), FILTER_SANITIZE_STRING);
+					//sanitize fname
+					$temp_fname = filter_var(trim($line_contents[1]), FILTER_SANITIZE_STRING);
+
+					//sanitize lname
+					$temp_lname = filter_var(trim($line_contents[2]), FILTER_SANITIZE_STRING);
 
 					//validate email
 					if(filter_var(trim($line_contents[0]), FILTER_VALIDATE_EMAIL))
@@ -154,7 +157,7 @@
 						}
 							
 					//set the group name
-					$temp_group = filter_var(trim($line_contents[2]), FILTER_SANITIZE_STRING);	
+					$temp_group = filter_var(trim($line_contents[3]), FILTER_SANITIZE_STRING);	
 
 					//ensure the rows has the right number of columns
 					if(count($line_contents) != ($field_count-1))
@@ -176,13 +179,13 @@
 							include "../spt_config/mysql_config.php";
 
 							//insert data
-							mysql_query("INSERT INTO targets (name, email, group_name) VALUES ('$temp_name','$temp_email','$temp_group')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+							mysql_query("INSERT INTO targets (fname, lname, email, group_name) VALUES ('$temp_fname','$temp_lname','$temp_email','$temp_group')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 						
 							$r = mysql_query("SHOW COLUMNS FROM targets");
 							while($ra = mysql_fetch_row($r))
 								{
 									
-									if($ra[0] == "email" OR $ra[0] == "name" OR $ra[0] == "group_name" OR $ra[0] == "id")
+									if($ra[0] == "email" OR $ra[0] == "fname" OR $ra[0] == "lname" $ra[0] == "group_name" OR $ra[0] == "id")
 										{}
 									else
 										{
