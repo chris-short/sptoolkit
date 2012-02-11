@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		file_update.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Editor
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,13 +30,13 @@
 		header('location:../errors/404_is_authenticated.php');
 	}
 
-	//validate that the currently logged in user is an admin
-		if($_SESSION['admin']!=1)
-		{
-			$_SESSION['alert_message'] = "you do not have permission to edit files";
-			header('location:./#alert');
-			exit;
-		}
+	// verify user is an admin
+	$includeContent = "../includes/is_admin.php";
+	if(file_exists($includeContent)){
+		require_once $includeContent;
+	}else{
+		header('location:../errors/404_is_admin.php');
+	}
 
 //validate template id OR package id is set and filename is set
 if(!isset($_REQUEST['f']))
