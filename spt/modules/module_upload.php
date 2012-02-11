@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		module_upload.php
- * version:		7.0
+ * version:		8.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -38,6 +38,14 @@
 		header('location:../errors/404_is_admin.php');
 	}
 
+//validate a file was uploaded
+	if(!is_uploaded_file($_FILES['file']['tmp_name']))
+		{
+			$_SESSION['alert_message'] = 'you must upload a file';
+			header('location:./#alert');
+			exit;
+		}
+
 //ensure its a zip file
 	if(preg_match('/^(zip)\i/',$_FILES["file"]["type"])) 
 		{
@@ -58,7 +66,7 @@
 //ensure there are no errors
 	  if ($_FILES["file"]["error"] > 0)
 	    {
-	    	$_SESSION['alert_message'] = $_FILES["file"]["error"];
+	    	$_SESSION['alert_message'] = "there was a problem uploading your file";
 	    	header('location:./#alert');
 	    	exit;
 	    }

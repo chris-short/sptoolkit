@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		upload_template.php
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -85,7 +85,7 @@ $description = filter_var($_POST['description'],FILTER_SANITIZE_STRING);
 //ensure there are no errors
 	  if ($_FILES["file"]["error"] > 0)
 	    {
-	    	$_SESSION['alert_message'] = $_FILES["file"]["error"];
+	    	$_SESSION['alert_message'] = "there was a problem uploading your file";
 	    	header('location:./#alert');
 	    	exit;
 	    }
