@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		add_user.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -131,7 +131,24 @@ if(isset($_POST['password']))
 else
 	{
 		$_SESSION['alert_message'] = "you must enter a password";
-		header('location"../users/#alert');
+		header('location"./#alert');
+		exit;
+	}
+
+//validate that the entered passwords match
+if(isset($_POST['password']) && isset($_POST['password_check']))
+	{
+		if($_POST['password'] != $_POST['password_check'])
+			{
+				$_SESSION['alert_message']="your password values must match";
+				header('location:./#alert');
+				exit;
+			}
+	}
+else
+	{
+		$_SESSION['alert_message'] = "you must enter something in both password fields";
+		header('location"./#alert');
 		exit;
 	}
 

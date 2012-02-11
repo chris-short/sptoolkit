@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		edit_user.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -110,7 +110,7 @@ if(strlen($new_lname) < 1)
 	}
 
 //validate the password if it is set
-if(!empty($_POST['password']))
+if(isset($_POST['password']))
 	{
 		//pull in password to temp variable
 		$temp_p = $_POST['password'];
@@ -125,6 +125,17 @@ if(!empty($_POST['password']))
 		
 		//pass temp password to new variable that has been salted and hashed
 		$p = sha1($_SESSION['salt'].$temp_p.$_SESSION['salt']);
+	}
+
+//validate the passwords match
+if(isset($_POST['password']) && isset($_POST['password_check']))
+	{
+		if($_POST['password'] != $_POST['password_check'])
+			{
+				$_SESSION['alert_message']="your passwords do not match...please try again";
+				header('location:./#alert');
+				exit;
+			}
 	}
 //all entered variables should have been validated by now
 

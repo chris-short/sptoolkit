@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		10.0
+ * version:		11.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -88,6 +88,10 @@
 										<td><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\"/></td>\n
 									</tr>\n
 									<tr>\n
+										<td>re-enter</td>\n
+										<td><input id=\"password_check\" type=\"password\" name=\"password_check\" autocomplete=\"off\"/></td>\n
+									</tr>\n
+									<tr>\n
 										<td></td>
 										<td>
 											<a href=\"\"><img src=\"../images/x.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -122,6 +126,10 @@
 						<tr>
 							<td>password</td>
 							<td><input id="password" type="password" name="password" autocomplete="off" /></td>
+						</tr>
+						<tr>
+							<td>re-enter</td>
+							<td><input id="password_check" type="password" name="password_check" autocomplete="off" /></td>
 						</tr>
 						<tr>
 							<td>admin</td>
@@ -204,6 +212,10 @@
 													<tr>\n
 														<td>password</td>\n
 														<td><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\" /></td>\n
+													</tr>\n
+													<tr>\n
+														<td>re-enter</td>\n
+														<td><input id=\"password_check\" type=\"password\" name=\"password_check\" autocomplete=\"off\" /></td>\n
 													</tr>\n
 													<tr>\n
 														<td>admin</td>\n
