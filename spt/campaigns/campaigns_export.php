@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		campaigns_export.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -45,7 +45,7 @@ include "../spt_config/mysql_config.php";
 $output = "Campaign,Template,Education,EducationTiming,DateSent,TargetName,TargetEmail,LinkTime,Post,IP,Browser,OS\n";
 
 //get data
-$r = mysql_query("SELECT campaigns.campaign_name AS campaign_name, templates.name AS template_name, education.name AS education_name, campaigns.education_timing AS education_timing, campaigns.date_sent AS date_sent, campaigns_responses.post AS post, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id JOIN campaigns ON campaigns.id = campaigns_responses.campaign_id JOIN education ON campaigns.education_id = education.id JOIN templates ON templates.id = campaigns.template_id") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+$r = mysql_query("SELECT campaigns.campaign_name AS campaign_name, templates.name AS template_name, education.name AS education_name, campaigns.education_timing AS education_timing, campaigns.date_sent AS date_sent, campaigns_responses.post AS post, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id JOIN campaigns ON campaigns.id = campaigns_responses.campaign_id LEFT JOIN education ON campaigns.education_id = education.id JOIN templates ON templates.id = campaigns.template_id") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 
 while($ra = mysql_fetch_assoc($r))
 	{
