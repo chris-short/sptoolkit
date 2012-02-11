@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_batch.php
- * version:		16.0
+ * version:		17.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -192,11 +192,11 @@
 										{
 											$column = $ra[0];
 											$value = $line_contents[$column_count];
+
+											//add the appropriate value to the appropriate column
+											mysql_query("UPDATE targets SET $column = '$value' WHERE email = '$temp_email'");			
 										}
 									$column_count++;
-									//add the appropriate value to the appropriate column
-									mysql_query("UPDATE targets SET $column = '$value' WHERE email = '$temp_email'");			
-
 								}
 							
 							//increment counter of successful entries
