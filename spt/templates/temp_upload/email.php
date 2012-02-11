@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		email.php
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Standard email template
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -31,8 +31,8 @@
 //This will populate the subject line of the email that is sent
 $subject = 'Insert Subject Here';
 
-//This will force the sender to be what you set the from address to.  If you experience problems just comment this line out.
-$f_sender = "postmaster@domain.com";
+//This will force the sender to be what you set the from address to.  If you want to completely impersonate the domain in the envelope sender header field uncomment this out.
+//$f_sender = "postmaster@domain.com";
 
 //This will populate the headers of the message
 $headers = "From: postmaster@domain.com\r\n";
