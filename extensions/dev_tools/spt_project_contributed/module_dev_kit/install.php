@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		install.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module Template
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -37,7 +37,7 @@
   
   $sql = 
   	"
-  		INSERT INTO `modules_dependencies` VALUES ('This Modules Name','The Module this module cant exist without')
+  		INSERT INTO `modules_dependencies` VALUES ('Module Name goes here','The Module this module can not exist without')
   	";
 
   mysql_query($sql) or die(mysql_error());
