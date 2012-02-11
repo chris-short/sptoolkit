@@ -64,7 +64,7 @@
 					window.location = ".?p="+package_id+"&f="+file;								
 				}
 		</script>
-
+		<script type="text/javascript" src="../includes/escape.js"></script>
 
 
 	</head>
