@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		16.0
+ * version:		17.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -180,7 +180,6 @@
 				<span class="button"><a href="#add_scrape"><img src="../images/plus_sm.png" alt="add" /> Scrape</a></span>
 				<table class="spt_table">
 					<tr>
-						<td><h3>ID</h3></td>
 						<td><h3>Name</h3></td>
 						<td><h3>Description</h3></td>
 						<td><h3>Screenshot</h3></td>
@@ -198,7 +197,6 @@
 							{
 								echo	"
 									<tr>
-										<td><a href=\"".$ra['id']."\" target=\"_blank\">".$ra['id']."</a></td>\n
 										<td><a href=\"".$ra['id']."\" target=\"_blank\">".$ra['name']."</a></td>\n
 										<td>".$ra['description']."</td>\n
 										<td><img class= \"drop_shadow\" src=\"".$ra['id']."/screenshot.png\" alt=\"missing screenshot\" /></td>\n
