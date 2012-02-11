@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_batch.php
- * version:		14.0
+ * version:		16.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -120,7 +120,6 @@
 
 	$counter = 0;
 	$counter_total = 0;
-	$column_count = -1;
 
 	$counter_bad_emails = 0;
 	$counter_bad_columns = 0;
@@ -181,11 +180,13 @@
 							//insert data
 							mysql_query("INSERT INTO targets (fname, lname, email, group_name) VALUES ('$temp_fname','$temp_lname','$temp_email','$temp_group')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 						
+							//set column count variable
+							$column_count = -1;
 							$r = mysql_query("SHOW COLUMNS FROM targets");
 							while($ra = mysql_fetch_row($r))
 								{
 									
-									if($ra[0] == "email" OR $ra[0] == "fname" OR $ra[0] == "lname" $ra[0] == "group_name" OR $ra[0] == "id")
+									if($ra[0] == "email" || $ra[0] == "fname" || $ra[0] == "lname" || $ra[0] == "group_name" || $ra[0] == "id")
 										{}
 									else
 										{
@@ -197,13 +198,15 @@
 									mysql_query("UPDATE targets SET $column = '$value' WHERE email = '$temp_email'");			
 
 								}
-						}
+							
+							//increment counter of successful entries
+							$counter++;
 
-						//increment counter
-						$counter++;
-				
-						$counter_total++;
+						}
 						
+						//increment how many rows were parsed
+						$counter_total++;
+
 						//set temp counters back to 0
 						$temp_counter_bad_columns = 0;
 						$temp_counter_bad_emails = 0;

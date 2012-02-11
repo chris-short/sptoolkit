@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		26.0
+ * version:		28.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -357,20 +357,21 @@
 					</tr>
 					<tr>
 						<form action="target_upload_single.php" method="post" enctype="multipart/form-data">
-							<td><input type="text" name="fname" /></td>
-							<td><input type="text" name="lname" /></td>
-							<td><input type="text" name="email" /></td>
-							<td><input type="text" name="group_name_new" <?php if(isset($_REQUEST['g'])){echo "value=\"".filter_var($_REQUEST['g'], FILTER_SANITIZE_STRING)."\"";} ?> /></td>
+							<td class="target_cell"><input type="text" name="fname" class="invisible_input" /></td>
+							<td class="target_cell"><input type="text" name="lname" class="invisible_input" /></td>
+							<td class="target_cell"><input type="text" name="email" class="invisible_input" /></td>
+							<td class="target_cell"><input type="text" name="group_name_new" <?php if(isset($_REQUEST['g'])){echo "value=\"".filter_var($_REQUEST['g'], FILTER_SANITIZE_STRING)."\"";} ?> class="invisible_input" /></td>
 							
 							<?php
 								//get the list of columns that should be shown
 								$r = mysql_query("SELECT field_name FROM targets_metrics WHERE shown = 1 ORDER BY field_name ASC");
 								while($ra = mysql_fetch_assoc($r))
 									{
-										echo "<td><input type=\"text\" name=\"".$ra['field_name']."\" /></td>";
+										echo "<td class=\"target_cell\"><input type=\"text\" name=\"".$ra['field_name']."\"class=\"invisible_input\"  /></td>";
 									}
 							?>
-							<td><input type="image" src="../images/plus_sm.png" alt="add" /></td>
+							<td class="target_cell"><input type="image" src="../images/plus_sm.png" alt="add" class="invisible_input" /></td>
+							<input type="hidden" name="group_list" <?php if(isset($_REQUEST['g'])){echo "value=\"".filter_var($_REQUEST['g'], FILTER_SANITIZE_STRING)."\"";} ?> />
 						</form>
 					</tr>
 					<?php

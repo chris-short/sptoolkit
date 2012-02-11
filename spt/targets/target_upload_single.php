@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_single.php
- * version:		11.0
+ * version:		12.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -164,9 +164,16 @@ while($ra = mysql_fetch_assoc($r))
 			}
 	}
 		
+//if a group field was set then send them back to the group list
+if(isset($_POST['group_list']) && strlen($_POST['group_list']) > 0)
+	{
+		header('location:./?g='.$_POST['group_list'].'#group_list');
+		exit;
+	}
+
 //send user back to targets page with success message
 $_SESSION['alert_message'] = "target added successfully";
-header('location:./#alert');
+header('location:./#group_list');
 exit;
 
 ?>
