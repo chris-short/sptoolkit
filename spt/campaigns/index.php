@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		21.0
+ * version:		22.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -78,7 +78,7 @@
 								<td>Name</td>
 								<td><input name="campaign_name" /></td>
 								<td>
-									<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>To start a new campaign, specify the campaign name, select one or more groups of targets and then select the template to be used.<br /><br /><strong>WARNING:</strong>  Emails will be sent as soon as you click the email icon.</span></a>
+									<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>To start a new campaign, specify the campaign name, select one or more groups of targets, select the template to be used and finally optionally select the education package you would like to use.  By selecting immediatly the target will be taken to your training material as soon as the email link is clicked.  If you select to educate after the Post, then they will be presented with the template and be taken to training after a form submission.<br /><br /><strong>WARNING:</strong>  Emails will be sent as soon as you click the email icon.</span></a>
 								</td>
 							</tr>
 							<tr>
@@ -451,7 +451,7 @@
 						include "../spt_config/mysql_config.php";
 						
 						//pull in list of all campaigns
-						$r = mysql_query("SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id JOIN education ON campaigns.education_id = education.id") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
+						$r = mysql_query("SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 						while ($ra = mysql_fetch_assoc($r))
 							{
 								echo	"

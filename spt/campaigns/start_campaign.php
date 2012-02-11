@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		start_campaign.php
- * version:		12.0
+ * version:		13.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -68,7 +68,7 @@ $spt_path = $_POST['spt_path'];
 $target_groups = $_POST['target_groups'];
 $template_id = filter_var($_POST['template_id'], FILTER_SANITIZE_NUMBER_INT);
 $education_id = filter_var($_POST['education_id'], FILTER_SANITIZE_NUMBER_INT);
-$date_sent = date();
+$date_sent = date("F j, Y, g:i a");
 if(isset($_POST['education_timing'])){$education_timing = filter_var($_POST['education_timing'], FILTER_SANITIZE_NUMBER_INT);}
 
 //connect to database
@@ -178,7 +178,7 @@ foreach($target_groups as $group)
 	}
 
 //get all the necessary email addresses
-$r = mysql_query("SELECT targets.email as email, targets.id as id, campaigns_responses.response_id as response_id FROM campaigns_responses JOIN targets ON targets.id = campaigns_responses.target_id WHERE campaigns_responses.campaign_id = '$campaign_id'") or die('<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>');
+$r = mysql_query("SELECT targets.fname AS fname, targets.lname AS lname, targets.email as email, targets.id as id, campaigns_responses.response_id as response_id FROM campaigns_responses JOIN targets ON targets.id = campaigns_responses.target_id WHERE campaigns_responses.campaign_id = '$campaign_id'") or die('<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>');
 
 //using the built-in php mail function which depends on the php.ini file and the servers mail settings
 while($ra = mysql_fetch_assoc($r))
@@ -187,12 +187,18 @@ while($ra = mysql_fetch_assoc($r))
 		$current_target_email_address = $ra['email'];
 		$current_target_id = $ra['id'];
 		$current_response_id = $ra['response_id'];
+		$fname = $ra['fname'];
+		$lname = $ra['lname'];
 		
 		//formulate link
 		$link = "http://".$spt_path."/campaigns/response.php?r=".$current_response_id;
 		
 		//pull in all the email variables from the specified template
 		include "../templates/".$template_id."/email.php";
+
+		//find and replace variables
+		$message = preg_replace("#@fname#", $fname, $message);
+		$message = preg_replace("#@lname#", $lname, $message);
 
 		//send the email and force the envelope sender if the email template specifies
 		if(isset($f_sender))
