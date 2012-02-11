@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		install.php
- * version:		7.0
+ * version:		8.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -575,13 +575,26 @@
 											";
 										exit;
 									} 
-								
+
 								//validate that the password is an acceptable length
 								if(strlen($temp_p) > 15 || strlen($temp_p) < 8)
 									{
 										echo
 											"
 												The password must be between 8 and 15 characters in length<br /><br />
+												<form id=\"password_error\" method=\"post\" action\"\">
+													<input type=\"submit\" value=\"< back\" />
+												</form>
+											";
+										exit;
+									}
+
+								//validate the password matches the validated one
+								if($_POST['password']!=$_POST['password_check'])
+									{
+										echo
+											"
+												Your passwords do not match...try again<br /><br />
 												<form id=\"password_error\" method=\"post\" action\"\">
 													<input type=\"submit\" value=\"< back\" />
 												</form>
@@ -643,6 +656,10 @@
 										<tr>
 											<td>Password</td>
 											<td><input type=\"password\" name=\"password\" /></td>
+										</tr>
+										<tr>
+											<td>Re-Enter</td>
+											<td><input type=\"password\" name=\"password_check\" /></td>
 										</tr>
 											<input type=\"hidden\" name=\"step5\" value=\"complete\" />
 										<tr>
