@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		add_user.php
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -112,7 +112,7 @@ if(strlen($new_lname) < 1)
 	}
 
 //validate the password if it is set
-if(!empty($_POST['password']))
+if(isset($_POST['password']))
 	{
 		//pull in password to temp variable
 		$temp_p = $_POST['password'];
