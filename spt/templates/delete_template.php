@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		delete_template.php
- * version:		6.0
+ * version:		7.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -89,6 +89,7 @@ function delTree($dir) {
 }
 
 delTree($dir);
+rmdir($dir);
 
 //delete the template from the database
 mysql_query("DELETE FROM templates WHERE id = '$template_id'") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
