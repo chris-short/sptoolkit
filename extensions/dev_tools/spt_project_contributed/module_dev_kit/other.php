@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		other.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module Template
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -30,13 +30,13 @@ if(file_exists($includeContent)){
 	header('location:../errors/404_is_authenticated.php');
 }
 
-//validate that the currently logged in user is an admin
-if($_SESSION['admin']!=1)
-	{
-		$_SESSION['module_alert_message'] = "you do not have permission to [what do they not have permission to do?]";
-		header('location:../module/#alert');
-		exit;
-	}
+// verify user is an admin
+$includeContent = "../includes/is_admin.php";
+if(file_exists($includeContent)){
+	require_once $includeContent;
+}else{
+	header('location:../errors/404_is_admin.php');
+}
 
 
 //do some action

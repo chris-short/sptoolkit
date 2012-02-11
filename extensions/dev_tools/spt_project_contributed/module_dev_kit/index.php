@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Module Template
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -48,28 +48,25 @@
 
 	</head>
 	<body>
-		<?php
-			//check to see if the alert session is set
-			if(isset($_SESSION['module_template_alert_message']))
-				{
-					//create alert popover
-					echo "<div id=\"alert\">";
-
-					//echo the alert message
-					echo "<div>".$_SESSION['module_template_alert_message']."<br />";
-					
-					//close the alert message
-					echo "<br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
-
-					//close alert popover
-					echo "</div>";
-
-					//unset the seession
-					unset ($_SESSION['module_template_alert_message']);		
-							
-				}
-		?>
 		<div id="wrapper">
+			<!--popovers-->
+			<?php
+				//check to see if the alert session is set
+				if(isset($_SESSION['alert_message']))
+					{
+						//create alert popover
+						echo "<div id=\"alert\">";
+
+						//echo the alert message
+						echo "<div>".$_SESSION['alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+						
+						//unset the seession
+						unset ($_SESSION['alert_message']);				
+
+						//close alert popover
+						echo "</div>";
+					}
+			?>
 			<!--sidebar-->
 			<?php include '../includes/sidebar.php'; ?>					
 
