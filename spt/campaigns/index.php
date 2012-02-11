@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		22.0
+ * version:		23.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -78,10 +78,12 @@
 								<td>Name</td>
 								<td><input name="campaign_name" /></td>
 								<td>
-									<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>To start a new campaign, specify the campaign name, select one or more groups of targets, select the template to be used and finally optionally select the education package you would like to use.  By selecting immediatly the target will be taken to your training material as soon as the email link is clicked.  If you select to educate after the Post, then they will be presented with the template and be taken to training after a form submission.<br /><br /><strong>WARNING:</strong>  Emails will be sent as soon as you click the email icon.</span></a>
+									<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>To start a new campaign...<ul><li>specify the campaign name</li><li>ensure the Path is the correct hostname and path from the target's context (99% of the time this will not need to be changed)</li><li>select one or more groups of targets (hold CTRL to multi-select)</li><li>select the template to be used and finally optionally select the education package you would like to use</li></ul> By selecting Educate Immediatly the target will be taken to your training material as soon as the email link is clicked.  If you select to educate after the Post, then they will be presented with the template and be taken to training after a form submission.<br /><br /><strong>WARNING:</strong>  Emails will be sent as soon as you click the email icon.</span></a>
 								</td>
 							</tr>
 							<tr>
+								<td>Path</td>
+								<td>
 								<?php
 									//pull current host and path
 									$path = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
@@ -90,9 +92,10 @@
 									$path = preg_replace('/\/campaigns.*/','',$path);
 
 									//create a hidden field with the path of spt
-									echo "<input type=\"hidden\" name=\"spt_path\" value=\"".$path."\" />";
+									echo "<input type=\"text\" name=\"spt_path\" value=\"".$path."\" />";
 									  
 								?>
+								</td>
 							</tr>
 							<tr>
 								<td>Group(s)</td>
@@ -308,7 +311,7 @@
 										$template_url = "http://".$ra2['domain_name']."/".$ra2['education_id'];
 										$education_id = $ra2['education_id'];
 										$template_id = $ra2['template_id'];
-										$education_timing = 0;
+										$education_timing = $ra2['education_timing'];
 										if($education_timing == 1)
 											{
 												$education = "Immediatly";
@@ -321,17 +324,12 @@
 											{
 												$education = "None";
 											}
-									}
-								$r3 = mysql_query("SELECT name FROM education WHERE id = '$education_id'");
-								while($ra3 = mysql_fetch_assoc($r3))
-									{
-										$education_name = $ra3['name'];
-									}
 
-								$r4 = mysql_query("SELECT name FROM templates WHERE id = '$template_id'");
-								while($ra4 = mysql_fetch_assoc($r4))
-									{
-										$template_name = $ra4['name'];
+										$r4 = mysql_query("SELECT name FROM templates WHERE id = '$template_id'");
+										while($ra4 = mysql_fetch_assoc($r4))
+											{
+												$template_name = $ra4['name'];
+											}
 									}
 								
 								//print the table header
@@ -361,32 +359,58 @@
 										<tr>
 											<td>Template</td>
 											<td><a href=\"../templates/".$template_id."\" target=\"_blank\">".$template_name."</a></td>
-										</tr>
-										<tr>
-											<td>Education Package</td>
-											<td><a href=\"../education/".$education_id."\" target=\"_blank\">".$education_name."</a></td>
-										</tr>
-										<tr>
-											<td>Education Timing</td>
-											<td>".$education."</td>
-										</tr>
+										</tr>";
+								
+								if($education_id != 0)
+									{
+										$r3 = mysql_query("SELECT name FROM education WHERE id = '$education_id'");
+										while($ra3 = mysql_fetch_assoc($r3))
+											{
+												$education_name = $ra3['name'];
+											}
+
+										echo 
+											"
+												<tr>
+													<td>Education Package</td>
+													<td><a href=\"../education/".$education_id."\" target=\"_blank\">".$education_name."</a></td>
+												</tr>
+												<tr>
+													<td>Education Timing</td>
+													<td>".$education."</td>
+												</tr>	
+											";
+									}
+								else
+									{
+										echo 
+											"
+												<tr>
+													<td>Education</td>
+													<td>None</td>
+												</tr>
+											";
+									}
+
+								echo		
+									"
 									</table>
 									<br />
-								<table id=\"response_table\">
-									<tr>
-										<td><h3>ID</h3></td>
-										<td><h3>First Name</h3></td>
-										<td><h3>Last Name</h3></td>
-										<td><h3>Email</h3></td>
-										<td><h3>Link</h3></td>
-										<td><h3>Clicked at</h3></td>
-										<td><h3>Post</h3></td>
-										<td><h3>IP</h3></td>
-										<td><h3>Browser</h3></td>
-										<td><h3>Version</h3></td>
-										<td><h3>OS</h3></td>								
-									</tr>
-								";
+									<table id=\"response_table\">
+										<tr>
+											<td><h3>ID</h3></td>
+											<td><h3>First Name</h3></td>
+											<td><h3>Last Name</h3></td>
+											<td><h3>Email</h3></td>
+											<td><h3>Link</h3></td>
+											<td><h3>Clicked at</h3></td>
+											<td><h3>Post</h3></td>
+											<td><h3>IP</h3></td>
+											<td><h3>Browser</h3></td>
+											<td><h3>Version</h3></td>
+											<td><h3>OS</h3></td>								
+										</tr>
+									";
 								
 								//dump data into table
 								while($ra = mysql_fetch_assoc($r))
