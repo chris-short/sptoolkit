@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		25.0
+ * version:		26.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -324,7 +324,7 @@
 				<table id="group_list_header">
 					<tr>
 						<td class="left">
-							<h1><?php if(isset($_REQUEST['g'])){echo $_REQUEST['g'];}else{echo "All Targets";}?></h1>
+							<h1><?php if(isset($_REQUEST['g'])){echo filter_var($_REQUEST['g'], FILTER_SANITIZE_STRING);}else{echo "All Targets";}?></h1>
 						</td>
 						<td class="right">
 							<a class="tooltip">
@@ -354,6 +354,24 @@
 								}
 						?>
 						<td></td>
+					</tr>
+					<tr>
+						<form action="target_upload_single.php" method="post" enctype="multipart/form-data">
+							<td><input type="text" name="fname" /></td>
+							<td><input type="text" name="lname" /></td>
+							<td><input type="text" name="email" /></td>
+							<td><input type="text" name="group_name_new" <?php if(isset($_REQUEST['g'])){echo "value=\"".filter_var($_REQUEST['g'], FILTER_SANITIZE_STRING)."\"";} ?> /></td>
+							
+							<?php
+								//get the list of columns that should be shown
+								$r = mysql_query("SELECT field_name FROM targets_metrics WHERE shown = 1 ORDER BY field_name ASC");
+								while($ra = mysql_fetch_assoc($r))
+									{
+										echo "<td><input type=\"text\" name=\"".$ra['field_name']."\" /></td>";
+									}
+							?>
+							<td><input type="image" src="../images/plus_sm.png" alt="add" /></td>
+						</form>
 					</tr>
 					<?php
 
