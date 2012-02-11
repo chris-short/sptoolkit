@@ -50,8 +50,8 @@ echo
 		<div id=\"spt\">
 			<ul>
 				<br />
-				<li><a href=\"http://sptoolkit.com\">simple phishing toolkit</a></li>
-				<li><a href=\"http://sptoolkit.com\">© 2011 - 2012 the spt project</a></li>
+				<li><a href=\"http://sptoolkit.com\" target="_blank">simple phishing toolkit</a></li>
+				<li><a href=\"http://sptoolkit.com\" target="_blank">© 2011 - 2012 the spt project</a></li>
 			</ul>
 		</div>
 		</div>
