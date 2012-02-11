@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		15.0
+ * version:		16.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -116,6 +116,9 @@
 							<tr>
 								<td>Subject</td>
 								<td><input name="email_subject" /></td>
+								<td>
+									<a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>You can enter the following variables that will be changed into their relavant values on runtime:<br /><br />@fname - Target's first name<br />@lname - Target's last name</span></a>
+								</td>
 							</tr>
 							<tr>
 								<td>From Address</td>

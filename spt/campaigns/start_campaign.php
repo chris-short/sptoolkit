@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		start_campaign.php
- * version:		13.0
+ * version:		14.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -199,6 +199,8 @@ while($ra = mysql_fetch_assoc($r))
 		//find and replace variables
 		$message = preg_replace("#@fname#", $fname, $message);
 		$message = preg_replace("#@lname#", $lname, $message);
+		$subject = preg_match("#@fname#", $fname, $subject);
+		$subject = preg_match("#@lname#", $lname, $subject);
 
 		//send the email and force the envelope sender if the email template specifies
 		if(isset($f_sender))
