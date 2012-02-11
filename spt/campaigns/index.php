@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		23.0
+ * version:		24.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -433,14 +433,16 @@
 										if(strlen($ra['post'])<1)
 											{
 												$post = 'N';
+												echo "<td>".$post."</td>";
 											}
 										else
 											{
 												$post = $ra['post'];
 												$post_count = explode("<br />", $post);
 												$post_count = count($post_count); 
+												echo "<td><a class=\"tooltip_sm\">".$post_count."<span>".$post."</span></a></td>";
 											}
-										echo "<td><a class=\"tooltip_sm\">".$post_count."<span>".$post."</span></a></td>";
+										
 										echo "<td><a href=\"http://geomaplookup.net/?ip=".$ra['ip']."\" target=\"blank\">".$ra['ip']."</a></td>";
 										echo "<td>".$ra['browser']."</td>";
 										echo "<td>".$ra['browser_version']."</td>";
