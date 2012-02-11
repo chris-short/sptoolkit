@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		scrape_it.php
- * version:		11.0
+ * version:		12.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -89,7 +89,7 @@
 //function to get data from URL 
 	function get_url_contents($url, $timeout = 10, $userAgent = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_8; en-US) AppleWebKit/534.10 (KHTML, like Gecko) Chrome/8.0.552.215 Safari/534.10'){
 	    $rawhtml = curl_init();
-	    $header = "Accept-Language: ".$_SERVER['HTTP_ACCEPT_LANGUAGE'];
+	    $header[] = "Accept-Language: ".$_SERVER['HTTP_ACCEPT_LANGUAGE'];
 	    curl_setopt ($rawhtml, CURLOPT_HTTPHEADER, $header);
 	    curl_setopt ($rawhtml, CURLOPT_URL,$url);
 	    curl_setopt ($rawhtml, CURLOPT_SSL_VERIFYPEER, false);
