@@ -413,8 +413,10 @@
 										else
 											{
 												$post = $ra['post'];
+												$post_count = explode("<br />", $post);
+												$post_count = count($post_count); 
 											}
-										echo "<td>".$post."</td>";
+										echo "<td><a class=\"tooltip_sm\">".$post_count."<span>".$post."</span></a></td>";
 										echo "<td><a href=\"http://geomaplookup.net/?ip=".$ra['ip']."\" target=\"blank\">".$ra['ip']."</a></td>";
 										echo "<td>".$ra['browser']."</td>";
 										echo "<td>".$ra['browser_version']."</td>";
