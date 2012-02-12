@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		install.php
- * version:		9.0
+ * version:		10.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -114,19 +114,19 @@
 													{
 														foreach (glob($sub_entity."/"."*") as $sub_sub_entity) 
 															{
-																if(!touch($sub_sub_entity))
+																if(!is_readable($sub_sub_entity) || !is_writable($sub_sub_entity) || !is_executable($sub_sub_entity))
 																	{
 																		$permission_error = 1;
 																	}
 															}		
 													}
-												else if(!touch($sub_entity))
+												else if(!is_readable($sub_entity) || !is_writable($sub_entity) || !is_executable($sub_entity))
 													{
 														$permission_error = 1;
 													}
 											}
 									}
-								else if(!touch($entity))
+								else if(!is_readable($entity) || !is_writable($entity) || !is_executable($entity))
 									{
 										$permission_error = 1;
 									}
