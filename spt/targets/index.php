@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		28.0
+ * version:		29.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -370,7 +370,7 @@
 										echo "<td class=\"target_cell\"><input type=\"text\" name=\"".$ra['field_name']."\"class=\"invisible_input\"  /></td>";
 									}
 							?>
-							<td class="target_cell"><input type="image" src="../images/plus_sm.png" alt="add" class="invisible_input" /></td>
+							<td class="submit_cell"><input type="image" src="../images/plus.png" alt="add" class="invisible_input" /></td>
 							<input type="hidden" name="group_list" <?php if(isset($_REQUEST['g'])){echo "value=\"".filter_var($_REQUEST['g'], FILTER_SANITIZE_STRING)."\"";} ?> />
 						</form>
 					</tr>

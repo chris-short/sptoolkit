@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		edit_other_user.php
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -131,7 +131,7 @@ if(strlen($new_lname) < 1)
 	}
 
 //validate the password if it is set
-if(isset($_POST['password']))
+if(strlen($_POST['password']) > 0)
 	{
 		//pull in password to temp variable
 		$temp_p = $_POST['password'];
@@ -164,9 +164,17 @@ if(isset($_REQUEST['admin']))
 	{
 		$admin = 1;
 	}
+else
+	{
+		$admin = 0;
+	}
 if(isset($_REQUEST['disabled']))
 	{
 		$disabled = 1;
+	}
+else
+	{
+		$disabled = 0;
 	}
 //all entered variables should have been validated by now
 

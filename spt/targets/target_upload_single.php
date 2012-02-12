@@ -95,7 +95,7 @@
 		}
 
 //make sure that if they did not select an existing group that the new group is actually set
-	if($group_name == "Select an Existing Group..." && !isset($group_name_new))
+	if(!isset($group_name) && $group_name == "Select an Existing Group..." && !isset($group_name_new))
 		{
 			$_SESSION['alert_message'] = "you must select an existing group or create a new group";
 			header('location:./#alert');

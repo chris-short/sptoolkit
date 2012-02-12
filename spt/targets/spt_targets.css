@@ -1,7 +1,7 @@
 /*css - targets*/
 /**
  * file:		spt_targets.css
- * version:		7.0
+ * version:		8.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -78,11 +78,6 @@
 		float:left;
 	}
 
-#group_user_list input
-	{
-		width: 100%;
-	}
-
 #group_list_header
 	{
 		width:100%;
@@ -117,6 +112,15 @@
 		border-bottom: .1em dotted #ccc;
 	}
 
+.target_cell input
+	{
+		width:100%;
+	}
+.submit_cell input
+	{
+		width:15px;
+	}
+
 .left
 	{
 		text-align:left;
@@ -126,3 +130,4 @@
 	{
 		text-align:right;
 	}
+

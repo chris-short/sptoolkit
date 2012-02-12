@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		scrape_it.php
- * version:		13.0
+ * version:		14.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -190,7 +190,7 @@ if(isset($_POST['email_title']))
 //find and replace email message if set
 if(isset($_POST['email_message']))
 	{
-		f_and_r('#Your message will go here.#', $_POST['email_message'], $template_id.'/email.php');		
+		f_and_r('#Your message will go here.#', htmlentities($_POST['email_message'], ENT_QUOTES), $template_id.'/email.php');		
 	}
 
 //find and replace email fake link if set
