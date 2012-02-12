@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		forgot_password.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -42,13 +42,13 @@
 				{
 					$u = $ra['username'];
 					$admin = $ra['admin'];
-					if($ra[disabled]==0)
+					if($ra['disabled']==0)
 						{
-							if(date("Y-m-d") == $ra[preset_day])
+							if(date("Y-m-d") == $ra['preset_day'])
 								{
-									if($ra[preset_enabled]==1)
+									if($ra['preset_enabled']==1)
 										{
-											if($key == $ra[preset_key])
+											if($key == $ra['preset_key'])
 												{
 													//pull the unique salt value
 													include 'get_salt.php';
@@ -108,7 +108,7 @@
 				}
 			
 			//validate that the username is not too long
-			if(strlen($new_username) > 50)
+			if(strlen($email) > 50)
 				{
 					$_SESSION['alert_message']="you must enter a valid email address";
 					header('location:../#alert');
