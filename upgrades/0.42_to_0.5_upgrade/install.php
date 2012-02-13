@@ -355,7 +355,7 @@
 								$fname = $name_parts[0][0];
 								if(isset($name_parts[0][1]))
 									{
-										if(strlen($name_parts[0][1]) < 3 && isset($name_parts[0][2]))
+										if(isset($name_parts[0][2]))
 											{
 												$fname .= " ".$name_parts[0][1];
 												$lname = $name_parts[0][2];
