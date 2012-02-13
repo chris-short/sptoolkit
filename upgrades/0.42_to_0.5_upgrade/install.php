@@ -63,10 +63,10 @@
 						echo 
 							"
 								<form id=\"step_1\" method=\"post\" action=\"\">
-									<span>Click the upgrade button below to upgrade to version 0.5.</span>
+									<span>Click below to begin the upgrad to Electric Catfish v0.5.</span>
 									<br /><br />
 									<input type=\"hidden\" name=\"step1\" value=\"complete\" />
-									<input type=\"submit\" value=\"Upgrade!\" />
+									<input type=\"submit\" value=\"Begin!\" />
 								</form>
 							";
 					}
@@ -88,8 +88,7 @@
 						echo 
 							"
 								<tr>
-									<td colspan=2>We've done 2 checks below.  One to ensure that you have the appropriate permissions across your install.  Many times you'll have to modify permissions of newly uploaded files depending on how you've uploaded them.  Second, we've checked to ensure that you have all the correct versions of the new files that should have been uploaded.  If you see an X next to either of these items, hover your mouse over it for more information.
-									</td>
+									<td colspan=2>First, a couple of checks.  If there are any problems you will see an X below.  Hover over it for more information on the problem.</td>
 								</tr>
 							";
 
@@ -152,6 +151,7 @@
 									<td>All Files in Place</td>
 							";
 
+
 						function checkVersion($path,$expected)
 							{
 								//read in the file
@@ -160,75 +160,88 @@
 								//check to see if the expected version exists
 								if(!preg_match('#\* version:.*.'.$expected.'\s#', $file))
 									{
-										//add path to failure array
-										array_push($failures, $path);
+										return $path;												
 									}
 							}
 
-							//Check these files using the function above
-							checkVersion("campaigns/start_campaign.php", "15.0");
-							checkVersion("modules/sql_install.php", "4.0");
-							checkVersion("targets/group_delete.php", "7.0");
-							checkVersion("targets/index.php", "29.0");
-							checkVersion("targets/target_delete.php", "6.0");
-							checkVersion("targets/target_upload_batch.php", "17.0");
-							checkVersion("templates/upload_template.php", "6.0");
-							checkVersion("users/add_user.php", "7.0");
-							checkVersion("users/edit_other_user.php", "6.0");
-							checkVersion("users/edit_user.php", "5.0");
-							checkVersion("campaigns/delete_campaign.php", "4.0");
-							checkVersion("campaigns/index.php", "24.0");
-							checkVersion("campaigns/response.php", "4.0");
-							checkVersion("education/delete_package.php", "6.0");
-							checkVersion("education/upload_package.php", "6.0");
-							checkVersion("login/validator.php", "4.0");
-							checkVersion("errors/404_is_admin.php", "1.0");
-							checkVersion("errors/404_is_authenticated.php", "1.0");
-							checkVersion("dashboard/index.php", "4.0");
-							checkVersion("education/index.php", "6.0");
-							checkVersion("modules/index.php", "10.0");
-							checkVersion("modules/module_cleanup.php", "7.0");
-							checkVersion("modules/module_uninstall.php", "5.0");
-							checkVersion("modules/module_upload.php", "8.0");
-							checkVersion("targets/custom_update.php", "4.0");
-							checkVersion("targets/target_update.php", "4.0");
-							checkVersion("targets/target_upload_single.php", "12.0");
-							checkVersion("templates/delete_template.php", "7.0");
-							checkVersion("templates/index.php", "17.0");
-							checkVersion("templates/scrape_it.php", "14.0");
-							checkVersion("users/delete_user.php", "3.0");
-							checkVersion("users/index.php", "11.0");
-							checkVersion("campaigns/dashboard_module.php", "2.0");
-							checkVersion("education/dashboard_module.php", "2.0");
-							checkVersion("modules/dashboard_module.php", "2.0");
-							checkVersion("targets/dashboard_module.php", "2.0");
-							checkVersion("users/dashboard_module.php", "2.0");
-							checkVersion("templates/dashboard_module.php", "2.0");
-							checkVersion("templates/temp_upload/email.php", "6.0");
-							checkVersion("includes/is_admin.php", "4.0");
-							checkVersion("includes/is_authenticated.php", "2.0");
-							checkVersion("index.php", "15.0");
-							checkVersion("login/forgot_password.php", "4.0");
-							checkVersion("login/logout.php", "2.0");
-							checkVersion("includes/sidebar.php", "2.0");
-							checkVersion("includes/escape.js", "1.0");
-							checkVersion("targets/add_metric.php", "1.0");
-							checkVersion("targets/delete_metric.php", "2.0");
-							checkVersion("targets/spt_targets.css", "8.0");
-							checkVersion("targets/update_metrics.php", "1.0");
-							checkVersion("targets/target_export.php", "1.0");
-							checkVersion("campaigns/campaigns_export.php", "4.0");
-							checkVersion("campaigns/spt_campaigns.css", "6.0");
-							checkVersion("spt.css", "11.0");
+							//initialize array
+							$failures = array();
 
-						if(isset($failures))
+							//Check these files using the function above
+							array_push($failures, checkVersion("campaigns/start_campaign.php", "15.0"));
+							array_push($failures, checkVersion("targets/group_delete.php", "7.0"));
+							array_push($failures, checkVersion("targets/index.php", "29.0"));
+							array_push($failures, checkVersion("targets/target_delete.php", "6.0"));
+							array_push($failures, checkVersion("targets/target_upload_batch.php", "17.0"));
+							array_push($failures, checkVersion("templates/upload_template.php", "6.0"));
+							array_push($failures, checkVersion("users/add_user.php", "7.0"));
+							array_push($failures, checkVersion("users/edit_other_user.php", "6.0"));
+							array_push($failures, checkVersion("users/edit_user.php", "5.0"));
+							array_push($failures, checkVersion("campaigns/delete_campaign.php", "4.0"));
+							array_push($failures, checkVersion("campaigns/index.php", "24.0"));
+							array_push($failures, checkVersion("campaigns/response.php", "4.0"));
+							array_push($failures, checkVersion("education/delete_package.php", "6.0"));
+							array_push($failures, checkVersion("education/upload_package.php", "6.0"));
+							array_push($failures, checkVersion("login/validator.php", "4.0"));
+							array_push($failures, checkVersion("errors/404_is_admin.php", "1.0"));
+							array_push($failures, checkVersion("errors/404_is_authenticated.php", "1.0"));
+							array_push($failures, checkVersion("dashboard/index.php", "4.0"));
+							array_push($failures, checkVersion("education/index.php", "6.0"));
+							array_push($failures, checkVersion("modules/index.php", "10.0"));
+							array_push($failures, checkVersion("modules/module_cleanup.php", "7.0"));
+							array_push($failures, checkVersion("modules/module_uninstall.php", "5.0"));
+							array_push($failures, checkVersion("modules/module_upload.php", "8.0"));
+							array_push($failures, checkVersion("targets/custom_update.php", "4.0"));
+							array_push($failures, checkVersion("targets/target_update.php", "4.0"));
+							array_push($failures, checkVersion("targets/target_upload_single.php", "12.0"));
+							array_push($failures, checkVersion("templates/delete_template.php", "7.0"));
+							array_push($failures, checkVersion("templates/index.php", "17.0"));
+							array_push($failures, checkVersion("templates/scrape_it.php", "14.0"));
+							array_push($failures, checkVersion("users/delete_user.php", "3.0"));
+							array_push($failures, checkVersion("users/index.php", "11.0"));
+							array_push($failures, checkVersion("campaigns/dashboard_module.php", "2.0"));
+							array_push($failures, checkVersion("education/dashboard_module.php", "2.0"));
+							array_push($failures, checkVersion("modules/dashboard_module.php", "2.0"));
+							array_push($failures, checkVersion("targets/dashboard_module.php", "2.0"));
+							array_push($failures, checkVersion("users/dashboard_module.php", "2.0"));
+							array_push($failures, checkVersion("templates/dashboard_module.php", "2.0"));
+							array_push($failures, checkVersion("templates/temp_upload/email.php", "6.0"));
+							array_push($failures, checkVersion("includes/is_admin.php", "4.0"));
+							array_push($failures, checkVersion("includes/is_authenticated.php", "2.0"));
+							array_push($failures, checkVersion("index.php", "15.0"));
+							array_push($failures, checkVersion("login/forgot_password.php", "4.0"));
+							array_push($failures, checkVersion("login/logout.php", "2.0"));
+							array_push($failures, checkVersion("includes/sidebar.php", "2.0"));
+							array_push($failures, checkVersion("includes/escape.js", "1.0"));
+							array_push($failures, checkVersion("targets/add_metric.php", "1.0"));
+							array_push($failures, checkVersion("targets/delete_metric.php", "2.0"));
+							array_push($failures, checkVersion("targets/spt_targets.css", "8.0"));
+							array_push($failures, checkVersion("targets/update_metrics.php", "1.0"));
+							array_push($failures, checkVersion("targets/target_export.php", "1.0"));
+							array_push($failures, checkVersion("campaigns/campaigns_export.php", "4.0"));
+							array_push($failures, checkVersion("campaigns/spt_campaigns.css", "6.0"));
+							array_push($failures, checkVersion("spt.css", "11.0"));
+
+						//initialize array
+						$fails = array();
+
+						//take out empties
+						foreach($failures as $failure)
+							{
+								if(strlen($failure) > 0)
+									{
+										array_push($fails,$failure);
+									}
+							}
+
+						if(count($fails) > 0)
 							{
 								echo 
 									"
 										<td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/x.png\" alt=\"problem\" /><span>The following files did not report the expected version.  Please ensure you've uploaded and overwitten these files with the files in the upgrade download.<br /><br /><ul>";
-								foreach($failures as $failure)
+								foreach($fails as $fail)
 									{
-										echo "<li>".$failure."</li>";
+										echo "<li>".$fail."</li>";
 									}
 								echo 
 									"
@@ -246,7 +259,7 @@
 						echo "</tr>";
 
 						//Ensure all enviromental checks pass
-						if(isset($permission_error) OR isset($failures))
+						if(isset($permission_error) OR count($fails) > 0)
 							{
 								$enviro_checks = 0;
 							}
@@ -337,32 +350,39 @@
 
 						while($result = mysql_fetch_assoc($results))
 							{
-								preg_match('#\w+#', $result['name'], $name_parts);
+								preg_match_all('#\w+#', $result['name'], $name_parts);
 								$id = $result['id'];
-								$fname = $name_parts[0];
-								if(isset($name_parts[1]) || strlen($name_parts[1]) < 3 || preg_match('#\.#', $name_parts[1]))
+								$fname = $name_parts[0][0];
+								if(isset($name_parts[0][1]))
 									{
-										$fname .= " ".$name_parts[1];
-										if(isset($name_parts[2]))
+										if(strlen($name_parts[0][1]) < 3 && isset($name_parts[0][2]))
 											{
-												$lname = $name_parts[2];
+												$fname .= " ".$name_parts[0][1];
+												$lname = $name_parts[0][2];
+												mysql_query("UPDATE targets SET lname = '$lname' WHERE id = '$id'");
+											}
+										else
+											{
+												$lname = $name_parts[0][1];
 												mysql_query("UPDATE targets SET lname = '$lname' WHERE id = '$id'");
 											}
 									}
-								else
-									{
-										if(isset($name_parts[1]))
-											{
-												$lname = $name_parts[1];
-												mysql_query("UPDATE targets SET lname = '$lname' WHERE id = '$id'");
-											}
-									}
-
 								mysql_query("UPDATE targets SET fname = '$fname' WHERE id = '$id'");
 							}
 						
 						$sql = "ALTER TABLE targets DROP name";
 						mysql_query($sql) or die(mysql_error());
+
+						$sql = "SHOW COLUMNS FROM targets";
+						$results = mysql_query($sql);
+						while($result=mysql_fetch_assoc($results))
+							{
+								if($result['Field'] != "id" && $result['Field'] != "email" && $result['Field'] != "name" && $result['Field'] != "group_name" && $result['Field'] != "fname" && $result['Field'] != "lname")
+									{
+										$metric = $result['Field'];
+										mysql_query("INSERT INTO targets_metrics (field_name, shown) VALUES ('$metric', 1)");
+									}
+							}
 
 						//delete some files
 						unlink('targets/targets.csv');
