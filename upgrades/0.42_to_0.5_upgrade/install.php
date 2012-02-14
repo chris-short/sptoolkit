@@ -24,6 +24,10 @@
 
 	//starts php session
 	session_start();
+	
+	//turn off PHP error reporting, some platforms report error on missing file, which is
+	// handled via the script itself
+	error_reporting(0);
 ?>
 <!DOCTYPE HTML> 
 <html>
