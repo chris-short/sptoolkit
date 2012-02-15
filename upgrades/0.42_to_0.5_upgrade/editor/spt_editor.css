@@ -1,7 +1,7 @@
-<?php
+/*css - editor*/
 /**
- * file:		install.php
- * version:		5.0
+ * file:		spt_editor.css
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Editor
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -20,24 +20,47 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
- 
 **/
 
-  //This is the install script for the editor
-  
-  //Modules Table
-  $sql = 
-    "
-      INSERT INTO `modules` VALUES ('Editor','editor','The editor gives you basic web based editing of your template and education files. This eliminates the need to access files at the command line or attempting to find the files within the templates directory of your spt installation for an offline edit.','2012-02-11',0)  
-	";
+#editor_form
+	{
+		height:90%;
+	}
 
-  mysql_query($sql) or die(mysql_error());
+#editor
+	{
+        width:775px;
+        height:100%;
+        background-color: #ffffff;
+        box-shadow: 4px 4px 5px #888;
+        border-radius: 5px;
+        border: none;
+    }
 
-  //Module Dependency Table
-  $sql = 
-  	"
-  		INSERT INTO `modules_dependencies` VALUES ('Editor','Templates')
-  	";
+#editor_buttons
+	{
+		width:100%;
+		padding-right:15px;
+		height:40px;
+	}
 
-  mysql_query($sql) or die(mysql_error());
-?>
+#editor_buttons td
+	{
+		text-align:right;
+	}
+
+#template_select div
+	{
+        background-color: #fff;
+        box-shadow: 4px 4px 5px #888;
+        border-radius: 5px;
+        border-color: #fff;		
+        padding:15px;
+        margin:auto;
+	}
+
+#template_select li
+	{
+		list-style-type:none;
+		text-align:left;
+	}

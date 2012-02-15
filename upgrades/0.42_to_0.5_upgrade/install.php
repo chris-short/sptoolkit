@@ -225,6 +225,9 @@
 							array_push($failures, checkVersion("campaigns/campaigns_export.php", "4.0"));
 							array_push($failures, checkVersion("campaigns/spt_campaigns.css", "6.0"));
 							array_push($failures, checkVersion("spt.css", "11.0"));
+							array_push($failures, checkVersion("editor/spt_editor.css", "2.0"));
+							array_push($failures, checkVersion("editor/index.php", "7.0"));
+							array_push($failures, checkVersion("editor/file_update.php", "7.0"));
 
 						//initialize array
 						$fails = array();
@@ -388,6 +391,23 @@
 									}
 							}
 
+						//attempt to update the existing row for the editor module
+						$reu1 = "UPDATE modules SET core='1' WHERE name='Editor'";
+						mysql_query($reu1) or die(mysql_error());
+	
+						//0 = editor module not currently installed and row inserted, 1 = editor module installed and row updated
+						if (mysql_affected_rows()==0) 
+							{
+							$reu2 = mysql_query("insert into modules values ('Editor','editor','The editor gives you basic web based editing of your template and education files. This eliminates the need to access files at the command line or attempting to find the files within the templates directory of your spt installation for an offline edit.','2012-02-11',1);");
+							$reu3 = mysql_query("insert into modules_dependencies values ('Editor','Templates');");
+							$reu5 = mysql_query("insert into modules_dependencies values ('Editor','Education');");
+							}
+						elseif (mysql_affected_rows()==1)
+							{
+							$reu4 = mysql_query("update modules set module_date='2012-02-11' where name='Editor';");	
+							$reu5 = mysql_query("insert into modules_dependencies values ('Editor','Education');");
+							}
+							
 						//delete some files
 						unlink('targets/targets.csv');
 
