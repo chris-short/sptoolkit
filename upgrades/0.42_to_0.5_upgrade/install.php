@@ -67,7 +67,7 @@
 						echo 
 							"
 								<form id=\"step_1\" method=\"post\" action=\"\">
-									<span>Click below to begin the upgrade to Electric Catfish v0.5.</span>
+									<span>Click below to begin the upgrade to spt v0.5, <strong>Electric Catfish</strong>.<br /><br /><strong>Please be sure to backup your database BEFORE continuing!</strong></span>
 									<br /><br />
 									<input type=\"hidden\" name=\"step1\" value=\"complete\" />
 									<input type=\"submit\" value=\"Begin!\" />
