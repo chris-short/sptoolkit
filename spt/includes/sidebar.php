@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		sidebar.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,8 +50,12 @@ echo
 		<div id=\"spt\">
 			<ul>
 				<br />
-				<li><a href=\"http://sptoolkit.com\" target=\"_blank\">simple phishing toolkit</a></li>
-				<li><a href=\"http://sptoolkit.com\" target=\"_blank\">© 2011 - 2012 the spt project</a></li>
+				<li>simple phishing toolkit</li>
+				<li>© the spt project<br /><br /></li>
+				<li>$version</li>
+				<li><a href=\"http://www.sptoolkit.com\" target=\"_blank\">sptoolkit.com</a> | <a href=\"https://twitter.com/#!/sptoolkit\" target=\"_blank\">@sptoolkit</a><br /><br /></li>
+				<li><a href=\"http://www.sptoolkit.com/documentation\" target=\"_blank\">Documentation</a> | <a href=\"http://www.sptoolkit.com/forums\" target=\"_blank\">Support</a>
+				<li><a href=\"http://www.sptoolkit.com/download\" target=\"_blank\">Download</a> | <a href=\"http://www.sptoolkit.com/contact\" target=\"_blank\">Contact</a>
 			</ul>
 		</div>
 		</div>

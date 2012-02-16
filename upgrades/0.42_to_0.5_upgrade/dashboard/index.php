@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		4.0
+ * version:		5.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -29,6 +29,8 @@
 	}else{
 		header('location:../errors/404_is_authenticated.php');
 	}
+
+$version = file_get_contents('../includes/version.txt');	
 ?>
 <!DOCTYPE HTML> 
 <html>

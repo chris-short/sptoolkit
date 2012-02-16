@@ -189,7 +189,7 @@
 							array_push($failures, checkVersion("login/validator.php", "4.0"));
 							array_push($failures, checkVersion("errors/404_is_admin.php", "1.0"));
 							array_push($failures, checkVersion("errors/404_is_authenticated.php", "1.0"));
-							array_push($failures, checkVersion("dashboard/index.php", "4.0"));
+							array_push($failures, checkVersion("dashboard/index.php", "5.0"));
 							array_push($failures, checkVersion("education/index.php", "6.0"));
 							array_push($failures, checkVersion("modules/index.php", "10.0"));
 							array_push($failures, checkVersion("modules/module_cleanup.php", "7.0"));
@@ -212,10 +212,10 @@
 							array_push($failures, checkVersion("templates/temp_upload/email.php", "6.0"));
 							array_push($failures, checkVersion("includes/is_admin.php", "4.0"));
 							array_push($failures, checkVersion("includes/is_authenticated.php", "2.0"));
-							array_push($failures, checkVersion("index.php", "15.0"));
+							array_push($failures, checkVersion("index.php", "17.0"));
 							array_push($failures, checkVersion("login/forgot_password.php", "4.0"));
 							array_push($failures, checkVersion("login/logout.php", "2.0"));
-							array_push($failures, checkVersion("includes/sidebar.php", "2.0"));
+							array_push($failures, checkVersion("includes/sidebar.php", "3.0"));
 							array_push($failures, checkVersion("includes/escape.js", "1.0"));
 							array_push($failures, checkVersion("targets/add_metric.php", "1.0"));
 							array_push($failures, checkVersion("targets/delete_metric.php", "2.0"));

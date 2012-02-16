@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		15.0
+ * version:		17.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -180,7 +180,7 @@
 		<div id="login_wrapper">
 			
 			<!--logo-->
-			<div id="login_logo"><img src="images/logo.png" alt="logo"/></div>
+			<div id="login_logo"><img src="images/logo.png" alt="logo"/><br /><?php include "includes/version.txt";?></div>
 			
 			<!--login form-->
 			<form name="login_form" id="login_form" method="post" action="login/validator.php">
@@ -195,7 +195,7 @@
 					</tr>
 					<tr>
 						<td></td>
-						<td><?php include "includes/version.txt";?></td>
+						<td><a href="#forgot_password"><strong>forgot password?</strong></a> </td>
 					</tr>
 					<tr>
 						<td colspan="2"><input type="submit" value="login" /></td>
