@@ -189,7 +189,7 @@
 							array_push($failures, checkVersion("login/validator.php", "4.0"));
 							array_push($failures, checkVersion("errors/404_is_admin.php", "1.0"));
 							array_push($failures, checkVersion("errors/404_is_authenticated.php", "1.0"));
-							array_push($failures, checkVersion("dashboard/index.php", "5.0"));
+							array_push($failures, checkVersion("dashboard/index.php", "6.0"));
 							array_push($failures, checkVersion("education/index.php", "6.0"));
 							array_push($failures, checkVersion("modules/index.php", "10.0"));
 							array_push($failures, checkVersion("modules/module_cleanup.php", "7.0"));
@@ -215,13 +215,13 @@
 							array_push($failures, checkVersion("index.php", "17.0"));
 							array_push($failures, checkVersion("login/forgot_password.php", "4.0"));
 							array_push($failures, checkVersion("login/logout.php", "2.0"));
-							array_push($failures, checkVersion("includes/sidebar.php", "3.0"));
+							array_push($failures, checkVersion("includes/sidebar.php", "4.0"));
 							array_push($failures, checkVersion("includes/escape.js", "1.0"));
 							array_push($failures, checkVersion("targets/add_metric.php", "1.0"));
 							array_push($failures, checkVersion("targets/delete_metric.php", "2.0"));
 							array_push($failures, checkVersion("targets/spt_targets.css", "8.0"));
 							array_push($failures, checkVersion("targets/update_metrics.php", "1.0"));
-							array_push($failures, checkVersion("targets/target_export.php", "1.0"));
+							array_push($failures, checkVersion("targets/target_export.php", "2.0"));
 							array_push($failures, checkVersion("campaigns/campaigns_export.php", "4.0"));
 							array_push($failures, checkVersion("campaigns/spt_campaigns.css", "6.0"));
 							array_push($failures, checkVersion("spt.css", "11.0"));
