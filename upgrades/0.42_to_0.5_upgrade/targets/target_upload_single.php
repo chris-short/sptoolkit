@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_single.php
- * version:		13.0
+ * version:		14.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -133,7 +133,7 @@
 
 //enter the value in the database
 	//if existing group is selected
-	if($group_name != "Select an Existing Group..." && isset($group_name))
+	if(isset($group_name))
 		{
 			mysql_query("INSERT INTO targets (fname, lname, email, group_name) VALUES ('$fname', '$lname', '$email', '$group_name')") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
 		}
