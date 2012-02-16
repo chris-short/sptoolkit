@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_export.php
- * version:		1.0
+ * version:		2.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -63,7 +63,7 @@ $output .= "\n";
 $r2 = mysql_query("SELECT * FROM targets");
 while($ra2 = mysql_fetch_row($r2))
 	{
-		for ($i=1;$i<$count;$i++)
+		for ($i=1;$i<=$count;$i++)
 			{
 				$output .= $ra2[$i].",";
 			}
