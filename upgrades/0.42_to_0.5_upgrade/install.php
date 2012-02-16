@@ -172,7 +172,7 @@
 							$failures = array();
 
 							//Check these files using the function above
-							array_push($failures, checkVersion("campaigns/start_campaign.php", "15.0"));
+							array_push($failures, checkVersion("campaigns/start_campaign.php", "16.0"));
 							array_push($failures, checkVersion("targets/group_delete.php", "7.0"));
 							array_push($failures, checkVersion("targets/index.php", "29.0"));
 							array_push($failures, checkVersion("targets/target_delete.php", "6.0"));
@@ -197,7 +197,6 @@
 							array_push($failures, checkVersion("modules/module_upload.php", "8.0"));
 							array_push($failures, checkVersion("targets/custom_update.php", "4.0"));
 							array_push($failures, checkVersion("targets/target_update.php", "4.0"));
-							array_push($failures, checkVersion("targets/target_upload_single.php", "12.0"));
 							array_push($failures, checkVersion("templates/delete_template.php", "7.0"));
 							array_push($failures, checkVersion("templates/index.php", "17.0"));
 							array_push($failures, checkVersion("templates/scrape_it.php", "14.0"));
@@ -228,7 +227,7 @@
 							array_push($failures, checkVersion("editor/spt_editor.css", "2.0"));
 							array_push($failures, checkVersion("editor/index.php", "7.0"));
 							array_push($failures, checkVersion("editor/file_update.php", "7.0"));
-							array_push($failures, checkVersion("targets/target_upload_single.php", "13.0"));
+							array_push($failures, checkVersion("targets/target_upload_single.php", "14.0"));
 
 						//initialize array
 						$fails = array();
