@@ -391,8 +391,8 @@
 									}
 							}
 
-						//attempt to update the existing row for the editor module
-						$reu1 = "UPDATE modules SET core='1' WHERE name='Editor'";
+						//attempt to update the existing row for the editor module, test for existence
+						$reu1 = "UPDATE modules SET module_date='0042-42-42' WHERE name='Editor'";
 						mysql_query($reu1) or die(mysql_error());
 	
 						//0 = editor module not currently installed and row inserted, 1 = editor module installed and row updated
