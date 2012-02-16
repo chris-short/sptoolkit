@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		target_upload_single.php
- * version:		12.0
+ * version:		13.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -77,25 +77,17 @@
 //validate that at least one of the groups is set and if so see which one is set and throw it in a variable
 	if(isset($_POST['group_name']) || isset($_POST['group_name_new']))
 		{
-			if(isset($_POST['group_name']))
+			if(isset($_POST['group_name']) && $_POST['group_name'] != "Select an Existing Group...")
 				{
 					$group_name = $_POST['group_name'];
 				}
-			if(isset($_POST['group_name_new']))
+			if(strlen($_POST['group_name_new']) > 0)
 				{
 					$group_name_new = $_POST['group_name_new'];
 				}
 			
 		}
-	else
-		{
-			$_SESSION['alert_message'] = "you must select an existing group or create a new group";
-			header('location:./#alert');
-			exit;
-		}
-
-//make sure that if they did not select an existing group that the new group is actually set
-	if(!isset($group_name) && $group_name == "Select an Existing Group..." && !isset($group_name_new))
+	if(!isset($group_name) && !isset($group_name_new))
 		{
 			$_SESSION['alert_message'] = "you must select an existing group or create a new group";
 			header('location:./#alert');

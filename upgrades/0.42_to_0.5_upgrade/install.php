@@ -228,6 +228,7 @@
 							array_push($failures, checkVersion("editor/spt_editor.css", "2.0"));
 							array_push($failures, checkVersion("editor/index.php", "7.0"));
 							array_push($failures, checkVersion("editor/file_update.php", "7.0"));
+							array_push($failures, checkVersion("targets/target_upload_single.php", "13.0"));
 
 						//initialize array
 						$fails = array();
