@@ -345,7 +345,10 @@
 
 						$sql = "ALTER TABLE campaigns ADD date_sent varchar(255) NOT NULL";
 						mysql_query($sql) or die(mysql_error());
-
+						
+						$sql = "UPDATE campaigns SET date_sent = 'January 1, 1970, 12:00 am' WHERE date_sent = ''";
+						mysql_query($sql) or die(mysql_error());
+						
 						$sql = "ALTER TABLE targets ADD fname varchar(255) NOT NULL";
 						mysql_query($sql) or die(mysql_error());
 
