@@ -409,6 +409,7 @@
 							{
 							$reu4 = mysql_query("update modules set module_date='2012-02-11' where name='Editor';");	
 							$reu5 = mysql_query("insert into modules_dependencies values ('Editor','Education');");
+							$reu6 = mysql_query("update modules set core='1' where name='Editor';");
 							}
 							
 						//delete some files
