@@ -19,3 +19,9 @@ Here is a listing of things we've used that someone else created.
 -- Author: Daniel Gattermann
 -- Author site: http://daniel-gattermann.de/
 -- Usage: http://geomaplookup.net/
+
+# Swift Mailer
+
+-- Author: Chris Corbyn
+-- Author site: http://swiftmailer.org
+-- Download: http://swiftmailer.org/download_file/Swift-4.1.5.tar.gz
