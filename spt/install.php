@@ -101,41 +101,30 @@
 						echo 
 							"
 								<tr>
-									<td>Appropriate Permissions</td>
-							";
+ 									<td>Appropriate Permissions</td>
+ 							";
+ 
+						function check_permission($dir)
+ 							{
+								$d = opendir($dir);
+								while (($file = readdir($d)))
+ 									{
+										if ($file == '.' || $file == '..')
+											continue;
+										$file = $dir . '/' . $file;
+										if (!is_readable($file) || !is_writeable($file) || (is_dir($file) && (!is_executable($file) || check_permission($file))))
+ 											{
+												return TRUE;
+ 											}
+ 									}
+								return FALSE;
+ 							}
+						$permission_error = check_permission('.');
 
-						foreach (glob("*") as $entity) 
-							{
-								if(is_dir($entity))
-									{
-										foreach (glob($entity."/"."*") as $sub_entity) 
-											{
-												if(is_dir($sub_entity))
-													{
-														foreach (glob($sub_entity."/"."*") as $sub_sub_entity) 
-															{
-																if(!is_readable($sub_sub_entity) || !is_writable($sub_sub_entity) || !is_executable($sub_sub_entity))
-																	{
-																		$permission_error = 1;
-																	}
-															}		
-													}
-												else if(!is_readable($sub_entity) || !is_writable($sub_entity) || !is_executable($sub_entity))
-													{
-														$permission_error = 1;
-													}
-											}
-									}
-								else if(!is_readable($entity) || !is_writable($entity) || !is_executable($entity))
-									{
-										$permission_error = 1;
-									}
-							}
-												
-						if(isset($permission_error))
-							{
-								echo
-									"
+						if($permission_error)
+ 							{
+ 								echo
+ 									"
 										<td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/x.png\" alt=\"problem\" /><span>The account that PHP runs under needs read, write and execute permissions for spt to function properly.  Visit sptoolkit.com for troubleshooting information on how to ensure you have the correct permissions set.<br /><br />If you are using WAMP, this may incorrectly state that permissions are not correct because Windows, in some cases does not accurately report if a file is executable or not.  99% of WAMP installs do not have permissions problems.</span></a></td>
 									";
 							}
