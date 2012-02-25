@@ -34,6 +34,8 @@ $sql = "
         `education_id` int(10) NOT NULL,
         `education_timing` int(10) NOT NULL,
         `date_sent` varchar(255) NOT NULL,
+        `message_delay` int(10) NOT NULL,
+        `status` int(1) NOT NULL,
         PRIMARY KEY (`id`)
     )";
 
