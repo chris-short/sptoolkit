@@ -194,7 +194,7 @@
 						echo "</tr>";
 
 						//Ensure all enviromental checks pass
-						if(isset($permission_error) OR !isset($sendmail_good) OR !isset($curl_good))
+						if($permission_error OR !isset($sendmail_good) OR !isset($curl_good))
 							{
 								$enviro_checks = 0;
 							}
