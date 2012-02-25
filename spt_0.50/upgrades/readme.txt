@@ -1,16 +1,3 @@
-Welcome to the spt project.
-
-The spt project is an open source phishing education toolkit that aims to help in securing the mind as opposed to securing computers. Organizations spend billions of dollars annually in an effort to safeguard information systems, but spend little to nothing on the under trained and susceptible minds that operate these systems, thus rendering most technical protections instantly ineffective. A simple, targeted link is all it takes to bypass the most advanced security protections. The link is clicked, the deed is done.
-
-spt was developed from the ground up to provide a simple and easy to use framework to identify your weakest links so that you can patch the human vulnerability.  If the spt project sounds interesting to you, please consider downloading it for evaluation in your own organization.  Feedback is welcomed and always appreciated.
-
-- the spt project
-
-Current stable version:  0.50
-Next release release version:  0.60
-
-
-
                                 .D ~=                                           
    .8O?++++++++++++++++++++++++++D ==                                           
  .D,                             ..    Z                                        
@@ -32,3 +19,33 @@ $       .ZMMMMM.MMMMMMMMMMMMMMMMMMMMMMMM    OMM~        MMM,       MM8   7MM
 														
 
 
+
+### UPGRADE SPT TO VERSION 0.5 ###
+
+NOTE:  You can only upgrade from version 0.42.  If you are not at version 0.42, please
+ either upgrade first to version 0.42 or perform a clean installation instead of version
+ 0.5 of the spt.
+ 
+
+To update your currently installed version of spt, follow these steps.
+
+*** Please back up your spt database before performing the upgrade ***
+
+1.  Log out of all active spt sessions.
+
+2.  Extract the files contained in the *_upgrade folder to local disk.
+
+3.  Copy all upgrade files to the location where spt is installed.  
+
+NOTE:  Select the files contained within the spt folder, do not select the spt folder itself.
+
+4.  Access your spt installation at http://install_location/install.php to start the upgrade.
+
+5.  When prompted with the message "Installation files still exist! What do you want to do?", click to start the "Install".
+
+6.  Complete the installation steps to perform the upgrade.
+
+7.  Log into your newly upgraded spt installation.
+
+
+Happy education!
