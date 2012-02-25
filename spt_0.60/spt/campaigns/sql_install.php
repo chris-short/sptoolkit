@@ -1,11 +1,12 @@
 <?php
+
 /**
- * file:		sql_install.php
- * version:		6.0
- * package:		Simple Phishing Toolkit (spt)
- * component:	Campaign management
- * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * file:    sql_install.php
+ * version: 7.0
+ * package: Simple Phishing Toolkit (spt)
+ * component:   Campaign management
+ * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -20,14 +21,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
-**/
+ * */
 
-  //This is the table install script for campaigns
-  
-  //Campaigns Table
-  $sql = 
-    "
-      CREATE TABLE `campaigns` (
+//This is the table install script for campaigns
+//Campaigns Table
+$sql = "
+    CREATE TABLE `campaigns` (
         `id` int(10) NOT NULL AUTO_INCREMENT,
         `template_id` int(10) NOT NULL,
         `campaign_name` varchar(255) NOT NULL,
@@ -36,26 +35,22 @@
         `education_timing` int(10) NOT NULL,
         `date_sent` varchar(255) NOT NULL,
         PRIMARY KEY (`id`)
-      )
-    ";
+    )";
 
-  mysql_query($sql) or die(mysql_error());
+mysql_query ( $sql ) or die ( mysql_error () );
 
-  //Campaigns and Groups Table
-  $sql =
-    "
-      CREATE TABLE `campaigns_and_groups` (
+//Campaigns and Groups Table
+$sql = "
+    CREATE TABLE `campaigns_and_groups` (
         `campaign_id` int(10) NOT NULL,
         `group_name` varchar(255) NOT NULL
-      )
-    ";
+    )";
 
-  mysql_query($sql) or die(mysql_error());
+mysql_query ( $sql ) or die ( mysql_error () );
 
-  //Campaigns Responses
-  $sql = 
-    "
-      CREATE TABLE `campaigns_responses` (
+//Campaigns Responses
+$sql = "
+    CREATE TABLE `campaigns_responses` (
         `target_id` int(10) NOT NULL,
         `campaign_id` int(10) NOT NULL,
         `response_id` varchar(40) DEFAULT NULL,
@@ -67,9 +62,7 @@
         `os` varchar(255) DEFAULT NULL,
         `browser` varchar(255) DEFAULT NULL,
         `browser_version` varchar(255) DEFAULT NULL
-      )      
-    ";
+    )";
 
-  mysql_query($sql) or die(mysql_error());
-
+mysql_query ( $sql ) or die ( mysql_error () );
 ?>
