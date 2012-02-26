@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		email.php
- * version:		7.0
+ * version:		8.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Standard email template
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -35,8 +35,9 @@ $subject = 'Insert Subject Here';
 //$f_sender = "postmaster@domain.com";
 
 //This will populate the headers of the message
-$headers = "From: postmaster@domain.com\r\n";
-$headers .= "Reply-To: postmaster@domain.com\r\n";
+$sender_email = "postmaster@domain.com";
+$sender_friendly = "friendly_name";
+$headers = "Reply-To: postmaster@domain.com\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "X-Mailer: sent with the simple phishing toolkit www.sptoolkit.com\r\n";
 
