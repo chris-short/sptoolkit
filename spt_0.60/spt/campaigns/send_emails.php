@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -90,22 +90,22 @@ while ( $time_left >= $message_delay ) {
 }
 
 //get the path of spt and the template id for this campaign
-$r = mysql_query("SELECT spt_path, template_id FROM campaigns WHERE id = '$campaign_id'");
-while($ra = mysql_fetch_assoc ( $r)){
-    $spt_path = $ra['spt_path'];
-    $template_id = $ra['template_id'];
+$r = mysql_query ( "SELECT spt_path, template_id FROM campaigns WHERE id = '$campaign_id'" );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $spt_path = $ra[ 'spt_path' ];
+    $template_id = $ra[ 'template_id' ];
 }
 
 //get the smtp relay if its set
-$r = mysql_query("SELECT relay_host, relay_username, relay_password FROM campaigns WHERE id = '$campaign_id'");
-while($ra = mysql_fetch_assoc ( $r)){
-    if(isset($ra['relay_host'])){
-        $relay_host = $ra['relay_host'];
-        if(isset($ra['relay_username'])){
-            $relay_username = $ra['relay_username'];
+$r = mysql_query ( "SELECT relay_host, relay_username, relay_password FROM campaigns WHERE id = '$campaign_id'" );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    if ( isset ( $ra[ 'relay_host' ] ) ) {
+        $relay_host = $ra[ 'relay_host' ];
+        if ( isset ( $ra[ 'relay_username' ] ) ) {
+            $relay_username = $ra[ 'relay_username' ];
         }
-        if(isset($ra['relay_password'])){
-            $relay_password = $ra['relay_password'];
+        if ( isset ( $ra[ 'relay_password' ] ) ) {
+            $relay_password = $ra[ 'relay_password' ];
         }
     }
 }
@@ -135,41 +135,50 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $subject = preg_replace ( "#@lname#", $lname, $subject );
 
     //send the email
-    require_once 'lib/swift_required.php';
+    require_once '../includes/swiftmailer/lib/swift_required.php';
 
-    if(isset($relay_host) AND isset($relay_username) AND isset($relay_password)){
+    if ( isset ( $relay_host ) AND isset ( $relay_username ) AND isset ( $relay_password ) ) {
         //Create the Transport
         $transport = Swift_SmtpTransport::newInstance ( $relay_host, 25 )
                 -> setUsername ( $relay_username )
                 -> setPassword ( $relay_password )
-            ;
-    }else if(isset($relay_host) AND !isset($relay_username) AND !isset($relay_password)){
+        ;
+    } else if ( isset ( $relay_host ) AND ! isset ( $relay_username ) AND ! isset ( $relay_password ) ) {
         //Create the Transport
         $transport = Swift_SmtpTransport::newInstance ( $relay_host, 25 );
-    }else{
+    } else {
         //parse out the domain from the recipient email address
+        $domain_parts = split ( "@", $current_target_email_address );
+        $domain = $domain_parts[ 1 ];
+
+        //get MX record for the destination
+        getmxrr ( $domain, $mx_records, $mx_weight );
+
+        //create the transport
+        $transport = Swift_SmtpTransport::newInstance ( $mx_records[ 0 ], 25 );
     }
-    
+
     //Create the Mailer using your created Transport
     $mailer = Swift_Mailer::newInstance ( $transport );
 
     //To use the ArrayLogger
     $logger = new Swift_Plugins_Loggers_ArrayLogger();
-    $mailer->registerPlugin(new Swift_Plugins_LoggerPlugin($logger));
-    
+    $mailer -> registerPlugin ( new Swift_Plugins_LoggerPlugin ( $logger ) );
+
     //Create a message
     $message = Swift_Message::newInstance ( $subject )
-            -> setFrom ( array ($sender_email => $sender_friendly ) )
-            -> setTo ( array ( $current_target_email_address => $fname.' '.$lname ) )
+            -> setFrom ( array ( $sender_email => $sender_friendly ) )
+            -> setTo ( array ( $current_target_email_address => $fname . ' ' . $lname ) )
             -> setBody ( $message )
     ;
 
     //Send the message
     $result = $mailer -> send ( $message );
-    
+
     //store logs in database
-    $mail_log = $logger->dump();
-    mysql_query("UPDATE campaigns_responses SET log='$mail_log' WHERE response_id = '$current_response_id'");
-    
+    $mail_log = $logger -> dump ();
+    mysql_query ( "UPDATE campaigns_responses SET log='$mail_log' WHERE response_id = '$current_response_id'" );
 }
+
+echo "active";
 ?>

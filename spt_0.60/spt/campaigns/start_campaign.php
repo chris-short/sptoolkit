@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 19.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -59,6 +59,13 @@ if ( ! isset ( $_POST[ 'template_id' ] ) ) {
     exit;
 }
 
+//ensure that a message delay is set
+if ( ! isset ( $_POST[ 'message_delay' ] ) ) {
+    $_SESSION[ 'alert_message' ] = "please enter a value for message delay";
+    header ( 'location:./#alert' );
+    exit;
+}
+
 //recieve the entered values and put into variables
 $campaign_name = filter_var ( $_POST[ 'campaign_name' ], FILTER_SANITIZE_STRING );
 $spt_path = $_POST[ 'spt_path' ];
@@ -70,7 +77,15 @@ $date_sent = date ( "F j, Y, g:i a" );
 if ( isset ( $_POST[ 'education_timing' ] ) ) {
     $education_timing = filter_var ( $_POST[ 'education_timing' ], FILTER_SANITIZE_NUMBER_INT );
 }
-
+if ( isset ( $_POST[ 'relay_host' ] ) ) {
+    $relay_host = filter_var ( $_POST[ 'relay_host' ], FILTER_SANITIZE_STRING );
+}
+if ( isset ( $_POST[ 'relay_username' ] ) ) {
+    $relay_username = filter_var ( $_POST[ 'relay_username' ], FILTER_SANITIZE_STRING );
+}
+if ( isset ( $_POST[ 'relay_password' ] ) ) {
+    $relay_password = $_POST[ 'relay_password' ];
+}
 //connect to database
 include "../spt_config/mysql_config.php";
 
@@ -174,6 +189,21 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $campaign_id = $ra[ 'campaign_id' ];
 }
 
+//update relay host if its set
+if ( isset ( $relay_host ) ) {
+    mysql_query ( "UPDATE campaigns SET relay_host = '$relay_host' WHERE id = '$campaign_id'" );
+}
+
+//update relay usnername if its set
+if ( isset ( $relay_username ) ) {
+    mysql_query ( "UPDATE campaigns SET relay_username = '$relay_username' WHERE id = '$campaign_id'" );
+}
+
+//update relay host if its set
+if ( isset ( $relay_password ) ) {
+    mysql_query ( "UPDATE campaigns SET relay_password = '$relay_password' WHERE id = '$campaign_id'" );
+}
+
 //link the campaign id and group name while retrieving all applicable targets
 foreach ( $target_groups as $group ) {
     //link campaign id and group names
@@ -194,5 +224,5 @@ foreach ( $target_groups as $group ) {
 }
 
 //send to the response page for their campaign
-header ( 'location:./?c='.$campaign_id.'#responses' );
+header ( 'location:./?c=' . $campaign_id . '#responses' );
 ?>
