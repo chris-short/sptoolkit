@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 26.0
+ * version: 27.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -45,9 +45,10 @@ if ( file_exists ( $includeContent ) ) {
         <!--scripts-->
         <script type="text/javascript" src="../includes/escape.js"></script>
         <script type="text/javascript">
+            //get campaign id
+            var campaign_id = "<?php if(isset($_REQUEST['c'])){echo $_REQUEST['c'];} ?>";
             //determine if a campaign is set
-            if ($.getUrlVar("c") != null){
-                var campaign_id = getUrlVars()["c"];
+            if ( campaign_id != null){
                 //start the email function
                 sendEmail(campaign_id);
             }
@@ -57,15 +58,17 @@ if ( file_exists ( $includeContent ) ) {
                 //send update request
                 xmlhttp.onreadystatechange=function() {
                     if (xmlhttp.readyState==4 && xmlhttp.status==200){
-                        var campaign_status=xmlhttp.responseText;
+                        var campaign_status = xmlhttp.responseText;
+                        alert(campaign_status);
                     }
                 }
                 xmlhttp.open("POST","send_emails.php",true);
+                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 xmlhttp.send("c="+campaign_id);
                 //loop after a second if status of campaign is still active
-                if(campaign_status == "active"){
-                    setTimeout("sendEmail(campaign_id)", 1000);
-                }
+                //if(campaign_status == "active"){
+                //    setTimeout("sendEmail(campaign_id)", 1000);
+                //}
             }
         </script>
     </head>

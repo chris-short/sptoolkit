@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -27,7 +27,7 @@ $includeContent = "../includes/is_authenticated.php";
 if ( file_exists ( $includeContent ) ) {
     require_once $includeContent;
 } else {
-    echo "stop";
+    echo "stop (auth)";
     exit;
 }
 
@@ -36,16 +36,16 @@ $includeContent = "../includes/is_admin.php";
 if ( file_exists ( $includeContent ) ) {
     require_once $includeContent;
 } else {
-    echo "stop";
+    echo "stop (admin)";
     exit;
 }
 
 //validate a campaign is specified
-if ( ! isset ( $_REQUEST[ 'c' ] ) ) {
-    echo "stop";
+if ( ! isset ( $_POST[ "c" ] ) ) {
+    echo "stop (campaign)";
     exit;
 } else {
-    $campaign_id = $_REQUEST[ 'c' ];
+    $campaign_id = $_POST[ 'c' ];
 }
 
 //connect to database
@@ -55,7 +55,7 @@ include('../spt_config/mysql_config.php');
 $r = mysql_query ( "SELECT status FROM campaigns WHERE campaign = '$campaign_id'" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( $ra[ 'status' ] != 1 ) {
-        echo "stop";
+        echo "stop (not active)";
         exit;
     }
 }
@@ -111,7 +111,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 
 //get the next specified number of email addresses 
-$r = mysql_query ( "SELECT targets.fname AS fname, targets.lname AS lname, targets.email as email, targets.id as id, campaigns_responses.response_id as response_id FROM campaigns_responses JOIN targets ON targets.id = campaigns_responses.target_id WHERE campaigns_responses.campaign_id = '$campaign_id' AND campaigns_responses.sent = 0 LIMIT 0, '$number_messages_sent'" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+$r = mysql_query ( "SELECT targets.fname AS fname, targets.lname AS lname, targets.email as email, targets.id as id, campaigns_responses.response_id as response_id FROM campaigns_responses JOIN targets ON targets.id = campaigns_responses.target_id WHERE campaigns_responses.campaign_id = '$campaign_id' AND campaigns_responses.sent = 0 LIMIT 0, $number_messages_sent" ) or die ( mysql_error() );
 
 //send the emails
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
@@ -173,11 +173,14 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     ;
 
     //Send the message
-    $result = $mailer -> send ( $message );
+    $mailer -> send ( $message );
 
     //store logs in database
     $mail_log = $logger -> dump ();
-    mysql_query ( "UPDATE campaigns_responses SET log='$mail_log' WHERE response_id = '$current_response_id'" );
+    mysql_query ( "UPDATE campaigns_responses SET response_log='$mail_log' WHERE response_id = '$current_response_id'" );
+    
+    //specify that message is sent
+    mysql_query("UPDATE campaigns_responses SET sent = 1 WHERE response_id = '$current_response_id'");
 }
 
 echo "active";

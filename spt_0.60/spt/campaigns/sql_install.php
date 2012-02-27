@@ -39,7 +39,7 @@ $sql = "
         `spt_path` varchar(255) NOT NULL,
         `relay_host` varchar(255) NOT NULL,
         `relay_username` varchar(255) NOT NULL,
-        `relay_password` varchar(255) NOT NULL,
+        `relay_password` varchar(255) NOT NULL
     )";
 
 mysql_query ( $sql ) or die ( mysql_error () );
@@ -67,7 +67,7 @@ $sql = "
         `os` varchar(255) DEFAULT NULL,
         `browser` varchar(255) DEFAULT NULL,
         `browser_version` varchar(255) DEFAULT NULL,
-        `log` varchar(255) NOT NULL
+        `response_log` varchar(255) NOT NULL
     )";
 
 mysql_query ( $sql ) or die ( mysql_error () );
