@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -67,6 +67,7 @@ $sql = "
         `os` varchar(255) DEFAULT NULL,
         `browser` varchar(255) DEFAULT NULL,
         `browser_version` varchar(255) DEFAULT NULL,
+        `sent` int(1) NOT NULL,
         `response_log` varchar(255) NOT NULL
     )";
 
