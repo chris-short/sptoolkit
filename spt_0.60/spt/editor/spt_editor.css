@@ -1,11 +1,11 @@
 /*css - editor*/
 /**
- * file:		spt_editor.css
- * version:		2.0
- * package:		Simple Phishing Toolkit (spt)
- * component:	Editor
- * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * file:    spt_editor.css
+ * version: 3.0
+ * package: Simple Phishing Toolkit (spt)
+ * component:   Editor
+ * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -23,44 +23,44 @@
 **/
 
 #editor_form
-	{
-		height:90%;
-	}
+{
+    height:90%;
+}
 
 #editor
-	{
-        width:775px;
-        height:100%;
-        background-color: #ffffff;
-        box-shadow: 4px 4px 5px #888;
-        border-radius: 5px;
-        border: none;
-    }
+{
+    width:775px;
+    height:100%;
+    background-color: #ffffff;
+    box-shadow: 4px 4px 5px #888;
+    border-radius: 5px;
+    border: none;
+}
 
 #editor_buttons
-	{
-		width:100%;
-		padding-right:15px;
-		height:40px;
-	}
+{
+    width:100%;
+    padding-right:15px;
+    height:40px;
+}
 
 #editor_buttons td
-	{
-		text-align:right;
-	}
+{
+    text-align:right;
+}
 
 #template_select div
-	{
-        background-color: #fff;
-        box-shadow: 4px 4px 5px #888;
-        border-radius: 5px;
-        border-color: #fff;		
-        padding:15px;
-        margin:auto;
-	}
+{
+    background-color: #fff;
+    box-shadow: 4px 4px 5px #888;
+    border-radius: 5px;
+    border-color: #fff;		
+    padding:15px;
+    margin:auto;
+}
 
 #template_select li
-	{
-		list-style-type:none;
-		text-align:left;
-	}
+{
+    list-style-type:none;
+    text-align:left;
+}
