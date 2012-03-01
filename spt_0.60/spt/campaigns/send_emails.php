@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -175,7 +175,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     ;
 
     //Send the message
-    $mailer -> send ( $message );
+    $mailer -> send ( $message, $failures );
 
     //store logs in database
     $mail_log = $logger -> dump ();
@@ -186,7 +186,6 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 
 echo "active";
-
 ?>
 
- 
+
