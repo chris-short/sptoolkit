@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -52,7 +52,7 @@ if ( ! isset ( $_POST[ "c" ] ) ) {
 include('../spt_config/mysql_config.php');
 
 //ensure campaign status is set to active
-$r = mysql_query ( "SELECT status FROM campaigns WHERE campaign = '$campaign_id'" );
+$r = mysql_query ( "SELECT status FROM campaigns WHERE id = '$campaign_id'" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( $ra[ 'status' ] != 1 ) {
         echo "stop (not active)";
@@ -99,19 +99,19 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 //get the smtp relay if its set
 $r = mysql_query ( "SELECT relay_host, relay_username, relay_password FROM campaigns WHERE id = '$campaign_id'" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    if ( isset ( $ra[ 'relay_host' ] ) ) {
+    if ( strlen ( $ra[ 'relay_host' ] ) > 0 ) {
         $relay_host = $ra[ 'relay_host' ];
-        if ( isset ( $ra[ 'relay_username' ] ) ) {
+        if ( strlen ( $ra[ 'relay_username' ] ) > 0 ) {
             $relay_username = $ra[ 'relay_username' ];
         }
-        if ( isset ( $ra[ 'relay_password' ] ) ) {
+        if ( strlen ( $ra[ 'relay_password' ] ) > 0 ) {
             $relay_password = $ra[ 'relay_password' ];
         }
     }
 }
 
 //get the next specified number of email addresses 
-$r = mysql_query ( "SELECT targets.fname AS fname, targets.lname AS lname, targets.email as email, targets.id as id, campaigns_responses.response_id as response_id FROM campaigns_responses JOIN targets ON targets.id = campaigns_responses.target_id WHERE campaigns_responses.campaign_id = '$campaign_id' AND campaigns_responses.sent = 0 LIMIT 0, $number_messages_sent" ) or die ( mysql_error() );
+$r = mysql_query ( "SELECT targets.fname AS fname, targets.lname AS lname, targets.email as email, targets.id as id, campaigns_responses.response_id as response_id FROM campaigns_responses JOIN targets ON targets.id = campaigns_responses.target_id WHERE campaigns_responses.campaign_id = '$campaign_id' AND campaigns_responses.sent = 0 LIMIT 0, $number_messages_sent" ) or die ( mysql_error () );
 
 //send the emails
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
@@ -143,19 +143,21 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                 -> setUsername ( $relay_username )
                 -> setPassword ( $relay_password )
         ;
-    } else if ( isset ( $relay_host ) AND ! isset ( $relay_username ) AND ! isset ( $relay_password ) ) {
+    }
+    if ( isset ( $relay_host ) AND ! isset ( $relay_username ) AND ! isset ( $relay_password ) ) {
         //Create the Transport
         $transport = Swift_SmtpTransport::newInstance ( $relay_host, 25 );
-    } else {
+    }
+    if ( ! isset ( $relay_host ) AND ! isset ( $relay_username ) AND ! isset ( $relay_password ) ) {
         //parse out the domain from the recipient email address
-        $domain_parts = split ( "@", $current_target_email_address );
+        $domain_parts = explode ( "@", $current_target_email_address );
         $domain = $domain_parts[ 1 ];
 
         //get MX record for the destination
-        getmxrr ( $domain, $mx_records, $mx_weight );
+        getmxrr ( $domain, $mxhosts );
 
         //create the transport
-        $transport = Swift_SmtpTransport::newInstance ( $mx_records[ 0 ], 25 );
+        $transport = Swift_SmtpTransport::newInstance ( $mxhosts[ 0 ], 25 );
     }
 
     //Create the Mailer using your created Transport
@@ -178,10 +180,13 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     //store logs in database
     $mail_log = $logger -> dump ();
     mysql_query ( "UPDATE campaigns_responses SET response_log='$mail_log' WHERE response_id = '$current_response_id'" );
-    
+
     //specify that message is sent
-    mysql_query("UPDATE campaigns_responses SET sent = 1 WHERE response_id = '$current_response_id'");
+    mysql_query ( "UPDATE campaigns_responses SET sent = 1 WHERE response_id = '$current_response_id'" );
 }
 
 echo "active";
+
 ?>
+
+ 
