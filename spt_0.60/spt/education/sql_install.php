@@ -1,11 +1,12 @@
 <?php
+
 /**
- * file:		sql_install.php
- * version:		1.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    sql_install.php
+ * version: 2.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -20,29 +21,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
-**/
+ * */
 
-  //This is the install script for the education module
-  
-  //Education Table
-  $sql = 
-    "
-      CREATE TABLE `education` (
+//This is the install script for the education module
+//Education Table
+$sql = "
+    CREATE TABLE `education` (
         `id` int(10) NOT NULL AUTO_INCREMENT,
         `name` varchar(255) DEFAULT NULL,
         `description` longtext,
         PRIMARY KEY (`id`)
-      )
-  ";
+    )";
 
-  mysql_query($sql) or die(mysql_error());
+mysql_query ( $sql ) or die ( mysql_error () );
 
-  //Add first entry to education table
-  $sql = 
-    "
-        INSERT INTO `education` (name, description) VALUES ('Default','Default education package')
-    ";
+//Add first entry to education table
+$sql = "
+    INSERT INTO `education` (name, description) VALUES ('Default','Default education package')";
 
-  mysql_query($sql) or die(mysql_error());
-    
+mysql_query ( $sql ) or die ( mysql_error () );
 ?>

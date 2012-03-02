@@ -1,10 +1,10 @@
 <!--
- * file:		dashboard_module.php
- * version:		2.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    dashboard_module.php
+ * version: 3.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -26,12 +26,9 @@
     <tr>
         <td>Number of Packages</td>
         <?php
-            //determine how many campaigns there are
-            $r = mysql_query("SELECT * FROM education") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-            echo "<td>".mysql_num_rows($r)."</td>";
+        //determine how many campaigns there are
+        $r = mysql_query ( "SELECT * FROM education" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+        echo "<td>" . mysql_num_rows ( $r ) . "</td>";
         ?>
     </tr>
 </table>
-
-
-
