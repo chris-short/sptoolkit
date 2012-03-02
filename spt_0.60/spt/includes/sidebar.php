@@ -2,7 +2,7 @@
 
 /**
  * file:    sidebar.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -23,16 +23,32 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+// show logo and dashboard link
+//lists core modules in the order of usage for a new installation -> starting a campaign
 echo "
     <div id=\"sidebar\">
         <img src=\"../images/logo.png\" alt=\"logo\" />
         <ul>
             <li><a href=\"../\"><img src=\"../images/dashboard.png\" alt=\"dashboard\" /></a></li>
+        </ul>        
+        <ul>
+            <li></li>
+            <li><a href=\"../quickstart\">Quick Start</a></li>
+            <li><a href=\"../targets\">Targets</a></li>
+            <li><a href=\"../templates\">Templates</a></li>
+            <li><a href=\"../education\">Education</a></li>
+            <li><a href=\"../editor\">Editor</a></li>
+            <li><a href=\"../campaigns\">Campaigns</a></li>
+            <li><a href=\"../users\">Users</a></li>
+            <li><a href=\"../modules\">Modules</a></li>
         </ul>
-        <ul>";
+        <div style=\"border-top: 1px solid #eee;\"></div> 
+        <ul>
+            <li></li>";
+
 //lists links dependent upon what modules are installed
 include '../spt_config/mysql_config.php';
-$results = mysql_query ( 'SELECT * FROM modules WHERE name != "Dashboard" ORDER BY name' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+$results = mysql_query ( 'SELECT * FROM modules WHERE core != "1" ORDER BY name' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 while ( $row = mysql_fetch_assoc ( $results ) ) {
     echo "<li><a href=\"../" . $row['directory_name'] . "/\">" . $row['name'] . "</a></li>\n";
 }
