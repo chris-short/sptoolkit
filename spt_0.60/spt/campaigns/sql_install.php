@@ -39,7 +39,8 @@ $sql = "
         `spt_path` varchar(255) NOT NULL,
         `relay_host` varchar(255) NOT NULL,
         `relay_username` varchar(255) NOT NULL,
-        `relay_password` varchar(255) NOT NULL
+        `relay_password` varchar(255) NOT NULL,
+        PRIMARY KEY (`id`)
     )";
 
 mysql_query ( $sql ) or die ( mysql_error () );
