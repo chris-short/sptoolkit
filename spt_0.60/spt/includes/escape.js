@@ -1,10 +1,10 @@
 /**
- * file:		escape.js
- * version:		1.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    escape.js
+ * version: 2.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
- * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -24,20 +24,20 @@
 //script will re-direct the user to the root of the current directory to clear pop-overs 
 
 document.onkeydown = function(escape)
-	{ 
-	    if (escape == null) 
-		    { 
-			    // internet explorer 
-		    	keycode = event.keyCode; 
-		    } 
-	    else 
-	    	{ 
-		    	// firefox 
-	            keycode = escape.which; 
-	        } 
+{ 
+    if (escape == null) 
+    { 
+        // internet explorer 
+        keycode = event.keyCode; 
+    } 
+    else 
+    { 
+        // firefox 
+        keycode = escape.which; 
+    } 
 	          
-	    if(keycode == 27)
-		    { 
-	          	window.location = "."
-		    } 
-	};
+    if(keycode == 27)
+    { 
+        window.location = "."
+    } 
+};

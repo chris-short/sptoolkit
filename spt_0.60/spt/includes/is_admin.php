@@ -1,11 +1,12 @@
 <?php
+
 /**
- * file:		is_admin.php
- * version:		4.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    is_admin.php
+ * version: 5.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -20,14 +21,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
-**/
-	
-//validate that the currently logged in user is an admin
-if(!isset($_SESSION['admin']) OR $_SESSION['admin']!=1)
-	{
-		$_SESSION['alert_message'] = "you do not have permission to perform the attempted action";
-		header('location:./#alert');
-		exit;
-	}
+ * */
 
+//validate that the currently logged in user is an admin
+if ( ! isset ( $_SESSION['admin'] ) OR $_SESSION['admin'] != 1 ) {
+    $_SESSION['alert_message'] = "you do not have permission to perform the attempted action";
+    header ( 'location:./#alert' );
+    exit;
+}
 ?>
