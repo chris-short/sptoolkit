@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 30.0
+ * version: 31.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -355,7 +355,6 @@ if ( file_exists ( $includeContent ) ) {
                             $date_ended = $ra2['date_ended'];
                             $campaign_name = $ra2[ 'campaign_name' ];
                             $formulated_url = "http://" . $ra2[ 'domain_name' ] . "/campaigns/response.php?r=random_key_for_each_target";
-                            $template_url = "http://" . $ra2[ 'domain_name' ] . "/" . $ra2[ 'education_id' ];
                             $education_id = $ra2[ 'education_id' ];
                             $template_id = $ra2[ 'template_id' ];
                             $education_timing = $ra2[ 'education_timing' ];
@@ -402,12 +401,16 @@ if ( file_exists ( $includeContent ) ) {
                     <td>" . $date_sent . "</td>
                 </tr>
                 <tr>
-                    <td>Date Sent</td>
-                    <td>" . $date_sent . "</td>
+                    <td>Date Ended</td>
+                    <td>" . $date_ended . "</td>
                 </tr>
                 <tr>
                     <td>Template</td>
                     <td><a href=\"../templates/" . $template_id . "\" target=\"_blank\">" . $template_name . "</a></td>
+                </tr>
+                <tr>
+                    <td>Phishing URL</td>
+                    <td>".$formulated_url."</td>
                 </tr>";
 
                         if ( $education_id != 0 ) {
