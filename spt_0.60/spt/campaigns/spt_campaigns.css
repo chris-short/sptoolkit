@@ -1,7 +1,7 @@
 /*css - campaigns*/
 /**
  * file:    spt_campaigns.css
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -98,3 +98,49 @@
 {
     text-align:right;
 }
+
+.mail_log
+    {
+      position: relative;
+      display: inline-block;
+      text-decoration: none;
+      outline: none;
+      text-align: left;
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+    }
+
+.mail_log span
+    {
+      visibility: hidden;
+      position: absolute;
+      left: 50%;
+      z-index: 999;
+      color: #000;
+      width: 330px;
+      margin-top:33px;
+      margin-left:-330px;
+      padding: 10px;
+      opacity: .9;
+      background-color: #ffff00;
+      background-image: -webkit-linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,0));
+      background-image: -moz-linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,0));
+      background-image: -ms-linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,0));
+      background-image: -o-linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,0));
+      background-image: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,0));
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+      -moz-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
+      -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
+      box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
+      text-shadow: 0 1px 0 rgba(255,255,255,.4);
+    }
+
+.mail_log:hover
+    {
+      border: 0; /* IE6 fix */
+    }
+
+.mail_log:hover span
+    {
+      visibility: visible;
+    }

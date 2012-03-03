@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -58,6 +58,14 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         echo "stop (not active)";
         exit;
     }
+}
+
+//ensure there is at least one message to send
+$r = mysql_query( "SELECT * FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent = 0" );
+$ra = mysql_num_rows ( $r );
+if($ra == 0 ){
+    echo "stop (done)";
+    exit;
 }
 
 //check to see if delay counter is set to a second or more
@@ -169,10 +177,18 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
     //Create a message
     $message = Swift_Message::newInstance ( $subject )
+            -> setSubject ( $subject )
             -> setFrom ( array ( $sender_email => $sender_friendly ) )
+            -> setReplyTo ( $reply_to )
             -> setTo ( array ( $current_target_email_address => $fname . ' ' . $lname ) )
+            -> setContentType ( $content_type )
             -> setBody ( $message )
     ;
+
+    //specify that the message has been attempted
+    mysql_query ( "UPDATE campaigns_responses SET sent = 1 WHERE response_id = '$current_response_id'" );
+
+    echo "active";
 
     //Send the message
     $mailer -> send ( $message, $failures );
@@ -182,10 +198,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     mysql_query ( "UPDATE campaigns_responses SET response_log='$mail_log' WHERE response_id = '$current_response_id'" );
 
     //specify that message is sent
-    mysql_query ( "UPDATE campaigns_responses SET sent = 1 WHERE response_id = '$current_response_id'" );
+    mysql_query ( "UPDATE campaigns_responses SET sent = 2 WHERE response_id = '$current_response_id'" );
 }
 
-echo "active";
 ?>
-
-
