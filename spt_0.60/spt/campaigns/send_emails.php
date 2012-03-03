@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -64,6 +64,8 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 $r = mysql_query( "SELECT * FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent = 0" );
 $ra = mysql_num_rows ( $r );
 if($ra == 0 ){
+    //set campaign to complete
+    mysql_query("UPDATE campaigns SET status = 3 WHERE id = '$campaign_id'");
     echo "stop (done)";
     exit;
 }
@@ -129,13 +131,15 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $fname = $ra[ 'fname' ];
     $lname = $ra[ 'lname' ];
 
-    //formulate link
-    $link = "http://" . $spt_path . "/campaigns/response.php?r=" . $current_response_id;
-
     //pull in all the email variables from the specified template
     include "../templates/" . $template_id . "/email.php";
 
+    //formulate link
+    $link = "http://" . $spt_path . "/campaigns/response.php?r=" . $current_response_id;
+    $link = "<a href=\"".$link."\">".$fake_link."</a>";
+
     //find and replace variables
+    $message = preg_replace ( "#@link#", $link, $message);
     $message = preg_replace ( "#@fname#", $fname, $message );
     $message = preg_replace ( "#@lname#", $lname, $message );
     $message = html_entity_decode ( $message );

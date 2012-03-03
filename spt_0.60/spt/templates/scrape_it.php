@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		scrape_it.php
- * version:		14.0
+ * version:		15.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -181,11 +181,15 @@ if(isset($_POST['email_from']))
 		f_and_r('#postmaster@domain.com#', filter_var($_POST['email_from'], FILTER_SANITIZE_EMAIL), $template_id.'/email.php');		
 	}
 
-//find and replace email title if set
-if(isset($_POST['email_title']))
-	{
-		f_and_r('#Title Goes Here#', filter_var($_POST['email_title'], FILTER_SANITIZE_STRING), $template_id.'/email.php');		
-	}
+//find and replace email from friendly name if set
+if(isset($_POST['email_from_friendly'])){
+	f_and_r('#sender friendly#', filter_var($_POST['email_from_friendly'], FILTER_SANITIZE_STRING), $template_id.'/email.php');
+}
+
+//find and replace the reply to address if set
+if(isset($_POST['reply_to'])){
+	f_and_r('#reply_to@domain.com#', filter_var($_POST['reply_to'], FILTER_SANITIZE_STRING), $template_id.'/email.php');
+}
 
 //find and replace email message if set
 if(isset($_POST['email_message']))

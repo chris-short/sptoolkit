@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 28.0
+ * version: 29.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -440,8 +440,11 @@ if ( file_exists ( $includeContent ) ) {
                             $log = $ra['response_log'];
                             if(strlen($log) < 1){
                                 $log = "The message was attempted, but no log was recorded";
+                            }else{
+                                
                             }
-                            echo "<td><a class=\"mail_log\">" . $ra[ 'sent' ] . "<span>" . $log . "</span></a></td>";                            
+
+                            echo "<td><a class=\"mail_log\"><img src=\"../images/message_status_" . $ra[ 'sent' ] . ".png\" alt=\"message_status\" /><span>" . $log . "</span></a></td>";                            
                             echo "</tr>";
                         }
 
