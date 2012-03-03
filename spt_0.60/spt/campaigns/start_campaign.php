@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 22.0
+ * version: 23.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.

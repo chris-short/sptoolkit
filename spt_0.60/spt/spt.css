@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:		spt.css
- * version:		11.0
+ * version:		12.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,6 +50,8 @@ h2
 
 h3
 	{
+		padding-top:15px;
+		padding-bottom:5px;
 		margin:2px;
 	}
 

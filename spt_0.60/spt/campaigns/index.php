@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 29.0
+ * version: 30.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -53,18 +53,19 @@ if ( file_exists ( $includeContent ) ) {
                 xmlhttp = new XMLHttpRequest();
                 //send update request
                 xmlhttp.onreadystatechange=function() {
-                    if (xmlhttp.readyState==4 && xmlhttp.status==200){
+                    if (xmlhttp.readyState==4){
                         var campaign_status = xmlhttp.responseText;
+                        //loop after a second if status of campaign is still active
+                        if(campaign_status != "stop"){
+                            setTimeout("sendEmail("+campaign_id+")", 1000);
+                        }                 
                     }
                 }
                 xmlhttp.open("POST","send_emails.php",true);
                 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 xmlhttp.send("c="+campaign_id);
-                //loop after a second if status of campaign is still active
-                if(campaign_status == "active"){
-                    setTimeout("sendEmail(campaign_id)", 1000);
-                }
             }
+            var campaign_id;
             //determine if a campaign is set
             if ( campaign_id != null){
                 //start the email function
@@ -96,11 +97,14 @@ if ( file_exists ( $includeContent ) ) {
                     <form method="post" action="start_campaign.php">
                         <table id="new_campaign">
                             <tr>
-                                <td>Name</td>
-                                <td><input name="campaign_name" /></td>
+                                <td colspan="2"><h3>Add Campaign</h3></td>
                                 <td>
-                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>To start a new campaign...<ul><li>specify the campaign name</li><li>ensure the Path is the correct hostname and path from the target's context (99% of the time this will not need to be changed)</li><li>select one or more groups of targets (hold CTRL to multi-select)</li><li>select the template to be used and finally optionally select the education package you would like to use</li></ul> By selecting 'Educate on link click', the target will be taken to your training material as soon as the email link is clicked.  If you select to 'Educate on form submission', the target will be presented with the template and be taken to training after a form submission.<br /><br /><strong>WARNING:</strong>  Emails will be sent as soon as you click the email icon.</span></a>
+                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Specify a name for this campaign that will be displayed in the campaign list on the previous screen.  Use a descriptive name that will help you identify this campaign later. The Path  has been pre-populated for you with the hostname you are currently connecting to spt with.  You can create alterante DNS records that correspond with your campaigns and enter them here.  Whatever you specify in the path field is what your targets will be linked to.</span></a>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td>Name</td>
+                                <td colspan="2"><input name="campaign_name" /></td>
                             </tr>
                             <tr>
                                 <td>Path</td>
@@ -113,14 +117,20 @@ if ( file_exists ( $includeContent ) ) {
                                     $path = preg_replace ( '/\/campaigns.*/', '', $path );
 
                                     //create a hidden field with the path of spt
-                                    echo "<input type=\"text\" name=\"spt_path\" value=\"" . $path . "\" />";
+                                    echo "<input type=\"text\" name=\"spt_path\" value=\"" . $path . "\" size=\"45\"/>";
                                     ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><h3>Targets</h3></td>
+                                <td>
+                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Select one or more groups of targets (hold CTRL or COMMAND to multi-select) that will be included in this campaign</span></a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Group(s)</td>
                                 <td colspan="2">
-                                    <select name = "target_groups[]" multiple="multiple" size="5" style="width: 100%;">
+                                    <select name = "target_groups[]" multiple="multiple" size="5" style="width: 80%;">
                                         <?php
                                         //connect to database
                                         include('../spt_config/mysql_config.php');
@@ -135,7 +145,13 @@ if ( file_exists ( $includeContent ) ) {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Template</td>
+                                <td colspan="2"><h3>Template</h3></td>
+                                <td>
+                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Select the template that will be used for this campaign.  You can view/edit the email by clicking the link next to Email.  Be careful, as editing the email will edit the email for all future campaigns that use this template.</span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Webpage</td>
                                 <td colspan="2">
                                     <select name = "template_id">
                                         <?php
@@ -152,7 +168,17 @@ if ( file_exists ( $includeContent ) ) {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Education</td>
+                                <td>Email</td>
+                                <td colspan="2">View/Edit Email link coming soon...</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><h3>Education (optional)</h3></td>
+                                <td>
+                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Select the education package that the target will be directed to.  Select "Education on link click" if you would like the targets to bypass the template's webpage and go directly to training.  Select "Educate on form submission" if you would like the target to be directed to training after they have submitted a form on your template's webpage.</span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Package</td>
                                 <td colspan="2">
                                     <select name = "education_id">
                                         <option value="0">None</option>
@@ -174,24 +200,36 @@ if ( file_exists ( $includeContent ) ) {
                                 <td colspan="2"><input type="radio" name="education_timing" value="1" /> Educate on link click<br /><input type="radio" name="education_timing" value="2" /> Educate on form submission</td>
                             </tr>
                             <tr>
-                                <td>SMTP Relay<i>(optional)</i></td>
-                                <td><input type="text" name="relay_host" /></td>
+                                <td colspan="2"><h3>SMTP Relay (Optional)</h3></td>
+                                <td>
+                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter your SMTP relay's details if necessary.  You may also enter credentials if your SMTP requires authentication.  If you leave these fields blank, spt will act as an SMTP server and send emails directly to the destination's mail gateway based on the MX records published by your target's domain.</span></a>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Username <i>(optional)</i></td>
+                                <td>Host</i></td>
+                                <td><input type="text" name="relay_host" size="45"/></td>
+                            </tr>
+                            <tr>
+                                <td>Username</td>
                                 <td><input type="text" name="relay_username" /></td>
                             </tr>
                             <tr>
-                                <td>Password <i>(optional)</i></td>
+                                <td>Password</td>
                                 <td><input type="password" name="relay_password" /></td>
                             </tr>
                             <tr>
-                                <td>Message Delay</td>
+                                <td colspan="2"><h3>Throttling</h3></td>
+                                <td>
+                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>By default spt will send an email every second (or 1000 ms).  You can change the default message delay to 100 ms and batches of 10 emails will be sent each second.  Or you can create as high as a 1 minute delay between each message by specifying 60000 ms between each message.</span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Delay</td>
                                 <td colspan="2"><input type="text" name="message_delay" value="1000" /><i>ms</i> (100-60000)</td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td colspan="2"><a href=""><img src="../images/x.png" alt="x" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/email.png" alt="email" /></td>
+                                <td colspan="2"><a href=""><img src="../images/x.png" alt="x" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/email.png" alt="email" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
                             </tr>
                         </table>
                     </form>
@@ -311,9 +349,10 @@ if ( file_exists ( $includeContent ) ) {
 
                     if ( isset ( $_REQUEST[ 'c' ] ) ) {
                         //get basic campaign data
-                        $r2 = mysql_query ( "SELECT date_sent, campaign_name, domain_name, education_id, template_id, education_timing FROM campaigns WHERE id = '$campaign_id'" );
+                        $r2 = mysql_query ( "SELECT date_sent, date_ended, campaign_name, domain_name, education_id, template_id, education_timing FROM campaigns WHERE id = '$campaign_id'" );
                         while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
                             $date_sent = $ra2[ 'date_sent' ];
+                            $date_ended = $ra2['date_ended'];
                             $campaign_name = $ra2[ 'campaign_name' ];
                             $formulated_url = "http://" . $ra2[ 'domain_name' ] . "/campaigns/response.php?r=random_key_for_each_target";
                             $template_url = "http://" . $ra2[ 'domain_name' ] . "/" . $ra2[ 'education_id' ];
@@ -321,10 +360,10 @@ if ( file_exists ( $includeContent ) ) {
                             $template_id = $ra2[ 'template_id' ];
                             $education_timing = $ra2[ 'education_timing' ];
                             if ( $education_timing == 1 ) {
-                                $education = "Immediatly";
+                                $education = "On Link Click";
                             }
                             if ( $education_timing == 2 ) {
-                                $education = "After POST";
+                                $education = "On Form Submission ";
                             }
                             if ( $education_timing == 0 ) {
                                 $education = "None";
@@ -358,6 +397,10 @@ if ( file_exists ( $includeContent ) ) {
             </table>
             <br />
             <table class=\"left\">
+                <tr>
+                    <td>Date Sent</td>
+                    <td>" . $date_sent . "</td>
+                </tr>
                 <tr>
                     <td>Date Sent</td>
                     <td>" . $date_sent . "</td>

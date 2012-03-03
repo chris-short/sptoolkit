@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -34,6 +34,7 @@ $sql = "
         `education_id` int(10) NOT NULL,
         `education_timing` int(10) NOT NULL,
         `date_sent` varchar(255) NOT NULL,
+        `date_ended` varchar(255) NOT NULL,
         `message_delay` int(10) NOT NULL,
         `status` int(1) NOT NULL,
         `spt_path` varchar(255) NOT NULL,

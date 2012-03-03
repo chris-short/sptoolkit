@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -27,7 +27,7 @@ $includeContent = "../includes/is_authenticated.php";
 if ( file_exists ( $includeContent ) ) {
     require_once $includeContent;
 } else {
-    echo "stop (auth)";
+    echo "stop";
     exit;
 }
 
@@ -36,13 +36,13 @@ $includeContent = "../includes/is_admin.php";
 if ( file_exists ( $includeContent ) ) {
     require_once $includeContent;
 } else {
-    echo "stop (admin)";
+    echo "stop";
     exit;
 }
 
 //validate a campaign is specified
 if ( ! isset ( $_POST[ "c" ] ) ) {
-    echo "stop (campaign)";
+    echo "stop";
     exit;
 } else {
     $campaign_id = $_POST[ 'c' ];
@@ -55,7 +55,7 @@ include('../spt_config/mysql_config.php');
 $r = mysql_query ( "SELECT status FROM campaigns WHERE id = '$campaign_id'" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( $ra[ 'status' ] != 1 ) {
-        echo "stop (not active)";
+        echo "stop";
         exit;
     }
 }
@@ -64,18 +64,30 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 $r = mysql_query( "SELECT * FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent = 0" );
 $ra = mysql_num_rows ( $r );
 if($ra == 0 ){
-    //set campaign to complete
-    mysql_query("UPDATE campaigns SET status = 3 WHERE id = '$campaign_id'");
-    echo "stop (done)";
+    //get time
+    $date_ended = date ( "F j, Y, g:i a" );
+    //set campaign to complete and record date/time
+    mysql_query("UPDATE campaigns SET status = 3, date_ended = '$date_ended' WHERE id = '$campaign_id'");
+    echo "stop";
     exit;
 }
 
-//check to see if delay counter is set to a second or more
+//check to see if delay counter is set to a second or more and exit if it is after decrementing it
 if ( isset ( $_SESSION[ 'delay_counter' ] ) ) {
     if ( $_SESSION[ 'delay_counter' ] >= 1000 ) {
         $_SESSION[ 'delay_counter' ] = $_SESSION[ 'delay_counter' ] - 1000;
         exit;
     }
+}
+
+//set timer
+$timer = 1000;
+
+//decrement timer any left over delay
+if ( isset ( $_SESSION[ 'delay_counter' ] ) ) {
+    $timer = $timer - $_SESSION[ 'delay_counter' ];
+    //zero out delay counter
+    $_SESSION['delay_counter'] = 0;
 }
 
 //get the message delay value for this campaign
@@ -84,19 +96,19 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $message_delay = $ra[ 'message_delay' ];
 }
 
-//set time
-$time_left = 1000;
+//refill delay counter
+$_SESSION['delay_counter'] = $message_delay;
 
-//decrement time counter any left over time from previous
-if ( isset ( $_SESSION[ 'delay_counter' ] ) ) {
-    $time_left = $time_left - $_SESSION[ 'delay_counter' ];
+//determine how many messages will be sent by incrementing message count while decrementing timer.
+$number_messages_sent = 0;
+while ( $timer > 0 ) {
+    $number_messages_sent ++;
+    $timer = $timer - $_SESSION['delay_counter'];
 }
 
-//determine how many messages will be sent
-$number_messages_sent = 0;
-while ( $time_left >= $message_delay ) {
-    $number_messages_sent ++;
-    $time_left = $time_left - $message_delay;
+//decrement delay counter if over a second
+if($_SESSION['delay_counter'] > 1000){
+    $_SESSION['delay_counter'] = $_SESSION['delay_counter'] - 1000;
 }
 
 //get the path of spt and the template id for this campaign
@@ -192,8 +204,6 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     //specify that the message has been attempted
     mysql_query ( "UPDATE campaigns_responses SET sent = 1 WHERE response_id = '$current_response_id'" );
 
-    echo "active";
-
     //Send the message
     $mailer -> send ( $message, $failures );
 
@@ -203,6 +213,14 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
     //specify that message is sent
     mysql_query ( "UPDATE campaigns_responses SET sent = 2 WHERE response_id = '$current_response_id'" );
+
+    //specify if there was a failure
+    if(count($failures) > 0){
+        mysql_query("UPDATE campaigns_responses SET sent = 3 WHERE response_id = '$current_response_id'");
+    }
+
+echo "continue";
+
 }
 
 ?>
