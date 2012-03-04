@@ -1,10 +1,10 @@
 <!--
- * file:		dashboard_module.php
- * version:		2.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    dashboard_module.php
+ * version: 3.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Module Template
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -26,20 +26,17 @@
     <tr>
         <td>Module data item of interest</td>
         <?php
-            //what is this item?
-            $r = mysql_query("SELECT ??? FROM your_module_table") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-            echo "<td>"Your data or variables go here"</td>";
+        //what is this item?
+        $r = mysql_query ( "SELECT ??? FROM your_module_table" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+        echo "<td>"Your data or variables go here"</td>";
         ?>
     </tr>
     <tr>
         <td>Module data item of interest</td>
         <?php
-            //what is this item?
-            $r = mysql_query("SELECT ??? FROM your_module_table") or die('<div id="die_error">There is a problem with the database...please try again later</div>');
-            echo "<td>"Your data or variables go here"</td>";
+        //what is this item?
+        $r = mysql_query ( "SELECT ??? FROM your_module_table" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+        echo "<td>"Your data or variables go here"</td>";
         ?>
     </tr>
- </table>
-
-
-
+</table>

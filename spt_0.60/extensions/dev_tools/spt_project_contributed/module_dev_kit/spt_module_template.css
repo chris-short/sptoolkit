@@ -1,11 +1,11 @@
-/*css - editor*/
+/*css - module*/
 /**
- * file:		spt_module_template.css
- * version:		1.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    spt_module_template.css
+ * version: 2.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Module Template
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -21,6 +21,5 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
-
 
 /* Your custom css goes here... */
