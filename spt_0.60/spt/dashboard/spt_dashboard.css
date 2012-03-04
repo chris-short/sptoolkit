@@ -1,7 +1,7 @@
 /*css - dashboard*/
 /**
  * file:		spt_dashboard.css
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -42,7 +42,7 @@
     padding-right: 10px;
 }
 
-.dashboard_module_campaigns
+article.tabs
 {
     float: left;
     width: 730px;
@@ -54,10 +54,59 @@
     margin-top: 25px;
     margin-left: 15px;
     margin-right: 15px;
+    height: 300px;
 }
 
-.dashboard_module_campaigns td
+article.tabs section
 {
+    position: absolute;
+    width: 730px;
+    height: 280px;
+    margin-top: 20px;
+}
+
+article.tabs section a
+{
+    position: absolute;
+    display: block;
     padding-left: 10px;
     padding-right: 10px;
+    padding-bottom: 3px;
+    top: -20px;
+}
+
+article.tabs section:nth-child(2) a
+{
+    margin-left: 100px;
+}
+
+article.tabs section:nth-child(3) a
+{
+    margin-left: 200px;
+}
+
+article.tabs section:nth-child(4) a
+{
+    margin-left: 300px;
+}
+
+article.tabs section:nth-child(5) a
+{
+    margin-left: 400px;
+}
+
+#risk_pie:target a span, #bad_targets:target a span, #email_stats:target a span, #browser_stats:target a span, #simple_stats:target a span
+{
+    border-bottom: #ccc solid medium;
+}
+
+article.tabs section div
+{
+    display: none;
+    padding: 5px;
+}
+
+#risk_pie:target div, #bad_targets:target div, #email_stats:target div, #browser_stats:target div, #simple_stats:target div
+{
+    display: block;
 }
