@@ -1,14 +1,14 @@
 #### CREDITS ####
 
-Here is a listing of things we've used that someone else created.
+Here is a listing of things the spt project is using that someone else created.
 
-# Black icons used during install and inside the dashboard.
+# Black icons used during install and inside the dashboard
 
 -- Author:   Billy Barker
 -- Author site:  http://www.billybarker.net/
 -- Download:  http://www.iconfinder.com/search/?q=iconset:30_Free_Black_ToolBar_Icons
 
-# Browser detection script.
+# Browser detection script
 
 -- Author: Chris Schuld 
 -- Author site: http://chrisschuld.com/projects/browser-php-detecting-a-users-browser-from-php/
@@ -25,3 +25,9 @@ Here is a listing of things we've used that someone else created.
 -- Author: Chris Corbyn
 -- Author site: http://swiftmailer.org
 -- Download: http://swiftmailer.org/download_file/Swift-4.1.5.tar.gz
+
+# Color icons used through spt code
+
+-- Author:   FatCow Web Hosting
+-- Author site:  http://www.fatcow.com
+-- Download:  http://www.fatcow.com/free-icons
