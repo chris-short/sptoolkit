@@ -1,12 +1,12 @@
 <?php
 
 /**
- * file:		index.php
- * version:		7.0
- * package:		Simple Phishing Toolkit (spt)
- * component:	Dashboard management
- * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * file:    index.php
+ * version: 1.0
+ * package: Simple Phishing Toolkit (spt)
+ * component:	Quick Start 
+ * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -34,7 +34,7 @@ if ( file_exists ( $includeContent ) ) {
 <!DOCTYPE HTML> 
 <html>
     <head>
-        <title>spt - dashboard</title>
+        <title>spt - quick start</title>
         <!--meta-->
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="description" content="welcome to spt - simple phishing toolkit.  spt is a super simple but powerful phishing toolkit." />
@@ -42,7 +42,9 @@ if ( file_exists ( $includeContent ) ) {
         <link rel="shortcut icon" href="../images/favicon.ico" />
         <!--css-->
         <link rel="stylesheet" href="../spt.css" type="text/css" />
-        <link rel="stylesheet" href="spt_dashboard.css" type="text/css" />
+        <link rel="stylesheet" href="spt_quickstart.css" type="text/css" />
+        <!--scripts-->
+        <script type="text/javascript" src="../includes/escape.js"></script>
     </head>
 
     <body>
@@ -53,22 +55,208 @@ if ( file_exists ( $includeContent ) ) {
 
             <!--content-->
             <div id="content">
-<?php
-//scan the root directory
-$dirs = scandir ( '../' );
-
-//for each directory look for dashboard_module.php
-foreach ( $dirs as $dir ) {
-    if ( is_dir ( '../' . $dir ) ) {
-        //if dashboard_module.php exists in the directory include it
-        if ( file_exists ( '../' . $dir . '/dashboard_module.php' ) ) {
-            echo "<div class=\"dashboard_module\">";
-            include "../" . $dir . "/dashboard_module.php";
-            echo "</div>";
-        }
-    }
-}
-?>
+                <table class="spt_qs_table">
+                    <tr>
+                        <td>
+                            <h3>Quick Start guide to using the spt</h3><br /><br />
+                            <table>
+                                <tr>
+                                    <td colspan="3">
+                                        <strong>Step one:  Configure metrics and add targets</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 5%;"><strong>Step</strong></td>
+                                    <td style="width: 80%;"><strong>Do this</strong></td>
+                                    <td style="width: 15%;"><strong>Click this</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>Create or edit your metrics (custom attributes).</td>
+                                    <td>Click this</td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>Create single targets, or,</td>
+                                    <td>Click this</td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>Use the export to CSV function to download an editable CSV file, then use the edited file to import many targets at once.</td>
+                                    <td>Click this</td>
+                                </tr>
+                            </table>
+                            <br /><br />
+                            <table>
+                                <tr>
+                                    <td colspan="3">
+                                        <strong>Step two:  Upload templates or scrape live sites</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 5%;"><strong>Step</strong></td>
+                                    <td style="width: 80%;"><strong>Do this</strong></td>
+                                    <td style="width: 15%;"><strong>Click this</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                            </table>
+                            <br /><br />
+                            <table>
+                            <tr>
+                                <td colspan="3">
+                                    <strong>Step three:  Upload education packages</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 5%;"><strong>Step</strong></td>
+                                <td style="width: 80%;"><strong>Do this</strong></td>
+                                <td style="width: 15%;"><strong>Click this</strong></td>
+                            </tr>
+                            <tr>
+                                <td>1.</td>
+                                <td>meh</td>
+                                <td>Click this</td>
+                            </tr>
+                            <tr>
+                                <td>2.</td>
+                                <td>meh</td>
+                                <td>Click this</td>
+                            </tr>
+                            <tr>
+                                <td>3.</td>
+                                <td>meh</td>
+                                <td>Click this</td>
+                            </tr>
+                        </table>
+                            <br /><br />
+                            <table>
+                                <tr>
+                                    <td colspan="3">
+                                        <strong>Step four:  Edit templates or education packages as needed to customize them</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 5%;"><strong>Step</strong></td>
+                                    <td style="width: 80%;"><strong>Do this</strong></td>
+                                    <td style="width: 15%;"><strong>Click this</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                            </table>
+                            <br /><br />
+                            <table>
+                                <tr>
+                                    <td colspan="3">
+                                        <strong>Step five:  Start and monitor a campaign</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 5%;"><strong>Step</strong></td>
+                                    <td style="width: 80%;"><strong>Do this</strong></td>
+                                    <td style="width: 15%;"><strong>Click this</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                            </table>
+                            <br /><br />
+                            <table>
+                                <tr>
+                                    <td colspan="3">
+                                        <strong>Administrative tasks:  Manage users</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 5%;"><strong>Step</strong></td>
+                                    <td style="width: 80%;"><strong>Do this</strong></td>
+                                    <td style="width: 15%;"><strong>Click this</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                            </table>  
+                            <br /><br />
+                            <table>
+                                <tr>
+                                    <td colspan="3">
+                                        <strong>Administrative tasks:  Manage modules</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 5%;"><strong>Step</strong></td>
+                                    <td style="width: 80%;"><strong>Do this</strong></td>
+                                    <td style="width: 15%;"><strong>Click this</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>1.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                                <tr>
+                                    <td>3.</td>
+                                    <td>meh</td>
+                                    <td>Click this</td>
+                                </tr>
+                            </table>                          
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </body>
