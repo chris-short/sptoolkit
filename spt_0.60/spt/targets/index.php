@@ -1,7 +1,8 @@
 <?php
+
 /**
  * file:    index.php
- * version: 31.0
+ * version: 32.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,6 +31,7 @@ if ( file_exists ( $includeContent ) ) {
     header ( 'location:../errors/404_is_authenticated.php' );
 }
 ?>
+
 <!DOCTYPE HTML> 
 <html>
     <head>
@@ -122,7 +124,7 @@ if ( file_exists ( $includeContent ) ) {
             }
 
             //close the alert message
-            echo "<br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+            echo "<br /><a href=\"\"><img src=\"../images/arrow_redo.png\" alt=\"close\" /></a></div>";
 
             //close alert popover
             echo "</div>";
@@ -207,11 +209,11 @@ if ( file_exists ( $includeContent ) ) {
                         }
                         ?>
                         <tr>	
-                            <td></td>
+                            <td colspan="2"></td>
                             <td>
                                 <br />
-                                <a href=""><img src="../images/x.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="image" src="../images/plus.png" alt="add" />
+                                <a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="image" src="../images/add.png" alt="add" />
                             </td>
                         </tr>
                     </table>
@@ -233,8 +235,8 @@ if ( file_exists ( $includeContent ) ) {
                         <tr>
                             <td>
                                 <br />
-                                <a href=""><img src="../images/x.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="image" src="../images/plus.png" alt="add" />
+                                <a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="image" src="../images/add.png" alt="add" />
                             </td>
                             <td></td>
                     </table>
@@ -250,13 +252,13 @@ if ( file_exists ( $includeContent ) ) {
                             <td>
                                 <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Adding a metric will create a new column in the database for tracking target metrics.<br /><br />Check the box next to 5 metrics and those will be the 5 that are displayed in the group list pop-over.</span></a>
                                 &nbsp;&nbsp;&nbsp;
-                                <a href="."><img src="../images/x.png" alt="close" /></a>
+                                <a href="."><img src="../images/cancel.png" alt="close" /></a>
                             </td>
                         </tr>
                         <tr>
                             <td>Add Metric</td>
                             <td><input type="text" name="metric" /></td>
-                            <td><input type="image" src="../images/plus.png" alt="add" /></td>
+                            <td><input type="image" src="../images/add.png" alt="add" /></td>
                         </tr>
                     </table>
                 </form>
@@ -300,7 +302,7 @@ if ( file_exists ( $includeContent ) ) {
                         echo "
                         ></td>
                         <td>" . $ra['field_name'] . "</td>
-                        <td><a href=\"delete_metric.php?m=" . $ra['field_name'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>
+                        <td><a href=\"delete_metric.php?m=" . $ra['field_name'] . "\"><img src=\"../images/table_delete_sm.png\" alt=\"delete\" /></a></td>
                     </tr>";
                     }
                     ?>
@@ -327,7 +329,7 @@ if ( file_exists ( $includeContent ) ) {
                                 </span>
                             </a>
                             &nbsp;&nbsp;&nbsp;
-                            <a href="."><img src="../images/x.png" alt="close" /></a>
+                            <a href="."><img src="../images/cancel.png" alt="close" /></a>
                         </td>
                     </tr>
                 </table>
@@ -365,7 +367,7 @@ if ( file_exists ( $includeContent ) ) {
                             echo "<td class=\"target_cell\"><input type=\"text\" name=\"" . $ra['field_name'] . "\"class=\"invisible_input\"  /></td>";
                         }
                         ?>
-                        <td class="submit_cell"><input type="image" src="../images/plus.png" alt="add" class="invisible_input" /></td>
+                        <td class="submit_cell"><input type="image" src="../images/add.png" alt="add" class="invisible_input" /></td>
                         <input type="hidden" name="group_list" <?php
                         if ( isset ( $_REQUEST['g'] ) ) {
                             echo "value=\"" . filter_var ( $_REQUEST['g'], FILTER_SANITIZE_STRING ) . "\"";
@@ -424,7 +426,7 @@ if ( file_exists ( $includeContent ) ) {
                             }
 
                             echo "
-                                <td><a href=\"target_delete.php?g=" . $ra['group_name'] . "&u=" . $ra['id'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
+                                <td><a href=\"target_delete.php?g=" . $ra['group_name'] . "&u=" . $ra['id'] . "\"><img src=\"../images/user_delete_sm.png\" alt=\"delete\" /></a></td>\n
                             </tr>";
                         }
                     } else {
@@ -450,7 +452,7 @@ if ( file_exists ( $includeContent ) ) {
                             }
 
                             echo "
-                                <td><a href=\"target_delete.php?g=" . $ra['group_name'] . "&u=" . $ra['id'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
+                                <td><a href=\"target_delete.php?g=" . $ra['group_name'] . "&u=" . $ra['id'] . "\"><img src=\"../images/user_delete_sm.png\" alt=\"delete\" /></a></td>\n
                             </tr>";
                         }
                     }
@@ -464,10 +466,10 @@ if ( file_exists ( $includeContent ) ) {
 
             <!--content-->
             <div id="content">
-                <span class="button"><a href="#add_one"><img src="../images/plus_sm.png" alt="add" /> One</a></span>
-                <span class="button"><a href="#add_many"><img src="../images/plus_sm.png" alt="add" /> Import</a></span>
-                <span class="button"><a href="target_export.php"><img src="../images/list_sm.png" alt="template" /> Export</a></span>
-                <span class="button"><a href="#metrics"><img src="../images/list_sm.png" alt="metrics" /> Metrics</a></span>
+                <span class="button"><a href="#add_one"><img src="../images/user_add_sm.png" alt="add" /> One</a></span>
+                <span class="button"><a href="#add_many"><img src="../images/group_add_sm.png" alt="add" /> Import</a></span>
+                <span class="button"><a href="target_export.php"><img src="../images/page_white_put_sm.png" alt="template" /> Export</a></span>
+                <span class="button"><a href="#metrics"><img src="../images/table_edit_sm.png" alt="metrics" /> Metrics</a></span>
                 <table class="spt_table">
                     <tr>
                         <td><h3>Group Name</h3></td>
@@ -502,7 +504,7 @@ if ( file_exists ( $includeContent ) ) {
                         while ( $ra1 = mysql_fetch_assoc ( $r1 ) ) {
                             echo "<td>" . $ra1['COUNT(group_name)'] . "</td>";
                         }
-                        echo "<td><a href=\"group_delete.php?g=" . $ra['group_name'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
+                        echo "<td><a href=\"group_delete.php?g=" . $ra['group_name'] . "\"><img src=\"../images/group_delete_sm.png\" alt=\"delete\" /></a></td>";
                         echo "</tr>";
                     }
                     ?>
