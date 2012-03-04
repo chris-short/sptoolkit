@@ -1,11 +1,11 @@
 /*css - modules*/
 /**
- * file:		spt_modules.css
- * version:		2.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    spt_modules.css
+ * version: 3.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -23,43 +23,43 @@
 **/
 
 #add_module
-	{
-		position: fixed;
-		top: 0;
-		left: 0;		
-		height: 100%;
-		width: 100%;
-		display: none;
-		background-color: rgba(0, 0, 0, 0.8);
-		text-align: center;
-		z-index: 101;
-	}
+{
+    position: fixed;
+    top: 0;
+    left: 0;		
+    height: 100%;
+    width: 100%;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    z-index: 101;
+}
 
 #add_module div
-	{
-        margin: auto;
-        background-color: #fff;
-        box-shadow: 4px 4px 5px #000;
-        border-radius: 5px;
-        padding: 20px;
-        margin: auto;
-   		margin-top: 50px;
-   		padding-top:10px;
-   		display: inline-block;
-	}
+{
+    margin: auto;
+    background-color: #fff;
+    box-shadow: 4px 4px 5px #000;
+    border-radius: 5px;
+    padding: 20px;
+    margin: auto;
+    margin-top: 50px;
+    padding-top:10px;
+    display: inline-block;
+}
 
 #add_module:target
-	{
-		display: block;
-	}
+{
+    display: block;
+}
 
 #upload_module
-	{
-		width:400px;
-	}
+{
+    width:400px;
+}
 
 #module_description
-	{
-		width:250px;
-		text-align:left;
-	}
+{
+    width:250px;
+    text-align:left;
+}
