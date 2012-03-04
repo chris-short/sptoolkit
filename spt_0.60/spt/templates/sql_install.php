@@ -1,11 +1,12 @@
 <?php
+
 /**
- * file:		sql_install.php
- * version:		1.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    sql_install.php
+ * version: 2.0
+ * package:	Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -20,21 +21,16 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
-**/
+ * */
+//This is the table install script for templates
+//Templates Table
+$sql = "
+    CREATE TABLE `templates` (
+        `id` int(10) NOT NULL AUTO_INCREMENT,
+        `name` varchar(255) NOT NULL,
+        `description` longtext NOT NULL,
+        PRIMARY KEY (`id`)
+    )";
 
-  //This is the table install script for templates
-  
-  //Templates Table
-  $sql = 
-    "
-		CREATE TABLE `templates` (
-		  `id` int(10) NOT NULL AUTO_INCREMENT,
-		  `name` varchar(255) NOT NULL,
-		  `description` longtext NOT NULL,
-		  PRIMARY KEY (`id`)
-		)
-	";
-
-  mysql_query($sql) or die(mysql_error());
-
+mysql_query ( $sql ) or die ( mysql_error () );
 ?>
