@@ -2,7 +2,7 @@
 
 /**
  * file:    response.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,7 +22,6 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
-
 session_start ();
 
 //if values are being posted recieve all parameters into an array

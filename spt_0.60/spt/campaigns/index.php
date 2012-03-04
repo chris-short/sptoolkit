@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 31.0
+ * version: 32.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -46,31 +46,49 @@ if ( file_exists ( $includeContent ) ) {
         <script type="text/javascript" src="../includes/escape.js"></script>
         <script type="text/javascript">
             //get campaign id
-            <?php if(isset($_REQUEST['c'])){echo "campaign_id = \"".$_REQUEST['c']."\";";} ?>
-            //set function that will send emails
-            function sendEmail(campaign_id){
-                //begin new request
-                xmlhttp = new XMLHttpRequest();
-                //send update request
-                xmlhttp.onreadystatechange=function() {
-                    if (xmlhttp.readyState==4){
-                        var campaign_status = xmlhttp.responseText;
-                        //loop after a second if status of campaign is still active
-                        if(campaign_status != "stop"){
-                            setTimeout("sendEmail("+campaign_id+")", 1000);
-                        }                 
+<?php if ( isset ( $_REQUEST['c'] ) ) {
+    echo "campaign_id = \"" . $_REQUEST['c'] . "\";";
+} ?>
+                //set function that will update the progress bar
+                function getProgress(campaign_id){
+                    //begin new request
+                    xmlhttp = new XMLHttpRequest();
+                    //send update request
+                    xmlhttp.onreadystatechange=function() {
+                        if(xmlhttp.readyState==4){
+                            //update progress bar
+                            document.getElementById("message_progress").value = xmlhttp.responseText;
+                        }
                     }
+                    xmlhttp.open("POST","update_progress.php",true);
+                    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    xmlhttp.send("c="+campaign_id);
                 }
-                xmlhttp.open("POST","send_emails.php",true);
-                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                xmlhttp.send("c="+campaign_id);
-            }
-            var campaign_id;
-            //determine if a campaign is set
-            if ( campaign_id != null){
-                //start the email function
-                sendEmail(campaign_id);
-            }
+                //set function that will send emails
+                function sendEmail(campaign_id){
+                    //begin new request
+                    xmlhttp = new XMLHttpRequest();
+                    //send update request
+                    xmlhttp.onreadystatechange=function() {
+                        if (xmlhttp.readyState==4){
+                            var campaign_status = xmlhttp.responseText;
+                            //loop after a second if status of campaign is still active
+                            if(campaign_status != "stop"){
+                                setTimeout("sendEmail("+campaign_id+")", 1000);
+                                getProgress(campaign_id);
+                            }                 
+                        }
+                    }
+                    xmlhttp.open("POST","send_emails.php",true);
+                    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                    xmlhttp.send("c="+campaign_id);
+                }
+                var campaign_id;
+                //determine if a campaign is set
+                if ( campaign_id != null){
+                    //start the email function
+                    sendEmail(campaign_id);
+                }
         </script>
     </head>
     <body>
@@ -78,15 +96,15 @@ if ( file_exists ( $includeContent ) ) {
             <!--popovers-->
             <?php
             //check to see if the alert session is set
-            if ( isset ( $_SESSION[ 'alert_message' ] ) ) {
+            if ( isset ( $_SESSION['alert_message'] ) ) {
                 //create alert popover
                 echo "<div id=\"alert\">";
 
                 //echo the alert message
-                echo "<div>" . $_SESSION[ 'alert_message' ] . "<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+                echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 
                 //unset the seession
-                unset ( $_SESSION[ 'alert_message' ] );
+                unset ( $_SESSION['alert_message'] );
 
                 //close alert popover
                 echo "</div>";
@@ -111,7 +129,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <td colspan="2">
                                     <?php
                                     //pull current host and path
-                                    $path = $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
+                                    $path = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
                                     //strip off the end
                                     $path = preg_replace ( '/\/campaigns.*/', '', $path );
@@ -138,7 +156,7 @@ if ( file_exists ( $includeContent ) ) {
                                         //query for all groups
                                         $r = mysql_query ( 'SELECT DISTINCT group_name FROM targets' );
                                         while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                                            echo "<option>" . $ra[ 'group_name' ] . "</option>";
+                                            echo "<option>" . $ra['group_name'] . "</option>";
                                         }
                                         ?>	
                                     </select>
@@ -161,7 +179,7 @@ if ( file_exists ( $includeContent ) ) {
                                         //query for all groups
                                         $r = mysql_query ( 'SELECT id, name FROM templates' );
                                         while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                                            echo "<option value=" . $ra[ 'id' ] . ">" . $ra[ 'name' ] . "</option>";
+                                            echo "<option value=" . $ra['id'] . ">" . $ra['name'] . "</option>";
                                         }
                                         ?>	
                                     </select>
@@ -189,7 +207,7 @@ if ( file_exists ( $includeContent ) ) {
                                         //query for all groups
                                         $r = mysql_query ( 'SELECT id, name FROM education' );
                                         while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                                            echo "<option value=" . $ra[ 'id' ] . ">" . $ra[ 'name' ] . "</option>";
+                                            echo "<option value=" . $ra['id'] . ">" . $ra['name'] . "</option>";
                                         }
                                         ?>	
                                     </select>
@@ -206,7 +224,7 @@ if ( file_exists ( $includeContent ) ) {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Host</i></td>
+                                <td>Host</td>
                                 <td><input type="text" name="relay_host" size="45"/></td>
                             </tr>
                             <tr>
@@ -242,52 +260,52 @@ if ( file_exists ( $includeContent ) ) {
                     include "../spt_config/mysql_config.php";
 
 //pull in campaign id
-                    if ( isset ( $_REQUEST[ 'c' ] ) ) {
-                        $campaign_id = filter_var ( $_REQUEST[ 'c' ], FILTER_SANITIZE_NUMBER_INT );
+                    if ( isset ( $_REQUEST['c'] ) ) {
+                        $campaign_id = filter_var ( $_REQUEST['c'], FILTER_SANITIZE_NUMBER_INT );
 
                         //get campaign name
                         $r = mysql_query ( "SELECT campaign_name FROM campaigns WHERE id = '$campaign_id'" );
                         while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                            $campaign_name = $ra[ 'campaign_name' ];
+                            $campaign_name = $ra['campaign_name'];
                         }
 
                         //go ahead and perform validation
                         $r = mysql_query ( "SELECT DISTINCT campaign_id FROM campaigns_responses" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                         while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                            if ( $ra[ 'campaign_id' ] == $campaign_id ) {
+                            if ( $ra['campaign_id'] == $campaign_id ) {
                                 $campaign_match = 1;
                             }
                         }
                         if ( $campaign_match != 1 ) {
-                            $_SESSION[ 'alert_message' ] = "please select a valid campaign";
+                            $_SESSION['alert_message'] = "please select a valid campaign";
                             header ( 'location:./#alert' );
                             exit;
                         }
                     }
 
 //pull in filter and group
-                    if ( isset ( $_REQUEST[ 'f' ] ) ) {
-                        $filter = filter_var ( $_REQUEST[ 'f' ], FILTER_SANITIZE_STRING );
+                    if ( isset ( $_REQUEST['f'] ) ) {
+                        $filter = filter_var ( $_REQUEST['f'], FILTER_SANITIZE_STRING );
 
                         //go ahead and preform validation
                         if ( $filter != "link" && $filter != "post" ) {
-                            $_SESSION[ 'alert_message' ] = "please use a valid filter";
+                            $_SESSION['alert_message'] = "please use a valid filter";
                             header ( 'location:./#alert' );
                             exit;
                         }
                     }
-                    if ( isset ( $_REQUEST[ 'g' ] ) ) {
-                        $group = filter_var ( $_REQUEST[ 'g' ], FILTER_SANITIZE_STRING );
+                    if ( isset ( $_REQUEST['g'] ) ) {
+                        $group = filter_var ( $_REQUEST['g'], FILTER_SANITIZE_STRING );
 
                         //go ahead and perform validation
                         $r = mysql_query ( "SELECT DISTINCT group_name FROM targets" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                         while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                            if ( $group == $ra[ 'group_name' ] ) {
+                            if ( $group == $ra['group_name'] ) {
                                 $group_match = 1;
                             }
                         }
                         if ( ! isset ( $group_match ) ) {
-                            $_SESSION[ 'alert_message' ] = "please select a valid group";
+                            $_SESSION['alert_message'] = "please select a valid group";
                             header ( 'location:./#alert' );
                             exit;
                         }
@@ -295,7 +313,7 @@ if ( file_exists ( $includeContent ) ) {
 
 //if group and filter are both set send them back
                     if ( isset ( $filter ) && isset ( $group ) ) {
-                        $_SESSION[ 'alert_message' ] = "you cannot pass both a filter and a group";
+                        $_SESSION['alert_message'] = "you cannot pass both a filter and a group";
                         header ( 'location:./#alert' );
                         exit;
                     }
@@ -347,17 +365,17 @@ if ( file_exists ( $includeContent ) ) {
                         }
                     }
 
-                    if ( isset ( $_REQUEST[ 'c' ] ) ) {
+                    if ( isset ( $_REQUEST['c'] ) ) {
                         //get basic campaign data
                         $r2 = mysql_query ( "SELECT date_sent, date_ended, campaign_name, domain_name, education_id, template_id, education_timing FROM campaigns WHERE id = '$campaign_id'" );
                         while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
-                            $date_sent = $ra2[ 'date_sent' ];
+                            $date_sent = $ra2['date_sent'];
                             $date_ended = $ra2['date_ended'];
-                            $campaign_name = $ra2[ 'campaign_name' ];
-                            $formulated_url = "http://" . $ra2[ 'domain_name' ] . "/campaigns/response.php?r=random_key_for_each_target";
-                            $education_id = $ra2[ 'education_id' ];
-                            $template_id = $ra2[ 'template_id' ];
-                            $education_timing = $ra2[ 'education_timing' ];
+                            $campaign_name = $ra2['campaign_name'];
+                            $formulated_url = "http://" . $ra2['domain_name'] . "/campaigns/response.php?r=response_key";
+                            $education_id = $ra2['education_id'];
+                            $template_id = $ra2['template_id'];
+                            $education_timing = $ra2['education_timing'];
                             if ( $education_timing == 1 ) {
                                 $education = "On Link Click";
                             }
@@ -370,7 +388,7 @@ if ( file_exists ( $includeContent ) ) {
 
                             $r4 = mysql_query ( "SELECT name FROM templates WHERE id = '$template_id'" );
                             while ( $ra4 = mysql_fetch_assoc ( $r4 ) ) {
-                                $template_name = $ra4[ 'name' ];
+                                $template_name = $ra4['name'];
                             }
                         }
 
@@ -410,13 +428,13 @@ if ( file_exists ( $includeContent ) ) {
                 </tr>
                 <tr>
                     <td>Phishing URL</td>
-                    <td>".$formulated_url."</td>
+                    <td>" . $formulated_url . "</td>
                 </tr>";
 
                         if ( $education_id != 0 ) {
                             $r3 = mysql_query ( "SELECT name FROM education WHERE id = '$education_id'" );
                             while ( $ra3 = mysql_fetch_assoc ( $r3 ) ) {
-                                $education_name = $ra3[ 'name' ];
+                                $education_name = $ra3['name'];
                             }
 
                             echo "
@@ -435,8 +453,28 @@ if ( file_exists ( $includeContent ) ) {
                     <td>None</td>
                 </tr>";
                         }
-
+                        $r5 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent != 0" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                        $r6 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                        $sent = mysql_num_rows ( $r5 );
+                        $total = mysql_num_rows ( $r6 );
+                        $percentage = ceil ( ($sent / $total) * 100 );
                         echo "
+               <tr>
+                    <td colspan=\"2\"><form method=\"post\" action=\"./?c=" . $campaign_id . "#responses\"><input type=\"image\" src=\"../images/refresh.png\"  />
+                    ";
+                        $r7 = mysql_query ( "SELECT status FROM campaigns WHERE id = '$campaign_id'" );
+                        while ( $ra7 = mysql_fetch_assoc ( $r7 ) ) {
+                            if ( $ra7['status'] == 1 ) {
+                                echo "<a href=\"change_status.php?c=" . $campaign_id . "&s=2\"><img src=\"../images/pause.png\" alt=\"pause\" /></a>&nbsp;&nbsp;<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
+                            } else if ( $ra7['status'] == 2 ) {
+                                echo "<a href=\"change_status.php?c=" . $campaign_id . "&s=1\"><img src=\"../images/play.png\" alt=\"pause\" /></a>&nbsp;&nbsp;<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
+                            } else {
+                                echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
+                            }
+                        }
+                        echo "
+                </form></td>
+                </tr>
             </table>
             <br />
             <table id=\"response_table\">
@@ -447,50 +485,46 @@ if ( file_exists ( $includeContent ) ) {
                     <td><h3>Email</h3></td>
                     <td><h3>Link</h3></td>
                     <td><h3>Clicked at</h3></td>
-                    <td><h3>Post</h3></td>
                     <td><h3>IP</h3></td>
                     <td><h3>Browser</h3></td>
                     <td><h3>Version</h3></td>
                     <td><h3>OS</h3></td>
+                    <td><h3>Post</h3></td>                    
                     <td><h3>Status</h3></td>
                 </tr>";
 
                         //dump data into table
                         while ( $ra = mysql_fetch_assoc ( $r ) ) {
                             echo "<tr>";
-                            echo "<td>" . $ra[ 'target_id' ] . "</td>";
-                            echo "<td>" . $ra[ 'fname' ] . "</td>";
-                            echo "<td>" . $ra[ 'lname' ] . "</td>";
-                            echo "<td>" . $ra[ 'email' ] . "</td>";
-                            if ( $ra[ 'link' ] == 1 ) {
+                            echo "<td>" . $ra['target_id'] . "</td>";
+                            echo "<td>" . $ra['fname'] . "</td>";
+                            echo "<td>" . $ra['lname'] . "</td>";
+                            echo "<td>" . $ra['email'] . "</td>";
+                            if ( $ra['link'] == 1 ) {
                                 $link = 'Y';
                             } else {
                                 $link = 'N';
                             }
                             echo "<td>" . $link . "</td>";
-                            echo "<td>" . $ra[ 'link_time' ] . "</td>";
-                            if ( strlen ( $ra[ 'post' ] ) < 1 ) {
+                            echo "<td>" . $ra['link_time'] . "</td>";
+                            echo "<td><a href=\"http://geomaplookup.net/?ip=" . $ra['ip'] . "\" target=\"blank\">" . $ra['ip'] . "</a></td>";
+                            echo "<td>" . $ra['browser'] . "</td>";
+                            echo "<td>" . $ra['browser_version'] . "</td>";
+                            echo "<td>" . $ra['os'] . "</td>";
+                            if ( strlen ( $ra['post'] ) < 1 ) {
                                 $post = 'N';
                                 echo "<td>" . $post . "</td>";
                             } else {
-                                $post = $ra[ 'post' ];
+                                $post = $ra['post'];
                                 $post_count = explode ( "<br />", $post );
                                 $post_count = count ( $post_count );
                                 echo "<td><a class=\"tooltip_sm\">" . $post_count . "<span>" . $post . "</span></a></td>";
                             }
-
-                            echo "<td><a href=\"http://geomaplookup.net/?ip=" . $ra[ 'ip' ] . "\" target=\"blank\">" . $ra[ 'ip' ] . "</a></td>";
-                            echo "<td>" . $ra[ 'browser' ] . "</td>";
-                            echo "<td>" . $ra[ 'browser_version' ] . "</td>";
-                            echo "<td>" . $ra[ 'os' ] . "</td>";
                             $log = $ra['response_log'];
-                            if(strlen($log) < 1){
+                            if ( strlen ( $log ) < 1 ) {
                                 $log = "The message was attempted, but no log was recorded";
-                            }else{
-                                
                             }
-
-                            echo "<td><a class=\"mail_log\"><img src=\"../images/message_status_" . $ra[ 'sent' ] . ".png\" alt=\"message_status\" /><span>" . $log . "</span></a></td>";                            
+                            echo "<td id=\"target_" . $ra['target_id'] . "\"><a class=\"mail_log\"><img src=\"../images/message_status_" . $ra['sent'] . ".png\" alt=\"message_status\" /><span>" . $log . "</span></a></td>";
                             echo "</tr>";
                         }
 
@@ -501,7 +535,7 @@ if ( file_exists ( $includeContent ) ) {
             </div>
 
             <!--sidebar-->
-            <?php include '../includes/sidebar.php'; ?>					
+<?php include '../includes/sidebar.php'; ?>					
 
             <!--content-->
             <div id="content">
@@ -513,7 +547,9 @@ if ( file_exists ( $includeContent ) ) {
                         <td><h3>Target Groups</h3></td>
                         <td><h3>Template</h3></td>
                         <td><h3>Education</h3></td>
-                        <td><h3>Responses (Links/Posts)</h3></td>
+                        <td><h3>Links</h3></td>
+                        <td><h3>Posts</h3></td>
+                        <td><h3>Progress</h3></td>
                         <td><h3>Delete</h3></td>
                     </tr>
 
@@ -526,27 +562,35 @@ if ( file_exists ( $includeContent ) ) {
                     while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         echo "
                                 <tr>
-                                    <td><a href=\"?c=" . $ra[ 'id' ] . "#responses\">" . $ra[ 'campaign_name' ] . "</a></td>\n
+                                    <td><a href=\"?c=" . $ra['id'] . "#responses\">" . $ra['campaign_name'] . "</a></td>\n
                                     <td>";
 
-                        $campaign_id = $ra[ 'id' ];
+                        $campaign_id = $ra['id'];
 
                         //pull in groups
                         $r3 = mysql_query ( "SELECT group_name FROM campaigns_and_groups WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                         while ( $ra3 = mysql_fetch_assoc ( $r3 ) ) {
-                            echo "<a href=\"?c=" . $ra[ 'id' ] . "&amp;g=" . $ra3[ 'group_name' ] . "#responses\">" . $ra3[ 'group_name' ] . "</a><br />\n";
+                            echo "<a href=\"?c=" . $ra['id'] . "&amp;g=" . $ra3['group_name'] . "#responses\">" . $ra3['group_name'] . "</a><br />\n";
                         }
                         echo "</td>";
-                        echo "<td><a href=\"../templates/" . $ra[ 'template_id' ] . "/\" target=\"_blank\">" . $ra[ 'name' ] . "</a></td>\n";
-                        echo "<td><a href=\"../education/" . $ra[ 'education_id' ] . "/\" target=\"_blank\">" . $ra[ 'education_name' ] . "</a></td>\n";
+                        echo "<td><a href=\"../templates/" . $ra['template_id'] . "/\" target=\"_blank\">" . $ra['name'] . "</a></td>\n";
+                        echo "<td><a href=\"../education/" . $ra['education_id'] . "/\" target=\"_blank\">" . $ra['education_name'] . "</a></td>\n";
 
                         $r2 = mysql_query ( "SELECT count(target_id) as count, sum(link) as link, sum(if(length(post) > 0, 1, 0)) as post FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                         while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
-                            $link = $ra2[ 'link' ];
-                            $post = $ra2[ 'post' ];
+                            $link = $ra2['link'];
+                            $post = $ra2['post'];
                         }
 
-                        echo "<td><a href=\"?c=" . $ra[ 'id' ] . "&amp;f=link#responses\">" . $link . "</a> / <a href=\"?c=" . $ra[ 'id' ] . "&amp;f=post#responses\">" . $post . "</a></td>";
+                        echo "<td><a href=\"?c=" . $ra['id'] . "&amp;f=link#responses\">" . $link . "</a></td><td><a href=\"?c=" . $ra['id'] . "&amp;f=post#responses\">" . $post . "</a></td>";
+                        echo "<td>";
+                        $r5 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent != 0" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                        $r6 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                        $sent = mysql_num_rows ( $r5 );
+                        $total = mysql_num_rows ( $r6 );
+                        $percentage = ceil ( ($sent / $total) * 100 );
+                        echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
+                        echo "</td>";
                         echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
                         echo "</tr>";
                     }

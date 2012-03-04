@@ -1,8 +1,8 @@
 <?php
 
 /**
- * file:    delete_campaign.php
- * version: 6.0
+ * file:    change_status.php
+ * version: 1.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,18 +50,19 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     }
 }
 if ( ! isset ( $match ) ) {
-    $_SESSION['alert_message'] = "you can only delete real campaign ids";
+    $_SESSION['alert_message'] = "you can only change the status of valid campaigns";
     header ( 'location:./#alert' );
     exit;
 }
 
-//delete all traces of this specific campaign
-mysql_query ( "DELETE FROM campaigns WHERE id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-mysql_query ( "DELETE FROM campaigns_and_groups WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-mysql_query ( "DELETE FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-
-//send them back to the campaigns home page
-$_SESSION['alert_message'] = "campaign deleted successfully";
-header ( 'location:./#alert' );
-exit;
+//validate the status is set and accurate
+if(isset($_REQUEST['s']) AND $_REQUEST['s'] > 0 AND $_REQUEST['s'] < 4 ){
+    $status = $_REQUEST['s'];
+    mysql_query("UPDATE campaigns SET status = '$status' WHERE id = '$campaign_id'");
+    header('location:./?c='.$campaign_id.'#responses');
+    exit;
+}else{
+    $_SESSION['alert_message'] = "please specify a valid status";
+    header('location:./#alert');
+}
 ?>

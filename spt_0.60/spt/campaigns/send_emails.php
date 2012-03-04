@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,11 +41,11 @@ if ( file_exists ( $includeContent ) ) {
 }
 
 //validate a campaign is specified
-if ( ! isset ( $_POST[ "c" ] ) ) {
+if ( ! isset ( $_POST["c"] ) ) {
     echo "stop";
     exit;
 } else {
-    $campaign_id = $_POST[ 'c' ];
+    $campaign_id = $_POST['c'];
 }
 
 //connect to database
@@ -54,28 +54,28 @@ include('../spt_config/mysql_config.php');
 //ensure campaign status is set to active
 $r = mysql_query ( "SELECT status FROM campaigns WHERE id = '$campaign_id'" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    if ( $ra[ 'status' ] != 1 ) {
+    if ( $ra['status'] != 1 ) {
         echo "stop";
         exit;
     }
 }
 
 //ensure there is at least one message to send
-$r = mysql_query( "SELECT * FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent = 0" );
+$r = mysql_query ( "SELECT * FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent = 0" );
 $ra = mysql_num_rows ( $r );
-if($ra == 0 ){
+if ( $ra == 0 ) {
     //get time
     $date_ended = date ( "F j, Y, g:i a" );
     //set campaign to complete and record date/time
-    mysql_query("UPDATE campaigns SET status = 3, date_ended = '$date_ended' WHERE id = '$campaign_id'");
+    mysql_query ( "UPDATE campaigns SET status = 3, date_ended = '$date_ended' WHERE id = '$campaign_id'" );
     echo "stop";
     exit;
 }
 
 //check to see if delay counter is set to a second or more and exit if it is after decrementing it
-if ( isset ( $_SESSION[ 'delay_counter' ] ) ) {
-    if ( $_SESSION[ 'delay_counter' ] >= 1000 ) {
-        $_SESSION[ 'delay_counter' ] = $_SESSION[ 'delay_counter' ] - 1000;
+if ( isset ( $_SESSION['delay_counter'] ) ) {
+    if ( $_SESSION['delay_counter'] >= 1000 ) {
+        $_SESSION['delay_counter'] = $_SESSION['delay_counter'] - 1000;
         exit;
     }
 }
@@ -84,8 +84,8 @@ if ( isset ( $_SESSION[ 'delay_counter' ] ) ) {
 $timer = 1000;
 
 //decrement timer any left over delay
-if ( isset ( $_SESSION[ 'delay_counter' ] ) ) {
-    $timer = $timer - $_SESSION[ 'delay_counter' ];
+if ( isset ( $_SESSION['delay_counter'] ) ) {
+    $timer = $timer - $_SESSION['delay_counter'];
     //zero out delay counter
     $_SESSION['delay_counter'] = 0;
 }
@@ -93,7 +93,7 @@ if ( isset ( $_SESSION[ 'delay_counter' ] ) ) {
 //get the message delay value for this campaign
 $r = mysql_query ( "SELECT message_delay FROM campaigns WHERE id = '$campaign_id'" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    $message_delay = $ra[ 'message_delay' ];
+    $message_delay = $ra['message_delay'];
 }
 
 //refill delay counter
@@ -107,27 +107,27 @@ while ( $timer > 0 ) {
 }
 
 //decrement delay counter if over a second
-if($_SESSION['delay_counter'] > 1000){
+if ( $_SESSION['delay_counter'] > 1000 ) {
     $_SESSION['delay_counter'] = $_SESSION['delay_counter'] - 1000;
 }
 
 //get the path of spt and the template id for this campaign
 $r = mysql_query ( "SELECT spt_path, template_id FROM campaigns WHERE id = '$campaign_id'" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    $spt_path = $ra[ 'spt_path' ];
-    $template_id = $ra[ 'template_id' ];
+    $spt_path = $ra['spt_path'];
+    $template_id = $ra['template_id'];
 }
 
 //get the smtp relay if its set
 $r = mysql_query ( "SELECT relay_host, relay_username, relay_password FROM campaigns WHERE id = '$campaign_id'" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    if ( strlen ( $ra[ 'relay_host' ] ) > 0 ) {
-        $relay_host = $ra[ 'relay_host' ];
-        if ( strlen ( $ra[ 'relay_username' ] ) > 0 ) {
-            $relay_username = $ra[ 'relay_username' ];
+    if ( strlen ( $ra['relay_host'] ) > 0 ) {
+        $relay_host = $ra['relay_host'];
+        if ( strlen ( $ra['relay_username'] ) > 0 ) {
+            $relay_username = $ra['relay_username'];
         }
-        if ( strlen ( $ra[ 'relay_password' ] ) > 0 ) {
-            $relay_password = $ra[ 'relay_password' ];
+        if ( strlen ( $ra['relay_password'] ) > 0 ) {
+            $relay_password = $ra['relay_password'];
         }
     }
 }
@@ -138,20 +138,20 @@ $r = mysql_query ( "SELECT targets.fname AS fname, targets.lname AS lname, targe
 //send the emails
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     //set the current email address
-    $current_target_email_address = $ra[ 'email' ];
-    $current_response_id = $ra[ 'response_id' ];
-    $fname = $ra[ 'fname' ];
-    $lname = $ra[ 'lname' ];
+    $current_target_email_address = $ra['email'];
+    $current_response_id = $ra['response_id'];
+    $fname = $ra['fname'];
+    $lname = $ra['lname'];
 
     //pull in all the email variables from the specified template
     include "../templates/" . $template_id . "/email.php";
 
     //formulate link
     $link = "http://" . $spt_path . "/campaigns/response.php?r=" . $current_response_id;
-    $link = "<a href=\"".$link."\">".$fake_link."</a>";
+    $link = "<a href=\"" . $link . "\">" . $fake_link . "</a>";
 
     //find and replace variables
-    $message = preg_replace ( "#@link#", $link, $message);
+    $message = preg_replace ( "#@link#", $link, $message );
     $message = preg_replace ( "#@fname#", $fname, $message );
     $message = preg_replace ( "#@lname#", $lname, $message );
     $message = html_entity_decode ( $message );
@@ -175,13 +175,13 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( ! isset ( $relay_host ) AND ! isset ( $relay_username ) AND ! isset ( $relay_password ) ) {
         //parse out the domain from the recipient email address
         $domain_parts = explode ( "@", $current_target_email_address );
-        $domain = $domain_parts[ 1 ];
+        $domain = $domain_parts[1];
 
         //get MX record for the destination
         getmxrr ( $domain, $mxhosts );
 
         //create the transport
-        $transport = Swift_SmtpTransport::newInstance ( $mxhosts[ 0 ], 25 );
+        $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25 );
     }
 
     //Create the Mailer using your created Transport
@@ -215,12 +215,11 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     mysql_query ( "UPDATE campaigns_responses SET sent = 2 WHERE response_id = '$current_response_id'" );
 
     //specify if there was a failure
-    if(count($failures) > 0){
-        mysql_query("UPDATE campaigns_responses SET sent = 3 WHERE response_id = '$current_response_id'");
+    if ( count ( $failures ) > 0 ) {
+        mysql_query ( "UPDATE campaigns_responses SET sent = 3 WHERE response_id = '$current_response_id'" );
     }
-
-echo "continue";
 
 }
 
+echo "continue";
 ?>

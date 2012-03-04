@@ -1,8 +1,8 @@
 <?php
 
 /**
- * file:    delete_campaign.php
- * version: 6.0
+ * file:    get_progress.php
+ * version: 1.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,18 +50,15 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     }
 }
 if ( ! isset ( $match ) ) {
-    $_SESSION['alert_message'] = "you can only delete real campaign ids";
-    header ( 'location:./#alert' );
     exit;
 }
 
-//delete all traces of this specific campaign
-mysql_query ( "DELETE FROM campaigns WHERE id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-mysql_query ( "DELETE FROM campaigns_and_groups WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-mysql_query ( "DELETE FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+$r5 = mysql_query("SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent != 0") or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+$r6 = mysql_query("SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id'") or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+$sent = mysql_num_rows($r5);
+$total = mysql_num_rows($r6);
+$percentage = ceil(($sent/$total) * 100);
 
-//send them back to the campaigns home page
-$_SESSION['alert_message'] = "campaign deleted successfully";
-header ( 'location:./#alert' );
-exit;
+echo $percentage;
+
 ?>

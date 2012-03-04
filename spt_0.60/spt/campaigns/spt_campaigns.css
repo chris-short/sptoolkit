@@ -1,7 +1,7 @@
 /*css - campaigns*/
 /**
  * file:    spt_campaigns.css
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -87,6 +87,11 @@
 #campaign_list_header
 {
     width:100%;
+}
+
+#message_progress
+{
+    vertical-align: 10px;
 }
 
 .left
