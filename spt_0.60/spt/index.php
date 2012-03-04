@@ -1,11 +1,12 @@
 <?php
+
 /**
- * file:		index.php
- * version:		17.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    index.php
+ * version: 18.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -21,85 +22,73 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
+
 //starts php session
-session_start();
+session_start ();
 
 //if install file exists prompt user to delete it
-if (isset($_POST['delete_install'])) {
-    unlink('install.php');
-    header('location:index.php?#deleted');
+if ( isset ( $_POST['delete_install'] ) ) {
+    unlink ( 'install.php' );
+    header ( 'location:index.php?#deleted' );
 }
 
-if (file_exists('install.php') && !preg_match('/installfiles=true/', $_SERVER['REQUEST_URI'])) {
-    header('location:index.php?installfiles=true#install_files');
+if ( file_exists ( 'install.php' ) && ! preg_match ( '/installfiles=true/', $_SERVER['REQUEST_URI'] ) ) {
+    header ( 'location:index.php?installfiles=true#install_files' );
 }
 
 //sends you to the spt dashboard if your already authenticated
-if (isset($_SESSION['authenticated'])) {
-    header('location:dashboard/');
+if ( isset ( $_SESSION['authenticated'] ) ) {
+    header ( 'location:dashboard/' );
     exit;
 }
 ?>
+
 <!DOCTYPE HTML> 
 <html>
     <head>
         <title>spt - simple phishing toolkit</title>
-
         <!--meta-->
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="description" content="welcome to spt - simple phishing toolkit.  spt is a super simple but powerful phishing toolkit." />
-
         <!--favicon-->
         <link rel="shortcut icon" href="images/favicon.ico" />
-
         <!--css-->
         <link rel="stylesheet" href="spt.css" type="text/css" />
-
         <!--scripts-->
         <script type="text/javascript" src="includes/escape.js"></script>
-
     </head>
-
     <body onload='login_form.u.focus()'>
-
+        
         <!--browser check-->
-<?php
+        <?php
 //pull in browser script
-include "includes/browser.php";
+        include "includes/browser.php";
 
 //put browser info into variable
-$browser = new Browser();
+        $browser = new Browser();
 
 //firefox check
-if ($browser->getBrowser() == Browser::BROWSER_FIREFOX && $browser->getVersion() <= "7") {
-    echo
-    "
-        <div id=\"browser_warning\">You are running an older version of Firefox (v" . $browser->getVersion() . ") that has not been tested...Please update to the latest version of Firefox.</div>
-    ";
-}
-if ($browser->getBrowser() == Browser::BROWSER_CHROME && $browser->getVersion() <= "14") {
-    echo
-    "
-        <div id=\"browser_warning\">You are running an older version of Chrome (v" . $browser->getVersion() . ") that has not been tested...Please update to the latest version.</div>
-    ";
-}
-if ($browser->getBrowser() == Browser::BROWSER_IE && $browser->getVersion() <= "8.9") {
-    echo
-    "
-        <div id=\"browser_warning\">You are running an older version of Internet Explorer (v" . $browser->getVersion() . ")vthat has not been tested...Please update to the latest version.</div>
-    ";
-}
-if ($browser->getBrowser() != Browser::BROWSER_IE && $browser->getBrowser() != Browser::BROWSER_CHROME && $browser->getBrowser() != Browser::BROWSER_FIREFOX) {
-    echo
-    "
-        <div id=\"browser_warning\">You are running a web browser that has not been tested...Try the latest version of <a href=\"http://google.com/chrome\">Google Chrome</a>, <a href=\"http://microsoft.com/ie\">Microsoft Internet Explorer</a> or <a href=\"http://mozilla.org/firefox\">Mozilla Firefox</a></div>
-    ";
-}
-?>
+        if ( $browser -> getBrowser () == Browser::BROWSER_FIREFOX && $browser -> getVersion () <= "7" ) {
+            echo "
+        <div id=\"browser_warning\">You are running an older version of Firefox (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version of Firefox.</div>";
+        }
+        if ( $browser -> getBrowser () == Browser::BROWSER_CHROME && $browser -> getVersion () <= "14" ) {
+            echo "
+        <div id=\"browser_warning\">You are running an older version of Chrome (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version.</div>";
+        }
+        if ( $browser -> getBrowser () == Browser::BROWSER_IE && $browser -> getVersion () <= "8.9" ) {
+            echo "
+        <div id=\"browser_warning\">You are running an older version of Internet Explorer (v" . $browser -> getVersion () . ")vthat has not been tested...Please update to the latest version.</div>";
+        }
+        if ( $browser -> getBrowser () != Browser::BROWSER_IE && $browser -> getBrowser () != Browser::BROWSER_CHROME && $browser -> getBrowser () != Browser::BROWSER_FIREFOX ) {
+            echo "
+        <div id=\"browser_warning\">You are running a web browser that has not been tested.  Try the latest version of <a href=\"http://google.com/chrome\" target=\"_blank\">Google Chrome</a>, <a href=\"http://microsoft.com/ie\" target=\"_blank\">Microsoft Internet Explorer</a> or <a href=\"http://mozilla.org/firefox\" target=\"_blank\">Mozilla Firefox</a></div>";
+        }
+        ?>
 
         <?php
         //look for login errors
-        if (isset($_SESSION['alert_message'])) {
+        if ( isset ( $_SESSION['alert_message'] ) ) {
             //create alert popover
             echo "<div id=\"alert\">\n";
 
@@ -108,7 +97,7 @@ if ($browser->getBrowser() != Browser::BROWSER_IE && $browser->getBrowser() != B
             echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"images/left-arrow.png\" alt=\"close\" /></a></div>";
 
             //unset the session
-            unset($_SESSION['alert_message']);
+            unset ( $_SESSION['alert_message'] );
 
             //close alert popover
             echo "</div>";
@@ -128,11 +117,10 @@ if ($browser->getBrowser() != Browser::BROWSER_IE && $browser->getBrowser() != B
                     <tr>
                         <td>
                             <form name="install_message_install" method="post" action="install.php">
-                            <input type="image" src="images/right-arrow.png" alt="begin installation" />
+                                <input type="image" src="images/right-arrow.png" alt="begin installation" />
                             </form>
                         </td>
-                        <td>
-                        </td>
+                        <td></td>
                         <td>
                             <form name="install_message_delete" method="post" action="">
                                 <input type="hidden" name="delete_install" value="delete_install" />
@@ -147,22 +135,20 @@ if ($browser->getBrowser() != Browser::BROWSER_IE && $browser->getBrowser() != B
         <!--forgot password-->
         <div id="forgot_password">
             <div>
-                <table>
-                    <tr>
-                        <td colspan=2>Provide your email address and we will<br />send you instructions on how to reset your password.</td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td>
-                            <form id="forgot_password_form" method="post" action="login/forgot_password.php">
-                                <input type="text" name="email" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan=2><a href="."><img src="images/x.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="images/right-arrow.png" alt="edit" /></td>
-                        </form>
-                    </tr>
-                </table>
+                <form id="forgot_password_form" method="post" action="login/forgot_password.php">
+                    <table>
+                        <tr>
+                            <td colspan=2>Provide your email address and we will<br />send you instructions on how to reset your password.</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td><input type="text" name="email" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan=2><a href="."><img src="images/x.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="images/right-arrow.png" alt="edit" /></td>
+                        </tr>
+                    </table>
+                </form>
             </div>
         </div>
 
@@ -173,26 +159,25 @@ if ($browser->getBrowser() != Browser::BROWSER_IE && $browser->getBrowser() != B
             <div id="login_logo"><img src="images/logo.png" alt="logo"/><br /><?php include "includes/version.txt"; ?></div>
 
             <!--login form-->
-            <form name="login_form" id="login_form" method="post" action="login/validator.php">
-                <table>
-                    <tr>
-                        <td class="td_right">email</td>
-                        <td><input name="u" type="text" id="u" class="login_field" /></td>
-                    </tr>
-                    <tr>
-                        <td class="td_right">password</td>
-                        <td><input name="p" type="password" id="p" class="login_field" autocomplete="off" /></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><a href="#forgot_password"><strong>forgot password?</strong></a> </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><input type="submit" value="login" /></td>
-                    </tr>
-                </table>
-            </form>
+                <form name="login_form" id="login_form" method="post" action="login/validator.php">
+                    <table>
+                        <tr>
+                            <td class="td_right">email</td>
+                            <td><input name="u" type="text" id="u" class="login_field" /></td>
+                        </tr>
+                        <tr>
+                            <td class="td_right">password</td>
+                            <td><input name="p" type="password" id="p" class="login_field" autocomplete="off" /></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><a href="#forgot_password"><strong>forgot password?</strong></a> </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><input type="submit" value="login" /></td>
+                        </tr>
+                    </table>
+                </form>
         </div>
-
     </body>
 </html>
