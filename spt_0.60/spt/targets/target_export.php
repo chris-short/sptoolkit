@@ -1,7 +1,8 @@
 <?php
+
 /**
  * file:		target_export.php
- * version:		2.0
+ * version:		3.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -20,23 +21,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
-**/
+ * */
+// verify session is authenticated and not hijacked
+$includeContent = "../includes/is_authenticated.php";
+if ( file_exists ( $includeContent ) ) {
+    require_once $includeContent;
+} else {
+    header ( 'location:../errors/404_is_authenticated.php' );
+}
 
-	// verify session is authenticated and not hijacked
-	$includeContent = "../includes/is_authenticated.php";
-	if(file_exists($includeContent)){
-		require_once $includeContent;
-	}else{
-		header('location:../errors/404_is_authenticated.php');
-	}
-
-	// verify user is an admin
-	$includeContent = "../includes/is_admin.php";
-	if(file_exists($includeContent)){
-		require_once $includeContent;
-	}else{
-		header('location:../errors/404_is_admin.php');
-	}
+// verify user is an admin
+$includeContent = "../includes/is_admin.php";
+if ( file_exists ( $includeContent ) ) {
+    require_once $includeContent;
+} else {
+    header ( 'location:../errors/404_is_admin.php' );
+}
 
 //connect to database
 include "../spt_config/mysql_config.php";
@@ -46,36 +46,38 @@ $output = "";
 $count = 0;
 
 //get target columns
-$r = mysql_query("SHOW COLUMNS FROM targets");
-while($ra = mysql_fetch_assoc($r))
-	{
-		if($ra['Field'] != 'id')
-			{
-				$output .= $ra['Field'].",";
-				$count++;	
-			} 
-	}
+$r = mysql_query ( "SHOW COLUMNS FROM targets" );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    if ( $ra['Field'] != 'id' ) {
+        if ( $count != 0 ) {
+            $output .= ",";
+        }
+        $output .= $ra['Field'];
+        $count ++;
+    }
+}
 
 //go to next line
 $output .= "\n";
 
 //get data
-$r2 = mysql_query("SELECT * FROM targets");
-while($ra2 = mysql_fetch_row($r2))
-	{
-		for ($i=1;$i<=$count;$i++)
-			{
-				$output .= $ra2[$i].",";
-			}
-		$output .= "\n";
-	}
+$r2 = mysql_query ( "SELECT * FROM targets" );
+while ( $ra2 = mysql_fetch_row ( $r2 ) ) {
+    for ( $i = 1; $i <= $count; $i ++  ) {
+        $output .= $ra2[$i];
+        if ( $i != $count ) {
+            $output .= ",";
+            }
+    }
+    $output .= "\n";
+}
 
 //setup file
-header("Content-type: application/vnd.ms-excel");
-header("Content-disposition: csv" . date("Y-m-d") . ".csv");
-header( "Content-disposition: filename=target_export.csv");
- 
+header ( "Content-type: application/vnd.ms-excel" );
+header ( "Content-disposition: csv" . date ( "Y-m-d" ) . ".csv" );
+header ( "Content-disposition: filename=target_export.csv" );
+
 print $output;
- 
-exit;		
+
+exit;
 ?>
