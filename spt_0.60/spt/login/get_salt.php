@@ -1,11 +1,12 @@
 <?php
+
 /**
- * file:		get_salt.php
- * version:		1.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    get_salt.php
+ * version: 2.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Login management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -20,22 +21,20 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
-**/
+ * */
 
-	//this file grabs the salt value from the database that was set during installation
-	//a consistent and unique salt value is required throughout spt
-	//WARNING: changing an installations salt value may break authentication to spt globally
-	
-	//connect to database
-	include '../spt_config/mysql_config.php';
-	
-	//get the salt value
-	$r = mysql_query("SELECT salt FROM salt");
-	while ($ra = mysql_fetch_assoc($r))
-		{
-			$salt = $ra['salt'];
-		}
-	
-	//set the salt session
-	$_SESSION['salt'] = $salt;
+//this file grabs the salt value from the database that was set during installation
+//a consistent and unique salt value is required throughout spt
+//WARNING: changing an installations salt value may break authentication to spt globally
+//connect to database
+include '../spt_config/mysql_config.php';
+
+//get the salt value
+$r = mysql_query ( "SELECT salt FROM salt" );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $salt = $ra['salt'];
+}
+
+//set the salt session
+$_SESSION['salt'] = $salt;
 ?>

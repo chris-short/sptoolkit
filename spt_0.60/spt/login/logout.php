@@ -1,11 +1,12 @@
 <?php
+
 /**
- * file:		logout.php
- * version:		2.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    logout.php
+ * version: 3.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Login management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -20,23 +21,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
-**/
+ * */
 
-	//this file is the global logout file for spt
-	
-	//start the session
-	session_start();
+//this file is the global logout file for spt
+//start the session
+session_start ();
 
-	//destroy the session
-	session_unset();
-	session_destroy();
+//destroy the session
+session_unset ();
+session_destroy ();
 
-	//start a new session
-	session_start();
+//start a new session
+session_start ();
 
-	//set the logout notification
-	$_SESSION['alert_message']="you have successfully been logged out";
+//set the logout notification
+$_SESSION['alert_message'] = "you have successfully been logged out";
 
-	//send to the login screen
-	header('location:../#alert');
+//send to the login screen
+header ( 'location:../#alert' );
 ?>
