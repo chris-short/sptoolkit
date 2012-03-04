@@ -1,11 +1,11 @@
 <?php
 /**
- * file:		index.php
- * version:		30.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    index.php
+ * version: 31.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license:	GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -21,6 +21,7 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
+
 // verify session is authenticated and not hijacked
 $includeContent = "../includes/is_authenticated.php";
 if ( file_exists ( $includeContent ) ) {
@@ -33,18 +34,14 @@ if ( file_exists ( $includeContent ) ) {
 <html>
     <head>
         <title>spt - targets</title>
-
         <!--meta-->
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="description" content="welcome to spt - simple phishing toolkit.  spt is a super simple but powerful phishing toolkit." />
-
         <!--favicon-->
         <link rel="shortcut icon" href="../images/favicon.ico" />
-
         <!--css-->
         <link rel="stylesheet" href="../spt.css" type="text/css" />
         <link rel="stylesheet" href="spt_targets.css" type="text/css" />
-
         <!--scripts-->
         <script language="Javascript" type="text/javascript">
             function updateCustom(custom,value) 
@@ -89,53 +86,51 @@ if ( file_exists ( $includeContent ) ) {
                 {
                     window.location = ".#alert"
                     window.location.reload()
-                }					
-					
+                }								
             }
         </script>
         <script type="text/javascript" src="../includes/escape.js"></script>
-
     </head>
     <body>
-<?php
+        <?php
 //check to see if the alert session is set
-if ( isset ( $_SESSION['alert_message'] ) ) {
-    //create alert popover
-    echo "<div id=\"alert\">";
+        if ( isset ( $_SESSION['alert_message'] ) ) {
+            //create alert popover
+            echo "<div id=\"alert\">";
 
-    //echo the alert message
-    echo "<div>" . $_SESSION['alert_message'] . "<br />";
+            //echo the alert message
+            echo "<div>" . $_SESSION['alert_message'] . "<br />";
 
-    if ( isset ( $_SESSION['bad_row_stats'] ) ) {
-        //count how many stats there are
-        $count = count ( $_SESSION['bad_row_stats'] );
+            if ( isset ( $_SESSION['bad_row_stats'] ) ) {
+                //count how many stats there are
+                $count = count ( $_SESSION['bad_row_stats'] );
 
-        //start the list
-        echo "<ul>";
+                //start the list
+                echo "<ul>";
 
-        //echo all bad row stats
-        while ( $count > 0 ) {
-            echo "<li>" . $_SESSION['bad_row_stats'][($count - 1)] . "</li>";
-            $count --;
+                //echo all bad row stats
+                while ( $count > 0 ) {
+                    echo "<li>" . $_SESSION['bad_row_stats'][($count - 1)] . "</li>";
+                    $count --;
+                }
+
+                //end the list
+                echo "</ul>";
+
+                //unset bad row stat session
+                unset ( $_SESSION['bad_row_stats'] );
+            }
+
+            //close the alert message
+            echo "<br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+
+            //close alert popover
+            echo "</div>";
+
+            //unset the seession
+            unset ( $_SESSION['alert_message'] );
         }
-
-        //end the list
-        echo "</ul>";
-
-        //unset bad row stat session
-        unset ( $_SESSION['bad_row_stats'] );
-    }
-
-    //close the alert message
-    echo "<br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
-
-    //close alert popover
-    echo "</div>";
-
-    //unset the seession
-    unset ( $_SESSION['alert_message'] );
-}
-?>
+        ?>
         <div id="add_one">
             <div>
                 <form action="target_upload_single.php" method="post" enctype="multipart/form-data">
@@ -149,70 +144,68 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                         </tr>
                         <tr>
                             <td>First Name</td>
-                            <td><input type="text" name="fname" /></td>
+                            <td colspan="2"><input type="text" name="fname" /></td>
                         </tr>
                         <tr>
                             <td>Last Name</td>
-                            <td><input type="text" name="lname" /></td>
+                            <td colspan="2"><input type="text" name="lname" /></td>
                         </tr>
                         <tr>
                             <td>Email</td>
-                            <td><input type="text" name="email" /></td>
+                            <td colspan="2"><input type="text" name="email" /></td>
                         </tr>
                         <tr>
                             <td>Existing Group</td>
-                            <td>
+                            <td colspan="2">
                                 <select name="group_name">
                                     <option value="Select an Existing Group...">Select an Existing Group...</option>
-<?php
+                                    <?php
 //connect to database
-include "../spt_config/mysql_config.php";
+                                    include "../spt_config/mysql_config.php";
 
 //pull in current group names
-$r = mysql_query ( "SELECT DISTINCT group_name FROM targets ORDER BY group_name" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    echo "<option value=\"" . $ra['group_name'] . "\">" . $ra['group_name'] . "</option>";
-}
-?>
+                                    $r = mysql_query ( "SELECT DISTINCT group_name FROM targets ORDER BY group_name" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                                        echo "<option value=\"" . $ra['group_name'] . "\">" . $ra['group_name'] . "</option>";
+                                    }
+                                    ?>
                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td>
+                            <td colspan="2">
                                 OR
                             </td>
                         </tr>
                         <tr>
                             <td>New Group</td>
-                            <td> 
+                            <td colspan="2"> 
                                 <input type="text" name="group_name_new" />
                             </td>
                         </tr>
                         <tr>
                             <td><br /></td>
-                            <td><br /></td>
+                            <td colspan="2"><br /></td>
                         </tr>
                         <tr>
                             <td colspan="2"><h3>Metrics (Optional)</h3></td>
                             <td>
-                                <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter any custom metrics you've added.</span></a>
+                                <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter values for any custom metrics you have added.</span></a>
                             </td>
 
                         </tr>
-<?php
+                        <?php
 //query for all metrics
-$r = mysql_query ( "SELECT * FROM targets_metrics" );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    echo
-    "
-											<tr>
-												<td>" . $ra['field_name'] . "</td>
-												<td><input type=\"text\" name=\"" . $ra['field_name'] . "\" /></td>
-											</tr>
-										";
-}
-?>
+                        $r = mysql_query ( "SELECT * FROM targets_metrics" );
+                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                            echo "
+                        <tr>
+                            <td>" . $ra['field_name'] . "</td>
+                            <td><input type=\"text\" name=\"" . $ra['field_name'] . "\" /></td>
+                        </tr>";
+                        }
+                        ?>
                         <tr>	
                             <td></td>
                             <td>
@@ -227,8 +220,8 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         </div>
         <div id="add_many">
             <div>
-                <table id="add_bunches">
-                    <form action="target_upload_batch.php" method="post" enctype="multipart/form-data">
+                <form action="target_upload_batch.php" method="post" enctype="multipart/form-data">
+                        <table id="add_bunches">
                         <tr>
                             <td>
                                 <input type="file"  name="file" />
@@ -244,16 +237,16 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                 <input type="image" src="../images/plus.png" alt="add" />
                             </td>
                             <td></td>
-                    </form>
-                </table>
+                    </table>
+                </form>
             </div>
         </div>
         <div id="metrics">
             <div>
                 <form action="add_metric.php" method="post" enctype="multipart/form-data">
-                    <table id="add metric">
+                    <table id="add_metric">
                         <tr>
-                            <td colspan=2></td>
+                            <td colspan="2"></td>
                             <td>
                                 <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Adding a metric will create a new column in the database for tracking target metrics.<br /><br />Check the box next to 5 metrics and those will be the 5 that are displayed in the group list pop-over.</span></a>
                                 &nbsp;&nbsp;&nbsp;
@@ -264,7 +257,6 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                             <td>Add Metric</td>
                             <td><input type="text" name="metric" /></td>
                             <td><input type="image" src="../images/plus.png" alt="add" /></td>
-                            <td></td>
                         </tr>
                     </table>
                 </form>
@@ -289,29 +281,29 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         <td>Group</td>
                         <td>-</td>
                     </tr>
-<?php
+                    <?php
 //connect to database
-include "../spt_config/mysql_config.php";
+                    include "../spt_config/mysql_config.php";
 
 //query for all metrics
-$r = mysql_query ( "SELECT * FROM targets_metrics" );
+                    $r = mysql_query ( "SELECT * FROM targets_metrics" );
 
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    echo "<tr>
-										<td><input id=\"checkbox_" . $ra['field_name'] . "\"type=\"checkbox\" name=\"" . $ra['field_name'] . "\" onclick=\"updateMetrics('" . $ra['field_name'] . "')\" value=\"" . $ra['field_name'] . "\"";
+                    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                        echo "
+                    <tr>
+                        <td><input id=\"checkbox_" . $ra['field_name'] . "\"type=\"checkbox\" name=\"" . $ra['field_name'] . "\" onclick=\"updateMetrics('" . $ra['field_name'] . "')\" value=\"" . $ra['field_name'] . "\"";
 
-    if ( $ra['shown'] == 1 ) {
-        echo "checked";
-    }
+                        if ( $ra['shown'] == 1 ) {
+                            echo "checked";
+                        }
 
-    echo "
-										></td>
-										<td>" . $ra['field_name'] . "</td>
-										<td><a href=\"delete_metric.php?m=" . $ra['field_name'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>
-										</tr>
-									";
-}
-?>
+                        echo "
+                        ></td>
+                        <td>" . $ra['field_name'] . "</td>
+                        <td><a href=\"delete_metric.php?m=" . $ra['field_name'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>
+                    </tr>";
+                    }
+                    ?>
                 </table>
             </div>
         </div>
@@ -320,11 +312,13 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                 <table id="group_list_header">
                     <tr>
                         <td class="left">
-                            <h1><?php if ( isset ( $_REQUEST['g'] ) ) {
+                            <h1><?php
+                    if ( isset ( $_REQUEST['g'] ) ) {
                         echo filter_var ( $_REQUEST['g'], FILTER_SANITIZE_STRING );
                     } else {
                         echo "All Targets";
-                    } ?></h1>
+                    }
+                    ?></h1>
                         </td>
                         <td class="right">
                             <a class="tooltip">
@@ -344,13 +338,13 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         <td><h3>Last Name</h3></td>
                         <td><h3>Email</h3></td>
                         <td><h3>Group</h3></td>
-<?php
+                        <?php
 //get the list of columns that should be shown
-$r = mysql_query ( "SELECT field_name FROM targets_metrics WHERE shown = 1 ORDER BY field_name ASC" );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    echo "<td><h3>" . $ra['field_name'] . "</h3></td>";
-}
-?>
+                        $r = mysql_query ( "SELECT field_name FROM targets_metrics WHERE shown = 1 ORDER BY field_name ASC" );
+                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                            echo "<td><h3>" . $ra['field_name'] . "</h3></td>";
+                        }
+                        ?>
                         <td></td>
                     </tr>
                     <tr>
@@ -358,118 +352,115 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         <td class="target_cell"><input type="text" name="fname" class="invisible_input" /></td>
                         <td class="target_cell"><input type="text" name="lname" class="invisible_input" /></td>
                         <td class="target_cell"><input type="text" name="email" class="invisible_input" /></td>
-                        <td class="target_cell"><input type="text" name="group_name_new" <?php if ( isset ( $_REQUEST['g'] ) ) {
-    echo "value=\"" . filter_var ( $_REQUEST['g'], FILTER_SANITIZE_STRING ) . "\"";
-} ?> class="invisible_input" /></td>
-
-<?php
-//get the list of columns that should be shown
-$r = mysql_query ( "SELECT field_name FROM targets_metrics WHERE shown = 1 ORDER BY field_name ASC" );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    echo "<td class=\"target_cell\"><input type=\"text\" name=\"" . $ra['field_name'] . "\"class=\"invisible_input\"  /></td>";
-}
-?>
-                        <td class="submit_cell"><input type="image" src="../images/plus.png" alt="add" class="invisible_input" /></td>
-                        <input type="hidden" name="group_list" <?php if ( isset ( $_REQUEST['g'] ) ) {
-    echo "value=\"" . filter_var ( $_REQUEST['g'], FILTER_SANITIZE_STRING ) . "\"";
-} ?> />
-                    </form>
-                    </tr>
-                        <?php
-                        //connect to database
-                        include "../spt_config/mysql_config.php";
-
+                        <td class="target_cell"><input type="text" name="group_name_new" <?php
                         if ( isset ( $_REQUEST['g'] ) ) {
+                            echo "value=\"" . filter_var ( $_REQUEST['g'], FILTER_SANITIZE_STRING ) . "\"";
+                        }
+                        ?> class="invisible_input" /></td>
 
-                            $group = filter_var ( $_REQUEST['g'], FILTER_SANITIZE_STRING );
-
-                            //ensure the group name is under 50 characters
-                            if ( strlen ( $group ) > 50 ) {
-                                $_SESSION['alert_message'] = "group names cannot be over 50 characters";
-                                header ( "location:./#alert" );
-                                exit;
-                            }
-
-                            //ensure that the group name exists in the database
-                            $r = mysql_query ( "SELECT DISTINCT group_name FROM targets" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                            while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                                if ( $ra['group_name'] == $group ) {
-                                    $match = 1;
-                                }
-                            }
-
-                            if ( ! isset ( $match ) ) {
-                                $_SESSION['alert_message'] = "this group does not exist";
-                                header ( "location:./#alert" );
-                                exit;
-                            }
-
-                            //query for a list of group members ordered alphabetically
-                            $r = mysql_query ( "SELECT * FROM targets WHERE group_name = '$group' ORDER BY fname" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                            while ( $ra = mysql_fetch_assoc ( $r ) ) {
-
-                                //build a row for each member of the group wrapped in a form that will dynamically edit each entry as changes are made
-                                echo
-                                "
-												<tr>\n
-														<td class=\"target_cell\"><input id=\"" . $ra['id'] . "_fname\" onchange=\"updateTarget(" . $ra['id'] . ",'fname',this.value)\" type=\"text\" value=\"" . $ra['fname'] . "\" class=\"invisible_input\"/></td>\n
-														<td class=\"target_cell\"><input id=\"" . $ra['id'] . "_lname\" onchange=\"updateTarget(" . $ra['id'] . ",'lname',this.value)\" type=\"text\" value=\"" . $ra['lname'] . "\" class=\"invisible_input\"/></td>\n
-														<td class=\"target_cell\"><input id=\"" . $ra['id'] . "_email\" onchange=\"updateTarget(" . $ra['id'] . ",'email',this.value)\" type=\"text\" value=\"" . $ra['email'] . "\" class=\"invisible_input\" /></td>\n
-														<td class=\"target_cell\"><input id=\"" . $ra['id'] . "_group\" onchange=\"updateTarget(" . $ra['id'] . ",'group_name',this.value)\" type=\"text\" value=\"" . $ra['group_name'] . "\" class=\"invisible_input\" /></td>\n";
-
-                                //get the list of columns that should be shown
-                                $r2 = mysql_query ( "SELECT field_name FROM targets_metrics WHERE shown = 1 ORDER BY field_name ASC" );
-                                while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
-                                    $field_name = $ra2['field_name'];
-
-                                    echo "
-														<td class=\"target_cell\"><input id=\"" . $ra['id'] . "_" . $ra2['field_name'] . "\" onchange=\"updateTarget(" . $ra['id'] . ",'" . $ra2['field_name'] . "',this.value)\" type=\"text\" value=\"" . $ra[$field_name] . "\" class=\"invisible_input\" /></td>\n
-													";
-                                }
-
-                                echo "
-														<td><a href=\"target_delete.php?g=" . $ra['group_name'] . "&u=" . $ra['id'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
-												</tr>
-											";
-                            }
-                        } else {
-                            //query for a list of group members ordered alphabetically
-                            $r = mysql_query ( "SELECT * FROM targets" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                            while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                                //build a row for each member of the group wrapped in a form that will dynamically edit each entry as changes are made
-                                echo
-                                "
-												<tr>\n
-														<td class=\"target_cell\"><input id=\"" . $ra['id'] . "_fname\" onchange=\"updateTarget(" . $ra['id'] . ",'fname',this.value)\" type=\"text\" value=\"" . $ra['fname'] . "\" class=\"invisible_input\"/></td>\n
-														<td class=\"target_cell\"><input id=\"" . $ra['id'] . "_lname\" onchange=\"updateTarget(" . $ra['id'] . ",'lname',this.value)\" type=\"text\" value=\"" . $ra['lname'] . "\" class=\"invisible_input\"/></td>\n
-														<td class=\"target_cell\"><input id=\"" . $ra['id'] . "_email\" onchange=\"updateTarget(" . $ra['id'] . ",'email',this.value)\" type=\"text\" value=\"" . $ra['email'] . "\" class=\"invisible_input\" /></td>\n
-														<td class=\"target_cell\"><input id=\"" . $ra['id'] . "_group\" onchange=\"updateTarget(" . $ra['id'] . ",'group_name',this.value)\" type=\"text\" value=\"" . $ra['group_name'] . "\" class=\"invisible_input\" /></td>\n";
-
-                                //get the list of columns that should be shown
-                                $r2 = mysql_query ( "SELECT field_name FROM targets_metrics WHERE shown = 1 ORDER BY field_name ASC" );
-                                while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
-
-                                    $field_name = $ra2['field_name'];
-
-                                    echo
-                                    "
-														<td class=\"target_cell\"><input id=\"" . $ra['id'] . "_" . $ra2['field_name'] . "\" onchange=\"updateTarget(" . $ra['id'] . ",'" . $ra2['field_name'] . "',this.value)\" type=\"text\" value=\"" . $ra[$field_name] . "\" class=\"invisible_input\" /></td>\n
-													";
-                                }
-
-                                echo "
-														<td><a href=\"target_delete.php?g=" . $ra['group_name'] . "&u=" . $ra['id'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
-												</tr>
-											";
-                            }
+                        <?php
+//get the list of columns that should be shown
+                        $r = mysql_query ( "SELECT field_name FROM targets_metrics WHERE shown = 1 ORDER BY field_name ASC" );
+                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                            echo "<td class=\"target_cell\"><input type=\"text\" name=\"" . $ra['field_name'] . "\"class=\"invisible_input\"  /></td>";
                         }
                         ?>
+                        <td class="submit_cell"><input type="image" src="../images/plus.png" alt="add" class="invisible_input" /></td>
+                        <input type="hidden" name="group_list" <?php
+                        if ( isset ( $_REQUEST['g'] ) ) {
+                            echo "value=\"" . filter_var ( $_REQUEST['g'], FILTER_SANITIZE_STRING ) . "\"";
+                        }
+                        ?> />
+                    </form>
+                    </tr>
+                    <?php
+                    //connect to database
+                    include "../spt_config/mysql_config.php";
+
+                    if ( isset ( $_REQUEST['g'] ) ) {
+
+                        $group = filter_var ( $_REQUEST['g'], FILTER_SANITIZE_STRING );
+
+                        //ensure the group name is under 50 characters
+                        if ( strlen ( $group ) > 50 ) {
+                            $_SESSION['alert_message'] = "group names cannot be over 50 characters";
+                            header ( "location:./#alert" );
+                            exit;
+                        }
+
+                        //ensure that the group name exists in the database
+                        $r = mysql_query ( "SELECT DISTINCT group_name FROM targets" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                            if ( $ra['group_name'] == $group ) {
+                                $match = 1;
+                            }
+                        }
+
+                        if ( ! isset ( $match ) ) {
+                            $_SESSION['alert_message'] = "this group does not exist";
+                            header ( "location:./#alert" );
+                            exit;
+                        }
+
+                        //query for a list of group members ordered alphabetically
+                        $r = mysql_query ( "SELECT * FROM targets WHERE group_name = '$group' ORDER BY fname" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
+
+                            //build a row for each member of the group wrapped in a form that will dynamically edit each entry as changes are made
+                            echo "
+                            <tr>\n
+                                <td class=\"target_cell\"><input id=\"" . $ra['id'] . "_fname\" onchange=\"updateTarget(" . $ra['id'] . ",'fname',this.value)\" type=\"text\" value=\"" . $ra['fname'] . "\" class=\"invisible_input\"/></td>\n
+                                <td class=\"target_cell\"><input id=\"" . $ra['id'] . "_lname\" onchange=\"updateTarget(" . $ra['id'] . ",'lname',this.value)\" type=\"text\" value=\"" . $ra['lname'] . "\" class=\"invisible_input\"/></td>\n
+                                <td class=\"target_cell\"><input id=\"" . $ra['id'] . "_email\" onchange=\"updateTarget(" . $ra['id'] . ",'email',this.value)\" type=\"text\" value=\"" . $ra['email'] . "\" class=\"invisible_input\" /></td>\n
+                                <td class=\"target_cell\"><input id=\"" . $ra['id'] . "_group\" onchange=\"updateTarget(" . $ra['id'] . ",'group_name',this.value)\" type=\"text\" value=\"" . $ra['group_name'] . "\" class=\"invisible_input\" /></td>\n";
+
+                            //get the list of columns that should be shown
+                            $r2 = mysql_query ( "SELECT field_name FROM targets_metrics WHERE shown = 1 ORDER BY field_name ASC" );
+                            while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
+                                $field_name = $ra2['field_name'];
+
+                                echo "
+                                <td class=\"target_cell\"><input id=\"" . $ra['id'] . "_" . $ra2['field_name'] . "\" onchange=\"updateTarget(" . $ra['id'] . ",'" . $ra2['field_name'] . "',this.value)\" type=\"text\" value=\"" . $ra[$field_name] . "\" class=\"invisible_input\" /></td>\n";
+                            }
+
+                            echo "
+                                <td><a href=\"target_delete.php?g=" . $ra['group_name'] . "&u=" . $ra['id'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
+                            </tr>";
+                        }
+                    } else {
+                        //query for a list of group members ordered alphabetically
+                        $r = mysql_query ( "SELECT * FROM targets" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                            //build a row for each member of the group wrapped in a form that will dynamically edit each entry as changes are made
+                            echo "
+                            <tr>\n
+                                <td class=\"target_cell\"><input id=\"" . $ra['id'] . "_fname\" onchange=\"updateTarget(" . $ra['id'] . ",'fname',this.value)\" type=\"text\" value=\"" . $ra['fname'] . "\" class=\"invisible_input\"/></td>\n
+                                <td class=\"target_cell\"><input id=\"" . $ra['id'] . "_lname\" onchange=\"updateTarget(" . $ra['id'] . ",'lname',this.value)\" type=\"text\" value=\"" . $ra['lname'] . "\" class=\"invisible_input\"/></td>\n
+                                <td class=\"target_cell\"><input id=\"" . $ra['id'] . "_email\" onchange=\"updateTarget(" . $ra['id'] . ",'email',this.value)\" type=\"text\" value=\"" . $ra['email'] . "\" class=\"invisible_input\" /></td>\n
+                                <td class=\"target_cell\"><input id=\"" . $ra['id'] . "_group\" onchange=\"updateTarget(" . $ra['id'] . ",'group_name',this.value)\" type=\"text\" value=\"" . $ra['group_name'] . "\" class=\"invisible_input\" /></td>\n";
+
+                            //get the list of columns that should be shown
+                            $r2 = mysql_query ( "SELECT field_name FROM targets_metrics WHERE shown = 1 ORDER BY field_name ASC" );
+                            while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
+
+                                $field_name = $ra2['field_name'];
+
+                                echo "
+                                <td class=\"target_cell\"><input id=\"" . $ra['id'] . "_" . $ra2['field_name'] . "\" onchange=\"updateTarget(" . $ra['id'] . ",'" . $ra2['field_name'] . "',this.value)\" type=\"text\" value=\"" . $ra[$field_name] . "\" class=\"invisible_input\" /></td>\n";
+                            }
+
+                            echo "
+                                <td><a href=\"target_delete.php?g=" . $ra['group_name'] . "&u=" . $ra['id'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
+                            </tr>";
+                        }
+                    }
+                    ?>
                 </table>
             </div>
         </div>
         <div id="wrapper">
             <!--sidebar-->
-                    <?php include '../includes/sidebar.php'; ?>					
+<?php include '../includes/sidebar.php'; ?>					
 
             <!--content-->
             <div id="content">
@@ -485,36 +476,36 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                     </tr>
                     <tr>
                         <td><a href="#group_list"><strong>All Targets</strong></a></td>
-<?php
+                        <?php
 //connect to database
-include "../spt_config/mysql_config.php";
+                        include "../spt_config/mysql_config.php";
 
 //query for total count of targets
-$r = mysql_query ( "SELECT COUNT(id) AS target_count FROM targets" );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    echo "<td>" . $ra['target_count'] . "</td>";
-}
-?>
+                        $r = mysql_query ( "SELECT COUNT(id) AS target_count FROM targets" );
+                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                            echo "<td>" . $ra['target_count'] . "</td>";
+                        }
+                        ?>
                         <td></td>
                     </tr>
-<?php
+                    <?php
 //connect to database
-include "../spt_config/mysql_config.php";
+                    include "../spt_config/mysql_config.php";
 
 //query for a list of groups ordered alphabetically
-$r = mysql_query ( "SELECT DISTINCT group_name FROM targets ORDER BY group_name" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    echo "<tr>";
-    echo "<td><a href=\"?g=" . $ra['group_name'] . "#group_list\">" . $ra['group_name'] . "</a></td>";
-    $group_name = $ra['group_name'];
-    $r1 = mysql_query ( "SELECT COUNT(group_name) FROM targets WHERE group_name = '$group_name'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-    while ( $ra1 = mysql_fetch_assoc ( $r1 ) ) {
-        echo "<td>" . $ra1['COUNT(group_name)'] . "</td>";
-    }
-    echo "<td><a href=\"group_delete.php?g=" . $ra['group_name'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
-    echo "</tr>";
-}
-?>
+                    $r = mysql_query ( "SELECT DISTINCT group_name FROM targets ORDER BY group_name" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                        echo "<tr>";
+                        echo "<td><a href=\"?g=" . $ra['group_name'] . "#group_list\">" . $ra['group_name'] . "</a></td>";
+                        $group_name = $ra['group_name'];
+                        $r1 = mysql_query ( "SELECT COUNT(group_name) FROM targets WHERE group_name = '$group_name'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                        while ( $ra1 = mysql_fetch_assoc ( $r1 ) ) {
+                            echo "<td>" . $ra1['COUNT(group_name)'] . "</td>";
+                        }
+                        echo "<td><a href=\"group_delete.php?g=" . $ra['group_name'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
+                        echo "</tr>";
+                    }
+                    ?>
                 </table>
             </div>
         </div>	

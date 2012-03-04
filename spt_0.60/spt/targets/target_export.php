@@ -1,12 +1,12 @@
 <?php
 
 /**
- * file:		target_export.php
- * version:		3.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    target_export.php
+ * version: 4.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -22,6 +22,7 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
+
 // verify session is authenticated and not hijacked
 $includeContent = "../includes/is_authenticated.php";
 if ( file_exists ( $includeContent ) ) {

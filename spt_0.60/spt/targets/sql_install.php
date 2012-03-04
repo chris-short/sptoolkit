@@ -1,11 +1,12 @@
 <?php
+
 /**
- * file:		sql_install.php
- * version:		5.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    sql_install.php
+ * version: 6.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -20,34 +21,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
-**/
+ * */
 
-  //This is the table install script for targets
-  
-  //Targets Table
-  $sql = 
-    "
-		CREATE TABLE `targets` (
-		  `id` int(6) NOT NULL AUTO_INCREMENT,
-		  `email` varchar(255) NOT NULL,
-		  `fname` varchar(255) NOT NULL,
-      `lname` varchar(255) NOT NULL,
-		  `group_name` varchar(50) NOT NULL,
-		  PRIMARY KEY (`id`)
-		)    
-	";
+//This is the table install script for targets
+//Targets Table
+$sql = "
+    CREATE TABLE `targets` (
+        `id` int(6) NOT NULL AUTO_INCREMENT,
+        `email` varchar(255) NOT NULL,
+        `fname` varchar(255) NOT NULL,
+        `lname` varchar(255) NOT NULL,
+        `group_name` varchar(50) NOT NULL,
+        PRIMARY KEY (`id`)
+    )";
 
-  mysql_query($sql) or die(mysql_error());
+mysql_query ( $sql ) or die ( mysql_error () );
 
-  //Targets Metrics Table
-  $sql = 
-  	"
-  		CREATE TABLE `targets_metrics` (
-  			`field_name` varchar(155) NOT NULL,
-  			`shown` int(1) NOT NULL
-  		)
-  	";
+//Targets Metrics Table
+$sql = "
+    CREATE TABLE `targets_metrics` (
+        `field_name` varchar(155) NOT NULL,
+        `shown` int(1) NOT NULL
+    )";
 
-  mysql_query($sql) or die(mysql_error());
-  	
+mysql_query ( $sql ) or die ( mysql_error () );
 ?>
