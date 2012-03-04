@@ -1,7 +1,8 @@
 <?php
+
 /**
  * file:    index.php
- * version: 32.0
+ * version: 33.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -21,6 +22,7 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
+
 // verify session is authenticated and not hijacked
 $includeContent = "../includes/is_authenticated.php";
 if ( file_exists ( $includeContent ) ) {
@@ -46,49 +48,51 @@ if ( file_exists ( $includeContent ) ) {
         <script type="text/javascript" src="../includes/escape.js"></script>
         <script type="text/javascript">
             //get campaign id
-<?php if ( isset ( $_REQUEST['c'] ) ) {
+<?php
+if ( isset ( $_REQUEST['c'] ) ) {
     echo "campaign_id = \"" . $_REQUEST['c'] . "\";";
-} ?>
-                //set function that will update the progress bar
-                function getProgress(campaign_id){
-                    //begin new request
-                    xmlhttp = new XMLHttpRequest();
-                    //send update request
-                    xmlhttp.onreadystatechange=function() {
-                        if(xmlhttp.readyState==4){
-                            //update progress bar
-                            document.getElementById("message_progress").value = xmlhttp.responseText;
-                        }
-                    }
-                    xmlhttp.open("POST","update_progress.php",true);
-                    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                    xmlhttp.send("c="+campaign_id);
-                }
-                //set function that will send emails
-                function sendEmail(campaign_id){
-                    //begin new request
-                    xmlhttp = new XMLHttpRequest();
-                    //send update request
-                    xmlhttp.onreadystatechange=function() {
-                        if (xmlhttp.readyState==4){
-                            var campaign_status = xmlhttp.responseText;
-                            //loop after a second if status of campaign is still active
-                            if(campaign_status != "stop"){
-                                setTimeout("sendEmail("+campaign_id+")", 1000);
-                                getProgress(campaign_id);
-                            }                 
-                        }
-                    }
-                    xmlhttp.open("POST","send_emails.php",true);
-                    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                    xmlhttp.send("c="+campaign_id);
-                }
-                var campaign_id;
-                //determine if a campaign is set
-                if ( campaign_id != null){
-                    //start the email function
-                    sendEmail(campaign_id);
-                }
+}
+?>
+    //set function that will update the progress bar
+    function getProgress(campaign_id){
+        //begin new request
+        xmlhttp = new XMLHttpRequest();
+        //send update request
+        xmlhttp.onreadystatechange=function() {
+            if(xmlhttp.readyState==4){
+                //update progress bar
+                document.getElementById("message_progress").value = xmlhttp.responseText;
+            }
+        }
+        xmlhttp.open("POST","update_progress.php",true);
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.send("c="+campaign_id);
+    }
+    //set function that will send emails
+    function sendEmail(campaign_id){
+        //begin new request
+        xmlhttp = new XMLHttpRequest();
+        //send update request
+        xmlhttp.onreadystatechange=function() {
+            if (xmlhttp.readyState==4){
+                var campaign_status = xmlhttp.responseText;
+                //loop after a second if status of campaign is still active
+                if(campaign_status != "stop"){
+                    setTimeout("sendEmail("+campaign_id+")", 1000);
+                    getProgress(campaign_id);
+                }                 
+            }
+        }
+        xmlhttp.open("POST","send_emails.php",true);
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.send("c="+campaign_id);
+    }
+    var campaign_id;
+    //determine if a campaign is set
+    if ( campaign_id != null){
+        //start the email function
+        sendEmail(campaign_id);
+    }
         </script>
     </head>
     <body>
@@ -460,14 +464,14 @@ if ( file_exists ( $includeContent ) ) {
                         $percentage = ceil ( ($sent / $total) * 100 );
                         echo "
                <tr>
-                    <td colspan=\"2\"><form method=\"post\" action=\"./?c=" . $campaign_id . "#responses\"><input type=\"image\" src=\"../images/refresh.png\"  />
+                    <td colspan=\"2\"><form method=\"post\" action=\"./?c=" . $campaign_id . "#responses\"><input type=\"image\" src=\"../images/arrow_refresh.png\"  />
                     ";
                         $r7 = mysql_query ( "SELECT status FROM campaigns WHERE id = '$campaign_id'" );
                         while ( $ra7 = mysql_fetch_assoc ( $r7 ) ) {
                             if ( $ra7['status'] == 1 ) {
-                                echo "<a href=\"change_status.php?c=" . $campaign_id . "&s=2\"><img src=\"../images/pause.png\" alt=\"pause\" /></a>&nbsp;&nbsp;<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
+                                echo "<a href=\"change_status.php?c=" . $campaign_id . "&s=2\"><img src=\"../images/control_pause_blue.png\" alt=\"pause\" /></a>&nbsp;&nbsp;<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
                             } else if ( $ra7['status'] == 2 ) {
-                                echo "<a href=\"change_status.php?c=" . $campaign_id . "&s=1\"><img src=\"../images/play.png\" alt=\"pause\" /></a>&nbsp;&nbsp;<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
+                                echo "<a href=\"change_status.php?c=" . $campaign_id . "&s=1\"><img src=\"../images/control_play_blue.png\" alt=\"pause\" /></a>&nbsp;&nbsp;<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
                             } else {
                                 echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
                             }
@@ -535,7 +539,7 @@ if ( file_exists ( $includeContent ) ) {
             </div>
 
             <!--sidebar-->
-<?php include '../includes/sidebar.php'; ?>					
+            <?php include '../includes/sidebar.php'; ?>					
 
             <!--content-->
             <div id="content">
