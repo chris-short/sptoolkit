@@ -1,6 +1,6 @@
 <!--
  * file:    dashboard_module.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -21,17 +21,11 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<h1><a href="../targets">Targets</a></h1>
-<table>
-    <tr>
-        <td>Number of Targets</td>
-        <?php
-        //determine how many targets there are
-        $r = mysql_query ( "SELECT * FROM targets" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-        echo "<td>" . mysql_num_rows ( $r ) . "</td>";
-        ?>
-    </tr>
-</table>
-
-
-
+<tr>
+    <td>Target Count</td>
+    <?php
+    //determine how many targets there are
+    $r = mysql_query ( "SELECT * FROM targets" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+    echo "<td>" . mysql_num_rows ( $r ) . "</td>";
+    ?>
+</tr>

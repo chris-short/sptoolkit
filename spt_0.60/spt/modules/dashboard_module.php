@@ -1,6 +1,6 @@
 <!--
  * file:    dashboard_module.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -21,14 +21,11 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<h1><a href="../modules">Modules</a></h1>
-<table>
-    <tr>
-        <td>Number of Modules</td>
-        <?php
-        //determine how many modules there are
-        $r = mysql_query ( "SELECT * FROM modules" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-        echo "<td>" . mysql_num_rows ( $r ) . "</td>";
-        ?>
-    </tr>
-</table>
+<tr>
+    <td>Module Count</td>
+    <?php
+    //determine how many modules there are
+    $r = mysql_query ( "SELECT * FROM modules" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+    echo "<td>" . mysql_num_rows ( $r ) . "</td>";
+    ?>
+</tr>

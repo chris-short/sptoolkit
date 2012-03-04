@@ -1,8 +1,7 @@
 <?php
-
 /**
  * file:		index.php
- * version:		7.0
+ * version:		8.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,7 +21,6 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
-
 // verify session is authenticated and not hijacked
 $includeContent = "../includes/is_authenticated.php";
 if ( file_exists ( $includeContent ) ) {
@@ -60,14 +58,25 @@ $dirs = scandir ( '../' );
 //for each directory look for dashboard_module.php
 foreach ( $dirs as $dir ) {
     if ( is_dir ( '../' . $dir ) ) {
-        //if dashboard_module.php exists in the directory include it
-        if ( file_exists ( '../' . $dir . '/dashboard_module.php' ) ) {
-            echo "<div class=\"dashboard_module\">";
+        //if campaigns module do something a little different
+        if ( file_exists ( '../' . $dir . '/dashboard_module.php' ) && $dir == 'campaigns' ) {
+            echo "<div class=\"dashboard_module_campaigns\">";
             include "../" . $dir . "/dashboard_module.php";
             echo "</div>";
         }
     }
 }
+echo "<div class=\"dashboard_module\">";
+echo "<h1>Other Stats</h1>";
+echo "<table>";
+foreach ( $dirs as $dir ) {
+    //if dashboard_module.php exists in the directory include it
+    if ( file_exists ( '../' . $dir . '/dashboard_module.php') && $dir != 'campaigns' ) {
+        include "../" . $dir . "/dashboard_module.php";
+    }
+}
+echo "</table>";
+echo "</div>";
 ?>
             </div>
         </div>
