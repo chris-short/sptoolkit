@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -72,8 +72,8 @@ if ( file_exists ( $includeContent ) ) {
                                 <td></td>
                                 <td>
                                     <br />
-                                    <a href=""><img src="../images/x.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="image" src="../images/plus.png" alt="add" />
+                                    <a href=""><img src="../images/cancel.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="image" src="../images/add.png" alt="add" />
                                 </td>
                             </tr>
                         </table>
@@ -87,7 +87,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
     echo "<div id=\"alert\">";
 
     //echo the alert message
-    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/arrow_redo.png\" alt=\"close\" /></a></div>";
 
     //unset the seession
     unset ( $_SESSION['alert_message'] );
@@ -102,7 +102,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
 
             <!--content-->
             <div id="content">
-                <span class="button"><a href="#add_package"><img src="../images/plus_sm.png" alt="add" /> Package</a></span>
+                <span class="button"><a href="#add_package"><img src="../images/package_add_sm.png" alt="add" /> Package</a></span>
                 <table class="spt_table">
                     <tr>
                         <td><h3>Name</h3></td>
@@ -121,7 +121,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                     <tr>
                         <td><a href=\"" . $ra['id'] . "\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
                         <td>" . $ra['description'] . "</td>\n
-                        <td><a href=\"delete_package.php?t=" . $ra['id'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
+                        <td><a href=\"delete_package.php?t=" . $ra['id'] . "\"><img src=\"../images/package_delete_sm.png\" alt=\"delete\" /></a></td>\n
                     </tr>\n";
 }
 ?>
