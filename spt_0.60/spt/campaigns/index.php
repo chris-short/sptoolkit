@@ -1,8 +1,7 @@
 <?php
-
 /**
  * file:    index.php
- * version: 33.0
+ * version: 34.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,7 +21,6 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
-
 // verify session is authenticated and not hijacked
 $includeContent = "../includes/is_authenticated.php";
 if ( file_exists ( $includeContent ) ) {
@@ -98,22 +96,22 @@ if ( isset ( $_REQUEST['c'] ) ) {
     <body>
         <div id="wrapper">
             <!--popovers-->
-            <?php
-            //check to see if the alert session is set
-            if ( isset ( $_SESSION['alert_message'] ) ) {
-                //create alert popover
-                echo "<div id=\"alert\">";
+<?php
+//check to see if the alert session is set
+if ( isset ( $_SESSION['alert_message'] ) ) {
+    //create alert popover
+    echo "<div id=\"alert\">";
 
-                //echo the alert message
-                echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+    //echo the alert message
+    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
 
-                //unset the seession
-                unset ( $_SESSION['alert_message'] );
+    //unset the seession
+    unset ( $_SESSION['alert_message'] );
 
-                //close alert popover
-                echo "</div>";
-            }
-            ?>
+    //close alert popover
+    echo "</div>";
+}
+?>
             <div id="add_campaign">
                 <div>
                     <form method="post" action="start_campaign.php">
@@ -131,16 +129,16 @@ if ( isset ( $_REQUEST['c'] ) ) {
                             <tr>
                                 <td>Path</td>
                                 <td colspan="2">
-                                    <?php
-                                    //pull current host and path
-                                    $path = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+<?php
+//pull current host and path
+$path = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-                                    //strip off the end
-                                    $path = preg_replace ( '/\/campaigns.*/', '', $path );
+//strip off the end
+$path = preg_replace ( '/\/campaigns.*/', '', $path );
 
-                                    //create a hidden field with the path of spt
-                                    echo "<input type=\"text\" name=\"spt_path\" value=\"" . $path . "\" size=\"45\"/>";
-                                    ?>
+//create a hidden field with the path of spt
+echo "<input type=\"text\" name=\"spt_path\" value=\"" . $path . "\" size=\"45\"/>";
+?>
                                 </td>
                             </tr>
                             <tr>
@@ -153,16 +151,16 @@ if ( isset ( $_REQUEST['c'] ) ) {
                                 <td>Group(s)</td>
                                 <td colspan="2">
                                     <select name = "target_groups[]" multiple="multiple" size="5" style="width: 80%;">
-                                        <?php
-                                        //connect to database
-                                        include('../spt_config/mysql_config.php');
+<?php
+//connect to database
+include('../spt_config/mysql_config.php');
 
-                                        //query for all groups
-                                        $r = mysql_query ( 'SELECT DISTINCT group_name FROM targets' );
-                                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                                            echo "<option>" . $ra['group_name'] . "</option>";
-                                        }
-                                        ?>	
+//query for all groups
+$r = mysql_query ( 'SELECT DISTINCT group_name FROM targets' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    echo "<option>" . $ra['group_name'] . "</option>";
+}
+?>	
                                     </select>
                                 </td>
                             </tr>
@@ -176,16 +174,16 @@ if ( isset ( $_REQUEST['c'] ) ) {
                                 <td>Webpage</td>
                                 <td colspan="2">
                                     <select name = "template_id">
-                                        <?php
-                                        //connect to database
-                                        include('../spt_config/mysql_config.php');
+<?php
+//connect to database
+include('../spt_config/mysql_config.php');
 
-                                        //query for all groups
-                                        $r = mysql_query ( 'SELECT id, name FROM templates' );
-                                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                                            echo "<option value=" . $ra['id'] . ">" . $ra['name'] . "</option>";
-                                        }
-                                        ?>	
+//query for all groups
+$r = mysql_query ( 'SELECT id, name FROM templates' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    echo "<option value=" . $ra['id'] . ">" . $ra['name'] . "</option>";
+}
+?>	
                                     </select>
                                 </td>
                             </tr>
@@ -204,16 +202,16 @@ if ( isset ( $_REQUEST['c'] ) ) {
                                 <td colspan="2">
                                     <select name = "education_id">
                                         <option value="0">None</option>
-                                        <?php
-                                        //connect to database
-                                        include('../spt_config/mysql_config.php');
+<?php
+//connect to database
+include('../spt_config/mysql_config.php');
 
-                                        //query for all groups
-                                        $r = mysql_query ( 'SELECT id, name FROM education' );
-                                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                                            echo "<option value=" . $ra['id'] . ">" . $ra['name'] . "</option>";
-                                        }
-                                        ?>	
+//query for all groups
+$r = mysql_query ( 'SELECT id, name FROM education' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    echo "<option value=" . $ra['id'] . ">" . $ra['name'] . "</option>";
+}
+?>	
                                     </select>
                                 </td>
                             </tr>
@@ -259,161 +257,187 @@ if ( isset ( $_REQUEST['c'] ) ) {
             </div>
             <div id="responses">
                 <div>
-                    <?php
+<?php
 //connect to database
-                    include "../spt_config/mysql_config.php";
+include "../spt_config/mysql_config.php";
 
 //pull in campaign id
-                    if ( isset ( $_REQUEST['c'] ) ) {
-                        $campaign_id = filter_var ( $_REQUEST['c'], FILTER_SANITIZE_NUMBER_INT );
+if ( isset ( $_REQUEST['c'] ) ) {
+    $campaign_id = filter_var ( $_REQUEST['c'], FILTER_SANITIZE_NUMBER_INT );
 
-                        //get campaign name
-                        $r = mysql_query ( "SELECT campaign_name FROM campaigns WHERE id = '$campaign_id'" );
-                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                            $campaign_name = $ra['campaign_name'];
-                        }
+    //get campaign name
+    $r = mysql_query ( "SELECT campaign_name FROM campaigns WHERE id = '$campaign_id'" );
+    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+        $campaign_name = $ra['campaign_name'];
+    }
 
-                        //go ahead and perform validation
-                        $r = mysql_query ( "SELECT DISTINCT campaign_id FROM campaigns_responses" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                            if ( $ra['campaign_id'] == $campaign_id ) {
-                                $campaign_match = 1;
-                            }
-                        }
-                        if ( $campaign_match != 1 ) {
-                            $_SESSION['alert_message'] = "please select a valid campaign";
-                            header ( 'location:./#alert' );
-                            exit;
-                        }
-                    }
+    //go ahead and perform validation
+    $r = mysql_query ( "SELECT DISTINCT campaign_id FROM campaigns_responses" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+        if ( $ra['campaign_id'] == $campaign_id ) {
+            $campaign_match = 1;
+        }
+    }
+    if ( $campaign_match != 1 ) {
+        $_SESSION['alert_message'] = "please select a valid campaign";
+        header ( 'location:./#alert' );
+        exit;
+    }
+}
 
 //pull in filter and group
-                    if ( isset ( $_REQUEST['f'] ) ) {
-                        $filter = filter_var ( $_REQUEST['f'], FILTER_SANITIZE_STRING );
+if ( isset ( $_REQUEST['f'] ) ) {
+    $filter = filter_var ( $_REQUEST['f'], FILTER_SANITIZE_STRING );
 
-                        //go ahead and preform validation
-                        if ( $filter != "link" && $filter != "post" ) {
-                            $_SESSION['alert_message'] = "please use a valid filter";
-                            header ( 'location:./#alert' );
-                            exit;
-                        }
-                    }
-                    if ( isset ( $_REQUEST['g'] ) ) {
-                        $group = filter_var ( $_REQUEST['g'], FILTER_SANITIZE_STRING );
+    //go ahead and preform validation
+    if ( $filter != "link" && $filter != "post" ) {
+        $_SESSION['alert_message'] = "please use a valid filter";
+        header ( 'location:./#alert' );
+        exit;
+    }
+}
+if ( isset ( $_REQUEST['g'] ) ) {
+    $group = filter_var ( $_REQUEST['g'], FILTER_SANITIZE_STRING );
 
-                        //go ahead and perform validation
-                        $r = mysql_query ( "SELECT DISTINCT group_name FROM targets" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                            if ( $group == $ra['group_name'] ) {
-                                $group_match = 1;
-                            }
-                        }
-                        if ( ! isset ( $group_match ) ) {
-                            $_SESSION['alert_message'] = "please select a valid group";
-                            header ( 'location:./#alert' );
-                            exit;
-                        }
-                    }
+    //go ahead and perform validation
+    $r = mysql_query ( "SELECT DISTINCT group_name FROM targets" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+        if ( $group == $ra['group_name'] ) {
+            $group_match = 1;
+        }
+    }
+    if ( ! isset ( $group_match ) ) {
+        $_SESSION['alert_message'] = "please select a valid group";
+        header ( 'location:./#alert' );
+        exit;
+    }
+}
 
 //if group and filter are both set send them back
-                    if ( isset ( $filter ) && isset ( $group ) ) {
-                        $_SESSION['alert_message'] = "you cannot pass both a filter and a group";
-                        header ( 'location:./#alert' );
-                        exit;
-                    }
+if ( isset ( $filter ) && isset ( $group ) ) {
+    $_SESSION['alert_message'] = "you cannot pass both a filter and a group";
+    header ( 'location:./#alert' );
+    exit;
+}
 
 //pull data for entire campaign if group and filters are NOT set
-                    if ( ! isset ( $group ) && ! isset ( $filter ) && isset ( $campaign_id ) ) {
-                        $r = mysql_query ( "SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+if ( ! isset ( $group ) && ! isset ( $filter ) && isset ( $campaign_id ) ) {
+    $r = mysql_query ( "SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
-                        //title the page with the campaign number
-                        $title = "<h3>" . $campaign_name . " :: All Responses</h3>";
-                    }
+    //title the page with the campaign number
+    $title = "<h3>" . $campaign_name . " :: All Responses</h3>";
+}
 
 //pull data if a group is set
-                    if ( isset ( $group ) ) {
-                        $r = mysql_query ( "SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE targets.group_name = '$group' AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+if ( isset ( $group ) ) {
+    $r = mysql_query ( "SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE targets.group_name = '$group' AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
-                        //title the page with the campaign number
-                        $title = "<h3>" . $campaign_name . " :: " . $group . "</h3>";
-                    }
+    //title the page with the campaign number
+    $title = "<h3>" . $campaign_name . " :: " . $group . "</h3>";
+}
 
 //pull data if a filter is set
-                    if ( isset ( $filter ) ) {
-                        //if filter is for links
-                        if ( $filter == "link" ) {
-                            $r = mysql_query ( "SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.link = 1 AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+if ( isset ( $filter ) ) {
+    //if filter is for links
+    if ( $filter == "link" ) {
+        $r = mysql_query ( "SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.link = 1 AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
-                            //title the page with the campaign number
-                            $title = "<h3>" . $campaign_name;
+        //title the page with the campaign number
+        $title = "<h3>" . $campaign_name;
 
-                            if ( isset ( $group ) ) {
-                                $title .= " :: " . $group;
-                            }
+        if ( isset ( $group ) ) {
+            $title .= " :: " . $group;
+        }
 
-                            $title .= " :: Links</h3>";
-                        }
+        $title .= " :: Links</h3>";
+    }
 
-                        //if filter is for posts
-                        if ( $filter == "post" ) {
-                            $r = mysql_query ( "SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.post != \"\"  AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+    //if filter is for posts
+    if ( $filter == "post" ) {
+        $r = mysql_query ( "SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.post != \"\"  AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
-                            //title the page with the campaign number
-                            $title = "<h3>" . $campaign_name;
+        //title the page with the campaign number
+        $title = "<h3>" . $campaign_name;
 
-                            if ( isset ( $group ) ) {
-                                $title .= " :: " . $group;
-                            }
+        if ( isset ( $group ) ) {
+            $title .= " :: " . $group;
+        }
 
-                            $title .= " :: Posts</h3>";
-                        }
-                    }
+        $title .= " :: Posts</h3>";
+    }
+}
 
-                    if ( isset ( $_REQUEST['c'] ) ) {
-                        //get basic campaign data
-                        $r2 = mysql_query ( "SELECT date_sent, date_ended, campaign_name, domain_name, education_id, template_id, education_timing FROM campaigns WHERE id = '$campaign_id'" );
-                        while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
-                            $date_sent = $ra2['date_sent'];
-                            $date_ended = $ra2['date_ended'];
-                            $campaign_name = $ra2['campaign_name'];
-                            $formulated_url = "http://" . $ra2['domain_name'] . "/campaigns/response.php?r=response_key";
-                            $education_id = $ra2['education_id'];
-                            $template_id = $ra2['template_id'];
-                            $education_timing = $ra2['education_timing'];
-                            if ( $education_timing == 1 ) {
-                                $education = "On Link Click";
-                            }
-                            if ( $education_timing == 2 ) {
-                                $education = "On Form Submission ";
-                            }
-                            if ( $education_timing == 0 ) {
-                                $education = "None";
-                            }
+if ( isset ( $_REQUEST['c'] ) ) {
+    //get basic campaign data
+    $r2 = mysql_query ( "SELECT date_sent, date_ended, campaign_name, domain_name, education_id, template_id, education_timing FROM campaigns WHERE id = '$campaign_id'" );
+    while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
+        $date_sent = $ra2['date_sent'];
+        $date_ended = $ra2['date_ended'];
+        $campaign_name = $ra2['campaign_name'];
+        $formulated_url = "http://" . $ra2['domain_name'] . "/campaigns/response.php?r=response_key";
+        $education_id = $ra2['education_id'];
+        $template_id = $ra2['template_id'];
+        $education_timing = $ra2['education_timing'];
+        if ( $education_timing == 1 ) {
+            $education = "On Link Click";
+        }
+        if ( $education_timing == 2 ) {
+            $education = "On Form Submission ";
+        }
+        if ( $education_timing == 0 ) {
+            $education = "None";
+        }
 
-                            $r4 = mysql_query ( "SELECT name FROM templates WHERE id = '$template_id'" );
-                            while ( $ra4 = mysql_fetch_assoc ( $r4 ) ) {
-                                $template_name = $ra4['name'];
-                            }
-                        }
+        $r4 = mysql_query ( "SELECT name FROM templates WHERE id = '$template_id'" );
+        while ( $ra4 = mysql_fetch_assoc ( $r4 ) ) {
+            $template_name = $ra4['name'];
+        }
+    }
 
-                        //print the table header
-                        echo "
+//get progress status information    
+$r5 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent != 0" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+$r6 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+$sent = mysql_num_rows ( $r5 );
+$total = mysql_num_rows ( $r6 );
+$percentage = ceil ( ($sent / $total) * 100 );
+
+//print the table header
+    echo "
         <table id=\"campaign_list_header\">
             <tr>
                 <td class=\"left\">
-                <h1>";
-                        if ( isset ( $title ) ) {
-                            echo $title;
-                        }echo "
-            </h1>
+                    <h1>";
+    if ( isset ( $title ) ) {
+        echo $title;
+    }echo "
+                    </h1>
                 </td>
-                    <td class=\"right\">
-                    <a class=\"tooltip\">
-                    <img src=\"../images/lightbulb.png\" alt=\"help\" />
-                    <span>This list provides you with a filtered view of campaign responses.  The title at the top left describes what filter is in place.  For each individual response you can see various metrics or analytics of the response itself such as the target's IP address, browser, browser version and Operating System.</span>
-                    </a>&nbsp;&nbsp;&nbsp;
-                    <a href=\".\"><img src=\"../images/x.png\" alt=\"close\" /></a>
+                    <td class=\"right\">";
+                        $r7 = mysql_query ( "SELECT status FROM campaigns WHERE id = '$campaign_id'" );
+                        while ( $ra7 = mysql_fetch_assoc ( $r7 ) ) {
+                            if ( $ra7['status'] == 1 ) {
+                                echo "<a href=\"change_status.php?c=" . $campaign_id . "&s=2\"><img src=\"../images/control_pause_blue.png\" alt=\"pause\" /></a>&nbsp;&nbsp;<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
+                            } else if ( $ra7['status'] == 2 ) {
+                                echo "<a href=\"change_status.php?c=" . $campaign_id . "&s=1\"><img src=\"../images/control_play_blue.png\" alt=\"pause\" /></a>&nbsp;&nbsp;<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
+                            } else {
+                                echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>&nbsp;&nbsp;&nbsp;";
+                            }
+                        }
+                    echo "
+                        <form class=\"inline\" method=\"post\" action=\"./?c=" . $campaign_id . "#responses\"><input type=\"image\" src=\"../images/arrow_refresh.png\"  /></form>
+                        <a class=\"tooltip\">
+                        <img src=\"../images/lightbulb.png\" alt=\"help\" />
+                        <span>This list provides you with a filtered view of campaign responses.  The title at the top left describes what filter is in place.  For each individual response you can see various metrics or analytics of the response itself such as the target's IP address, browser, browser version and Operating System.</span>
+                        </a>&nbsp;&nbsp;&nbsp;
+                        <a href=\".\"><img src=\"../images/x.png\" alt=\"close\" /></a>
                     </td>
+                </tr>
+                <tr>
+                    <td colspan=\"2\">
+                    ";
+                        
+                        echo "
+                </form></td>
                 </tr>
             </table>
             <br />
@@ -435,13 +459,13 @@ if ( isset ( $_REQUEST['c'] ) ) {
                     <td>" . $formulated_url . "</td>
                 </tr>";
 
-                        if ( $education_id != 0 ) {
-                            $r3 = mysql_query ( "SELECT name FROM education WHERE id = '$education_id'" );
-                            while ( $ra3 = mysql_fetch_assoc ( $r3 ) ) {
-                                $education_name = $ra3['name'];
-                            }
+    if ( $education_id != 0 ) {
+        $r3 = mysql_query ( "SELECT name FROM education WHERE id = '$education_id'" );
+        while ( $ra3 = mysql_fetch_assoc ( $r3 ) ) {
+            $education_name = $ra3['name'];
+        }
 
-                            echo "
+    echo "
                 <tr>
                     <td>Education Package</td>
                     <td><a href=\"../education/" . $education_id . "\" target=\"_blank\">" . $education_name . "</a></td>
@@ -450,35 +474,14 @@ if ( isset ( $_REQUEST['c'] ) ) {
                     <td>Education Timing</td>
                     <td>" . $education . "</td>
                 </tr>";
-                        } else {
-                            echo "
+    } else {
+        echo "
                 <tr>
                     <td>Education</td>
                     <td>None</td>
                 </tr>";
-                        }
-                        $r5 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent != 0" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                        $r6 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                        $sent = mysql_num_rows ( $r5 );
-                        $total = mysql_num_rows ( $r6 );
-                        $percentage = ceil ( ($sent / $total) * 100 );
-                        echo "
-               <tr>
-                    <td colspan=\"2\"><form method=\"post\" action=\"./?c=" . $campaign_id . "#responses\"><input type=\"image\" src=\"../images/arrow_refresh.png\"  />
-                    ";
-                        $r7 = mysql_query ( "SELECT status FROM campaigns WHERE id = '$campaign_id'" );
-                        while ( $ra7 = mysql_fetch_assoc ( $r7 ) ) {
-                            if ( $ra7['status'] == 1 ) {
-                                echo "<a href=\"change_status.php?c=" . $campaign_id . "&s=2\"><img src=\"../images/control_pause_blue.png\" alt=\"pause\" /></a>&nbsp;&nbsp;<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
-                            } else if ( $ra7['status'] == 2 ) {
-                                echo "<a href=\"change_status.php?c=" . $campaign_id . "&s=1\"><img src=\"../images/control_play_blue.png\" alt=\"pause\" /></a>&nbsp;&nbsp;<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
-                            } else {
-                                echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
-                            }
-                        }
-                        echo "
-                </form></td>
-                </tr>
+    }
+    echo "
             </table>
             <br />
             <table id=\"response_table\">
@@ -497,49 +500,49 @@ if ( isset ( $_REQUEST['c'] ) ) {
                     <td><h3>Status</h3></td>
                 </tr>";
 
-                        //dump data into table
-                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                            echo "<tr>";
-                            echo "<td>" . $ra['target_id'] . "</td>";
-                            echo "<td>" . $ra['fname'] . "</td>";
-                            echo "<td>" . $ra['lname'] . "</td>";
-                            echo "<td>" . $ra['email'] . "</td>";
-                            if ( $ra['link'] == 1 ) {
-                                $link = 'Y';
-                            } else {
-                                $link = 'N';
-                            }
-                            echo "<td>" . $link . "</td>";
-                            echo "<td>" . $ra['link_time'] . "</td>";
-                            echo "<td><a href=\"http://geomaplookup.net/?ip=" . $ra['ip'] . "\" target=\"blank\">" . $ra['ip'] . "</a></td>";
-                            echo "<td>" . $ra['browser'] . "</td>";
-                            echo "<td>" . $ra['browser_version'] . "</td>";
-                            echo "<td>" . $ra['os'] . "</td>";
-                            if ( strlen ( $ra['post'] ) < 1 ) {
-                                $post = 'N';
-                                echo "<td>" . $post . "</td>";
-                            } else {
-                                $post = $ra['post'];
-                                $post_count = explode ( "<br />", $post );
-                                $post_count = count ( $post_count );
-                                echo "<td><a class=\"tooltip_sm\">" . $post_count . "<span>" . $post . "</span></a></td>";
-                            }
-                            $log = $ra['response_log'];
-                            if ( strlen ( $log ) < 1 ) {
-                                $log = "The message was attempted, but no log was recorded";
-                            }
-                            echo "<td id=\"target_" . $ra['target_id'] . "\"><a class=\"mail_log\"><img src=\"../images/message_status_" . $ra['sent'] . ".png\" alt=\"message_status\" /><span>" . $log . "</span></a></td>";
-                            echo "</tr>";
-                        }
+    //dump data into table
+    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+        echo "<tr>";
+        echo "<td>" . $ra['target_id'] . "</td>";
+        echo "<td>" . $ra['fname'] . "</td>";
+        echo "<td>" . $ra['lname'] . "</td>";
+        echo "<td>" . $ra['email'] . "</td>";
+        if ( $ra['link'] == 1 ) {
+            $link = 'Y';
+        } else {
+            $link = 'N';
+        }
+        echo "<td>" . $link . "</td>";
+        echo "<td>" . $ra['link_time'] . "</td>";
+        echo "<td><a href=\"http://geomaplookup.net/?ip=" . $ra['ip'] . "\" target=\"blank\">" . $ra['ip'] . "</a></td>";
+        echo "<td>" . $ra['browser'] . "</td>";
+        echo "<td>" . $ra['browser_version'] . "</td>";
+        echo "<td>" . $ra['os'] . "</td>";
+        if ( strlen ( $ra['post'] ) < 1 ) {
+            $post = 'N';
+            echo "<td>" . $post . "</td>";
+        } else {
+            $post = $ra['post'];
+            $post_count = explode ( "<br />", $post );
+            $post_count = count ( $post_count );
+            echo "<td><a class=\"tooltip_sm\">" . $post_count . "<span>" . $post . "</span></a></td>";
+        }
+        $log = $ra['response_log'];
+        if ( strlen ( $log ) < 1 ) {
+            $log = "The message was attempted, but no log was recorded";
+        }
+        echo "<td id=\"target_" . $ra['target_id'] . "\"><a class=\"mail_log\"><img src=\"../images/message_status_" . $ra['sent'] . ".png\" alt=\"message_status\" /><span>" . $log . "</span></a></td>";
+        echo "</tr>";
+    }
 
-                        echo "</table>";
-                    }
-                    ?>
+    echo "</table>";
+}
+?>
                 </div>
             </div>
 
             <!--sidebar-->
-            <?php include '../includes/sidebar.php'; ?>					
+<?php include '../includes/sidebar.php'; ?>					
 
             <!--content-->
             <div id="content">
@@ -557,48 +560,48 @@ if ( isset ( $_REQUEST['c'] ) ) {
                         <td><h3>Delete</h3></td>
                     </tr>
 
-                    <?php
+<?php
 //connect to database
-                    include "../spt_config/mysql_config.php";
+include "../spt_config/mysql_config.php";
 
 //pull in list of all campaigns
-                    $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                    while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                        echo "
+$r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    echo "
                                 <tr>
                                     <td><a href=\"?c=" . $ra['id'] . "#responses\">" . $ra['campaign_name'] . "</a></td>\n
                                     <td>";
 
-                        $campaign_id = $ra['id'];
+    $campaign_id = $ra['id'];
 
-                        //pull in groups
-                        $r3 = mysql_query ( "SELECT group_name FROM campaigns_and_groups WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                        while ( $ra3 = mysql_fetch_assoc ( $r3 ) ) {
-                            echo "<a href=\"?c=" . $ra['id'] . "&amp;g=" . $ra3['group_name'] . "#responses\">" . $ra3['group_name'] . "</a><br />\n";
-                        }
-                        echo "</td>";
-                        echo "<td><a href=\"../templates/" . $ra['template_id'] . "/\" target=\"_blank\">" . $ra['name'] . "</a></td>\n";
-                        echo "<td><a href=\"../education/" . $ra['education_id'] . "/\" target=\"_blank\">" . $ra['education_name'] . "</a></td>\n";
+    //pull in groups
+    $r3 = mysql_query ( "SELECT group_name FROM campaigns_and_groups WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+    while ( $ra3 = mysql_fetch_assoc ( $r3 ) ) {
+        echo "<a href=\"?c=" . $ra['id'] . "&amp;g=" . $ra3['group_name'] . "#responses\">" . $ra3['group_name'] . "</a><br />\n";
+    }
+    echo "</td>";
+    echo "<td><a href=\"../templates/" . $ra['template_id'] . "/\" target=\"_blank\">" . $ra['name'] . "</a></td>\n";
+    echo "<td><a href=\"../education/" . $ra['education_id'] . "/\" target=\"_blank\">" . $ra['education_name'] . "</a></td>\n";
 
-                        $r2 = mysql_query ( "SELECT count(target_id) as count, sum(link) as link, sum(if(length(post) > 0, 1, 0)) as post FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                        while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
-                            $link = $ra2['link'];
-                            $post = $ra2['post'];
-                        }
+    $r2 = mysql_query ( "SELECT count(target_id) as count, sum(link) as link, sum(if(length(post) > 0, 1, 0)) as post FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+    while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
+        $link = $ra2['link'];
+        $post = $ra2['post'];
+    }
 
-                        echo "<td><a href=\"?c=" . $ra['id'] . "&amp;f=link#responses\">" . $link . "</a></td><td><a href=\"?c=" . $ra['id'] . "&amp;f=post#responses\">" . $post . "</a></td>";
-                        echo "<td>";
-                        $r5 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent != 0" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                        $r6 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                        $sent = mysql_num_rows ( $r5 );
-                        $total = mysql_num_rows ( $r6 );
-                        $percentage = ceil ( ($sent / $total) * 100 );
-                        echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
-                        echo "</td>";
-                        echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
-                        echo "</tr>";
-                    }
-                    ?>
+    echo "<td><a href=\"?c=" . $ra['id'] . "&amp;f=link#responses\">" . $link . "</a></td><td><a href=\"?c=" . $ra['id'] . "&amp;f=post#responses\">" . $post . "</a></td>";
+    echo "<td>";
+    $r5 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent != 0" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+    $r6 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+    $sent = mysql_num_rows ( $r5 );
+    $total = mysql_num_rows ( $r6 );
+    $percentage = ceil ( ($sent / $total) * 100 );
+    echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
+    echo "</td>";
+    echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
+    echo "</tr>";
+}
+?>
                 </table>
             </div>
         </div>
