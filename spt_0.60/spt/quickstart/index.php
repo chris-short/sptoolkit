@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Quick Start 
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -59,9 +59,9 @@ if ( file_exists ( $includeContent ) ) {
                     <tr>
                         <td>
                             <h3>Quick Start guide to using the spt</h3><br /><br />
-                            <table>
+                            <table style="width: 100%;">
                                 <tr>
-                                    <td colspan="3">
+                                    <td style="width: 100%;" colspan="3">
                                         <strong>Step one:  Configure metrics and add targets</strong>
                                     </td>
                                 </tr>
@@ -71,25 +71,29 @@ if ( file_exists ( $includeContent ) ) {
                                     <td style="width: 15%;"><strong>Click this</strong></td>
                                 </tr>
                                 <tr>
-                                    <td>1.</td>
-                                    <td>Create or edit your metrics (custom attributes).</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">1.</td>
+                                    <td style="width: 80%;">Create or edit your metrics (custom attributes).</td>
+                                    <td style="width: 15%;"><img src="images/qs_1_1.png" alt="Edit metrics"></td>
                                 </tr>
                                 <tr>
-                                    <td>2.</td>
-                                    <td>Create single targets, or,</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">2.</td>
+                                    <td style="width: 80%;">Create single targets, or,</td>
+                                    <td style="width: 15%;"><img src="images/qs_1_2.png" alt="Add one target"></td>
                                 </tr>
                                 <tr>
-                                    <td>3.</td>
-                                    <td>Use the export to CSV function to download an editable CSV file, then use the edited file to import many targets at once.</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">3.</td>
+                                    <td style="width: 80%; vertical-align: top;"> First, use the export to CSV function to download an editable CSV file.<br />
+                                        Next, import the edited file to add many targets at once.</td>
+                                    <td style="width: 15%;">
+                                        <img src="images/qs_1_3a.png" alt="Export CSV"><br />
+                                        <img src="images/qs_1_3b.png" alt="Import CSV">
+                                    </td>
                                 </tr>
                             </table>
                             <br /><br />
-                            <table>
+                            <table style="width: 100%;">
                                 <tr>
-                                    <td colspan="3">
+                                    <td style="width: 100%;" colspan="3">
                                         <strong>Step two:  Upload templates or scrape live sites</strong>
                                     </td>
                                 </tr>
@@ -99,25 +103,25 @@ if ( file_exists ( $includeContent ) ) {
                                     <td style="width: 15%;"><strong>Click this</strong></td>
                                 </tr>
                                 <tr>
-                                    <td>1.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">1.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                                 <tr>
-                                    <td>2.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">2.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                                 <tr>
-                                    <td>3.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">3.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                             </table>
                             <br /><br />
-                            <table>
+                            <table style="width: 100%;">
                             <tr>
-                                <td colspan="3">
+                                <td style="width: 100%;" colspan="3">
                                     <strong>Step three:  Upload education packages</strong>
                                 </td>
                             </tr>
@@ -127,25 +131,25 @@ if ( file_exists ( $includeContent ) ) {
                                 <td style="width: 15%;"><strong>Click this</strong></td>
                             </tr>
                             <tr>
-                                <td>1.</td>
-                                <td>meh</td>
-                                <td>Click this</td>
+                                <td style="width: 5%; vertical-align: top;">1.</td>
+                                <td style="width: 80%;">meh</td>
+                                <td style="width: 15%;">Click this</td>
                             </tr>
                             <tr>
-                                <td>2.</td>
-                                <td>meh</td>
-                                <td>Click this</td>
+                                <td style="width: 5%; vertical-align: top;">2.</td>
+                                <td style="width: 80%;">meh</td>
+                                <td style="width: 15%;">Click this</td>
                             </tr>
                             <tr>
-                                <td>3.</td>
-                                <td>meh</td>
-                                <td>Click this</td>
+                                <td style="width: 5%; vertical-align: top;">3.</td>
+                                <td style="width: 80%;">meh</td>
+                                <td style="width: 15%;">Click this</td>
                             </tr>
                         </table>
                             <br /><br />
-                            <table>
+                            <table style="width: 100%;">
                                 <tr>
-                                    <td colspan="3">
+                                    <td style="width: 100%;" colspan="3">
                                         <strong>Step four:  Edit templates or education packages as needed to customize them</strong>
                                     </td>
                                 </tr>
@@ -155,25 +159,25 @@ if ( file_exists ( $includeContent ) ) {
                                     <td style="width: 15%;"><strong>Click this</strong></td>
                                 </tr>
                                 <tr>
-                                    <td>1.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">1.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                                 <tr>
-                                    <td>2.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">2.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                                 <tr>
-                                    <td>3.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">3.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                             </table>
                             <br /><br />
-                            <table>
+                            <table style="width: 100%;">
                                 <tr>
-                                    <td colspan="3">
+                                    <td style="width: 100%;" colspan="3">
                                         <strong>Step five:  Start and monitor a campaign</strong>
                                     </td>
                                 </tr>
@@ -183,25 +187,25 @@ if ( file_exists ( $includeContent ) ) {
                                     <td style="width: 15%;"><strong>Click this</strong></td>
                                 </tr>
                                 <tr>
-                                    <td>1.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">1.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                                 <tr>
-                                    <td>2.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">2.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                                 <tr>
-                                    <td>3.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">3.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                             </table>
                             <br /><br />
-                            <table>
+                            <table style="width: 100%;">
                                 <tr>
-                                    <td colspan="3">
+                                    <td style="width: 100%;" colspan="3">
                                         <strong>Administrative tasks:  Manage users</strong>
                                     </td>
                                 </tr>
@@ -211,25 +215,25 @@ if ( file_exists ( $includeContent ) ) {
                                     <td style="width: 15%;"><strong>Click this</strong></td>
                                 </tr>
                                 <tr>
-                                    <td>1.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">1.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                                 <tr>
-                                    <td>2.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">2.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                                 <tr>
-                                    <td>3.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">3.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                             </table>  
                             <br /><br />
-                            <table>
+                            <table style="width: 100%;">
                                 <tr>
-                                    <td colspan="3">
+                                    <td style="width: 100%;" colspan="3">
                                         <strong>Administrative tasks:  Manage modules</strong>
                                     </td>
                                 </tr>
@@ -239,19 +243,19 @@ if ( file_exists ( $includeContent ) ) {
                                     <td style="width: 15%;"><strong>Click this</strong></td>
                                 </tr>
                                 <tr>
-                                    <td>1.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">1.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                                 <tr>
-                                    <td>2.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">2.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                                 <tr>
-                                    <td>3.</td>
-                                    <td>meh</td>
-                                    <td>Click this</td>
+                                    <td style="width: 5%; vertical-align: top;">3.</td>
+                                    <td style="width: 80%;">meh</td>
+                                    <td style="width: 15%;">Click this</td>
                                 </tr>
                             </table>                          
                         </td>

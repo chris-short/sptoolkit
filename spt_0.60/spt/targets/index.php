@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 32.0
+ * version: 33.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -466,10 +466,10 @@ if ( file_exists ( $includeContent ) ) {
 
             <!--content-->
             <div id="content">
-                <span class="button"><a href="#add_one"><img src="../images/user_add_sm.png" alt="add" /> One</a></span>
-                <span class="button"><a href="#add_many"><img src="../images/group_add_sm.png" alt="add" /> Import</a></span>
-                <span class="button"><a href="target_export.php"><img src="../images/page_white_put_sm.png" alt="template" /> Export</a></span>
                 <span class="button"><a href="#metrics"><img src="../images/table_edit_sm.png" alt="metrics" /> Metrics</a></span>
+                <span class="button"><a href="#add_one"><img src="../images/user_add_sm.png" alt="add" /> One</a></span>
+                <span class="button"><a href="target_export.php"><img src="../images/page_white_put_sm.png" alt="template" /> Export</a></span>
+                <span class="button"><a href="#add_many"><img src="../images/group_add_sm.png" alt="add" /> Import</a></span>
                 <table class="spt_table">
                     <tr>
                         <td><h3>Group Name</h3></td>
