@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 19.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -71,8 +71,8 @@ if ( file_exists ( $includeContent ) ) {
                                 <td colspan="2"></td>
                                 <td>
                                     <br />
-                                    <a href=""><img src="../images/x.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="image" src="../images/plus.png" alt="add" />
+                                    <a href=""><img src="../images/cancel.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="image" src="../images/add.png" alt="add" />
                                 </td>
                             </tr>
                         </table>
@@ -142,8 +142,8 @@ if ( file_exists ( $includeContent ) ) {
                                 <td colspan="2"></td>
                                 <td>
                                     <br />
-                                    <a href=""><img src="../images/x.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="image" src="../images/plus.png" alt="add" />
+                                    <a href=""><img src="../images/cancel.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="image" src="../images/add.png" alt="add" />
                                 </td>
                             </tr>
                         </table>
@@ -158,7 +158,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
     echo "<div id=\"alert\">";
 
     //echo the alert message
-    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/arrow_redo.png\" alt=\"close\" /></a></div>";
 
     //unset the seession
     unset ( $_SESSION['alert_message'] );
@@ -174,8 +174,8 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
 
             <!--content-->
             <div id="content">
-                <span class="button"><a href="#add_template"><img src="../images/plus_sm.png" alt="add" /> Template</a></span>
-                <span class="button"><a href="#add_scrape"><img src="../images/plus_sm.png" alt="add" /> Scrape</a></span>
+                <span class="button"><a href="#add_template"><img src="../images/package_add_sm.png" alt="add" /> Template</a></span>
+                <span class="button"><a href="#add_scrape"><img src="../images/world_add_sm.png" alt="add" /> Scrape</a></span>
                 <table class="spt_table">
                     <tr>
                         <td><h3>Name</h3></td>
@@ -196,7 +196,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         <td><a href=\"" . $ra['id'] . "\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
                         <td>" . $ra['description'] . "</td>\n
                         <td><img class= \"drop_shadow\" src=\"" . $ra['id'] . "/screenshot.png\" alt=\"missing screenshot\" /></td>\n
-                        <td><a href=\"delete_template.php?t=" . $ra['id'] . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>\n
+                        <td><a href=\"delete_template.php?t=" . $ra['id'] . "\"><img src=\"../images/world_delete_sm.png\" alt=\"delete\" /></a></td>\n
                     </tr>\n";
 }
 ?>
