@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 13.0
+ * version: 14.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -81,7 +81,7 @@ if ( isset ( $_SESSION['install_status'] ) && $_SESSION['install_status'] == 2 )
     //Environmental check introduction
     echo "
             <tr>
-                <td colspan=2>Let's do some basic environmental checks before we get started.  Please remediate any problems listed below that have an X next to them.  Hover over the X for further explanation.</td>
+                <td colspan=2>Let's do some basic environmental checks before we get started.  Please remediate any problems listed below that have a red X next to them.  Hover over the red X icon for further explanation.</td>
             </tr>";
 
     //Ensure all files are readable, writeable and executable.
@@ -106,10 +106,10 @@ if ( isset ( $_SESSION['install_status'] ) && $_SESSION['install_status'] == 2 )
 
     if ( $permission_error ) {
         echo "
-                <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/x.png\" alt=\"problem\" /><span>The account that PHP runs under needs read, write and execute permissions for spt to function properly.  Visit sptoolkit.com for troubleshooting information on how to ensure you have the correct permissions set.<br /><br />If you are using WAMP, this may incorrectly state that permissions are not correct because Windows, in some cases does not accurately report if a file is executable or not.  99% of WAMP installs do not have permissions problems.</span></a></td>";
+                <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/cancel.png\" alt=\"problem\" /><span>The account that PHP runs under needs read, write and execute permissions for spt to function properly.  Visit sptoolkit.com for troubleshooting information on how to ensure you have the correct permissions set.<br /><br />If you are using WAMP, this may incorrectly state that permissions are not correct because Windows, in some cases does not accurately report if a file is executable or not.  99% of WAMP installs do not have permissions problems.</span></a></td>";
     } else {
         echo "
-                <td class=\"td_center\"><img src=\"images/thumbs-up.png\" alt=\"success\" /></td>";
+                <td class=\"td_center\"><img src=\"images/accept.png\" alt=\"success\" /></td>";
     }
 
     echo "</tr>";
@@ -124,10 +124,10 @@ if ( isset ( $_SESSION['install_status'] ) && $_SESSION['install_status'] == 2 )
 
     if ( ! file_exists ( $matches[0] ) ) {
         echo "
-            <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/x.png\" alt=\"problem\" /><span>Sendmail must be installed to send emails.  A quick look at your php.ini file says there is no sendmail path.  If this is expected proceed on.  Otherwise check out sptoolkit.com installtion information.</span></a></td>";
+            <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/cancel.png\" alt=\"problem\" /><span>Sendmail must be installed to send emails.  A quick look at your php.ini file says there is no sendmail path.  If this is expected proceed on.  Otherwise check out sptoolkit.com installtion information.</span></a></td>";
     } else {
         echo "
-            <td class=\"td_center\"><img src=\"images/thumbs-up.png\" alt=\"success\" /></td>";
+            <td class=\"td_center\"><img src=\"images/accept.png\" alt=\"success\" /></td>";
         $sendmail_good = "true";
     }
 
@@ -142,10 +142,10 @@ if ( isset ( $_SESSION['install_status'] ) && $_SESSION['install_status'] == 2 )
 
     if ( ! in_array ( 'curl', $loaded_extensions ) ) {
         echo "
-            <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/x.png\" alt=\"problem\" /><span>cURL must be installed to scrape websites.  A quick cURL version check came up empty handed.  If this is expected or you don't plan to use the spt scraper proceed on.  Otherwise check out sptoolkit.com for installation information.</span></a></td>";
+            <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/cancel.png\" alt=\"problem\" /><span>cURL must be installed to scrape websites.  A quick cURL version check came up empty handed.  If this is expected or you don't plan to use the spt scraper proceed on.  Otherwise check out sptoolkit.com for installation information.</span></a></td>";
     } else {
         echo "
-            <td class=\"td_center\"><img src=\"images/thumbs-up.png\" alt=\"success\" /></td>";
+            <td class=\"td_center\"><img src=\"images/accept.png\" alt=\"success\" /></td>";
         $curl_good = "true";
     }
 
