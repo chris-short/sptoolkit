@@ -248,8 +248,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                 <td colspan="2"><input type="text" name="message_delay" value="1000" /><i>ms</i> (100-60000)</td>
                             </tr>
                             <tr>
-                                <td></td>
-                                <td colspan="2"><a href=""><img src="../images/cancel.png" alt="x" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/email_to_friend.png" alt="email" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
+                                <td colspan="3"><center><a href=""><img src="../images/cancel.png" alt="x" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/email_to_friend.png" alt="email" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></center></td>
                             </tr>
                         </table>
                     </form>
