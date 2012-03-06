@@ -58,7 +58,7 @@ if ( file_exists ( $includeContent ) ) {
                 <table class="spt_qs_table">
                     <tr>
                         <td>
-                            <h3>Quick Start guide to using the spt</h3><br /><br />
+                            <h3>Quick Start guide to using the spt</h3><br />
                             <table style="width: 100%;">
                                 <tr>
                                     <td style="width: 100%;" colspan="3">
@@ -72,25 +72,26 @@ if ( file_exists ( $includeContent ) ) {
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; vertical-align: top;">1.</td>
-                                    <td style="width: 80%;">Create or edit your metrics (custom attributes).</td>
-                                    <td style="width: 15%;"><img src="images/qs_1_1.png" alt="Edit metrics"></td>
+                                    <td style="width: 80%; vertical-align: top;">Create or edit your metrics (custom attributes).</td>
+                                    <td style="width: 15%; vertical-align: top;"><img src="images/qs_1_1.png" alt="Edit metrics"></td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; vertical-align: top;">2.</td>
-                                    <td style="width: 80%;">Create single targets, or,</td>
-                                    <td style="width: 15%;"><img src="images/qs_1_2.png" alt="Add one target"></td>
+                                    <td style="width: 80%; vertical-align: top;">Create single targets, <strong>or</strong>,</td>
+                                    <td style="width: 15%; vertical-align: top;"><img src="images/qs_1_2.png" alt="Add one target"></td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; vertical-align: top;">3.</td>
-                                    <td style="width: 80%; vertical-align: top;"> First, use the export to CSV function to download an editable CSV file.<br />
-                                        Next, import the edited file to add many targets at once.</td>
-                                    <td style="width: 15%;">
+                                    <td style="width: 80%; vertical-align: top;">
+                                        First, use the export to CSV function to download an editable CSV file.<br />
+                                        Next, import the edited file to add many targets at once.
+                                    </td>
+                                    <td style="width: 15%; vertical-align: top;">
                                         <img src="images/qs_1_3a.png" alt="Export CSV"><br />
                                         <img src="images/qs_1_3b.png" alt="Import CSV">
                                     </td>
                                 </tr>
                             </table>
-                            <br /><br />
                             <table style="width: 100%;">
                                 <tr>
                                     <td style="width: 100%;" colspan="3">
@@ -104,25 +105,20 @@ if ( file_exists ( $includeContent ) ) {
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; vertical-align: top;">1.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
+                                    <td style="width: 80%; vertical-align: top;">Upload a template, <strong>or</strong>,</td>
+                                    <td style="width: 15%; vertical-align: top;"><img src="images/qs_2_1.png" alt="Upload template"></td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; vertical-align: top;">2.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 5%; vertical-align: top;">3.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
+                                    <td style="width: 80%; vertical-align: top;">Scrape a live web site.</td>
+                                    <td style="width: 15%; vertical-align: top;"><img src="images/qs_2_2.png" alt="Scrape a site"></td>
                                 </tr>
                             </table>
-                            <br /><br />
+                            <br />
                             <table style="width: 100%;">
                             <tr>
                                 <td style="width: 100%;" colspan="3">
-                                    <strong>Step three:  Upload education packages</strong>
+                                    <strong>(Optional) Step three:  Upload education packages</strong>
                                 </td>
                             </tr>
                             <tr>
@@ -132,25 +128,20 @@ if ( file_exists ( $includeContent ) ) {
                             </tr>
                             <tr>
                                 <td style="width: 5%; vertical-align: top;">1.</td>
-                                <td style="width: 80%;">meh</td>
-                                <td style="width: 15%;">Click this</td>
+                                <td style="width: 80%; vertical-align: top;">Upload a new education package, <strong>or</strong>,</td>
+                                <td style="width: 15%; vertical-align: top;"><img src="images/qs_3_1.png" alt="Upload education package"></td>
                             </tr>
                             <tr>
                                 <td style="width: 5%; vertical-align: top;">2.</td>
-                                <td style="width: 80%;">meh</td>
-                                <td style="width: 15%;">Click this</td>
+                                <td style="width: 80%; vertical-align: top;">Upload a copy of the default education package.</td>
+                                <td style="width: 15%; vertical-align: top;"><img src="images/qs_3_1.png" alt="Upload education package"></td>
                             </tr>
-                            <tr>
-                                <td style="width: 5%; vertical-align: top;">3.</td>
-                                <td style="width: 80%;">meh</td>
-                                <td style="width: 15%;">Click this</td>
-                            </tr>
-                        </table>
-                            <br /><br />
+                            </table>
+                            <br />
                             <table style="width: 100%;">
                                 <tr>
                                     <td style="width: 100%;" colspan="3">
-                                        <strong>Step four:  Edit templates or education packages as needed to customize them</strong>
+                                        <strong>(Optional) Step four:  Edit templates or education packages as needed to customize them</strong>
                                     </td>
                                 </tr>
                                 <tr>
@@ -160,21 +151,16 @@ if ( file_exists ( $includeContent ) ) {
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; vertical-align: top;">1.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
+                                    <td style="width: 80%; vertical-align: top;">If needed, select a template and then a file to edit.</td>
+                                    <td style="width: 15%; vertical-align: top;">[select file]</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; vertical-align: top;">2.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 5%; vertical-align: top;">3.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
+                                    <td style="width: 80%; vertical-align: top;">If needed, select an education package and then a file to edit.</td>
+                                    <td style="width: 15%; vertical-align: top;">[select file]</td>
                                 </tr>
                             </table>
-                            <br /><br />
+                            <br />
                             <table style="width: 100%;">
                                 <tr>
                                     <td style="width: 100%;" colspan="3">
@@ -188,76 +174,20 @@ if ( file_exists ( $includeContent ) ) {
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; vertical-align: top;">1.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
+                                    <td style="width: 80%; vertical-align: top;">Start a new campaign.</td>
+                                    <td style="width: 15%; vertical-align: top;"><img src="images/qs_5_1.png" alt="Start campaign"></td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; vertical-align: top;">2.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
+                                    <td style="width: 80%; vertical-align: top;">Optionally, export campaign statistics as a CSV file.</td>
+                                    <td style="width: 15%; vertical-align: top;"><img src="images/qs_5_2.png" alt="Download CSV"></td>
                                 </tr>
                                 <tr>
                                     <td style="width: 5%; vertical-align: top;">3.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
+                                    <td style="width: 80%; vertical-align: top;">Review campaign statistics from the dashboard.</td>
+                                    <td style="width: 15%; vertical-align: top;"><img src="../images/home_page_sm.png" alt="Review statistics"></td>
                                 </tr>
-                            </table>
-                            <br /><br />
-                            <table style="width: 100%;">
-                                <tr>
-                                    <td style="width: 100%;" colspan="3">
-                                        <strong>Administrative tasks:  Manage users</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 5%;"><strong>Step</strong></td>
-                                    <td style="width: 80%;"><strong>Do this</strong></td>
-                                    <td style="width: 15%;"><strong>Click this</strong></td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 5%; vertical-align: top;">1.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 5%; vertical-align: top;">2.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 5%; vertical-align: top;">3.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
-                                </tr>
-                            </table>  
-                            <br /><br />
-                            <table style="width: 100%;">
-                                <tr>
-                                    <td style="width: 100%;" colspan="3">
-                                        <strong>Administrative tasks:  Manage modules</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 5%;"><strong>Step</strong></td>
-                                    <td style="width: 80%;"><strong>Do this</strong></td>
-                                    <td style="width: 15%;"><strong>Click this</strong></td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 5%; vertical-align: top;">1.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 5%; vertical-align: top;">2.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 5%; vertical-align: top;">3.</td>
-                                    <td style="width: 80%;">meh</td>
-                                    <td style="width: 15%;">Click this</td>
-                                </tr>
-                            </table>                          
+                            </table>                     
                         </td>
                     </tr>
                 </table>
