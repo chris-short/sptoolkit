@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -63,7 +63,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
     echo "<div id=\"alert\">";
 
     //echo the alert message
-    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/arrow_redo.png\" alt=\"close\" /></a></div>";
 
     //clear the alert session after it is written
     unset ( $_SESSION['alert_message'] );
@@ -87,8 +87,8 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                                 <tr>
                                     <td>
                                         <br />
-                                        <a href=""><img src="../images/x.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input type="image" src="../images/plus.png" alt="add" />
+                                        <a href=""><img src="../images/cancel.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="image" src="../images/add.png" alt="add" />
                                     </td>
                                     <td></td>
                                 </tr>
@@ -96,7 +96,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                         </form>
                     </div>
                 </div>
-                <span class="button"><a href="#add_module"><img src="../images/plus_sm.png" alt="add" /> Module</a></span>
+                <span class="button"><a href="#add_module"><img src="../images/package_add_sm.png" alt="add" /> Module</a></span>
                 <table id="installed_module_list" class="spt_table">
                     <tr>
                         <td><h3>Name</h3></td>
@@ -134,7 +134,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( mysql_num_rows ( $r3 ) > 0 || $ra['core'] == 1 ) {
         echo "--";
     } else {
-        echo "<a href=\"module_uninstall.php?m=" . $t . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a>";
+        echo "<a href=\"module_uninstall.php?m=" . $t . "\"><img src=\"../images/package_delete_sm.png\" alt=\"delete\" /></a>";
     }
 
     echo "
