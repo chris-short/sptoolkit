@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 18.0
+ * version: 19.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -94,7 +94,7 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
 
 
             //echo the alert message
-            echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"images/left-arrow.png\" alt=\"close\" /></a></div>";
+            echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"images/arrow_redo.png\" alt=\"close\" /></a></div>";
 
             //unset the session
             unset ( $_SESSION['alert_message'] );
@@ -117,14 +117,14 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
                     <tr>
                         <td>
                             <form name="install_message_install" method="post" action="install.php">
-                                <input type="image" src="images/right-arrow.png" alt="begin installation" />
+                                <input type="image" src="images/box_open.png" alt="begin installation" />
                             </form>
                         </td>
                         <td></td>
                         <td>
                             <form name="install_message_delete" method="post" action="">
                                 <input type="hidden" name="delete_install" value="delete_install" />
-                                <input type="image" src="images/trash.png" alt="delete and login" />
+                                <input type="image" src="images/bin.png" alt="delete and login" />
                             </form>
                         </td>
                     </tr>
@@ -145,7 +145,7 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
                             <td><input type="text" name="email" /></td>
                         </tr>
                         <tr>
-                            <td colspan=2><a href="."><img src="images/x.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="images/right-arrow.png" alt="edit" /></td>
+                            <td colspan=2><a href="."><img src="images/cancel.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="images/accept.png" alt="edit" /></td>
                         </tr>
                     </table>
                 </form>

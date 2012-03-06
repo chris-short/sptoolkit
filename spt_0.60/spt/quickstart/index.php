@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Quick Start 
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -185,7 +185,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td style="width: 5%; vertical-align: top;">3.</td>
                                     <td style="width: 80%; vertical-align: top;">Review campaign statistics from the dashboard.</td>
-                                    <td style="width: 15%; vertical-align: top;"><img src="../images/home_page_sm.png" alt="Review statistics"></td>
+                                    <td style="width: 15%; vertical-align: top;"><img src="../images/house_sm.png" alt="Review statistics"></td>
                                 </tr>
                             </table>                     
                         </td>
