@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Editor
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -73,7 +73,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
     echo "<div>" . $_SESSION['alert_message'] . "<br />";
 
     //close the alert message
-    echo "<br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+    echo "<br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
 
     //close alert popover
     echo "</div>";
@@ -276,8 +276,8 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                     <table id=\"editor_buttons\">
                         <tr>
                             <td>
-                                <a href=\".\"><img src=\"../images/x.png\" alt=\"close\" /></a>
-                                <input type=\"image\" src=\"../images/thumbs-up.png\" alt=\"save\" />	
+                                <a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>
+                                <input type=\"image\" src=\"../images/accept.png\" alt=\"save\" />	
                             </td>
                         </tr>
                     </table>";

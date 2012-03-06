@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		3.0
+ * version:		4.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	File Manager module
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -67,7 +67,7 @@
 				echo "<div id=\"alert\">";
 
 				//echo the alert message
-				echo "<div>".$_SESSION['alert_message']."<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+				echo "<div>".$_SESSION['alert_message']."<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
 				
 				//unset the seession
 				unset ($_SESSION['alert_message']);				
