@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 12.0
+ * version: 13.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -299,10 +299,10 @@ if ( isset ( $_POST['step3'] ) && $_POST['step3'] == "complete" ) {
             }
     }
 
-    f_and_r ( "mysql_host='(.*?)';", "mysql_host='" . $host . ":" . $port . "';", "spt_config/mysql_config.php" );
-    f_and_r ( "mysql_user='(.*?)';", "mysql_user='" . $username . "';", "spt_config/mysql_config.php" );
-    f_and_r ( "mysql_password='(.*?)';", "mysql_password='" . $password . "';", "spt_config/mysql_config.php" );
-    f_and_r ( "mysql_db_name='(.*?)';", "mysql_db_name='" . $database . "';", "spt_config/mysql_config.php" );
+    f_and_r ( "mysql_host\s=\s'(.*?)';", "mysql_host='" . $host . ":" . $port . "';", "spt_config/mysql_config.php" );
+    f_and_r ( "mysql_user\s=\s'(.*?)';", "mysql_user='" . $username . "';", "spt_config/mysql_config.php" );
+    f_and_r ( "mysql_password\s=\s'(.*?)';", "mysql_password='" . $password . "';", "spt_config/mysql_config.php" );
+    f_and_r ( "mysql_db_name\s=\s'(.*?)';", "mysql_db_name='" . $database . "';", "spt_config/mysql_config.php" );
 
     //echo back the install tables and successfull database configuration
     echo "Database connectivity has been established and the following tables have been installed into " . $database . ":<br />";
