@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 34.0
+ * version: 35.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -249,7 +249,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                             </tr>
                             <tr>
                                 <td></td>
-                                <td colspan="2"><a href=""><img src="../images/x.png" alt="x" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/email.png" alt="email" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
+                                <td colspan="2"><a href=""><img src="../images/cancel.png" alt="x" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/email_to_friend.png" alt="email" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
                             </tr>
                         </table>
                     </form>
@@ -429,7 +429,7 @@ $percentage = ceil ( ($sent / $total) * 100 );
                         <img src=\"../images/lightbulb.png\" alt=\"help\" />
                         <span>This list provides you with a filtered view of campaign responses.  The title at the top left describes what filter is in place.  For each individual response you can see various metrics or analytics of the response itself such as the target's IP address, browser, browser version and Operating System.</span>
                         </a>&nbsp;&nbsp;&nbsp;
-                        <a href=\".\"><img src=\"../images/x.png\" alt=\"close\" /></a>
+                        <a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>
                     </td>
                 </tr>
                 <tr>
@@ -546,8 +546,8 @@ $percentage = ceil ( ($sent / $total) * 100 );
 
             <!--content-->
             <div id="content">
-                <span class="button"><a href="#add_campaign"><img src="../images/plus_sm.png" alt="add" /> Campaign</a></span>
-                <span class="button"><a href="campaigns_export.php"><img src="../images/list_sm.png" alt="export" /> Export</a></span>
+                <span class="button"><a href="#add_campaign"><img src="../images/email_to_friend_sm.png" alt="add" /> Campaign</a></span>
+                <span class="button"><a href="campaigns_export.php"><img src="../images/page_white_put_sm.png" alt="export" /> Export</a></span>
                 <table class="spt_table">
                     <tr>
                         <td><h3>Name</h3></td>
@@ -598,7 +598,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $percentage = ceil ( ($sent / $total) * 100 );
     echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
     echo "</td>";
-    echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a></td>";
+    echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "\"><img src=\"../images/report_delete_sm.png\" alt=\"delete\" /></a></td>";
     echo "</tr>";
 }
 ?>
