@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 35.0
+ * version: 36.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -227,7 +227,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                             </tr>
                             <tr>
                                 <td>Host</td>
-                                <td><input type="text" name="relay_host" size="45"/></td>
+                                <td><input type="text" name="relay_host" size="30"/>&nbsp;&nbsp;Port&nbsp;<input type="text" name="relay_port" size="6" value="25" /></td>
                             </tr>
                             <tr>
                                 <td>Username</td>

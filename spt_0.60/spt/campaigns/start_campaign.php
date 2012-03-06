@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 23.0
+ * version: 24.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -79,6 +79,9 @@ if ( isset ( $_POST[ 'education_timing' ] ) ) {
 }
 if ( isset ( $_POST[ 'relay_host' ] ) ) {
     $relay_host = filter_var ( $_POST[ 'relay_host' ], FILTER_SANITIZE_STRING );
+}
+if ( isset ( $_POST[ 'relay_port'] ) ) {
+    $relay_port = filter_var ( $_POST[ 'relay_port'], FILTER_SANITIZE_INT );
 }
 if ( isset ( $_POST[ 'relay_username' ] ) ) {
     $relay_username = filter_var ( $_POST[ 'relay_username' ], FILTER_SANITIZE_STRING );
@@ -202,6 +205,11 @@ if ( isset ( $relay_username ) ) {
 //update relay host if its set
 if ( isset ( $relay_password ) ) {
     mysql_query ( "UPDATE campaigns SET relay_password = '$relay_password' WHERE id = '$campaign_id'" );
+}
+
+//update relay port if it is set
+if ( isset ( $relay_port ) ) {
+    mysql_query ( "UPDATE campaigns SET relay_port = '$relay_port' WHERE id = '$campaign_id'" );
 }
 
 //link the campaign id and group name while retrieving all applicable targets

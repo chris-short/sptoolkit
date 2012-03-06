@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -119,7 +119,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 
 //get the smtp relay if its set
-$r = mysql_query ( "SELECT relay_host, relay_username, relay_password FROM campaigns WHERE id = '$campaign_id'" );
+$r = mysql_query ( "SELECT relay_host, relay_username, relay_password, relay_port FROM campaigns WHERE id = '$campaign_id'" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( strlen ( $ra['relay_host'] ) > 0 ) {
         $relay_host = $ra['relay_host'];
@@ -128,6 +128,9 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         }
         if ( strlen ( $ra['relay_password'] ) > 0 ) {
             $relay_password = $ra['relay_password'];
+        }
+        if ( strlen ( $ra['relay_port'] ) > 0 ) {
+            $relay_port = $ra['relay_port'];
         }
     }
 }
@@ -162,15 +165,20 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     require_once '../includes/swiftmailer/lib/swift_required.php';
 
     if ( isset ( $relay_host ) AND isset ( $relay_username ) AND isset ( $relay_password ) ) {
+        //Set relay port if set
+        if ( !isset ( $relay_port ) ) {
+            $relay_port = 25;
+        } 
+
         //Create the Transport
-        $transport = Swift_SmtpTransport::newInstance ( $relay_host, 25 )
+        $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port )
                 -> setUsername ( $relay_username )
                 -> setPassword ( $relay_password )
         ;
     }
     if ( isset ( $relay_host ) AND ! isset ( $relay_username ) AND ! isset ( $relay_password ) ) {
         //Create the Transport
-        $transport = Swift_SmtpTransport::newInstance ( $relay_host, 25 );
+        $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port );
     }
     if ( ! isset ( $relay_host ) AND ! isset ( $relay_username ) AND ! isset ( $relay_password ) ) {
         //parse out the domain from the recipient email address
@@ -180,6 +188,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         //get MX record for the destination
         getmxrr ( $domain, $mxhosts );
 
+        //
         //create the transport
         $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25 );
     }

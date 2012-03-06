@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,6 +41,7 @@ $sql = "
         `relay_host` varchar(255) NOT NULL,
         `relay_username` varchar(255) NOT NULL,
         `relay_password` varchar(255) NOT NULL,
+        `relay_port` int(5) NOT NULL,
         PRIMARY KEY (`id`)
     )";
 
