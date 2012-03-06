@@ -41,6 +41,81 @@ if ( file_exists ( $includeContent ) ) {
         <!--css-->
         <link rel="stylesheet" href="../spt.css" type="text/css" />
         <link rel="stylesheet" href="spt_dashboard.css" type="text/css" />
+        <!--scripts-->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    	<script type="text/javascript">
+var risk_pie;
+$(document).ready(function() {
+	risk_pie = new Highcharts.Chart({
+		chart: {
+			renderTo: 'risk_pie_container',
+			plotBackgroundColor: null,
+			plotBorderWidth: null,
+			plotShadow: false
+		},
+		title: {
+			text: 'Overall Risk'
+		},
+		tooltip: {
+			formatter: function() {
+				return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+			}
+		},
+		plotOptions: {
+			pie: {
+				allowPointSelect: true,
+				cursor: 'pointer',
+				dataLabels: {
+					enabled: true,
+					color: '#000000',
+					connectorColor: '#000000',
+					formatter: function() {
+						return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+					}
+				}
+			}
+		},
+		series: [{
+			type: 'pie',
+			name: 'Risk Pie',
+			data: [
+                
+<?php
+//connect to database
+include('../spt_config/mysql_config.php');
+
+//get total number of successful phishes sent
+$r = mysql_query("SELECT target_id FROM campaigns_responses WHERE sent = 2");
+$total_phishes = mysql_num_rows($r);
+
+//get total number of people who posted data
+$r = mysql_query("SELECT target_id FROM campaigns_responses WHERE post IS NOT NULL");
+$total_posts = mysql_num_rows($r);
+
+//get total number of people who clicked the link but didn't post data
+$r = mysql_query("SELECT target_id FROM campaigns_responses WHERE post IS NULL AND link != 0");
+$total_link_only = mysql_num_rows($r);
+
+//calculate no reponse
+$total_no_response = $total_phishes - $total_posts - $total_link_only;
+
+//calcuate percentages
+$total_no_response_percentage = ($total_no_response / $total_phishes) * 100;
+$total_link_only_percentage = ($total_link_only / $total_phishes) * 100;
+$total_posts_percentage = ($total_posts / $total_phishes) * 100;
+
+//print results in highcharts format
+echo "['Did Not Click', ".$total_no_response_percentage."],";
+echo "['Followed Link', ".$total_link_only_percentage."],";
+echo "['Submitted Form', ".$total_posts_percentage."],";
+
+?>
+			]
+		}]
+	});
+});
+
+		</script>
     </head>
 
     <body>
