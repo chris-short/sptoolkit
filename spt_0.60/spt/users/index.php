@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 12.0
+ * version: 13.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -89,8 +89,8 @@ $ra = mysql_fetch_assoc ( $r );
                         <tr>\n
                             <td colspan=\"2\"></td>
                             <td>
-                                    <a href=\"\"><img src=\"../images/x.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type=\"image\" src=\"../images/thumbs-up.png\" alt=\"edit\" />
+                                    <a href=\"\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type=\"image\" src=\"../images/accept.png\" alt=\"edit\" />
                             </td>\n
                         </tr>\n
                     </table>\n
@@ -136,8 +136,8 @@ $ra = mysql_fetch_assoc ( $r );
                         <tr>
                             <td></td>
                             <td colspan="2">
-                                <a href=""><img src="../images/x.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="image" src="../images/plus.png" alt="add" />
+                                <a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="image" src="../images/add.png" alt="add" />
                             </td>
                         </tr>
                     </table>
@@ -225,7 +225,7 @@ if ( isset ( $_REQUEST['u'] ) ) {
                         </tr>\n
                         <tr>\n
                             <td></td>
-                            <td><a href=\".\"><img src=\"../images/x.png\" alt=\"cancel\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"image\" src=\"../images/thumbs-up.png\" /></td>\n
+                            <td><a href=\".\"><img src=\"../images/cancel.png\" alt=\"cancel\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"image\" src=\"../images/accept.png\" /></td>\n
                     </table>\n
                 </form>\n";
     } else {
@@ -245,7 +245,7 @@ if ( isset ( $_REQUEST['u'] ) ) {
                     echo "<div id=\"alert\">";
 
                     //echo the alert message
-                    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/left-arrow.png\" alt=\"close\" /></a></div>";
+                    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/arrow_redo.png\" alt=\"close\" /></a></div>";
 
                     //clear out the error message
                     unset ( $_SESSION['alert_message'] );
@@ -262,11 +262,11 @@ if ( isset ( $_REQUEST['u'] ) ) {
 
             <!--content-->
             <div id="content">
-                <span class="button"><a href="#edit_user"><img src="../images/gear_sm.png" alt="edit" /> <?php echo $_SESSION['username']; ?></a></span>
+                <span class="button"><a href="#edit_user"><img src="../images/cog_edit_sm.png" alt="edit" /> <?php echo $_SESSION['username']; ?></a></span>
         <?php
         //check to see if user is admin give them additional options
         if ( isset ( $_SESSION['admin'] ) == 1 ) {
-            echo "<span class=\"button\"><a href=\"#add_user\"><img src=\"../images/plus_sm.png\" alt=\"add\" /> User</a></span>";
+            echo "<span class=\"button\"><a href=\"#add_user\"><img src=\"../images/user_add_sm.png\" alt=\"add\" /> User</a></span>";
         }
         ?>
                 <div>
@@ -313,7 +313,7 @@ if ( isset ( $_REQUEST['u'] ) ) {
                     if ( isset ( $_SESSION['admin'] ) == 1 && $_SESSION['username'] != $ra['username'] ) {
                         echo "<td><a href=\"?u=";
                         echo $ra['username'];
-                        echo "#edit_other_user\"><img src=\"../images/gear_sm.png\" alt=\"edit\" /></a>";
+                        echo "#edit_other_user\"><img src=\"../images/user_edit_sm.png\" alt=\"edit\" /></a>";
                         echo "</td>\n";
                     } else {
                         echo "<td></td>";
@@ -323,7 +323,7 @@ if ( isset ( $_REQUEST['u'] ) ) {
                     if ( isset ( $_SESSION['admin'] ) == 1 && $_SESSION['username'] != $ra['username'] ) {
                         echo "<td><a href=\"delete_user.php?u=";
                         echo $ra['username'];
-                        echo "\"><img src=\"../images/trash_sm.png\" alt=\"delete\" /></a>";
+                        echo "\"><img src=\"../images/user_delete_sm.png\" alt=\"delete\" /></a>";
                         echo "</td>\n";
                     } else {
                         echo "<td></td>";
