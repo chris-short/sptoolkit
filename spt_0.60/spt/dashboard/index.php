@@ -1,9 +1,8 @@
 <?php
-
 /**
- * file:    index.php
- * version: 9.0
- * package: Simple Phishing Toolkit (spt)
+ * file:		index.php
+ * version:		9.0
+ * package:		Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
@@ -46,40 +45,38 @@ if ( file_exists ( $includeContent ) ) {
         <!--scripts-->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     	<script type="text/javascript">
-var risk_pie;
+
+var phish_pie;
 $(document).ready(function() {
-	risk_pie = new Highcharts.Chart({
+	pish_pie = new Highcharts.Chart({
 		chart: {
-			renderTo: 'risk_pie_container',
+			renderTo: 'phish_pie_container',
 			plotBackgroundColor: null,
 			plotBorderWidth: null,
 			plotShadow: false
 		},
 		title: {
-			text: 'Overall Risk'
+			text: null
 		},
 		tooltip: {
-			formatter: function() {
+                                                        formatter: function() {
 				return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
 			}
-		},
-		plotOptions: {
+                                    },   
+                                    plotOptions: {
 			pie: {
 				allowPointSelect: true,
 				cursor: 'pointer',
-				dataLabels: {
-					enabled: true,
-					color: '#000000',
-					connectorColor: '#000000',
-					formatter: function() {
-						return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
-					}
-				}
-			}
+                                                                        dataLabels: {
+                                                                            enabled: false
+                                                                       },
+				showInLegend: true
+			} 
 		},
+                    
 		series: [{
 			type: 'pie',
-			name: 'Risk Pie',
+			name: 'Browser share',
 			data: [
                 
 <?php
@@ -91,26 +88,29 @@ $r = mysql_query("SELECT target_id FROM campaigns_responses WHERE sent = 2");
 $total_phishes = mysql_num_rows($r);
 
 //get total number of people who posted data
-$r = mysql_query("SELECT target_id FROM campaigns_responses WHERE post IS NOT NULL");
+$r = mysql_query("SELECT target_id FROM campaigns_responses WHERE post IS NOT NULL AND sent = 2");
 $total_posts = mysql_num_rows($r);
 
 //get total number of people who clicked the link but didn't post data
-$r = mysql_query("SELECT target_id FROM campaigns_responses WHERE post IS NULL AND link != 0");
+$r = mysql_query("SELECT target_id FROM campaigns_responses WHERE post IS NULL AND link != 0 AND sent = 2");
 $total_link_only = mysql_num_rows($r);
 
 //calculate no reponse
 $total_no_response = $total_phishes - $total_posts - $total_link_only;
 
 //calcuate percentages
-$total_no_response_percentage = ($total_no_response / $total_phishes) * 100;
-$total_link_only_percentage = ($total_link_only / $total_phishes) * 100;
-$total_posts_percentage = ($total_posts / $total_phishes) * 100;
+$total_no_response_percentage = round(($total_no_response / $total_phishes) * 100,2);
+$total_link_only_percentage = round(($total_link_only / $total_phishes) * 100,2);
+$total_posts_percentage = round(($total_posts / $total_phishes) * 100,2);
 
-//print results in highcharts format
-echo "['Did Not Click', ".$total_no_response_percentage."],";
-echo "['Followed Link', ".$total_link_only_percentage."],";
-echo "['Submitted Form', ".$total_posts_percentage."],";
-
+if($total_link_only_percentage == 0 && $total_no_response_percentage == 0 && $total_posts_percentage == 0){
+    echo "['No Responses Yet', 100]";
+}else{
+    //print results in highcharts format
+    echo "['Did Not Click', ".$total_no_response_percentage."],";
+    echo "['Followed Link', ".$total_link_only_percentage."],";
+    echo "{name: 'Submitted Form', y: ".$total_posts_percentage.", sliced: true, selected: true},";
+}
 ?>
 			]
 		}]

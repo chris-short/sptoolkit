@@ -1,6 +1,6 @@
 <!--
  * file:    dashboard_module.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -21,10 +21,69 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
+<script type="text/javascript" src="../includes/highcharts/js/highcharts.js"></script>
 <article class="tabs">
-    <section id="risk_pie">
-        <a href="#risk_pie"><span>Risk Pie</span></a>
-        <div>Pie Chart of overall status of links/posts/etc</div>
+    <section id="phish_pie">
+        <a href="#phish_pie"><span>Phish Pie</span></a>
+        <div id="phish_pie_filters">
+            <form action="" method="POST">
+                <table>
+                    <tr>
+                        <td colspan="2"><h3>Filters</h3></td>
+                    </tr>
+                    <tr>
+                        <td>Campaign</td>
+                        <td>
+
+                                <select name="campaign">
+                                    <option value="All">All</option>
+                                    <?php
+                                        //connect to database
+                                        include "../spt_config/mysql_config.php";
+
+                                        //get all the campaign names
+                                        $r = mysql_query("SELECT id,campaign_name FROM campaigns");
+                                        while($ra = mysql_fetch_assoc ( $r)){
+                                            if($_REQUEST['campaign'] == $ra['id']){
+                                                echo "<option value=\"".$ra['id']."\" selected >".$ra['campaign_name']."</option>";
+                                            } else{
+                                                echo "<option value=\"".$ra['id']."\">".$ra['campaign_name']."</option>";
+                                            }
+                                        }
+                                    ?>
+                                </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Browser</td>
+                        <td>
+
+                                <select name="browser">
+                                    <option value="All">All</option>
+                                    <?php
+                                        //connect to database
+                                        include "../spt_config/mysql_config.php";
+
+                                        //get all the browsers
+                                        $r = mysql_query("SELECT DISTINCT(browser) as browser FROM campaigns_responses WHERE browser IS NOT NULL");
+                                        while($ra = mysql_fetch_assoc ( $r)){
+                                            if($_REQUEST['browser'] == $ra['browser']){
+                                                echo "<option value=\"".$ra['browser']."\" selected>".$ra['browser']."</option>";
+                                            }else{
+                                                echo "<option value=\"".$ra['browser']."\">".$ra['browser']."</option>";
+                                            }
+                                        }
+                                    ?>
+                                </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="image" src="../images/filter.png" alt="filter"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="phish_pie_container"></div>
     </section>
     <section id="bad_targets">
         <a href="#bad_targets"><span>Bad Targets</span></a>

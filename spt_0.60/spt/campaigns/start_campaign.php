@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 24.0
+ * version: 25.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -81,7 +81,7 @@ if ( isset ( $_POST[ 'relay_host' ] ) ) {
     $relay_host = filter_var ( $_POST[ 'relay_host' ], FILTER_SANITIZE_STRING );
 }
 if ( isset ( $_POST[ 'relay_port'] ) ) {
-    $relay_port = filter_var ( $_POST[ 'relay_port'], FILTER_SANITIZE_INT );
+    $relay_port = filter_var ( $_POST[ 'relay_port'], FILTER_SANITIZE_NUMBER_INT );
 }
 if ( isset ( $_POST[ 'relay_username' ] ) ) {
     $relay_username = filter_var ( $_POST[ 'relay_username' ], FILTER_SANITIZE_STRING );
