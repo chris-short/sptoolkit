@@ -1,11 +1,12 @@
 <?php
+
 /**
- * file:		index.php
- * version:		8.0
- * package:		Simple Phishing Toolkit (spt)
+ * file:    index.php
+ * version: 9.0
+ * package: Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -29,6 +30,7 @@ if ( file_exists ( $includeContent ) ) {
     header ( 'location:../errors/404_is_authenticated.php' );
 }
 ?>
+
 <!DOCTYPE HTML> 
 <html>
     <head>
@@ -39,7 +41,7 @@ if ( file_exists ( $includeContent ) ) {
         <!--favicon-->
         <link rel="shortcut icon" href="../images/favicon.ico" />
         <!--css-->
-        <link rel="stylesheet" href="../spt.css" type="text/css" />
+        <link rel="stylesheet" href="../includes/spt.css" type="text/css" />
         <link rel="stylesheet" href="spt_dashboard.css" type="text/css" />
         <!--scripts-->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>

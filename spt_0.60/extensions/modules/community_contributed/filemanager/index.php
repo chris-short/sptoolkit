@@ -53,7 +53,7 @@
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 		
 		<!--css-->
-		<link rel="stylesheet" href="../spt.css" type="text/css" />
+		<link rel="stylesheet" href="../includes/spt.css" type="text/css" />
 		<link rel="stylesheet" href="spt_filemanager.css" type="text/css" />
 
 	</head>

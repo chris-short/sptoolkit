@@ -1,7 +1,8 @@
 <?php
+
 /**
  * file:    index.php
- * version: 12.0
+ * version: 13.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,7 +42,7 @@ if ( file_exists ( $includeContent ) ) {
         <!--favicon-->
         <link rel="shortcut icon" href="../images/favicon.ico" />
         <!--css-->
-        <link rel="stylesheet" href="../spt.css" type="text/css" />
+        <link rel="stylesheet" href="../includes/spt.css" type="text/css" />
         <link rel="stylesheet" href="spt_modules.css" type="text/css" />
         <!--scripts-->
         <script type="text/javascript" src="../includes/escape.js"></script>

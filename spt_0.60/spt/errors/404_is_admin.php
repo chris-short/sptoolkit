@@ -2,7 +2,7 @@
 
 /**
  * file:    404_is_admin.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Global Errors
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -34,7 +34,7 @@
         <!--favicon-->
         <link rel="shortcut icon" href="../images/favicon.ico" />
         <!--css-->
-        <link rel="stylesheet" href="../spt.css" type="text/css" />
+        <link rel="stylesheet" href="../includes/spt.css" type="text/css" />
     </head>
     <body>
         <div id="wrapper">

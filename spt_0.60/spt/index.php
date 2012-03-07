@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 20.0
+ * version: 21.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -53,7 +53,7 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
         <!--favicon-->
         <link rel="shortcut icon" href="images/favicon.ico" />
         <!--css-->
-        <link rel="stylesheet" href="spt.css" type="text/css" />
+        <link rel="stylesheet" href="includes/spt.css" type="text/css" />
         <!--scripts-->
         <script type="text/javascript" src="includes/escape.js"></script>
     </head>

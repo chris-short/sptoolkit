@@ -1,7 +1,8 @@
 <?php
+
 /**
  * file:    index.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Editor
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -33,6 +34,7 @@ if ( file_exists ( $includeContent ) ) {
     header ( 'location:../errors/404_is_authenticated.php' );
 }
 ?>
+
 <!DOCTYPE HTML> 
 <html>
     <head>
@@ -43,7 +45,7 @@ if ( file_exists ( $includeContent ) ) {
         <!--favicon-->
         <link rel="shortcut icon" href="../images/favicon.ico" />
         <!--css-->
-        <link rel="stylesheet" href="../spt.css" type="text/css" />
+        <link rel="stylesheet" href="../includes/spt.css" type="text/css" />
         <link rel="stylesheet" href="spt_editor.css" type="text/css" />
         <!--script-->
         <script language="Javascript" type="text/javascript">

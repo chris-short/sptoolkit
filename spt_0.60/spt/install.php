@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 14.0
+ * version: 15.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -36,7 +36,7 @@ session_start ();
         <!--favicon-->
         <link rel="shortcut icon" href="images/favicon.ico" />
         <!--css-->
-        <link rel="stylesheet" href="spt.css" type="text/css" />
+        <link rel="stylesheet" href="includes/spt.css" type="text/css" />
     </head>
     <body>
 
