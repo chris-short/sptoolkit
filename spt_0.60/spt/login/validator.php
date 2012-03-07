@@ -86,7 +86,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         }
 
         //send authenticated user to the dashboard
-        header ( 'location:../dashboard/' );
+        header ( 'location:../dashboard/#phish_pie' );
         exit;
     }
 }
