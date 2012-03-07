@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -151,9 +151,11 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
     //formulate link
     $link = "http://" . $spt_path . "/campaigns/response.php?r=" . $current_response_id;
+    $url = $link;
     $link = "<a href=\"" . $link . "\">" . $fake_link . "</a>";
 
     //find and replace variables
+    $message = preg_replace ( "#@url#", $url, $message );
     $message = preg_replace ( "#@link#", $link, $message );
     $message = preg_replace ( "#@fname#", $fname, $message );
     $message = preg_replace ( "#@lname#", $lname, $message );
