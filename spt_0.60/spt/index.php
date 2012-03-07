@@ -38,7 +38,7 @@ if ( file_exists ( 'install.php' ) && ! preg_match ( '/installfiles=true/', $_SE
 
 //sends you to the spt dashboard if your already authenticated
 if ( isset ( $_SESSION['authenticated'] ) ) {
-    header ( 'location:dashboard/' );
+    header ( 'location:dashboard/#phish_pie' );
     exit;
 }
 ?>
