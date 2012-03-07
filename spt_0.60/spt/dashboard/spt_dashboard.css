@@ -1,7 +1,7 @@
 /*css - dashboard*/
 /**
  * file:		spt_dashboard.css
- * version:		5.0
+ * version:		6.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -114,10 +114,9 @@ article.tabs section div
 
 #phish_pie_container
 {
-    width: 400px;
-    height: 400px;
-    margin-top: -10px;
-    margin-left: 325px;
+    width: 425px;
+    height: 375px;
+    margin-left: 300px;
 }
 
 #phish_pie_filters

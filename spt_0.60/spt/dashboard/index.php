@@ -1,11 +1,11 @@
 <?php
 /**
  * file:		index.php
- * version:		9.0
+ * version:		10.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license: GNU/GPL, see license.htm.
+ * license:		GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -29,7 +29,6 @@ if ( file_exists ( $includeContent ) ) {
     header ( 'location:../errors/404_is_authenticated.php' );
 }
 ?>
-
 <!DOCTYPE HTML> 
 <html>
     <head>
@@ -83,16 +82,71 @@ $(document).ready(function() {
 //connect to database
 include('../spt_config/mysql_config.php');
 
+//get filters if they are set
+//campaign id
+if(isset($_REQUEST['campaign']) && $_REQUEST['campaign'] != 'All'){
+    $campaign_id = $_REQUEST['campaign'];
+    
+    //get all campaign ids
+    $r = mysql_query("SELECT id FROM campaigns");
+    while($ra = mysql_fetch_assoc ( $r)){
+        if($campaign_id == $ra['id']){
+            $match = 1;
+        }
+    }
+    
+    //validate its a valid campaign id
+    if(!isset($match)){
+        $_SESSION['alert_message'] = "Please specify a valid campaign";
+        header('location:./#alert');
+        exit;
+    }
+    
+    //reset match
+    unset($match);
+}
+//browser
+if(isset($_REQUEST['browser']) && $_REQUEST['browser'] != 'All'){
+    $campaign_id = $_REQUEST['browser'];
+    
+    //get all campaign ids
+    $r = mysql_query("SELECT DISTINCT browser FROM campaigns_responses");
+    while($ra = mysql_fetch_assoc ( $r)){
+        if($campaign_id == $ra['browser']){
+            $match = 1;
+        }
+    }
+    
+    //validate its a valid campaign id
+    if(!isset($match)){
+        $_SESSION['alert_message'] = "Please specify a selectable browser";
+        header('location:./#alert');
+        exit;
+    }
+}
+
+//set SQL statements
+$total_phishes_sql = "SELECT target_id FROM campaigns_responses WHERE sent = 2";
+$total_sql = "SELECT target_id FROM campaigns_responses WHERE post IS NOT NULL AND sent = 2";
+$total_link_only_sql = "SELECT target_id FROM campaigns_responses WHERE post IS NULL AND link != 0 AND sent = 2";
+
+//append any filters if necessary
+if(isset($campaign_id)){
+    $total_phishes_sql .= " AND campaign_id = ".$campaign_id;
+    $total_sql .= " AND campaign_id = ".$campaign_id;
+    $total_link_only_sql .= " AND campaign_id = ".$campaign_id;
+}
+
 //get total number of successful phishes sent
-$r = mysql_query("SELECT target_id FROM campaigns_responses WHERE sent = 2");
+$r = mysql_query($total_phishes_sql);
 $total_phishes = mysql_num_rows($r);
 
 //get total number of people who posted data
-$r = mysql_query("SELECT target_id FROM campaigns_responses WHERE post IS NOT NULL AND sent = 2");
+$r = mysql_query($total_sql);
 $total_posts = mysql_num_rows($r);
 
 //get total number of people who clicked the link but didn't post data
-$r = mysql_query("SELECT target_id FROM campaigns_responses WHERE post IS NULL AND link != 0 AND sent = 2");
+$r = mysql_query($total_link_only_sql);
 $total_link_only = mysql_num_rows($r);
 
 //calculate no reponse
