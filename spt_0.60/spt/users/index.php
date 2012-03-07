@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 13.0
+ * version: 14.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -66,31 +66,32 @@ $ra = mysql_fetch_assoc ( $r );
                 <form id=\"edit_current_user\" method=\"post\" action=\"edit_user.php\">\n
                     <table id=\"edit_current_user\">\n
                         <tr>\n
+                            <td style=\"text-align: left;\"><h3>Edit Account</h3></td>\n
+                            <td style=\"text-align: right;\"><a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>You can edit the details of your own user account here.  Your password must be 8-15 characters long.</span></a></td>\n	
+                        </tr>\n
+                        <tr>\n
                             <td>first name</td>\n
                             <td><input id=\"fname\" type=\"text\" name=\"fname\" value=\"" . $ra['fname'] . "\" /></td>\n
-                            <td><a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>You can edit the details of your own user account here.  Your password must be 8-15 characters long.</span></a></td>\n	
                         </tr>\n
                         <tr>\n
                             <td>last name</td>\n
-                            <td colspan=\"2\"><input id=\"lname\" type=\"text\" name=\"lname\" value=\"" . $ra['lname'] . "\" /></td>\n
+                            <td><input id=\"lname\" type=\"text\" name=\"lname\" value=\"" . $ra['lname'] . "\" /></td>\n
                         </tr>\n
                         <tr>\n
                             <td>username</td>\n
-                            <td colspan=\"2\"><input id=\"username\" type=\"text\" name=\"username\" value=\"" . $ra['username'] . "\"/></td>\n
+                            <td><input id=\"username\" type=\"text\" name=\"username\" value=\"" . $ra['username'] . "\"/></td>\n
                         </tr>\n
                         <tr>\n
                             <td>password</td>\n
-                            <td colspan=\"2\"><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\"/></td>\n
+                            <td><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\"/></td>\n
                         </tr>\n
                         <tr>\n
-                            <td>re-enter</td>\n
-                            <td colspan=\"2\"><input id=\"password_check\" type=\"password\" name=\"password_check\" autocomplete=\"off\"/></td>\n
+                            <td>re-enter password</td>\n
+                            <td><input id=\"password_check\" type=\"password\" name=\"password_check\" autocomplete=\"off\"/></td>\n
                         </tr>\n
                         <tr>\n
-                            <td colspan=\"2\"></td>
-                            <td>
-                                    <a href=\"\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type=\"image\" src=\"../images/accept.png\" alt=\"edit\" />
+                            <td colspan=\"2\" style=\"text-align: center;\"><br />
+                                <a href=\"\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"image\" src=\"../images/accept.png\" alt=\"edit\" />
                             </td>\n
                         </tr>\n
                     </table>\n
@@ -103,42 +104,41 @@ $ra = mysql_fetch_assoc ( $r );
                 <form id="add_user_table" method="post" action="add_user.php">
                     <table id="add_user_table">
                         <tr>
+                            <td style="text-align: left;"><h3>Add User</h3></td>
+                            <td style="text-align: right;">
+                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter the first name, last name, valid email address and initial password (8-15 characters in length) for the new spt user.  You can also select to have the user's new account be disabled initially (useful for pre-staging accounts) and whether or not the new user should be an admin in the spt.</span></a>
+                            </td>
+                        </tr>
+                        <tr>
                             <td>first name</td>
                             <td><input id="fname" type="text" name="fname" /></td>
-                            <td>
-                                <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter the first name, last name, valid email address and initial password (8-15 characters in length) for the new spt user.  You can also select to have the user's new account be disabled initially (useful for pre-staging accounts) and whether or not the new user should be an admin in the spt.</span></a>
-                            </td>
                         </tr>
                         <tr>
                             <td>last name</td>
-                            <td colspan="2"><input id="lname" type="text" name="lname" /></td>
+                            <td><input id="lname" type="text" name="lname" /></td>
                         </tr>
                         <tr>
                             <td>email</td>
-                            <td colspan="2"><input id="username" type="text" name="username" /></td>
+                            <td><input id="username" type="text" name="username" /></td>
                         </tr>
                         <tr>
                             <td>password</td>
-                            <td colspan="2"><input id="password" type="password" name="password" autocomplete="off" /></td>
+                            <td><input id="password" type="password" name="password" autocomplete="off" /></td>
                         </tr>
                         <tr>
-                            <td>re-enter</td>
-                            <td colspan="2"><input id="password_check" type="password" name="password_check" autocomplete="off" /></td>
+                            <td>re-enter password</td>
+                            <td><input id="password_check" type="password" name="password_check" autocomplete="off" /></td>
                         </tr>
                         <tr>
                             <td>admin</td>
-                            <td colspan="2"><input id="admin" type="checkbox" name="a" /></td>
+                            <td><input id="admin" type="checkbox" name="a" /></td>
                         </tr>
                         <tr>
                             <td>disabled</td>
-                            <td colspan="2"><input id="disabled" type="checkbox" name="disabled" /></td>
+                            <td><input id="disabled" type="checkbox" name="disabled" /></td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td colspan="2">
-                                <a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="image" src="../images/add.png" alt="add" />
-                            </td>
+                            <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                         </tr>
                     </table>
                 </form>
@@ -180,34 +180,32 @@ if ( isset ( $_REQUEST['u'] ) ) {
                 <form id=\"edit_others\" method=\"post\" action=\"edit_other_user.php?u=" . $ra['username'] . "\">\n
                     <table id=\"edit_others\">\n
                         <tr>\n
+                            <td style=\"text-align: left;\"><h3>Edit Other User's Account</h3></td>\n
+                            <td style=\"text-align: right;\"><a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>You can edit the details of this user account here.  The password must be 8-15 characters long.</span></a></td>\n	
+                        </tr>\n
+                        <tr>\n
                             <td>first name</td>\n
                             <td><input id=\"fname\" type=\"text\" name=\"fname\" value=\"" . $ra['fname'] . "\"/></td>\n
-                            <td>
-                                <a class=\"tooltip\">
-                                    <img src=\"../images/lightbulb.png\" alt=\"help\" />
-                                    <span>You can edit the details of this user account here.  The password must be 8-15 characters long.</span>
-                                </a>
-                            </td>
                         </tr>\n
                         <tr>\n
                             <td>lname</td>\n
-                            <td colspan=\"2\"><input id=\"lname\" type=\"text\" name=\"lname\" value=\"" . $ra['lname'] . "\" /></td>\n
+                            <td><input id=\"lname\" type=\"text\" name=\"lname\" value=\"" . $ra['lname'] . "\" /></td>\n
                         </tr>\n
                         <tr>\n
                             <td>email</td>\n
-                            <td colspan=\"2\"><input id=\"username\" type=\"text\" name=\"u_new\" value=\"" . $ra['username'] . "\"/></td>\n
+                            <td><input id=\"username\" type=\"text\" name=\"u_new\" value=\"" . $ra['username'] . "\"/></td>\n
                         </tr>\n
                         <tr>\n
                             <td>password</td>\n
-                            <td colspan=\"2\"><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\" /></td>\n
+                            <td><input id=\"password\" type=\"password\" name=\"password\" autocomplete=\"off\" /></td>\n
                         </tr>\n
                         <tr>\n
-                            <td>re-enter</td>\n
-                            <td colspan=\"2\"><input id=\"password_check\" type=\"password\" name=\"password_check\" autocomplete=\"off\" /></td>\n
+                            <td>re-enter password</td>\n
+                            <td><input id=\"password_check\" type=\"password\" name=\"password_check\" autocomplete=\"off\" /></td>\n
                         </tr>\n
                         <tr>\n
                             <td>admin</td>\n
-                            <td colspan=\"2\"><input id=\"admin\" type=\"checkbox\" name=\"admin\" ";
+                            <td><input id=\"admin\" type=\"checkbox\" name=\"admin\" ";
         if ( $ra['admin'] == 1 ) {
             echo "checked";
         }
@@ -224,8 +222,10 @@ if ( isset ( $_REQUEST['u'] ) ) {
                             /></td>\n
                         </tr>\n
                         <tr>\n
-                            <td></td>
-                            <td><a href=\".\"><img src=\"../images/cancel.png\" alt=\"cancel\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"image\" src=\"../images/accept.png\" /></td>\n
+                            <td colspan=\"2\" style=\"text-align: center;\"><br />
+                                <a href=\"\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"image\" src=\"../images/accept.png\" alt=\"edit\" />
+                            </td>\n
+                        </tr>\n
                     </table>\n
                 </form>\n";
     } else {
@@ -245,7 +245,7 @@ if ( isset ( $_REQUEST['u'] ) ) {
                     echo "<div id=\"alert\">";
 
                     //echo the alert message
-                    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/arrow_redo.png\" alt=\"close\" /></a></div>";
+                    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
 
                     //clear out the error message
                     unset ( $_SESSION['alert_message'] );

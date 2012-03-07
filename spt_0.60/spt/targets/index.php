@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 33.0
+ * version: 34.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -124,7 +124,7 @@ if ( file_exists ( $includeContent ) ) {
             }
 
             //close the alert message
-            echo "<br /><a href=\"\"><img src=\"../images/arrow_redo.png\" alt=\"close\" /></a></div>";
+            echo "<br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
 
             //close alert popover
             echo "</div>";
@@ -139,10 +139,9 @@ if ( file_exists ( $includeContent ) ) {
                     <table id="add_single">
                         <tr>
                             <td colspan="2"><h3>Add Single Target</h3></td>
-                            <td>
-                                <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter the target's name, valid email address and then select an existing or new group to add the new target to.</span></a>
+                            <td style="text-align: right;">
+                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter the target's name, valid email address and then select an existing or new group to add the new target to.</span></a>
                             </td>
-
                         </tr>
                         <tr>
                             <td>First Name</td>
@@ -175,10 +174,7 @@ if ( file_exists ( $includeContent ) ) {
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td colspan="2">
-                                OR
-                            </td>
+                            <td colspan="3" style="text-align: center;">OR</td>
                         </tr>
                         <tr>
                             <td>New Group</td>
@@ -187,13 +183,9 @@ if ( file_exists ( $includeContent ) ) {
                             </td>
                         </tr>
                         <tr>
-                            <td><br /></td>
-                            <td colspan="2"><br /></td>
-                        </tr>
-                        <tr>
                             <td colspan="2"><h3>Metrics (Optional)</h3></td>
-                            <td>
-                                <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter values for any custom metrics you have added.</span></a>
+                            <td style="text-align: right;">
+                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter values for any custom metrics you have added.</span></a>
                             </td>
 
                         </tr>
@@ -208,13 +200,8 @@ if ( file_exists ( $includeContent ) ) {
                         </tr>";
                         }
                         ?>
-                        <tr>	
-                            <td colspan="2"></td>
-                            <td>
-                                <br />
-                                <a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="image" src="../images/add.png" alt="add" />
-                            </td>
+                        <tr>
+                            <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                         </tr>
                     </table>
                 </form>
@@ -223,22 +210,21 @@ if ( file_exists ( $includeContent ) ) {
         <div id="add_many">
             <div>
                 <form action="target_upload_batch.php" method="post" enctype="multipart/form-data">
-                        <table id="add_bunches">
+                    <table id="add_bunches">
                         <tr>
-                            <td>
-                                <input type="file"  name="file" />
-                            </td>
-                            <td>
-                                <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Upload a csv file with a header row that contains a column for the required columns (fname, lname email, group) as well as any additional attributes you have added.  If you do not match the current set of column headings, the upload will fail.<br /><br />Export the current list by clicking on the export button, even if you have no targets it will make a good template.</span></a>
+                            <td style="text-align: left;"><h3>Import Targets From CSV</h3></td>
+                            <td style="text-align: right;">
+                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Upload a CSV file with a header row that contains a column for the required columns (fname, lname email, group) as well as any additional attributes you have added.  If you do not match the current set of column headings, the upload will fail.<br /><br />Export the current list by clicking on the export button, even if you have no targets it will make a good template.</span></a>
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <br />
-                                <a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="image" src="../images/add.png" alt="add" />
+                            <td colspan="2">
+                                <input type="file"  name="file" />
                             </td>
-                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                        </tr>
                     </table>
                 </form>
             </div>
@@ -248,17 +234,15 @@ if ( file_exists ( $includeContent ) ) {
                 <form action="add_metric.php" method="post" enctype="multipart/form-data">
                     <table id="add_metric">
                         <tr>
-                            <td colspan="2"></td>
-                            <td>
-                                <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Adding a metric will create a new column in the database for tracking target metrics.<br /><br />Check the box next to 5 metrics and those will be the 5 that are displayed in the group list pop-over.</span></a>
-                                &nbsp;&nbsp;&nbsp;
-                                <a href="."><img src="../images/cancel.png" alt="close" /></a>
+                            <td style="text-align: left;"><h3>Manage Target Metrics</h3></td>
+                            <td colspan="2" style="text-align: right;">
+                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Adding a metric will create a new column in the database for tracking target metrics.<br /><br />Check the box next to 5 metrics and those will be the 5 that are displayed in the group list pop-over.</span></a>
                             </td>
                         </tr>
                         <tr>
                             <td>Add Metric</td>
                             <td><input type="text" name="metric" /></td>
-                            <td><input type="image" src="../images/add.png" alt="add" /></td>
+                            <td><input type="image" src="../images/add_sm.png" alt="add" /></td>
                         </tr>
                     </table>
                 </form>
@@ -306,6 +290,9 @@ if ( file_exists ( $includeContent ) ) {
                     </tr>";
                     }
                     ?>
+                    <tr>
+                        <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/accept.png" alt="accept" /></a></td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -322,12 +309,8 @@ if ( file_exists ( $includeContent ) ) {
                     }
                     ?></h1>
                         </td>
-                        <td class="right">
-                            <a class="tooltip">
-                                <img src="../images/lightbulb.png" alt="help" />
-                                <span>You can easily edit any cell by clicking on it and making your changes.  Changes are automatically saved when you click anywhere <strong>outside</strong> of the cell just edited. 
-                                </span>
-                            </a>
+                        <td style="text-align: right;">
+                            <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>You can easily edit any cell by clicking on it and making your changes.  Changes are automatically saved when you click anywhere <strong>outside</strong> of the cell just edited.</span></a>
                             &nbsp;&nbsp;&nbsp;
                             <a href="."><img src="../images/cancel.png" alt="close" /></a>
                         </td>
@@ -367,7 +350,7 @@ if ( file_exists ( $includeContent ) ) {
                             echo "<td class=\"target_cell\"><input type=\"text\" name=\"" . $ra['field_name'] . "\"class=\"invisible_input\"  /></td>";
                         }
                         ?>
-                        <td class="submit_cell"><input type="image" src="../images/add.png" alt="add" class="invisible_input" /></td>
+                        <td class="submit_cell"><input type="image" src="../images/add_sm.png" alt="add" class="invisible_input" /></td>
                         <input type="hidden" name="group_list" <?php
                         if ( isset ( $_REQUEST['g'] ) ) {
                             echo "value=\"" . filter_var ( $_REQUEST['g'], FILTER_SANITIZE_STRING ) . "\"";

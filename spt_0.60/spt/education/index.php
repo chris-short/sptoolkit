@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -54,11 +54,16 @@ if ( file_exists ( $includeContent ) ) {
                     <div>
                         <table id="add_package_table">
                             <tr>
+                                <td colspan="2" style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter the new package's name and description.  You also have the option to upload a zip file with your package's content or leave the upload field blank and a default package will be created for you that you you may then edit to your liking.</span></a>
+                                </td>  
+                            </tr>
+                            <tr>
+                                <td colspan="2"><h3>Add Education Package</h3></td>
+                            </tr>
+                            <tr>
                                 <td>Name</td>
                                 <td><input name="name" /></td>
-                                <td>
-                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter the new package's name and description.  You also have the option to upload a zip file with your package's content or leave the upload field blank and a default package will be created for you that you you may then edit to your liking.</span></a>
-                                </td>
                             </tr>
                             <tr>
                                 <td>Description</td>
@@ -69,12 +74,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <td><input type="file"  name="file" /></td>
                             </tr>
                             <tr>
-                                <td></td>
-                                <td>
-                                    <br />
-                                    <a href=""><img src="../images/cancel.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="image" src="../images/add.png" alt="add" />
-                                </td>
+                                <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                             </tr>
                         </table>
                     </div>
@@ -87,7 +87,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
     echo "<div id=\"alert\">";
 
     //echo the alert message
-    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/arrow_redo.png\" alt=\"close\" /></a></div>";
+    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
 
     //unset the seession
     unset ( $_SESSION['alert_message'] );

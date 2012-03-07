@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 19.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -94,7 +94,7 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
 
 
             //echo the alert message
-            echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"images/arrow_redo.png\" alt=\"close\" /></a></div>";
+            echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"images/accept.png\" alt=\"close\" /></a></div>";
 
             //unset the session
             unset ( $_SESSION['alert_message'] );
@@ -138,14 +138,17 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
                 <form id="forgot_password_form" method="post" action="login/forgot_password.php">
                     <table>
                         <tr>
-                            <td colspan=2>Provide your email address and we will<br />send you instructions on how to reset your password.</td>
+                            <td colspan="2" style="text-align: left;"><h3>Forgot Password</h3></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: left;">Enter your email address below and you will get<br />instructions on how to reset your password.<br /><br /></td>
                         </tr>
                         <tr>
                             <td>Email</td>
                             <td><input type="text" name="email" /></td>
                         </tr>
                         <tr>
-                            <td colspan=2><a href="."><img src="images/cancel.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="images/accept.png" alt="edit" /></td>
+                            <td colspan="2" style="text-align: center;"><br /><a href="."><img src="images/cancel.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="images/accept.png" alt="edit" /></td>
                         </tr>
                     </table>
                 </form>

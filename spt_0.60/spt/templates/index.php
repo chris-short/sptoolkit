@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 20.0
+ * version: 21.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -53,27 +53,28 @@ if ( file_exists ( $includeContent ) ) {
                     <div>
                         <table id="add_template_zip">
                             <tr>
+                                <td colspan="2" style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the template file to be uploaded and click the add button.  You can only upload templates packaged using the ZIP file format.<br /><br />Be sure to see the documentation section of the spt website for full details on the required contents of a template.</span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: left;"><h3>Add Template</h3></td>
+                            </tr>
+                            <tr>
                                 <td>Name</td>
                                 <td><input name="name" /></td>
-                                <td>
-                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Select the template file to be uploaded and click the add button.  You can only upload templates packaged using the ZIP file format.<br /><br />Be sure to see the documentation section of the spt website for full details on the required contents of a template.</span></a>
-                                </td>
+
                             </tr>
                             <tr>
                                 <td>Description</td>
-                                <td colspan="2"><textarea name="description" cols=50 rows=4></textarea></td>
+                                <td><textarea name="description" cols=50 rows=4></textarea></td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td colspan="2"><input type="file"  name="file" /></td>
+                                <td><input type="file"  name="file" /></td>
                             </tr>
                             <tr>
-                                <td colspan="2"></td>
-                                <td>
-                                    <br />
-                                    <a href=""><img src="../images/cancel.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="image" src="../images/add.png" alt="add" />
-                                </td>
+                                <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                             </tr>
                         </table>
                     </div>
@@ -85,11 +86,14 @@ if ( file_exists ( $includeContent ) ) {
                     <div>
                         <table id="add_scrape_table">
                             <tr>
-                                <td>Name</td>
-                                <td><input name="name" /></td>
-                                <td>
-                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter the name, description and full URL for the site to be scraped as well as the details of the email that will be sent when using this template in a campaign.<br /><br />To find out what the <strong>correct and full</strong> URL is, browse to the site first in your browser.<br /><br />For example, if you enter <strong>http://www.targetsite.com</strong>  into your browser and the address changes to <strong>http://www.targetsite.com?sid=42</strong>, then that's the actual URL you want to enter here.  Anything else will most likely result in you scraping an error 302 page instead of the actual target site.<br /><br />The fake link is the link that will be presented in the email to the user that essentially masks the formulated phishing link<br /><br />The scraper may or may not always parse the target site correctly due to the extreme wide variety of website coding methodologies.  We recommend downloading and installing the editor module if you are comfortable with manually editing html so that you may fix any problems that might exist after the scrape.  Also, please let us know via the spt website contact form of any issues you see including the site you had problems with.<br /><br /><strong>NOTE:</strong>  After you scrape a site, you will wind up with 'index.htm', 'email.php' and 'return.htm' in a directory reflecting the template id within the templates directory.  You will need to manually edit these files by browsing to them or using the available edior module if you'd like to customize your scrapes further.</span></a>
+                                <td colspan="2" style="text-align: left;"><h3>Scrape Live Website</h3></td>
+                                <td style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter the name, description and full URL for the site to be scraped as well as the details of the email that will be sent when using this template in a campaign.<br /><br />To find out what the <strong>correct and full</strong> URL is, browse to the site first in your browser.<br /><br />For example, if you enter <strong>http://www.targetsite.com</strong>  into your browser and the address changes to <strong>http://www.targetsite.com?sid=42</strong>, then that's the actual URL you want to enter here.  Anything else will most likely result in you scraping an error 302 page instead of the actual target site.<br /><br />The scraper may or may not always parse the target site correctly due to the extreme wide variety of website coding methodologies.  We recommend downloading and installing the editor module if you are comfortable with manually editing html so that you may fix any problems that might exist after the scrape.  Also, please let us know via the spt website contact form of any issues you see including the site you had problems with.<br /><br /><strong>NOTE:</strong>  After you scrape a site, you will wind up with 'index.htm', 'email.php' and 'return.htm' in a directory reflecting the template id within the templates directory.  You will need to manually edit these files by browsing to them or using the available edior module if you'd like to customize your scrapes further.</span></a>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td>Name</td>
+                                <td colspan="2"><input name="name" /></td>
                             </tr>
                             <tr>
                                 <td>Description</td>
@@ -100,20 +104,17 @@ if ( file_exists ( $includeContent ) ) {
                                 <td colspan="2"><input name="url" /></td>
                             </tr>
                             <tr>
-                                <td></td>
-                                <td><td>
+                                <td colspan="3"><br /></td>
                             </tr>
                             <tr>
-                                <td><h3>Email</h3></td>
-                                <td></td>
-                                <td></td>
+                                <td colspan="2" style="text-align: left;"><h3>Email</h3></td>
+                                <td style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>You can enter the following variables that will be changed into their actual values on runtime:<br /><br />@fname - Target's first name<br />@lname - Target's last name<br /><br />The fake link is the link that will be presented in the email to the user that essentially masks the formulated phishing link.</span></a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Subject</td>
-                                <td><input name="email_subject" /></td>
-                                <td>
-                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>You can enter the following variables that will be changed into their relavant values on runtime:<br /><br />@fname - Target's first name<br />@lname - Target's last name</span></a>
-                                </td>
+                                <td colspan="2"><input name="email_subject" /></td>
                             </tr>
                             <tr>
                                 <td>Sender Address</td>
@@ -130,8 +131,8 @@ if ( file_exists ( $includeContent ) ) {
                             <tr>
                                 <td>Message</td>
                                 <td><textarea name="email_message" cols=50 rows=4>@link</textarea></td>
-                                <td>
-                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>You can enter the following variables that will be changed into their relavant values on runtime:<br /><br />@fname - Target's first name<br />@lname - Target's last name</span></a>
+                                <td style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>You can enter the following variables that will be changed into their actual values on runtime:<br /><br />@fname - Target's first name<br />@lname - Target's last name<br />@link - The link that needs to be clicked (this variable <strong>must</strong> be present in the 'Message' field.</span></a>
                                 </td>
                             </tr>
                             <tr>
@@ -139,12 +140,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <td colspan="2"><input name="email_fake_link" /></td>
                             </tr>
                             <tr>
-                                <td colspan="2"></td>
-                                <td>
-                                    <br />
-                                    <a href=""><img src="../images/cancel.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="image" src="../images/add.png" alt="add" />
-                                </td>
+                                <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                             </tr>
                         </table>
                     </div>
@@ -158,7 +154,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
     echo "<div id=\"alert\">";
 
     //echo the alert message
-    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/arrow_redo.png\" alt=\"close\" /></a></div>";
+    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
 
     //unset the seession
     unset ( $_SESSION['alert_message'] );

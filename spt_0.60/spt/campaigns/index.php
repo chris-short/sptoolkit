@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 36.0
+ * version: 37.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -103,7 +103,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
     echo "<div id=\"alert\">";
 
     //echo the alert message
-    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/arrow_redo.png\" alt=\"close\" /></a></div>";
+    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
 
     //unset the seession
     unset ( $_SESSION['alert_message'] );
@@ -118,8 +118,8 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                         <table id="new_campaign">
                             <tr>
                                 <td colspan="2"><h3>Add Campaign</h3></td>
-                                <td>
-                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Specify a name for this campaign that will be displayed in the campaign list on the previous screen.  Use a descriptive name that will help you identify this campaign later. The Path  has been pre-populated for you with the hostname you are currently connecting to spt with.  You can create alterante DNS records that correspond with your campaigns and enter them here.  Whatever you specify in the path field is what your targets will be linked to.</span></a>
+                                <td style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Specify a name for this campaign that will be displayed in the campaign list on the previous screen.  Use a descriptive name that will help you identify this campaign later. The Path  has been pre-populated for you with the hostname you are currently connecting to spt with.  You can create alterante DNS records that correspond with your campaigns and enter them here.  Whatever you specify in the path field is what your targets will be linked to.</span></a>
                                 </td>
                             </tr>
                             <tr>
@@ -143,8 +143,8 @@ echo "<input type=\"text\" name=\"spt_path\" value=\"" . $path . "\" size=\"45\"
                             </tr>
                             <tr>
                                 <td colspan="2"><h3>Targets</h3></td>
-                                <td>
-                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Select one or more groups of targets (hold CTRL or COMMAND to multi-select) that will be included in this campaign</span></a>
+                                <td style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select one or more groups of targets (hold CTRL or COMMAND to multi-select) that will be included in this campaign</span></a>
                                 </td>
                             </tr>
                             <tr>
@@ -166,8 +166,8 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                             </tr>
                             <tr>
                                 <td colspan="2"><h3>Template</h3></td>
-                                <td>
-                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Select the template that will be used for this campaign.  You can view/edit the email by clicking the link next to Email.  Be careful, as editing the email will edit the email for all future campaigns that use this template.</span></a>
+                                <td style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the template that will be used for this campaign.  You can view/edit the email by clicking the link next to Email.  Be careful, as editing the email will edit the email for all future campaigns that use this template.</span></a>
                                 </td>
                             </tr>
                             <tr>
@@ -187,14 +187,14 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                     </select>
                                 </td>
                             </tr>
-                            <tr>
+                            <!--<tr>
                                 <td>Email</td>
                                 <td colspan="2">View/Edit Email link coming soon...</td>
-                            </tr>
+                            </tr>-->
                             <tr>
                                 <td colspan="2"><h3>Education (optional)</h3></td>
-                                <td>
-                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Select the education package that the target will be directed to.  Select "Education on link click" if you would like the targets to bypass the template's webpage and go directly to training.  Select "Educate on form submission" if you would like the target to be directed to training after they have submitted a form on your template's webpage.</span></a>
+                                <td style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the education package that the target will be directed to.  Select "Education on link click" if you would like the targets to bypass the template's webpage and go directly to training.  Select "Educate on form submission" if you would like the target to be directed to training after they have submitted a form on your template's webpage.</span></a>
                                 </td>
                             </tr>
                             <tr>
@@ -221,17 +221,21 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                             </tr>
                             <tr>
                                 <td colspan="2"><h3>SMTP Relay (Optional)</h3></td>
-                                <td>
-                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Enter your SMTP relay's details if necessary.  You may also enter credentials if your SMTP requires authentication.  If you leave these fields blank, spt will act as an SMTP server and send emails directly to the destination's mail gateway based on the MX records published by your target's domain.</span></a>
+                                <td style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter your SMTP relay's details if necessary.  You may also enter credentials if your SMTP requires authentication.  If you leave these fields blank, spt will act as an SMTP server and send emails directly to the destination's mail gateway based on the MX records published by your target's domain.</span></a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Host</td>
-                                <td><input type="text" name="relay_host" size="30"/>&nbsp;&nbsp;Port&nbsp;<input type="text" name="relay_port" size="6" value="25" /></td>
+                                <td colspan="2"><input type="text" name="relay_host" size="30"/></td>
+                            </tr>
+                            <tr>
+                                <td>Port</td>
+                                <td colspan="2"><input type="text" name="relay_port" size="6" value="25" /></td>
                             </tr>
                             <tr>
                                 <td>Username</td>
-                                <td><input type="text" name="relay_username" /></td>
+                                <td colspan="2"><input type="text" name="relay_username" /></td>
                             </tr>
                             <tr>
                                 <td>Password</td>
@@ -239,8 +243,8 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                             </tr>
                             <tr>
                                 <td colspan="2"><h3>Throttling</h3></td>
-                                <td>
-                                    <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>By default spt will send an email every second (or 1000 ms).  You can change the default message delay to 100 ms and batches of 10 emails will be sent each second.  Or you can create as high as a 1 minute delay between each message by specifying 60000 ms between each message.</span></a>
+                                <td style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>By default spt will send an email every second (or 1000 ms).  You can change the default message delay to 100 ms and batches of 10 emails will be sent each second.  Or you can create as high as a 1 minute delay between each message by specifying 60000 ms between each message.</span></a>
                                 </td>
                             </tr>
                             <tr>
@@ -248,7 +252,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                 <td colspan="2"><input type="text" name="message_delay" value="1000" /><i>ms</i> (100-60000)</td>
                             </tr>
                             <tr>
-                                <td colspan="3"><center><a href=""><img src="../images/cancel.png" alt="x" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/email_to_friend.png" alt="email" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></center></td>
+                                <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/accept.png" alt="accept" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
                             </tr>
                         </table>
                     </form>

@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 11.0
+ * version: 12.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -63,7 +63,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
     echo "<div id=\"alert\">";
 
     //echo the alert message
-    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/arrow_redo.png\" alt=\"close\" /></a></div>";
+    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
 
     //clear the alert session after it is written
     unset ( $_SESSION['alert_message'] );
@@ -77,21 +77,19 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                         <form action="module_upload.php" method="post" enctype="multipart/form-data">
                             <table id="upload_module">
                                 <tr>
-                                    <td>
-                                        <input type="file"  name="file" />
-                                    </td>
-                                    <td>
-                                        <a class="tooltip"><img src="../images/lightbulb.png" alt="help" /><span>Select the module file to be uploaded and click the add button.  You can only upload modules packaged using the ZIP file format.<br /><br />Be sure to see the documentation section of the spt website for full details on the required contents of a module.</span></a>
+                                    <td style="text-align: left;"><h3>Add Module</h3></td>
+                                    <td style="text-align: right;">
+                                        <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the module file to be uploaded and click the add button.  You can only upload modules packaged using the ZIP file format.<br /><br />Be sure to see the documentation section of the spt website for full details on the required contents of a module.</span></a>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <br />
-                                        <a href=""><img src="../images/cancel.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <input type="image" src="../images/add.png" alt="add" />
+                                    <td colspan="2">
+                                        <input type="file"  name="file" />
                                     </td>
-                                    <td></td>
                                 </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                            </tr>
                             </table>
                         </form>
                     </div>
