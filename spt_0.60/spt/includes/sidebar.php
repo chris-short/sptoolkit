@@ -29,7 +29,7 @@ echo "
     <div id=\"sidebar\">
         <img src=\"../images/logo.png\" alt=\"logo\" />
         <ul>
-            <li><a href=\"../\"><img src=\"../images/house.png\" alt=\"dashboard\" /></a></li>
+            <li><a href=\"../#phish_pie\"><img src=\"../images/house.png\" alt=\"dashboard\" /></a></li>
         </ul>        
         <ul>
             <li></li>
