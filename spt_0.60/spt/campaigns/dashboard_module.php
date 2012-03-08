@@ -1,6 +1,6 @@
 <!--
  * file:    dashboard_module.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -24,7 +24,7 @@
 <script type="text/javascript" src="../includes/highcharts/js/highcharts.js"></script>
 <article class="tabs">
     <section id="phish_pie">
-        <a href="#phish_pie"><span>Phish Pie</span></a>
+        <a class="navigation" href="#phish_pie"><span>Phish Pie</span></a>
         <div id="phish_pie_filters">
             <form action="" method="POST">
                 <table>
@@ -78,7 +78,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2"><input type="image" src="../images/filter.png" alt="filter"/></td>
+                        <td colspan="2" style="text-align: center;"><input type="image" src="../images/filter.png" alt="filter"/></td>
                     </tr>
                 </table>
             </form>
@@ -86,19 +86,19 @@
         <div id="phish_pie_container"></div>
     </section>
     <section id="bad_targets">
-        <a href="#bad_targets"><span>Bad Targets</span></a>
+        <a class="navigation" href="#bad_targets"><span>Bad Targets</span></a>
         <div>bar chart of targets who fall for phishing the most</div>
     </section>
     <section id="email_stats">
-        <a href="#email_stats"><span>Email Stats</span></a>
+        <a class="navigation" href="#email_stats"><span>Email Stats</span></a>
         <div>pie chart of email status unknown/failed/success</div>
     </section>
     <section id="browser_stats">
-        <a href="#browser_stats"><span>Browser Stats</span></a>
+        <a class="navigation" href="#browser_stats"><span>Browser Stats</span></a>
         <div>pie chart of browsers</div>
     </section>
     <section id="simple_stats">
-        <a href="#simple_stats"><span>Simple Stats</span></a>
+        <a class="navigation" href="#simple_stats"><span>Simple Stats</span></a>
         <div>    
             <table>
                 <tr>
