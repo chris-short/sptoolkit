@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		11.0
+ * version:		12.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -127,6 +127,28 @@ if(isset($_REQUEST['browser']) && $_REQUEST['browser'] != 'All'){
     //reset match
     unset($match);
 }
+//group
+if(isset($_REQUEST['group']) && $_REQUEST['group'] != 'All'){
+    $group_name = $_REQUEST['group'];
+    
+    //get all types of browsers
+    $r = mysql_query("SELECT DISTINCT group_name FROM campaigns_and_groups");
+    while($ra = mysql_fetch_assoc ( $r)){
+        if($group_name == $ra['group_name']){
+            $match = 1;
+        }
+    }
+    
+    //validate its a valid browser
+    if(!isset($match)){
+        $_SESSION['alert_message'] = "Please specify a valid group name";
+        header('location:./#alert');
+        exit;
+    }
+    
+    //reset match
+    unset($match);
+}
 
 //set SQL statements
 $total_phishes_sql = "SELECT target_id FROM campaigns_responses WHERE sent = 2";
@@ -179,6 +201,183 @@ if($total_link_only_percentage == 0 && $total_no_response_percentage == 0 && $to
 			]
 		}]
 	});
+});
+
+var bad_targets;
+$(document).ready(function() {
+	bad_targets = new Highcharts.Chart({
+		chart: {
+			renderTo: 'bad_targets_container',
+                                                      type: 'bar'
+		},
+		title: {
+			text: null
+		},
+		tooltip: {
+                                                        formatter: function() {
+				return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+			}
+                                    },   
+                              
+<?php
+//connect to database
+include('../spt_config/mysql_config.php');
+
+//get filters if they are set
+//campaign id
+if(isset($_REQUEST['campaign']) && $_REQUEST['campaign'] != 'All'){
+    $campaign_id = $_REQUEST['campaign'];
+    
+    //get all campaign ids
+    $r = mysql_query("SELECT id FROM campaigns");
+    while($ra = mysql_fetch_assoc ( $r)){
+        if($campaign_id == $ra['id']){
+            $match = 1;
+        }
+    }
+    
+    //validate its a valid campaign id
+    if(!isset($match)){
+        $_SESSION['alert_message'] = "Please specify a valid campaign";
+        header('location:./#alert');
+        exit;
+    }
+    
+    //reset match
+    unset($match);
+}
+//browser
+if(isset($_REQUEST['browser']) && $_REQUEST['browser'] != 'All'){
+    $browser = $_REQUEST['browser'];
+    
+    //get all types of browsers
+    $r = mysql_query("SELECT DISTINCT browser FROM campaigns_responses");
+    while($ra = mysql_fetch_assoc ( $r)){
+        if($browser == $ra['browser']){
+            $match = 1;
+        }
+    }
+    
+    //validate its a valid browser
+    if(!isset($match)){
+        $_SESSION['alert_message'] = "Please specify a selectable browser";
+        header('location:./#alert');
+        exit;
+    }
+    
+    //reset match
+    unset($match);
+}
+//group
+if(isset($_REQUEST['group']) && $_REQUEST['group'] != 'All'){
+    $group_name = $_REQUEST['group'];
+    
+    //get all types of browsers
+    $r = mysql_query("SELECT DISTINCT group_name FROM campaigns_and_groups");
+    while($ra = mysql_fetch_assoc ( $r)){
+        if($group_name == $ra['group_name']){
+            $match = 1;
+        }
+    }
+    
+    //validate its a valid browser
+    if(!isset($match)){
+        $_SESSION['alert_message'] = "Please specify a valid group name";
+        header('location:./#alert');
+        exit;
+    }
+    
+    //reset match
+    unset($match);
+}
+
+//set SQL statements
+$bad_targets = "SELECT CONCAT(targets.fname, ' ',targets.lname) AS name, SUM(campaigns_responses.link) AS links, COUNT(campaigns_responses.post) AS posts, (SUM(campaigns_responses.link)+COUNT(campaigns_responses.post)) AS total_response FROM campaigns_responses JOIN targets ON campaigns_responses.target_id = targets.id WHERE sent = 2";
+
+//append any filters if necessary
+//campaign
+if(isset($campaign_id)){
+    $bad_targets .= " AND campaigns_responses.campaign_id = ".$campaign_id;
+}
+//browser
+if(isset($browser)){
+    $bad_targets .= " AND campaigns_responses.browser = '".$browser."'";
+}
+//group
+if(isset($group_name)){
+    $bad_targets .= " AND targets.group_name = '".$group_name."'";
+}
+
+$bad_targets .= " GROUP BY name HAVING posts IS NOT NULL";
+
+//echo xAxix header for chart
+echo "xAxis: {categories: [";
+
+//get bad targets
+$r = mysql_query($bad_targets);
+$count = mysql_num_rows($r);
+while($ra = mysql_fetch_assoc($r)){
+    //get name
+    $target_name = $ra['name'];
+    
+    //echo xAxis data
+    echo "'".$target_name."'";
+    
+    //echo comma if not the last one
+    if($count > 1){
+        echo ",";
+    }
+    --$count;
+}
+
+//echo xAxis closing
+echo "]},";
+
+//echo yAxis
+echo "yAxis:{min: 0,},";
+
+//echo plot options
+echo "plotOptions:{series: {stacking: 'normal'}},";
+
+//echo link only header
+echo "series: [{name: 'Link Only',data:[";
+
+//echo link only data
+$count = mysql_num_rows($r);
+while($ra = mysql_fetch_assoc($r)){
+    $link_only = $ra['links'] - $ra['posts'];
+    
+    echo $link_only;
+    if($count > 1){
+        echo ",";
+    }
+    --$count;
+}
+
+//echo link only footer
+echo "]},";
+
+//echo posts header
+echo "{name: 'Posts',data:[";
+
+//echo posts data
+$count = mysql_num_rows($r);
+while($ra = mysql_fetch_assoc($r)){
+    $posts = $ra['posts'];
+    
+    echo $posts;
+    if($count > 1){
+        echo ",";
+    }
+    --$count;
+}
+
+//echo posts footer
+echo "]}]";
+
+?>
+
+    });
 });
 
 		</script>
