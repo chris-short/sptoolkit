@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		10.0
+ * version:		11.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -107,22 +107,25 @@ if(isset($_REQUEST['campaign']) && $_REQUEST['campaign'] != 'All'){
 }
 //browser
 if(isset($_REQUEST['browser']) && $_REQUEST['browser'] != 'All'){
-    $campaign_id = $_REQUEST['browser'];
+    $browser = $_REQUEST['browser'];
     
-    //get all campaign ids
+    //get all types of browsers
     $r = mysql_query("SELECT DISTINCT browser FROM campaigns_responses");
     while($ra = mysql_fetch_assoc ( $r)){
-        if($campaign_id == $ra['browser']){
+        if($browser == $ra['browser']){
             $match = 1;
         }
     }
     
-    //validate its a valid campaign id
+    //validate its a valid browser
     if(!isset($match)){
         $_SESSION['alert_message'] = "Please specify a selectable browser";
         header('location:./#alert');
         exit;
     }
+    
+    //reset match
+    unset($match);
 }
 
 //set SQL statements
@@ -135,6 +138,13 @@ if(isset($campaign_id)){
     $total_phishes_sql .= " AND campaign_id = ".$campaign_id;
     $total_sql .= " AND campaign_id = ".$campaign_id;
     $total_link_only_sql .= " AND campaign_id = ".$campaign_id;
+}
+
+//append any filters if necessary
+if(isset($browser)){
+    $total_phishes_sql .= " AND browser = '".$browser."'";
+    $total_sql .= " AND browser = '".$browser."'";
+    $total_link_only_sql .= " AND browser = '".$browser."'";    
 }
 
 //get total number of successful phishes sent
