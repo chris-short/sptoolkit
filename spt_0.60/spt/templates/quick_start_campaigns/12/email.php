@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Email template - Quick Start campaign templates (Murdock Law, 419 scam - http://fraudgallery.com/2006-07-06.html)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -33,7 +33,7 @@
 $subject = 'Time is running out, please take action now';
 
 //This will set the sender's name and email address as well as reply to address
-$sender_email = "notify@murdocklaw.co.uk";
+$sender_email = "kmurdock@murdocklaw.co.uk";
 $sender_friendly = "Kirk Murdock, III [Barrister and Solicitor]";
 $reply_to = "no-reply@murdocklaw.co.uk";
 
