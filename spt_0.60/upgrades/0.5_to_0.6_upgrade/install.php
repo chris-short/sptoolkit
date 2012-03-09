@@ -3,19 +3,25 @@
 //connect to database
 include "spt_config/mysql_config.php";
 
+
+
+
+
 //import new quick start campaign templates
 
-//quick start campaign 1 (Amazon.com)
-
-//figure out the id of this new template
+//figure out the next campaign id
 $r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $id = $ra['max'];
 }
+
+//quick start campaign 1 (Amazon.com)
+
+//increment the id of this new template
 $id++;
 
-//sql statements
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Amazon.com fake shipping information','This quick start campaign template is ready to go. It contains an email supposedly from Amazon.com with shipping information about a recently ordered product.  You may wish to use the editor to change the date in the email message.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+//sql statement
+$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Fake Amazon.com shipping information','An email supposedly from Amazon.com with shipping information about a recently ordered product.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //make directory for files
@@ -31,15 +37,11 @@ rename("templates/quick_start_campaigns/1/screenshot.png", "templates/" . $id . 
 
 //quick start campaign 2 (***REMOVED***.com)
 
-//figure out the id of this new template
-$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    $id = $ra['max'];
-}
+//increment the id of this new template
 $id++;
 
-//sql statements
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','***REMOVED*** fake security update request','This quick start campaign template is ready to go. It contains an email supposedly from ***REMOVED***.com requesting the target to update their security information.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+//sql statement
+$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Fake ***REMOVED*** security update','An email supposedly from ***REMOVED***.com requesting the target to update their security information.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //make directory for files
@@ -55,15 +57,11 @@ rename("templates/quick_start_campaigns/2/screenshot.png", "templates/" . $id . 
 
 //quick start campaign 3 (Delta.com)
 
-//figure out the id of this new template
-$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    $id = $ra['max'];
-}
+//increment the id of this new template
 $id++;
 
-//sql statements
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Delta airlines fake flight information','This quick start campaign template is ready to go. It contains an email supposedly from Delta.com with flight information for an upcoming flight.  You may wish to use the editor to change the dates / times / cities in the email message.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+//sql statement
+$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Fake Delta flight information','An email supposedly from Delta.com with flight information for an upcoming flight.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //make directory for files
@@ -79,15 +77,11 @@ rename("templates/quick_start_campaigns/3/screenshot.png", "templates/" . $id . 
 
 //quick start campaign 4 (UPS.com)
 
-//figure out the id of this new template
-$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    $id = $ra['max'];
-}
+//increment the id of this new template
 $id++;
 
-//sql statements
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','UPS fake package tracking information','This quick start campaign template is ready to go. It contains an email supposedly from UPS with tracking information for a package to be delivered.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+//sql statement
+$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Fake UPS package tracking','An email supposedly from UPS with tracking information for a package to be delivered.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //make directory for files
@@ -100,7 +94,175 @@ rename("templates/quick_start_campaigns/4/index.htm", "templates/" . $id . "/ind
 rename("templates/quick_start_campaigns/4/logo.png", "templates/" . $id . "/logo.png");
 rename("templates/quick_start_campaigns/4/screenshot.png", "templates/" . $id . "/screenshot.png");
 
+
+//quick start campaign 5 (DGXT Virus)
+
+//increment the id of this new template
+$id++;
+
+//sql statement
+$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - DGXT Virus','An email supposedly from IT Services about a virus found in the targets mailbox.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+mysql_query($sql) or die(mysql_error());
+
+//make directory for files
+mkdir( "templates/".$id );
+
+//move files to their final destination
+rename("templates/quick_start_campaigns/5/default.css", "templates/" . $id . "/default.css");
+rename("templates/quick_start_campaigns/5/email.php", "templates/" . $id . "/email.php");
+rename("templates/quick_start_campaigns/5/index.htm", "templates/" . $id . "/index.htm");
+rename("templates/quick_start_campaigns/5/logo.png", "templates/" . $id . "/logo.png");
+rename("templates/quick_start_campaigns/5/screenshot.png", "templates/" . $id . "/screenshot.png");
+
+
+//quick start campaign 6 (mailbox quota reached)
+
+//increment the id of this new template
+$id++;
+
+//sql statement
+$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Mailbox quota reached','An email supposedly from the Helpdesk about a mailbox over quota situation.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+mysql_query($sql) or die(mysql_error());
+
+//make directory for files
+mkdir( "templates/".$id );
+
+//move files to their final destination
+rename("templates/quick_start_campaigns/6/default.css", "templates/" . $id . "/default.css");
+rename("templates/quick_start_campaigns/6/email.php", "templates/" . $id . "/email.php");
+rename("templates/quick_start_campaigns/6/index.htm", "templates/" . $id . "/index.htm");
+rename("templates/quick_start_campaigns/6/logo.png", "templates/" . $id . "/logo.png");
+rename("templates/quick_start_campaigns/6/screenshot.png", "templates/" . $id . "/screenshot.png");
+
+
+//quick start campaign 7 (mailbox migration required)
+
+//increment the id of this new template
+$id++;
+
+//sql statement
+$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Mailbox migration required','An email supposedly from the Helpdesk about actions required to be done for a mailbox migration.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+mysql_query($sql) or die(mysql_error());
+
+//make directory for files
+mkdir( "templates/".$id );
+
+//move files to their final destination
+rename("templates/quick_start_campaigns/7/default.css", "templates/" . $id . "/default.css");
+rename("templates/quick_start_campaigns/7/email.php", "templates/" . $id . "/email.php");
+rename("templates/quick_start_campaigns/7/index.htm", "templates/" . $id . "/index.htm");
+rename("templates/quick_start_campaigns/7/logo.png", "templates/" . $id . "/logo.png");
+rename("templates/quick_start_campaigns/7/screenshot.png", "templates/" . $id . "/screenshot.png");
+
+
+//quick start campaign 8 (Elavon)
+
+//increment the id of this new template
+$id++;
+
+//sql statement
+$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Elavon Merchant Account','An email supposedly from Elavon about a merchant account to be closed if no action is taken.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+mysql_query($sql) or die(mysql_error());
+
+//make directory for files
+mkdir( "templates/".$id );
+
+//move files to their final destination
+rename("templates/quick_start_campaigns/8/default.css", "templates/" . $id . "/default.css");
+rename("templates/quick_start_campaigns/8/email.php", "templates/" . $id . "/email.php");
+rename("templates/quick_start_campaigns/8/index.htm", "templates/" . $id . "/index.htm");
+rename("templates/quick_start_campaigns/8/logo.png", "templates/" . $id . "/logo.png");
+rename("templates/quick_start_campaigns/8/screenshot.png", "templates/" . $id . "/screenshot.png");
+
+
+//quick start campaign 9 (Helpdesk support portal)
+
+//increment the id of this new template
+$id++;
+
+//sql statement
+$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Helpdesk support portal','An email supposedly from Helpdesk about a new support and information portal now available.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+mysql_query($sql) or die(mysql_error());
+
+//make directory for files
+mkdir( "templates/".$id );
+
+//move files to their final destination
+rename("templates/quick_start_campaigns/9/default.css", "templates/" . $id . "/default.css");
+rename("templates/quick_start_campaigns/9/email.php", "templates/" . $id . "/email.php");
+rename("templates/quick_start_campaigns/9/index.htm", "templates/" . $id . "/index.htm");
+rename("templates/quick_start_campaigns/9/logo.png", "templates/" . $id . "/logo.png");
+rename("templates/quick_start_campaigns/9/screenshot.png", "templates/" . $id . "/screenshot.png");
+
+
+//quick start campaign 10 (Woodgrove bank)
+
+//increment the id of this new template
+$id++;
+
+//sql statement
+$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Woodgrove bank','An email supposedly from Woodgrove Bank about online access to your account being closed if no action taken.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+mysql_query($sql) or die(mysql_error());
+
+//make directory for files
+mkdir( "templates/".$id );
+
+//move files to their final destination
+rename("templates/quick_start_campaigns/10/default.css", "templates/" . $id . "/default.css");
+rename("templates/quick_start_campaigns/10/email.php", "templates/" . $id . "/email.php");
+rename("templates/quick_start_campaigns/10/index.htm", "templates/" . $id . "/index.htm");
+rename("templates/quick_start_campaigns/10/logo.png", "templates/" . $id . "/logo.png");
+rename("templates/quick_start_campaigns/10/screenshot.png", "templates/" . $id . "/screenshot.png");
+
+
+//quick start campaign 11 (Coho Vineyard & Winery)
+
+//increment the id of this new template
+$id++;
+
+//sql statement
+$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Coho Vineyard','An email supposedly from Coho Vineyard & Winery with information for a recent order just shipped.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+mysql_query($sql) or die(mysql_error());
+
+//make directory for files
+mkdir( "templates/".$id );
+
+//move files to their final destination
+rename("templates/quick_start_campaigns/11/default.css", "templates/" . $id . "/default.css");
+rename("templates/quick_start_campaigns/11/email.php", "templates/" . $id . "/email.php");
+rename("templates/quick_start_campaigns/11/index.htm", "templates/" . $id . "/index.htm");
+rename("templates/quick_start_campaigns/11/logo.png", "templates/" . $id . "/logo.png");
+rename("templates/quick_start_campaigns/11/screenshot.png", "templates/" . $id . "/screenshot.png");
+
+
+//quick start campaign 12 (419 scam)
+
+//increment the id of this new template
+$id++;
+
+//sql statement
+$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - 419 scam','An email supposedly a Scottish lawyer wanting help in moving millions of dollars...legally of course.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+mysql_query($sql) or die(mysql_error());
+
+//make directory for files
+mkdir( "templates/".$id );
+
+//move files to their final destination
+rename("templates/quick_start_campaigns/12/default.css", "templates/" . $id . "/default.css");
+rename("templates/quick_start_campaigns/12/email.php", "templates/" . $id . "/email.php");
+rename("templates/quick_start_campaigns/12/index.htm", "templates/" . $id . "/index.htm");
+rename("templates/quick_start_campaigns/12/logo.png", "templates/" . $id . "/logo.png");
+rename("templates/quick_start_campaigns/12/screenshot.png", "templates/" . $id . "/screenshot.png");
+
 //delete the temp folders
+rmdir('templates/quick_start_campaigns/12');
+rmdir('templates/quick_start_campaigns/11');
+rmdir('templates/quick_start_campaigns/10');
+rmdir('templates/quick_start_campaigns/9');
+rmdir('templates/quick_start_campaigns/8');
+rmdir('templates/quick_start_campaigns/7');
+rmdir('templates/quick_start_campaigns/6');
+rmdir('templates/quick_start_campaigns/5');
 rmdir('templates/quick_start_campaigns/4');
 rmdir('templates/quick_start_campaigns/3');
 rmdir('templates/quick_start_campaigns/2');
