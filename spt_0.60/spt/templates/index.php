@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 23.0
+ * version: 24.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -174,8 +174,8 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                 <span class="button"><a href="#add_scrape"><img src="../images/world_add_sm.png" alt="add" /> Scrape</a></span>
                 <table class="spt_table">
                     <tr>
-                        <td><h3>Name</h3></td>
-                        <td><h3>Description</h3></td>
+                        <td style="text-align: left;"><h3>Name</h3></td>
+                        <td style="text-align: left;"><h3>Description</h3></td>
                         <td><h3>Screenshot</h3></td>
                         <td><h3>Delete</h3></td>
                     </tr>
@@ -189,8 +189,8 @@ $r = mysql_query ( "SELECT * FROM templates" ) or die ( '<div id="die_error">The
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     echo "
                     <tr>
-                        <td><a href=\"" . $ra['id'] . "\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
-                        <td>" . $ra['description'] . "</td>\n
+                        <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"" . $ra['id'] . "\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
+                        <td style=\"vertical-align:text-top; text-align: left;\">" . $ra['description'] . "</td>\n
                         <td><img class= \"drop_shadow\" src=\"" . $ra['id'] . "/screenshot.png\" alt=\"missing screenshot\" /></td>\n
                         <td><a href=\"delete_template.php?t=" . $ra['id'] . "\"><img src=\"../images/world_delete_sm.png\" alt=\"delete\" /></a></td>\n
                     </tr>\n";

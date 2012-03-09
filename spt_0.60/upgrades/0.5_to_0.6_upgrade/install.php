@@ -9,20 +9,17 @@ include "spt_config/mysql_config.php";
 
 //import new quick start campaign templates
 
-//figure out the next campaign id
+//quick start campaign 1 (Amazon.com)
+
+//sql statement
+$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Amazon.com shipping information','An email supposedly from Amazon.com with shipping information about a recently ordered product.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+mysql_query($sql) or die(mysql_error());
+
+//figure out the campaign id
 $r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $id = $ra['max'];
 }
-
-//quick start campaign 1 (Amazon.com)
-
-//increment the id of this new template
-$id++;
-
-//sql statement
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Fake Amazon.com shipping information','An email supposedly from Amazon.com with shipping information about a recently ordered product.  When the link is clicked the target will be presented with an inline educational page about malware.')";
-mysql_query($sql) or die(mysql_error());
 
 //make directory for files
 mkdir( "templates/".$id );
@@ -37,12 +34,15 @@ rename("templates/quick_start_campaigns/1/screenshot.png", "templates/" . $id . 
 
 //quick start campaign 2 (***REMOVED***.com)
 
-//increment the id of this new template
-$id++;
-
 //sql statement
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Fake ***REMOVED*** security update','An email supposedly from ***REMOVED***.com requesting the target to update their security information.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - ***REMOVED*** security update','An email supposedly from ***REMOVED***.com requesting the target to update their security information.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
+
+//figure out the campaign id
+$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $id = $ra['max'];
+}
 
 //make directory for files
 mkdir( "templates/".$id );
@@ -57,12 +57,16 @@ rename("templates/quick_start_campaigns/2/screenshot.png", "templates/" . $id . 
 
 //quick start campaign 3 (Delta.com)
 
-//increment the id of this new template
-$id++;
 
 //sql statement
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Fake Delta flight information','An email supposedly from Delta.com with flight information for an upcoming flight.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Delta flight information','An email supposedly from Delta.com with flight information for an upcoming flight.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
+
+//figure out the campaign id
+$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $id = $ra['max'];
+}
 
 //make directory for files
 mkdir( "templates/".$id );
@@ -77,12 +81,16 @@ rename("templates/quick_start_campaigns/3/screenshot.png", "templates/" . $id . 
 
 //quick start campaign 4 (UPS.com)
 
-//increment the id of this new template
-$id++;
 
 //sql statement
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Fake UPS package tracking','An email supposedly from UPS with tracking information for a package to be delivered.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - UPS package tracking','An email supposedly from UPS with tracking information for a package to be delivered.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
+
+//figure out the campaign id
+$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $id = $ra['max'];
+}
 
 //make directory for files
 mkdir( "templates/".$id );
@@ -97,12 +105,16 @@ rename("templates/quick_start_campaigns/4/screenshot.png", "templates/" . $id . 
 
 //quick start campaign 5 (DGXT Virus)
 
-//increment the id of this new template
-$id++;
 
 //sql statement
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - DGXT Virus','An email supposedly from IT Services about a virus found in the targets mailbox.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - DGXT Virus','An email supposedly from IT Services about a virus found in the targets mailbox.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
+
+//figure out the campaign id
+$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $id = $ra['max'];
+}
 
 //make directory for files
 mkdir( "templates/".$id );
@@ -117,12 +129,15 @@ rename("templates/quick_start_campaigns/5/screenshot.png", "templates/" . $id . 
 
 //quick start campaign 6 (mailbox quota reached)
 
-//increment the id of this new template
-$id++;
-
 //sql statement
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Mailbox quota reached','An email supposedly from the Helpdesk about a mailbox over quota situation.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Mailbox quota reached','An email supposedly from the Helpdesk about a mailbox over quota situation.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
+
+//figure out the campaign id
+$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $id = $ra['max'];
+}
 
 //make directory for files
 mkdir( "templates/".$id );
@@ -137,12 +152,16 @@ rename("templates/quick_start_campaigns/6/screenshot.png", "templates/" . $id . 
 
 //quick start campaign 7 (mailbox migration required)
 
-//increment the id of this new template
-$id++;
 
 //sql statement
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Mailbox migration required','An email supposedly from the Helpdesk about actions required to be done for a mailbox migration.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Mailbox migration required','An email supposedly from the Helpdesk about actions required to be done for a mailbox migration.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
+
+//figure out the campaign id
+$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $id = $ra['max'];
+}
 
 //make directory for files
 mkdir( "templates/".$id );
@@ -157,12 +176,15 @@ rename("templates/quick_start_campaigns/7/screenshot.png", "templates/" . $id . 
 
 //quick start campaign 8 (Elavon)
 
-//increment the id of this new template
-$id++;
-
 //sql statement
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Elavon Merchant Account','An email supposedly from Elavon about a merchant account to be closed if no action is taken.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Elavon Merchant Account','An email supposedly from Elavon about a merchant account to be closed if no action is taken.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
+
+//figure out the campaign id
+$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $id = $ra['max'];
+}
 
 //make directory for files
 mkdir( "templates/".$id );
@@ -177,12 +199,15 @@ rename("templates/quick_start_campaigns/8/screenshot.png", "templates/" . $id . 
 
 //quick start campaign 9 (Helpdesk support portal)
 
-//increment the id of this new template
-$id++;
-
 //sql statement
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Helpdesk support portal','An email supposedly from Helpdesk about a new support and information portal now available.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Helpdesk support portal','An email supposedly from Helpdesk about a new support and information portal now available.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
+
+//figure out the campaign id
+$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $id = $ra['max'];
+}
 
 //make directory for files
 mkdir( "templates/".$id );
@@ -197,12 +222,15 @@ rename("templates/quick_start_campaigns/9/screenshot.png", "templates/" . $id . 
 
 //quick start campaign 10 (Woodgrove bank)
 
-//increment the id of this new template
-$id++;
-
 //sql statement
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Woodgrove bank','An email supposedly from Woodgrove Bank about online access to your account being closed if no action taken.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Woodgrove bank','An email supposedly from Woodgrove Bank about online access to your account being closed if no action taken.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
+
+//figure out the campaign id
+$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $id = $ra['max'];
+}
 
 //make directory for files
 mkdir( "templates/".$id );
@@ -217,12 +245,15 @@ rename("templates/quick_start_campaigns/10/screenshot.png", "templates/" . $id .
 
 //quick start campaign 11 (Coho Vineyard & Winery)
 
-//increment the id of this new template
-$id++;
-
 //sql statement
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - Coho Vineyard','An email supposedly from Coho Vineyard & Winery with information for a recent order just shipped.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Coho Vineyard','An email supposedly from Coho Vineyard & Winery with information for a recent order just shipped.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
+
+//figure out the campaign id
+$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $id = $ra['max'];
+}
 
 //make directory for files
 mkdir( "templates/".$id );
@@ -237,12 +268,15 @@ rename("templates/quick_start_campaigns/11/screenshot.png", "templates/" . $id .
 
 //quick start campaign 12 (419 scam)
 
-//increment the id of this new template
-$id++;
-
 //sql statement
-$sql = "INSERT INTO templates (id,name, description) VALUES ('$id','Quick start - 419 scam','An email supposedly a Scottish lawyer wanting help in moving millions of dollars...legally of course.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - 419 scam','An email supposedly a Scottish lawyer wanting help in moving millions of dollars...legally of course.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
+
+//figure out the campaign id
+$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $id = $ra['max'];
+}
 
 //make directory for files
 mkdir( "templates/".$id );
