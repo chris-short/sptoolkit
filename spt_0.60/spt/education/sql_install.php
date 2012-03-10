@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -37,7 +37,9 @@ mysql_query ( $sql ) or die ( mysql_error () );
 
 //Add first entry to education table
 $sql = "
-    INSERT INTO `education` (name, description) VALUES ('Default','Default education package')";
+    INSERT INTO `education` (name, description) VALUES ('You've been phished!,'Displays content about being phished including a Youtube video from Symantec about phishing.')
+    INSERT INTO `education` (name, description) VALUES ('You've been infected!,'Displays content about being infected with malware including a Youtube video from Symantec about various types of malware.')    
+       ";
 
 mysql_query ( $sql ) or die ( mysql_error () );
 ?>
