@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		13.0
+ * version:		14.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -552,7 +552,7 @@ $(document).ready(function() {
 			plotShadow: false
 		},
 		title: {
-			text: 'Browser Stats'
+			text: 'Browser/Version Stats'
 		},
 		tooltip: {
                                                         formatter: function() {
@@ -648,7 +648,7 @@ if(isset($_REQUEST['bs_group']) && $_REQUEST['bs_group'] != 'All'){
 }
 
 //set SQL statements
-$browser_stats_sql = "SELECT DISTINCT(CONCAT(browser,browser_version)) AS browser, COUNT(browser) AS count FROM campaigns_responses WHERE browser IS NOT NULL GROUP BY browser;";
+$browser_stats_sql = "SELECT DISTINCT(CONCAT(browser,browser_version)) AS browser, COUNT(browser) AS count FROM campaigns_responses WHERE browser IS NOT NULL GROUP BY browser";
 
 //append any filters if necessary
 if(isset($campaign_id)){
@@ -662,13 +662,13 @@ if(isset($browser)){
 
 //get variables
 $r = mysql_query($browser_stats_sql);
-while($ra = mysql_fetch_assoc ( $r)){
-    $browser_and_version = $ra['browser'];
-    $browser_count = $ra['count'];
-    
-    if(  mysql_num_rows ( $r) < 1){
-        echo "['No Responses Yet', 100]";
-    }else{
+if(  mysql_num_rows ( $r) < 1){
+    echo "['No Responses Yet', 100]";
+}else{
+    while($ra = mysql_fetch_assoc ( $r)){
+        $browser_and_version = $ra['browser'];
+        $browser_count = $ra['count'];
+        $temp_count = mysql_num_rows($r);
         echo "['".$browser_and_version."', ".$browser_count."],";        
     }
 }
