@@ -37,8 +37,8 @@ mysql_query ( $sql ) or die ( mysql_error () );
 
 //Add first entry to education table
 $sql = "
-    INSERT INTO `education` (name, description) VALUES ('You've been phished!,'Displays content about being phished including a Youtube video from Symantec about phishing.')
-    INSERT INTO `education` (name, description) VALUES ('You've been infected!,'Displays content about being infected with malware including a Youtube video from Symantec about various types of malware.')    
+    INSERT INTO `education` (name, description) VALUES ('You\'ve been phished!','Displays content about being phished including a Youtube video from Symantec about phishing.')
+    INSERT INTO `education` (name, description) VALUES ('You\'ve been infected!','Displays content about being infected with malware including a Youtube video from Symantec about various types of malware.')    
        ";
 
 mysql_query ( $sql ) or die ( mysql_error () );
