@@ -12,7 +12,7 @@ include "spt_config/mysql_config.php";
 //quick start campaign 1 (Amazon.com)
 
 //sql statement
-$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Amazon.com shipping information','An email supposedly from Amazon.com with shipping information about a recently ordered product.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Amazon.com shipping information','An email supposedly from Amazon.com with shipping information about a recently ordered product.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id
@@ -35,7 +35,7 @@ rename("templates/quick_start_campaigns/1/screenshot.png", "templates/" . $id . 
 //quick start campaign 2 (***REMOVED***.com)
 
 //sql statement
-$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - ***REMOVED*** security update','An email supposedly from ***REMOVED***.com requesting the target to update their security information.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] ***REMOVED*** security update','An email supposedly from ***REMOVED***.com requesting the target to update their security information.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id
@@ -59,7 +59,7 @@ rename("templates/quick_start_campaigns/2/screenshot.png", "templates/" . $id . 
 
 
 //sql statement
-$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Delta flight information','An email supposedly from Delta.com with flight information for an upcoming flight.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Delta flight information','An email supposedly from Delta.com with flight information for an upcoming flight.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id
@@ -83,7 +83,7 @@ rename("templates/quick_start_campaigns/3/screenshot.png", "templates/" . $id . 
 
 
 //sql statement
-$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - UPS package tracking','An email supposedly from UPS with tracking information for a package to be delivered.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] UPS package tracking','An email supposedly from UPS with tracking information for a package to be delivered.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id
@@ -107,7 +107,7 @@ rename("templates/quick_start_campaigns/4/screenshot.png", "templates/" . $id . 
 
 
 //sql statement
-$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - DGXT Virus','An email supposedly from IT Services about a virus found in the targets mailbox.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] DGXT Virus','An email supposedly from IT Services about a virus found in the targets mailbox.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id
@@ -130,7 +130,7 @@ rename("templates/quick_start_campaigns/5/screenshot.png", "templates/" . $id . 
 //quick start campaign 6 (mailbox quota reached)
 
 //sql statement
-$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Mailbox quota reached','An email supposedly from the Helpdesk about a mailbox over quota situation.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Mailbox quota reached','An email supposedly from the Helpdesk about a mailbox over quota situation.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id
@@ -154,7 +154,7 @@ rename("templates/quick_start_campaigns/6/screenshot.png", "templates/" . $id . 
 
 
 //sql statement
-$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Mailbox migration required','An email supposedly from the Helpdesk about actions required to be done for a mailbox migration.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Mailbox migration required','An email supposedly from the Helpdesk about actions required to be done for a mailbox migration.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id
@@ -177,7 +177,7 @@ rename("templates/quick_start_campaigns/7/screenshot.png", "templates/" . $id . 
 //quick start campaign 8 (Elavon)
 
 //sql statement
-$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Elavon Merchant Account','An email supposedly from Elavon about a merchant account to be closed if no action is taken.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Elavon Merchant Account','An email supposedly from Elavon about a merchant account to be closed if no action is taken.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id
@@ -200,7 +200,7 @@ rename("templates/quick_start_campaigns/8/screenshot.png", "templates/" . $id . 
 //quick start campaign 9 (Helpdesk support portal)
 
 //sql statement
-$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Helpdesk support portal','An email supposedly from Helpdesk about a new support and information portal now available.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Helpdesk support portal','An email supposedly from Helpdesk about a new support and information portal now available.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id
@@ -223,7 +223,7 @@ rename("templates/quick_start_campaigns/9/screenshot.png", "templates/" . $id . 
 //quick start campaign 10 (Woodgrove bank)
 
 //sql statement
-$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Woodgrove bank','An email supposedly from Woodgrove Bank about online access to your account being closed if no action taken.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Woodgrove bank','An email supposedly from Woodgrove Bank about online access to your account being closed if no action taken.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id
@@ -246,7 +246,7 @@ rename("templates/quick_start_campaigns/10/screenshot.png", "templates/" . $id .
 //quick start campaign 11 (Coho Vineyard & Winery)
 
 //sql statement
-$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - Coho Vineyard','An email supposedly from Coho Vineyard & Winery with information for a recent order just shipped.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Coho Vineyard','An email supposedly from Coho Vineyard & Winery with information for a recent order just shipped.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id
@@ -269,7 +269,7 @@ rename("templates/quick_start_campaigns/11/screenshot.png", "templates/" . $id .
 //quick start campaign 12 (419 scam)
 
 //sql statement
-$sql = "INSERT INTO templates (name, description) VALUES ('Quick start - 419 scam','An email supposedly a Scottish lawyer wanting help in moving millions of dollars...legally of course.  When the link is clicked the target will be presented with an inline educational page about malware.')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] 419 scam','An email supposedly a Scottish lawyer wanting help in moving millions of dollars...legally of course.  When the link is clicked the target will be presented with an inline educational page about malware.')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id

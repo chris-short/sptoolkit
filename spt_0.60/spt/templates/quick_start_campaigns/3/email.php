@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Email template - Quick Start campaign templates (Delta.com)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -42,7 +42,7 @@ $table = "<table><tr><td>Date</td><td>Time</td><td>Flight / Class</td><td>Status
 //You can also use @fname (first name), @lname (last name) and @url (phishing url).
 
 //This will populate the subject line of the email that is sent
-$subject = 'Your Delta Reciept and Itenirary';
+$subject = 'Your Delta Reciept and Itinerary';
 
 //This will set the sender's name and email address as well as reply to address
 $sender_email = "notify@delta.com";
