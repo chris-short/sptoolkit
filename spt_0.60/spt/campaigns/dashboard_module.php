@@ -1,6 +1,6 @@
 <!--
  * file:    dashboard_module.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,6 +22,7 @@
 -->
 
 <script type="text/javascript" src="../includes/highcharts/js/highcharts.js"></script>
+<script type="text/javascript" src="../includes/highcharts/js/modules/exporting.js"></script>
 <article class="tabs">
     <section id="phish_pie">
         <a class="navigation" href="#phish_pie"><span>Phish Pie</span></a>
@@ -35,7 +36,7 @@
                         <td>Campaign</td>
                         <td>
 
-                                <select name="campaign">
+                                <select name="pp_campaign">
                                     <option value="All">All</option>
                                     <?php
                                         //connect to database
@@ -44,7 +45,7 @@
                                         //get all the campaign names
                                         $r = mysql_query("SELECT id,campaign_name FROM campaigns");
                                         while($ra = mysql_fetch_assoc ( $r)){
-                                            if($_REQUEST['campaign'] == $ra['id']){
+                                            if($_REQUEST['pp_campaign'] == $ra['id']){
                                                 echo "<option value=\"".$ra['id']."\" selected >".$ra['campaign_name']."</option>";
                                             } else{
                                                 echo "<option value=\"".$ra['id']."\">".$ra['campaign_name']."</option>";
@@ -58,7 +59,7 @@
                         <td>Browser</td>
                         <td>
 
-                                <select name="browser">
+                                <select name="pp_browser">
                                     <option value="All">All</option>
                                     <?php
                                         //connect to database
@@ -67,7 +68,7 @@
                                         //get all the browsers
                                         $r = mysql_query("SELECT DISTINCT(browser) as browser FROM campaigns_responses WHERE browser IS NOT NULL");
                                         while($ra = mysql_fetch_assoc ( $r)){
-                                            if($_REQUEST['browser'] == $ra['browser']){
+                                            if($_REQUEST['pp_browser'] == $ra['browser']){
                                                 echo "<option value=\"".$ra['browser']."\" selected>".$ra['browser']."</option>";
                                             }else{
                                                 echo "<option value=\"".$ra['browser']."\">".$ra['browser']."</option>";
@@ -87,15 +88,166 @@
     </section>
     <section id="bad_targets">
         <a class="navigation" href="#bad_targets"><span>Bad Targets</span></a>
-        <div>bar chart of targets who fall for phishing the most</div>
+                <div id="bad_targets_filters">
+            <form action="" method="POST">
+                <table>
+                    <tr>
+                        <td colspan="2"><h3>Filters</h3></td>
+                    </tr>
+                    <tr>
+                        <td>Campaign</td>
+                        <td>
+
+                                <select name="bt_campaign">
+                                    <option value="All">All</option>
+                                    <?php
+                                        //connect to database
+                                        include "../spt_config/mysql_config.php";
+
+                                        //get all the campaign names
+                                        $r = mysql_query("SELECT id,campaign_name FROM campaigns");
+                                        while($ra = mysql_fetch_assoc ( $r)){
+                                            if($_REQUEST['bt_campaign'] == $ra['id']){
+                                                echo "<option value=\"".$ra['id']."\" selected >".$ra['campaign_name']."</option>";
+                                            } else{
+                                                echo "<option value=\"".$ra['id']."\">".$ra['campaign_name']."</option>";
+                                            }
+                                        }
+                                    ?>
+                                </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Browser</td>
+                        <td>
+
+                                <select name="bt_browser">
+                                    <option value="All">All</option>
+                                    <?php
+                                        //connect to database
+                                        include "../spt_config/mysql_config.php";
+
+                                        //get all the browsers
+                                        $r = mysql_query("SELECT DISTINCT(browser) as browser FROM campaigns_responses WHERE browser IS NOT NULL");
+                                        while($ra = mysql_fetch_assoc ( $r)){
+                                            if($_REQUEST['bt_browser'] == $ra['browser']){
+                                                echo "<option value=\"".$ra['browser']."\" selected>".$ra['browser']."</option>";
+                                            }else{
+                                                echo "<option value=\"".$ra['browser']."\">".$ra['browser']."</option>";
+                                            }
+                                        }
+                                    ?>
+                                </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;"><input type="image" src="../images/filter.png" alt="filter"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="bad_targets_container"></div>
     </section>
     <section id="email_stats">
         <a class="navigation" href="#email_stats"><span>Email Stats</span></a>
-        <div>pie chart of email status unknown/failed/success</div>
+        <div id="email_stats_filters">
+            <form action="" method="POST">
+                <table>
+                    <tr>
+                        <td colspan="2"><h3>Filters</h3></td>
+                    </tr>
+                    <tr>
+                        <td>Campaign</td>
+                        <td>
+
+                                <select name="es_campaign">
+                                    <option value="All">All</option>
+                                    <?php
+                                        //connect to database
+                                        include "../spt_config/mysql_config.php";
+
+                                        //get all the campaign names
+                                        $r = mysql_query("SELECT id,campaign_name FROM campaigns");
+                                        while($ra = mysql_fetch_assoc ( $r)){
+                                            if($_REQUEST['es_campaign'] == $ra['id']){
+                                                echo "<option value=\"".$ra['id']."\" selected >".$ra['campaign_name']."</option>";
+                                            } else{
+                                                echo "<option value=\"".$ra['id']."\">".$ra['campaign_name']."</option>";
+                                            }
+                                        }
+                                    ?>
+                                </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;"><input type="image" src="../images/filter.png" alt="filter"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>        
+        <div id="email_stats_container"></div>
     </section>
     <section id="browser_stats">
         <a class="navigation" href="#browser_stats"><span>Browser Stats</span></a>
-        <div>pie chart of browsers</div>
+                <div id="browser_stats_filters">
+            <form action="" method="POST">
+                <table>
+                    <tr>
+                        <td colspan="2"><h3>Filters</h3></td>
+                    </tr>
+                    <tr>
+                        <td>Campaign</td>
+                        <td>
+
+                                <select name="bs_campaign">
+                                    <option value="All">All</option>
+                                    <?php
+                                        //connect to database
+                                        include "../spt_config/mysql_config.php";
+
+                                        //get all the campaign names
+                                        $r = mysql_query("SELECT id,campaign_name FROM campaigns");
+                                        while($ra = mysql_fetch_assoc ( $r)){
+                                            if($_REQUEST['bs_campaign'] == $ra['id']){
+                                                echo "<option value=\"".$ra['id']."\" selected >".$ra['campaign_name']."</option>";
+                                            } else{
+                                                echo "<option value=\"".$ra['id']."\">".$ra['campaign_name']."</option>";
+                                            }
+                                        }
+                                    ?>
+                                </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Browser</td>
+                        <td>
+
+                                <select name="bt_browser">
+                                    <option value="All">All</option>
+                                    <?php
+                                        //connect to database
+                                        include "../spt_config/mysql_config.php";
+
+                                        //get all the browsers
+                                        $r = mysql_query("SELECT DISTINCT(browser) as browser FROM campaigns_responses WHERE browser IS NOT NULL");
+                                        while($ra = mysql_fetch_assoc ( $r)){
+                                            if($_REQUEST['bs_browser'] == $ra['browser']){
+                                                echo "<option value=\"".$ra['browser']."\" selected>".$ra['browser']."</option>";
+                                            }else{
+                                                echo "<option value=\"".$ra['browser']."\">".$ra['browser']."</option>";
+                                            }
+                                        }
+                                    ?>
+                                </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;"><input type="image" src="../images/filter.png" alt="filter"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>        
+        <div id="browser_stats_container"></div>
     </section>
     <section id="simple_stats">
         <a class="navigation" href="#simple_stats"><span>Simple Stats</span></a>
@@ -137,6 +289,18 @@
                     }
                     ?>
                 </tr>
+<?php
+//scan the root directory
+$dirs = scandir ( '../' );
+
+foreach ( $dirs as $dir ) {
+    //if dashboard_module.php exists in the directory include it
+    if ( file_exists ( '../' . $dir . '/dashboard_module.php') && $dir != 'campaigns' ) {
+        include "../" . $dir . "/dashboard_module.php";
+    }
+}
+?>
+
             </table>
         </div>
     </section>
