@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:    spt.css
- * version: 14.0
+ * version: 16.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -315,8 +315,7 @@ img
     z-index: 999;
     color: #000;
     width: 330px;
-    margin-top:33px;
-    margin-left:-127px;
+    margin-left:-375px;
     padding: 10px;
     opacity: .9;
     background-color: #ffff00;
@@ -331,11 +330,6 @@ img
     -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
     box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
     text-shadow: 0 1px 0 rgba(255,255,255,.4);
-}
-
-.tooltip:hover
-{
-    border: 0; /* IE6 fix */
 }
 
 .tooltip:hover span
@@ -377,11 +371,6 @@ img
     -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
     box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.5) inset;
     text-shadow: 0 1px 0 rgba(255,255,255,.4);
-}
-
-.tooltip_sm:hover
-{
-    border: 0; /* IE6 fix */
 }
 
 .tooltip_sm:hover span

@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 11.0
+ * version: 12.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -220,6 +220,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
     //store logs in database
     $mail_log = $logger -> dump ();
+    $mail_log = nl2br($mail_log);
     mysql_query ( "UPDATE campaigns_responses SET response_log='$mail_log' WHERE response_id = '$current_response_id'" );
 
     //specify that message is sent
