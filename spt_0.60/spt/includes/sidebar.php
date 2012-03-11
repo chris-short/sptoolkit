@@ -2,7 +2,7 @@
 
 /**
  * file:    sidebar.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -42,7 +42,7 @@ echo "
             <li><a href=\"../users\">Users</a></li>
             <li><a href=\"../modules\">Modules</a></li>
         </ul>
-        <div style=\"border-top: 1px solid #eee;\"></div> 
+        <div id=\"spt\">
         <ul>
             <li></li>";
 
@@ -57,6 +57,7 @@ $version = file_get_contents ( '../includes/version.txt' );
 
 echo "
         </ul>
+        </div>
         <div class=\"logout\">
             <ul>
                 <li><a href=\"../login/logout.php\"><img src=\"../images/door_out.png\" alt=\"logout\" class=\"center\" /></a></li>
