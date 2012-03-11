@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Quick Start 
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -55,142 +55,173 @@ if ( file_exists ( $includeContent ) ) {
 
             <!--content-->
             <div id="content">
-                <table class="spt_qs_table">
-                    <tr>
-                        <td>
-                            <h3>Quick Start guide to using the spt</h3><br />
-                            <table style="width: 100%;">
+                <article class="tabs">
+                    <section id="intro">
+                        <a class="navigation" href="#intro"><span>Introduction</span></a>
+                        <table>
+                            <tr>
+                                <td colspan="3">
+                                    <strong>There is one of two ways to get started...</strong>
+                                    <br /><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="step">1</td>
+                                <td>Work your way through each step starting with Step 1 above, <strong>or...</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="step">2</td>
+                                <td>Skip to Step 5 and start a campaign immediately using the included quick start templates and education as well as the auto-generated <strong>Admin - Test</strong> target group we've put your email address in when you setup spt.</td>
+                            </tr>
+                        </table>
+                    </section>
+                    <section id="step1">
+                        <a class="navigation" href="#step1"><span>Step 1</span></a>
+                            <table>
                                 <tr>
-                                    <td style="width: 100%;" colspan="3">
-                                        <strong>Step one:  Configure metrics and add targets</strong>
+                                    <td colspan="3">
+                                        <strong>Configure metrics and add targets</strong>
+                                        <br /><br />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%;"><strong>Step</strong></td>
-                                    <td style="width: 80%;"><strong>Do this</strong></td>
-                                    <td style="width: 15%;"><strong>Click this</strong></td>
+                                    <td class="step"><strong>Step</strong></td>
+                                    <td class="do_this"><strong>Do this</strong></td>
+                                    <td class="click_this"><strong>Click this</strong></td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%; vertical-align: top;">1.</td>
-                                    <td style="width: 80%; vertical-align: top;">Create or edit your metrics (custom attributes).</td>
-                                    <td style="width: 15%; vertical-align: top;"><img src="images/qs_1_1.png" alt="Edit metrics"></td>
+                                    <td>1.</td>
+                                    <td>Create or edit your metrics (custom attributes).</td>
+                                    <td><img src="images/qs_1_1.png" alt="Edit metrics"></td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%; vertical-align: top;">2.</td>
-                                    <td style="width: 80%; vertical-align: top;">Create single targets, <strong>or</strong>,</td>
-                                    <td style="width: 15%; vertical-align: top;"><img src="images/qs_1_2.png" alt="Add one target"></td>
+                                    <td>2.</td>
+                                    <td>Create single targets, <strong>or</strong>,</td>
+                                    <td><img src="images/qs_1_2.png" alt="Add one target"></td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%; vertical-align: top;">3.</td>
-                                    <td style="width: 80%; vertical-align: top;">
+                                    <td>3.</td>
+                                    <td>
                                         First, use the export to CSV function to download an editable CSV file.<br />
                                         Next, import the edited file to add many targets at once.
                                     </td>
-                                    <td style="width: 15%; vertical-align: top;">
+                                    <td>
                                         <img src="images/qs_1_3a.png" alt="Export CSV"><br />
                                         <img src="images/qs_1_3b.png" alt="Import CSV">
                                     </td>
                                 </tr>
-                            </table>
-                            <table style="width: 100%;">
+                            </table>    
+                    </section>
+                    <section id="step2">
+                        <a class="navigation" href="#step2"><span>Step 2</span></a>
+                            <table>
                                 <tr>
-                                    <td style="width: 100%;" colspan="3">
-                                        <strong>Step two:  Upload templates or scrape live sites</strong>
+                                    <td colspan="3">
+                                        <strong>Upload templates or scrape live sites</strong>
+                                        <br /><br />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%;"><strong>Step</strong></td>
-                                    <td style="width: 80%;"><strong>Do this</strong></td>
-                                    <td style="width: 15%;"><strong>Click this</strong></td>
+                                    <td class="step"><strong>Step</strong></td>
+                                    <td class="do_this"><strong>Do this</strong></td>
+                                    <td class="click_this"><strong>Click this</strong></td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%; vertical-align: top;">1.</td>
-                                    <td style="width: 80%; vertical-align: top;">Upload a template, <strong>or</strong>,</td>
-                                    <td style="width: 15%; vertical-align: top;"><img src="images/qs_2_1.png" alt="Upload template"></td>
+                                    <td>1.</td>
+                                    <td>Upload a template, <strong>or</strong>,</td>
+                                    <td><img src="images/qs_2_1.png" alt="Upload template"></td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%; vertical-align: top;">2.</td>
-                                    <td style="width: 80%; vertical-align: top;">Scrape a live web site.</td>
-                                    <td style="width: 15%; vertical-align: top;"><img src="images/qs_2_2.png" alt="Scrape a site"></td>
+                                    <td>2.</td>
+                                    <td>Scrape a live web site.</td>
+                                    <td><img src="images/qs_2_2.png" alt="Scrape a site"></td>
                                 </tr>
-                            </table>
-                            <br />
-                            <table style="width: 100%;">
-                            <tr>
-                                <td style="width: 100%;" colspan="3">
-                                    <strong>(Optional) Step three:  Upload education packages</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%;"><strong>Step</strong></td>
-                                <td style="width: 80%;"><strong>Do this</strong></td>
-                                <td style="width: 15%;"><strong>Click this</strong></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; vertical-align: top;">1.</td>
-                                <td style="width: 80%; vertical-align: top;">Upload a new education package, <strong>or</strong>,</td>
-                                <td style="width: 15%; vertical-align: top;"><img src="images/qs_3_1.png" alt="Upload education package"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 5%; vertical-align: top;">2.</td>
-                                <td style="width: 80%; vertical-align: top;">Upload a copy of the default education package.</td>
-                                <td style="width: 15%; vertical-align: top;"><img src="images/qs_3_1.png" alt="Upload education package"></td>
-                            </tr>
-                            </table>
-                            <br />
-                            <table style="width: 100%;">
+                            </table>                    
+                    </section>
+                    <section id="step3">
+                        <a class="navigation" href="#step3"><span>Step 3</span></a>
+                        <table>
+                        <tr>
+                            <td colspan="3">
+                                <strong>Upload education packages (Optional)</strong>
+                                <br /><br />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="step"><strong>Step</strong></td>
+                            <td class="do_this"><strong>Do this</strong></td>
+                            <td class="click_this"><strong>Click this</strong></td>
+                        </tr>
+                        <tr>
+                            <td>1.</td>
+                            <td>Upload a new education package, <strong>or</strong>,</td>
+                            <td><img src="images/qs_3_1.png" alt="Upload education package"></td>
+                        </tr>
+                        <tr>
+                            <td>2.</td>
+                            <td>Upload a copy of the default education package.</td>
+                            <td><img src="images/qs_3_1.png" alt="Upload education package"></td>
+                        </tr>
+                        </table>                    
+                    </section>
+                    <section id="step4">
+                        <a class="navigation" href="#step4"><span>Step 4</span></a>
+                            <table>
                                 <tr>
-                                    <td style="width: 100%;" colspan="3">
-                                        <strong>(Optional) Step four:  Edit templates or education packages as needed to customize them</strong>
+                                    <td colspan="3">
+                                        <strong>Edit templates or education packages as needed to customize them (Optional)</strong>
+                                        <br /><br />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%;"><strong>Step</strong></td>
-                                    <td style="width: 80%;"><strong>Do this</strong></td>
-                                    <td style="width: 15%;"><strong>Click this</strong></td>
+                                    <td class="step"><strong>Step</strong></td>
+                                    <td class="do_this"><strong>Do this</strong></td>
+                                    <td class="click_this"><strong>Click this</strong></td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%; vertical-align: top;">1.</td>
-                                    <td style="width: 80%; vertical-align: top;">If needed, select a template and then a file to edit.</td>
-                                    <td style="width: 15%; vertical-align: top;">[select file]</td>
+                                    <td>1.</td>
+                                    <td>If needed, select a template and then a file to edit.</td>
+                                    <td>[select file]</td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%; vertical-align: top;">2.</td>
-                                    <td style="width: 80%; vertical-align: top;">If needed, select an education package and then a file to edit.</td>
-                                    <td style="width: 15%; vertical-align: top;">[select file]</td>
+                                    <td>2.</td>
+                                    <td>If needed, select an education package and then a file to edit.</td>
+                                    <td>[select file]</td>
                                 </tr>
-                            </table>
-                            <br />
-                            <table style="width: 100%;">
+                            </table>                        
+                    </section>
+                    <section id="step5">
+                        <a class="navigation" href="#step5"><span>Step 5</span></a>
+                            <table>
                                 <tr>
-                                    <td style="width: 100%;" colspan="3">
-                                        <strong>Step five:  Start and monitor a campaign</strong>
+                                    <td colspan="3">
+                                        <strong>Start and monitor a campaign</strong>
+                                        <br /><br />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%;"><strong>Step</strong></td>
-                                    <td style="width: 80%;"><strong>Do this</strong></td>
-                                    <td style="width: 15%;"><strong>Click this</strong></td>
+                                    <td class="step"><strong>Step</strong></td>
+                                    <td class="do_this"><strong>Do this</strong></td>
+                                    <td class="click_this"><strong>Click this</strong></td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%; vertical-align: top;">1.</td>
-                                    <td style="width: 80%; vertical-align: top;">Start a new campaign.</td>
-                                    <td style="width: 15%; vertical-align: top;"><img src="images/qs_5_1.png" alt="Start campaign"></td>
+                                    <td>1.</td>
+                                    <td>Start a new campaign.</td>
+                                    <td><img src="images/qs_5_1.png" alt="Start campaign"></td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%; vertical-align: top;">2.</td>
-                                    <td style="width: 80%; vertical-align: top;">Optionally, export campaign statistics as a CSV file.</td>
-                                    <td style="width: 15%; vertical-align: top;"><img src="images/qs_5_2.png" alt="Download CSV"></td>
+                                    <td>2.</td>
+                                    <td>Optionally, export campaign statistics as a CSV file.</td>
+                                    <td><img src="images/qs_5_2.png" alt="Download CSV"></td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 5%; vertical-align: top;">3.</td>
-                                    <td style="width: 80%; vertical-align: top;">Review campaign statistics from the dashboard.</td>
-                                    <td style="width: 15%; vertical-align: top;"><img src="../images/house_sm.png" alt="Review statistics"></td>
+                                    <td>3.</td>
+                                    <td>Review campaign statistics from the dashboard.</td>
+                                    <td><img src="../images/house_sm.png" alt="Review statistics"></td>
                                 </tr>
-                            </table>                     
-                        </td>
-                    </tr>
-                </table>
+                            </table>                                             
+                    </section>
+                </article>
             </div>
         </div>
     </body>
