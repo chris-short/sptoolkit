@@ -2,7 +2,7 @@
 
 /**
  * file:    add_metric.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,7 +22,6 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
-
 // verify session is authenticated and not hijacked
 $includeContent = "../includes/is_authenticated.php";
 if ( file_exists ( $includeContent ) ) {
@@ -37,6 +36,13 @@ if ( file_exists ( $includeContent ) ) {
     require_once $includeContent;
 } else {
     header ( 'location:../errors/404_is_admin.php' );
+}
+
+//ensure new metric is set
+if ( strlen ( $_POST['metric'] ) < 1 ) {
+    $_SESSION['alert_message'] = "You must enter something";
+    header ( 'location:./#alert' );
+    exit;
 }
 
 //get posted metric
