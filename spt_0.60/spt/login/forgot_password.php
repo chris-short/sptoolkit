@@ -2,7 +2,7 @@
 
 /**
  * file:   forgot_password.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -108,10 +108,12 @@ if ( isset ( $_REQUEST['key'] ) ) {
 
     //pull in all email addresses
     $match = 0;
-    $r = mysql_query ( "SELECT username FROM users" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+    $r = mysql_query ( "SELECT fname, lname, username FROM users" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
     while ( $ra = mysql_fetch_assoc ( $r ) ) {
         if ( $email == $ra['username'] ) {
             $match = 1;
+            $fname = $ra['fname'];
+            $lname = $ra['lname'];
         }
     }
 
@@ -130,11 +132,12 @@ if ( isset ( $_REQUEST['key'] ) ) {
         //prep the email
         $subject = 'SPT - Forgot Your Password?';
 
-        //This will populate the headers of the message
-        $headers = "From: no-reply@sptoolkit.com\r\n";
-        $headers .= "Reply-To: no-reply@sptoolkit.com\r\n";
-        $headers .= "MIME-Version: 1.0\r\n";
-        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+        //This will populate the sender of the message
+        $sender_email = "no-reply@".$_SERVER['HTTP_HOST'];
+        $sender_friendly .= "The Simple Phishing Toolkit";
+        
+        //Set the content type
+        $content_type = "text/html; charset=utf-8";
 
         //This will populate the body of the email
         $message = '<html><body>';
@@ -150,11 +153,50 @@ if ( isset ( $_REQUEST['key'] ) ) {
         $message .= '<br><br><br>';
         $message .= '</body></html>';
 
-        //send the email
-        mail ( $email, $subject, $message, $headers );
+        //parse out the domain from the recipient email address
+        $domain_parts = explode ( "@", $email );
+        $domain = $domain_parts[1];
+
+        //get MX record for the destination
+        getmxrr ( $domain, $mxhosts );
+
+        //include swiftmailer
+        require_once '../includes/swiftmailer/lib/swift_required.php';
+
+        //create the transport
+        $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25 );
+
+        //Create the Mailer using your created Transport
+        $mailer = Swift_Mailer::newInstance ( $transport );
+        
+        //To use the ArrayLogger
+        $logger = new Swift_Plugins_Loggers_ArrayLogger();
+        $mailer -> registerPlugin ( new Swift_Plugins_LoggerPlugin ( $logger ) );
+
+        $message = Swift_Message::newInstance ( $subject )
+                -> setSubject ( $subject )
+                -> setFrom ( array ( $sender_email => $sender_friendly ) )
+                -> setReplyTo ( $sender_email )
+                -> setTo ( array ( $email => $fname . ' ' . $lname ) )
+                -> setContentType ( $content_type )
+                -> setBody ( $message )
+        ;
+
+        //Send the message
+        $mailer -> send ( $message, $failures );
+        
+        //store logs in database
+        $mail_log = $logger -> dump ();
+
+        //specify if there was a failure
+        if ( count ( $failures ) > 0 ) {
+            $_SESSION['alert_message'] = "there was a problem sending the email...here are the logs:<br /><br />".$mail_log;
+            header ( 'location:../#alert' );
+            exit;
+        }
 
         //send back to login page with instructions to check their email
-        $_SESSION['alert_message'] = "check your email for a one-time use link that will allow you to login and reset your password";
+        $_SESSION['alert_message'] = "check your email for a one-time use link that will allow you to login and reset your password - be sure to check your spam folder too :)";
         header ( 'location:../#alert' );
         exit;
     }
