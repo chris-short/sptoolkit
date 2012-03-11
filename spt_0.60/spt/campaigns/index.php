@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 39.0
+ * version: 40.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -540,7 +540,7 @@ $percentage = ceil ( ($sent / $total) * 100 );
         if ( strlen ( $log ) < 1 ) {
             $log = "The message was attempted, but no log was recorded";
         }
-        echo "<td id=\"target_" . $ra['target_id'] . "\"><a class=\"mail_log\"><img src=\"../images/message_status_" . $ra['sent'] . ".png\" alt=\"message_status\" /><span>" . $log . "</span></a></td>";
+        echo "<td id=\"target_" . $ra['target_id'] . "\"><a class=\"tooltip\"><img src=\"../images/message_status_" . $ra['sent'] . ".png\" alt=\"message_status\" /><span>" . $log . "</span></a></td>";
         echo "</tr>";
     }
 
