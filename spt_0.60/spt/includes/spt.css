@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:    spt.css
- * version: 13.0
+ * version: 14.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -387,4 +387,10 @@ img
 .tooltip_sm:hover span
 {
     visibility: visible;
+}
+
+.solid_border td
+{
+    border-top: 1px solid #eee;
+    width: 100%;
 }

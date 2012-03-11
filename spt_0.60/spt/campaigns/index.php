@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 38.0
+ * version: 39.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -192,7 +192,13 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                 <td colspan="2">View/Edit Email link coming soon...</td>
                             </tr>-->
                             <tr>
-                                <td colspan="2"><h3>Education (optional)</h3></td>
+                                <td><br /></td>
+                            </tr>
+                            <tr class="solid_border">
+                                <td colspan="3"><h3><i>Optional Settings</i></h3></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><h3>Education</h3></td>
                                 <td style="text-align: right;">
                                     <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the education package that the target will be directed to.  Select "Education on link click" if you would like the targets to bypass the template's webpage and go directly to training.  Select "Educate on form submission" if you would like the target to be directed to training after they have submitted a form on your template's webpage.</span></a>
                                 </td>
@@ -220,7 +226,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                 <td colspan="2"><input type="radio" name="education_timing" value="1" /> Educate on link click<br /><input type="radio" name="education_timing" value="2" /> Educate on form submission</td>
                             </tr>
                             <tr>
-                                <td colspan="2"><h3>SMTP Relay (Optional)</h3></td>
+                                <td colspan="2"><h3>SMTP Relay</h3></td>
                                 <td style="text-align: right;">
                                     <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter your SMTP relay's details if necessary.  You may also enter credentials if your SMTP requires authentication.  If you leave these fields blank, spt will act as an SMTP server and send emails directly to the destination's mail gateway based on the MX records published by your target's domain.</span></a>
                                 </td>
@@ -249,7 +255,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                             </tr>
                             <tr>
                                 <td>Delay</td>
-                                <td colspan="2"><input type="text" name="message_delay" value="1000" /><i>ms</i> (100-60000)</td>
+                                <td colspan="2"><input type="text" name="message_delay" value="1000" />&nbsp;<i>ms</i> (100-60000)</td>
                             </tr>
                             <tr>
                                 <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/accept.png" alt="accept" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
