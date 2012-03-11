@@ -72,10 +72,10 @@ $i = 0;
 //move files
 do {
     //make directory for files
-    mkdir($id);
+    mkdir('education/'.$id);
     //move files
-    $sourceDir = "temp_upload/".$folder ."/";
-    $targetDir = $id."/";
+    $sourceDir = "education/temp_upload/".$folder ."/";
+    $targetDir = "education/".$id."/";
     if ( $dh = opendir($sourceDir) )
     {
         while(false !== ($fileName = readdir($dh)))
@@ -87,7 +87,7 @@ do {
         }
     }
     //delete the temp folder
-    rmdir('temp_upload/'.$folder);
+    rmdir('education/temp_upload/'.$folder);
     //increment counters
     $id++;
     $folder ++;
