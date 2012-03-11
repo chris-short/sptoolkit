@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 25.0
+ * version: 26.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -39,55 +39,55 @@ if ( file_exists ( $includeContent ) ) {
 }
 
 //ensure the campaign name is set
-if ( ! isset ( $_POST[ 'campaign_name' ] ) ) {
-    $_SESSION[ 'alert_message' ] = "you must give the campaign a name";
+if ( strlen ( $_POST['campaign_name'] ) < 1 ) {
+    $_SESSION['alert_message'] = "you must give the campaign a name";
     header ( 'location:./#alert' );
     exit;
 }
 
 //ensure a target group was selected
-if ( ! isset ( $_POST[ 'target_groups' ] ) ) {
-    $_SESSION[ 'alert_message' ] = "please select at least one target group";
+if ( ! isset ( $_POST['target_groups'] ) ) {
+    $_SESSION['alert_message'] = "please select at least one target group";
     header ( 'location:./#alert' );
     exit;
 }
 
 //ensure a template is selected
-if ( ! isset ( $_POST[ 'template_id' ] ) ) {
-    $_SESSION[ 'alert_message' ] = "please select a template";
+if ( ! isset ( $_POST['template_id'] ) ) {
+    $_SESSION['alert_message'] = "please select a template";
     header ( 'location:./#alert' );
     exit;
 }
 
 //ensure that a message delay is set
-if ( ! isset ( $_POST[ 'message_delay' ] ) ) {
-    $_SESSION[ 'alert_message' ] = "please enter a value for message delay";
+if ( ! isset ( $_POST['message_delay'] ) ) {
+    $_SESSION['alert_message'] = "please enter a value for message delay";
     header ( 'location:./#alert' );
     exit;
 }
 
 //recieve the entered values and put into variables
-$campaign_name = filter_var ( $_POST[ 'campaign_name' ], FILTER_SANITIZE_STRING );
-$spt_path = $_POST[ 'spt_path' ];
-$target_groups = $_POST[ 'target_groups' ];
-$template_id = filter_var ( $_POST[ 'template_id' ], FILTER_SANITIZE_NUMBER_INT );
-$education_id = filter_var ( $_POST[ 'education_id' ], FILTER_SANITIZE_NUMBER_INT );
-$message_delay = filter_var ( $_POST[ 'message_delay' ], FILTER_SANITIZE_NUMBER_INT );
+$campaign_name = filter_var ( $_POST['campaign_name'], FILTER_SANITIZE_STRING );
+$spt_path = $_POST['spt_path'];
+$target_groups = $_POST['target_groups'];
+$template_id = filter_var ( $_POST['template_id'], FILTER_SANITIZE_NUMBER_INT );
+$education_id = filter_var ( $_POST['education_id'], FILTER_SANITIZE_NUMBER_INT );
+$message_delay = filter_var ( $_POST['message_delay'], FILTER_SANITIZE_NUMBER_INT );
 $date_sent = date ( "F j, Y, g:i a" );
-if ( isset ( $_POST[ 'education_timing' ] ) ) {
-    $education_timing = filter_var ( $_POST[ 'education_timing' ], FILTER_SANITIZE_NUMBER_INT );
+if ( isset ( $_POST['education_timing'] ) ) {
+    $education_timing = filter_var ( $_POST['education_timing'], FILTER_SANITIZE_NUMBER_INT );
 }
-if ( isset ( $_POST[ 'relay_host' ] ) ) {
-    $relay_host = filter_var ( $_POST[ 'relay_host' ], FILTER_SANITIZE_STRING );
+if ( isset ( $_POST['relay_host'] ) ) {
+    $relay_host = filter_var ( $_POST['relay_host'], FILTER_SANITIZE_STRING );
 }
-if ( isset ( $_POST[ 'relay_port'] ) ) {
-    $relay_port = filter_var ( $_POST[ 'relay_port'], FILTER_SANITIZE_NUMBER_INT );
+if ( isset ( $_POST['relay_port'] ) ) {
+    $relay_port = filter_var ( $_POST['relay_port'], FILTER_SANITIZE_NUMBER_INT );
 }
-if ( isset ( $_POST[ 'relay_username' ] ) ) {
-    $relay_username = filter_var ( $_POST[ 'relay_username' ], FILTER_SANITIZE_STRING );
+if ( isset ( $_POST['relay_username'] ) ) {
+    $relay_username = filter_var ( $_POST['relay_username'], FILTER_SANITIZE_STRING );
 }
-if ( isset ( $_POST[ 'relay_password' ] ) ) {
-    $relay_password = $_POST[ 'relay_password' ];
+if ( isset ( $_POST['relay_password'] ) ) {
+    $relay_password = $_POST['relay_password'];
 }
 //connect to database
 include "../spt_config/mysql_config.php";
@@ -95,8 +95,8 @@ include "../spt_config/mysql_config.php";
 //ensure there is not already an active campaign
 $r = mysql_query ( "SELECT status FROM campaigns" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    if ( $ra[ 'status' ] == 1 ) {
-        $_SESSION[ 'alert_message' ] = "there is already an active campaign, cancel it or let it finish before starting a new one";
+    if ( $ra['status'] == 1 ) {
+        $_SESSION['alert_message'] = "there is already an active campaign, cancel it or let it finish before starting a new one";
         header ( 'location:./#alert' );
         exit;
     }
@@ -106,12 +106,12 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 foreach ( $target_groups as $group ) {
     $r = mysql_query ( "SELECT DISTINCT group_name FROM targets" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
     while ( $ra = mysql_fetch_assoc ( $r ) ) {
-        if ( $group == $ra[ 'group_name' ] ) {
+        if ( $group == $ra['group_name'] ) {
             $match = 1;
         }
     }
     if ( ! isset ( $match ) ) {
-        $_SESSION[ 'alert_message' ] = "invalid group";
+        $_SESSION['alert_message'] = "invalid group";
         header ( 'location:./#alert' );
         exit;
     }
@@ -120,12 +120,12 @@ foreach ( $target_groups as $group ) {
 //validate the template exists
 $r = mysql_query ( "SELECT id FROM templates" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    if ( $template_id == $ra[ 'id' ] ) {
+    if ( $template_id == $ra['id'] ) {
         $match0 = 1;
     }
 }
 if ( ! isset ( $match0 ) ) {
-    $_SESSION[ 'alert_message' ] = "please select a valid template";
+    $_SESSION['alert_message'] = "please select a valid template";
     header ( 'location:./#alert' );
     exit;
 }
@@ -133,12 +133,12 @@ if ( ! isset ( $match0 ) ) {
 //validate the education package exists
 $r = mysql_query ( 'SELECT id FROM education' ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    if ( $education_id == $ra[ 'id' ] OR $education_id == 0 ) {
+    if ( $education_id == $ra['id'] OR $education_id == 0 ) {
         $match1 = 1;
     }
 }
 if ( ! isset ( $match1 ) ) {
-    $_SESSION[ 'alert_message' ] = "please select a valid education package";
+    $_SESSION['alert_message'] = "please select a valid education package";
     header ( 'location:./#alert' );
     exit;
 }
@@ -153,7 +153,7 @@ if ( isset ( $education_timing ) ) {
     $match2 = 1;
 }
 if ( $match2 != 1 ) {
-    $_SESSION[ 'alert_message' ] = "please select a valid education timing option";
+    $_SESSION['alert_message'] = "please select a valid education timing option";
     header ( 'location:./#alert' );
     exit;
 }
@@ -162,19 +162,19 @@ if ( $match2 != 1 ) {
 if ( isset ( $message_delay ) ) {
     //ensure the message delay is greater than 100 ms
     if ( $message_delay < 100 ) {
-        $_SESSION[ 'alert_message' ] = "the message delay factor must be greater than 100ms";
+        $_SESSION['alert_message'] = "the message delay factor must be greater than 100ms";
         header ( 'location:./#alert' );
         exit;
     }
     //ensure the message delay is in incrmeents of 100
     if ( substr ( $message_delay, -2 ) != "00" ) {
-        $_SESSION[ 'alert_message' ] = "the message delay factor should be in increments of 100ms";
+        $_SESSION['alert_message'] = "the message delay factor should be in increments of 100ms";
         header ( 'location:./#alert' );
         exit;
     }
     //ensure the message delay is not greater than 1 minute
     if ( $message_delay > 60000 ) {
-        $_SESSION[ 'alert_message' ] = "the message delay factor cannot be more than 1 minute";
+        $_SESSION['alert_message'] = "the message delay factor cannot be more than 1 minute";
         header ( 'location:./#alert' );
         exit;
     }
@@ -189,7 +189,7 @@ mysql_query ( "INSERT INTO campaigns (campaign_name, template_id, domain_name, e
 //get the id of this campaign
 $r = mysql_query ( "SELECT MAX(id) as campaign_id FROM campaigns" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    $campaign_id = $ra[ 'campaign_id' ];
+    $campaign_id = $ra['campaign_id'];
 }
 
 //update relay host if its set
@@ -220,7 +220,7 @@ foreach ( $target_groups as $group ) {
     //retrieve all targets from group
     $r = mysql_query ( "SELECT id FROM targets WHERE group_name = '$group'" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
     while ( $ra = mysql_fetch_assoc ( $r ) ) {
-        $target_id = $ra[ 'id' ];
+        $target_id = $ra['id'];
 
         //generate a random key
         $random_number = mt_rand ( 1000000000, 9999999999 );
