@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 24.0
+ * version: 25.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -53,12 +53,10 @@ if ( file_exists ( $includeContent ) ) {
                     <div>
                         <table id="add_template_zip">
                             <tr>
-                                <td colspan="2" style="text-align: right;">
+                                <td colspan="3" style="text-align: left;"><h3>Add Template</h3></td>
+                                <td style="text-align: right;">
                                     <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the template file to be uploaded and click the add button.  You can only upload templates packaged using the ZIP file format.<br /><br />Be sure to see the documentation section of the spt website for full details on the required contents of a template.</span></a>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" style="text-align: left;"><h3>Add Template</h3></td>
                             </tr>
                             <tr>
                                 <td>Name</td>

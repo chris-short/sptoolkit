@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -54,24 +54,22 @@ if ( file_exists ( $includeContent ) ) {
                     <div>
                         <table id="add_package_table">
                             <tr>
-                                <td colspan="2" style="text-align: right;">
+                                <td colspan="3"><h3>Add Education Package</h3></td>
+                                <td>
                                     <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter the new package's name and description.  You also have the option to upload a zip file with your package's content or leave the upload field blank and a default package will be created for you that you you may then edit to your liking.</span></a>
                                 </td>  
                             </tr>
                             <tr>
-                                <td colspan="2"><h3>Add Education Package</h3></td>
-                            </tr>
-                            <tr>
                                 <td>Name</td>
-                                <td><input name="name" /></td>
+                                <td colspan="2"><input name="name" /></td>
                             </tr>
                             <tr>
                                 <td>Description</td>
-                                <td><textarea name="description" cols=50 rows=4></textarea></td>
+                                <td colspan="2"><textarea name="description" cols=50 rows=4></textarea></td>
                             </tr>
                             <tr>
                                 <td><i>(optional)</i></td>
-                                <td><input type="file"  name="file" /></td>
+                                <td colspan="2"><input type="file"  name="file" /></td>
                             </tr>
                             <tr>
                                 <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
