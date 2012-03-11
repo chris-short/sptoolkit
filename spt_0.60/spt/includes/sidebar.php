@@ -2,7 +2,7 @@
 
 /**
  * file:    sidebar.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -33,7 +33,7 @@ echo "
         </ul>        
         <ul>
             <li></li>
-            <li><a href=\"../quickstart\">Quick Start</a></li>
+            <li><a href=\"../quickstart/#intro\">Quick Start</a></li>
             <li><a href=\"../targets\">Targets</a></li>
             <li><a href=\"../templates\">Templates</a></li>
             <li><a href=\"../education\">Education</a></li>
