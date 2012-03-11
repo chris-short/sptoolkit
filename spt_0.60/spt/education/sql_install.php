@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -36,8 +36,10 @@ $sql = "
 mysql_query ( $sql ) or die ( mysql_error () );
 
 $name = mysql_real_escape_string ( "You've been phished!" );
-mysql_query ( "INSERT INTO `education` (name, description) VALUES ('$name','Displays content about being phished including a Youtube video from Symantec about phishing.')" ) or die ( mysql_error () );
+mysql_query ( "INSERT INTO `education` (name, description) VALUES ('$name','Displays content about being phished including a Youtube video from Symantec about phishing.  [Requires Internet access]')" ) or die ( mysql_error () );
 
 $name = mysql_real_escape_string ( "You've been infected!" );
-mysql_query ( "INSERT INTO `education` (name, description) VALUES ('$name','Displays content about being infected with malware including a Youtube video from Symantec about various types of malware.')" ) or die ( mysql_error () );
+mysql_query ( "INSERT INTO `education` (name, description) VALUES ('$name','Displays content about being infected with malware including a Youtube video from Symantec about various types of malware.  [Requires Internet access]')" ) or die ( mysql_error () );
+
+mysql_query ( "INSERT INTO `education` (name, description) VALUES ('APWG Phishing Education Landing Page','Displays the full and unmodified content of the APWG phishing education landing page.  [Requires Internet access].')" ) or die ( mysql_error () );
 ?>
