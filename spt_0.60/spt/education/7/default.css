@@ -1,7 +1,7 @@
 /* default.css */
 /**
  * file:    default.css
- * version: 3.0
+ * version: 1.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Default education module
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -54,9 +54,17 @@ h1
     text-align:center;
 }
 
+
 .right
 {
     float:right;
+}
+
+.credits
+{
+    font-family:Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    text-align: right;
 }
 
 a
@@ -68,4 +76,11 @@ a
 a:hover
 {
     color: #999;
+}
+
+img
+{
+    border-style: initial;
+    border-color: initial;
+    border-width: 0px;
 }
