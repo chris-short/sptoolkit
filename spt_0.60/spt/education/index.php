@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 11.0
+ * version: 12.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -103,8 +103,8 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                 <span class="button"><a href="#add_package"><img src="../images/package_add_sm.png" alt="add" /> Package</a></span>
                 <table class="spt_table">
                     <tr>
-                        <td><h3>Name</h3></td>
-                        <td><h3>Description</h3></td>
+                        <td style="text-align: left;"><h3>Name</h3></td>
+                        <td style="text-align: left;"><h3>Description</h3></td>
                         <td><h3>Delete</h3></td>
                     </tr>
 
@@ -117,8 +117,8 @@ $r = mysql_query ( "SELECT * FROM education" ) or die ( '<div id="die_error">The
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     echo "
                     <tr>
-                        <td><a href=\"" . $ra['id'] . "\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
-                        <td>" . $ra['description'] . "</td>\n
+                        <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"" . $ra['id'] . "\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
+                        <td style=\"vertical-align:text-top; text-align: left;\">" . $ra['description'] . "</td>\n
                         <td><a href=\"delete_package.php?t=" . $ra['id'] . "\"><img src=\"../images/package_delete_sm.png\" alt=\"delete\" /></a></td>\n
                     </tr>\n";
 }
