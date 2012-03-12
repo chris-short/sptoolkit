@@ -38,7 +38,7 @@ mysql_query ( $sql ) or die ( mysql_error () );
 ////insert quick start templates
 
 //first sql statement (prevents some problems)
-$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Amazon shipping information','An email supposedly from Amazon.com with shipping information about a recently ordered product.  When the link is clicked the target will be presented with an inline educational page about malware.  [Video requires Internet access to YouTube]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Amazon shipping information','An email from Amazon.com with shipping information about a recently order.  When the link is clicked, automatic education about malware will occur using an embedded YouTube video.  [Video requires Internet access to YouTube]')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id
@@ -48,27 +48,27 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 
 //remaining sql statements
-$sql = "INSERT INTO templates (name, description) VALUES ('[QS] ***REMOVED*** security update','An email supposedly from ***REMOVED***.com requesting the target to update their security information.  When the link is clicked the target will be presented with an inline educational page about malware.  [Video requires Internet access to YouTube]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] ***REMOVED*** security update','An email from ***REMOVED***.com requesting the target to update their security information.  When the link is clicked, automatic education about malware will occur using an embedded YouTube video.  [Video requires Internet access to YouTube]')";
 mysql_query($sql) or die(mysql_error());
-$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Delta flight information','An email supposedly from Delta.com with flight information for an upcoming flight.  When the link is clicked the target will be presented with an inline educational page about malware.  [Video requires Internet access to YouTube]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Delta flight information','An email from Delta.com with flight information for an upcoming flight.  When the link is clicked, automatic education about malware will occur using an embedded YouTube video.  [Video requires Internet access to YouTube]')";
 mysql_query($sql) or die(mysql_error());
-$sql = "INSERT INTO templates (name, description) VALUES ('[QS] UPS package tracking','An email supposedly from UPS with tracking information for a package to be delivered.  When the link is clicked the target will be presented with an inline educational page about malware.  [Video requires Internet access to YouTube]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] UPS package tracking','An email from UPS with tracking information for a package to be delivered.  When the link is clicked, automatic education about malware will occur using anembedded YouTube video.  [Video requires Internet access to YouTube]')";
 mysql_query($sql) or die(mysql_error());
-$sql = "INSERT INTO templates (name, description) VALUES ('[QS] DGXT Virus','An email supposedly from IT Services about a virus found in the targets mailbox.  When the link is clicked the target will be presented with an inline educational page about malware.  [Video requires Internet access to YouTube]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] DGXT Virus','An email IT Services about a virus found in the targets mailbox.  When the link is clicked, automatic education about malware will occur using anembedded YouTube video.  [Video requires Internet access to YouTube]')";
 mysql_query($sql) or die(mysql_error());
-$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Mailbox quota reached','An email supposedly from the Helpdesk about a mailbox over quota situation.  When the link is clicked the target will be presented with an inline educational page about malware.  [Video requires Internet access to YouTube]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Mailbox quota reached','An email from the Helpdesk about a mailbox over quota situation.  When the link is clicked, automatic education about malware will occur using anembedded YouTube video.  [Video requires Internet access to YouTube]')";
 mysql_query($sql) or die(mysql_error());
-$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Mailbox migration required','An email supposedly from the Helpdesk about actions required to be done for a mailbox migration.  When the link is clicked the target will be presented with an inline educational page about malware.  [Video requires Internet access to YouTube]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Mailbox migration required','An email from the Helpdesk about actions required to be done for a mailbox migration.  When the link is clicked, automatic education about malware will occur using anembedded YouTube video.  [Video requires Internet access to YouTube]')";
 mysql_query($sql) or die(mysql_error());
-$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Elavon Merchant Account','An email supposedly from Elavon about a merchant account to be closed if no action is taken.  When the link is clicked the target will be presented with an inline educational page about malware.  [Video requires Internet access to YouTube]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Elavon Merchant Account','An email from Elavon about a merchant account to be closed if no action is taken.  When the link is clicked, automatic education about malware will occur using anembedded YouTube video.  [Video requires Internet access to YouTube]')";
 mysql_query($sql) or die(mysql_error());
-$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Helpdesk support portal','An email supposedly from Helpdesk about a new support and information portal now available.  When the link is clicked the target will be presented with an inline educational page about malware.  [Video requires Internet access to YouTube]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Helpdesk support portal','An email from Helpdesk about a new support and information portal now available.  When the link is clicked, automatic education about malware will occur using anembedded YouTube video.  [Video requires Internet access to YouTube]')";
 mysql_query($sql) or die(mysql_error());
-$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Woodgrove bank','An email supposedly from Woodgrove Bank about online access to your account being closed if no action taken.  When the link is clicked the target will be presented with an inline educational page about malware.  [Video requires Internet access to YouTube]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Woodgrove bank','An email from Woodgrove Bank about online access to your account being closed if no action taken.  When the link is clicked, automatic education about malware will occur using anembedded YouTube video.  [Video requires Internet access to YouTube]')";
 mysql_query($sql) or die(mysql_error());
-$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Coho Vineyard','An email supposedly from Coho Vineyard & Winery with information for a recent order just shipped.  When the link is clicked the target will be presented with an inline educational page about malware.  [Video requires Internet access to YouTube]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] Coho Vineyard','An email from Coho Vineyard & Winery with information for a recent order just shipped.  When the link is clicked, automatic education about malware will occur using anembedded YouTube video.  [Video requires Internet access to YouTube]')";
 mysql_query($sql) or die(mysql_error());
-$sql = "INSERT INTO templates (name, description) VALUES ('[QS] 419 scam','An email supposedly a Scottish lawyer wanting help in moving millions of dollars...legally of course.  When the link is clicked the target will be presented with an inline educational page about malware.  [Video requires Internet access to YouTube]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QS] 419 scam','An email a Scottish lawyer wanting help in moving millions of dollars...legally of course.  When the link is clicked, automatic education about malware will occur using anembedded YouTube video.  [Video requires Internet access to YouTube]')";
 mysql_query($sql) or die(mysql_error());
 
 //set initial counter values
