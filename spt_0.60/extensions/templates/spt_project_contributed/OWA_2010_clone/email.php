@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Outlook 2010 manual clone template
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -32,23 +32,21 @@
 //This will populate the subject line of the email that is sent
 $subject = 'Update Your Webmail Account';
 
-//This will force the sender to be what you set the from address to.  If you want to completely impersonate the domain in the envelope sender header field uncomment this out.
-//$f_sender = "postmaster@microsoft.com";
-//This will populate the headers of the message
-$headers = "From: postmaster@microsoft.com\r\n";
-$headers .= "Reply-To: postmaster@microsoft.com\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "X-Mailer: sent with the simple phishing toolkit www.sptoolkit.com\r\n";
+//This will set the sender's name and email address as well as reply to address
+$sender_email = "postmaster@microsoft.com";
+$sender_friendly = "Microsoft";
+$reply_to = "postmaster@microsoft.com";
 
-//uncomment out this line if you'd like to use HTML in the email
-$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+//Set the Content Type and transfer encoding
+$content_type = "text/html; charset=utf-8";
 
 //This will populate the body of the email
 $message = '<html><body>';
 $message .= '<h3>Webmail</h3>';
 $message .= '<br>The password requirements for Webmail have been changed recently.  Please follow the link below to update your Webmail account password to avoid an interruption in Webmail access.';
 $message .= '<br><br><br>';
-$message .= '<a href="' . $link . '">https://login.microsoft.com/login</a>';
+$message .= '<a href="@url">https://login.microsoft.com/login</a>';
 $message .= '<br><br><br>';
 $message .= '</body></html>';
+
 ?>
