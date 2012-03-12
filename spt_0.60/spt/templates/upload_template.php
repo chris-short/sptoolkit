@@ -2,7 +2,7 @@
 
 /**
  * file:    upload_template.php
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -40,7 +40,7 @@ if ( file_exists ( $includeContent ) ) {
 }
 
 //validate that a name is provided
-if ( ! isset ( $_POST['name'] ) ) {
+if ( strlen ( $_POST['name'] ) < 1 ) {
     $_SESSION['alert_message'] = 'you must enter a name';
     header ( 'location:./#alert' );
     exit;

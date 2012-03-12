@@ -2,7 +2,7 @@
 
 /**
  * file:    scrape_it.php
- * version: 16.0
+ * version: 17.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -57,7 +57,7 @@ if ( ! filter_var ( $_POST['url'], FILTER_SANITIZE_URL ) ) {
 }
 
 //get name from passed parameter
-if ( isset ( $_POST['name'] ) ) {
+if ( strlen ( $_POST['name'] ) > 0 ) {
     $name = filter_var ( $_POST['name'], FILTER_SANITIZE_STRING );
 } else {
     //set error message and send them back to template page
