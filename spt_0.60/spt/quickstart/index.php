@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Quick Start 
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -61,17 +61,21 @@ if ( file_exists ( $includeContent ) ) {
                         <table>
                             <tr>
                                 <td colspan="3">
-                                    <strong>There is one of two ways to get started...</strong>
+                                    <strong>You can easily get started with the spt in one of the following ways:</strong>
                                     <br /><br />
                                 </td>
                             </tr>
                             <tr>
                                 <td class="step">1</td>
-                                <td>Work your way through each step starting with Step 1 above, <strong>or...</strong></td>
+                                <td>To perform a quick phishing campaign test with your email address:  Skip to <strong>Step 5</strong> and start a campaign immediately using the included quick start [QS] templates and education.  Select the <strong>Admins - Test</strong> target group that automatically includes your email address (based on your entry during spt installation).<br /><br /><strong>Or...</strong></td>
                             </tr>
                             <tr>
                                 <td class="step">2</td>
-                                <td>Skip to Step 5 and start a campaign immediately using the included quick start templates and education as well as the auto-generated <strong>Admin - Test</strong> target group we've put your email address in when you setup spt.</td>
+                                <td>To perform a quick phishing campaign against other targets:  Complete <strong>Step 1</strong>  and then skip to <strong>Step 5</strong>  and start a campaign immediately using the included quick start [QS] templates and education.  Select one or more of the target groups created in <strong>Step 1</strong>.<br /><br /><strong>Or...</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="step">3</td>
+                                <td>Work your way through each step starting with <strong>Step 1</strong>.</td>
                             </tr>
                         </table>
                     </section>
@@ -102,7 +106,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td>3.</td>
                                     <td>
-                                        First, use the export to CSV function to download an editable CSV file.<br />
+                                        First, use the export to CSV function to download an editable CSV file.<br /><br />
                                         Next, import the edited file to add many targets at once.
                                     </td>
                                     <td>
@@ -117,7 +121,7 @@ if ( file_exists ( $includeContent ) ) {
                             <table>
                                 <tr>
                                     <td colspan="3">
-                                        <strong>Upload templates or scrape live sites</strong>
+                                        <strong>Upload templates or scrape live sites (Optional)</strong>
                                         <br /><br />
                                     </td>
                                 </tr>
