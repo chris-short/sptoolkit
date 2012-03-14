@@ -2,7 +2,7 @@
 
 /**
  * file:    scrape_it.php
- * version: 17.0
+ * version: 18.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -137,57 +137,55 @@ f_and_r ( '#action="(.*?)"#', 'action="../../campaigns/response.php"', 'temp_upl
 //connect to database
 include('../spt_config/mysql_config.php');
 
-//figure out what the next template id is
-$r = mysql_query ( "SELECT MAX(id) AS max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+//add information to the database
+mysql_query ( "INSERT INTO templates (name, description) VALUES ('$name','$description')" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+
+//figure out the id of this new template
+$r = mysql_query ( "SELECT MAX(id) as max FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    $max_id = $ra['max'];
-    ++ $max_id;
-    $template_id = $max_id;
+    $id = $ra['max'];
 }
 
 //create a directory for the new template
-mkdir ( $template_id );
+mkdir ( $id );
 
 //copy scraped file into new template directory
-copy ( "temp_upload/index.htm", $template_id . "/index.htm" );
+copy ( "temp_upload/index.htm", $id . "/index.htm" );
 
 //copy default email and return files into new template directory
-copy ( "temp_upload/return.htm", $template_id . "/return.htm" );
-copy ( "temp_upload/email.php", $template_id . "/email.php" );
-copy ( "temp_upload/screenshot.png", $template_id . "/screenshot.png" );
+copy ( "temp_upload/return.htm", $id . "/return.htm" );
+copy ( "temp_upload/email.php", $id . "/email.php" );
+copy ( "temp_upload/screenshot.png", $id . "/screenshot.png" );
 
 //find and replace email subject if set
 if ( isset ( $_POST['email_subject'] ) ) {
-    f_and_r ( '#Insert Subject Here#', filter_var ( $_POST['email_subject'], FILTER_SANITIZE_MAGIC_QUOTES ), $template_id . '/email.php' );
+    f_and_r ( '#Insert Subject Here#', filter_var ( $_POST['email_subject'], FILTER_SANITIZE_MAGIC_QUOTES ), $id . '/email.php' );
 }
 
 //find and replace email from address if set
 if ( isset ( $_POST['email_from'] ) ) {
-    f_and_r ( '#postmaster@domain.com#', filter_var ( $_POST['email_from'], FILTER_SANITIZE_EMAIL ), $template_id . '/email.php' );
+    f_and_r ( '#postmaster@domain.com#', filter_var ( $_POST['email_from'], FILTER_SANITIZE_EMAIL ), $id . '/email.php' );
 }
 
 //find and replace email from friendly name if set
 if ( isset ( $_POST['email_from_friendly'] ) ) {
-    f_and_r ( '#sender friendly#', filter_var ( $_POST['email_from_friendly'], FILTER_SANITIZE_STRING ), $template_id . '/email.php' );
+    f_and_r ( '#sender friendly#', filter_var ( $_POST['email_from_friendly'], FILTER_SANITIZE_STRING ), $id . '/email.php' );
 }
 
 //find and replace the reply to address if set
 if ( isset ( $_POST['reply_to'] ) ) {
-    f_and_r ( '#reply_to@domain.com#', filter_var ( $_POST['reply_to'], FILTER_SANITIZE_STRING ), $template_id . '/email.php' );
+    f_and_r ( '#reply_to@domain.com#', filter_var ( $_POST['reply_to'], FILTER_SANITIZE_STRING ), $id . '/email.php' );
 }
 
 //find and replace email message if set
 if ( isset ( $_POST['email_message'] ) ) {
-    f_and_r ( '#Your message will go here.#', htmlentities ( $_POST['email_message'], ENT_QUOTES ), $template_id . '/email.php' );
+    f_and_r ( '#Your message will go here.#', htmlentities ( $_POST['email_message'], ENT_QUOTES ), $id . '/email.php' );
 }
 
 //find and replace email fake link if set
 if ( isset ( $_POST['email_fake_link'] ) ) {
-    f_and_r ( '#https://fake_display_link_goes_here.com/login#', filter_var ( $_POST['email_fake_link'], FILTER_SANITIZE_URL ), $template_id . '/email.php' );
+    f_and_r ( '#https://fake_display_link_goes_here.com/login#', filter_var ( $_POST['email_fake_link'], FILTER_SANITIZE_URL ), $id . '/email.php' );
 }
-
-//add information to the database
-mysql_query ( "INSERT INTO templates (id, name, description) VALUES ('$template_id','$name','$description')" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
 //send them back to template page with a success message
 $_SESSION['alert_message'] = "Template installed successfully!";
