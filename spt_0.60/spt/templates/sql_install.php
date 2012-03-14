@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 3.0
+ * version: 4.0
  * package:	Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -70,9 +70,11 @@ $sql = "INSERT INTO templates (name, description) VALUES ('[QS] Coho Vineyard','
 mysql_query($sql) or die(mysql_error());
 $sql = "INSERT INTO templates (name, description) VALUES ('[QS] 419 scam','An email a Scottish lawyer wanting help in moving millions of dollars...legally of course.  When the link is clicked, automatic education about malware will occur using anembedded YouTube video.  [Video requires Internet access to YouTube]')";
 mysql_query($sql) or die(mysql_error());
+$sql = "INSERT INTO templates (name, description) VALUES ('OWA 2010 login','A hand crafted copy of the Outlook Web App 2010 login page that uses no content from original OWA login page.  Comes with three different return.htm pages, just rename them to change the return page displayed to the target once they submit the form.  [No Internet access required]')";
+mysql_query($sql) or die(mysql_error());
 
 //set initial counter values
-$install_count = 12;
+$install_count = 13;
 $folder = 1;
 $i = 0;
 
