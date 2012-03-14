@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Quick Start 
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -96,12 +96,12 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td>1.</td>
                                     <td>Create or edit your metrics (custom attributes).</td>
-                                    <td><img src="images/qs_1_1.png" alt="Edit metrics"></td>
+                                    <td><img src="../images/qs_1_1.png" alt="Edit metrics"></td>
                                 </tr>
                                 <tr>
                                     <td>2.</td>
                                     <td>Create single targets, <strong>or</strong>,</td>
-                                    <td><img src="images/qs_1_2.png" alt="Add one target"></td>
+                                    <td><img src="../images/qs_1_2.png" alt="Add one target"></td>
                                 </tr>
                                 <tr>
                                     <td>3.</td>
@@ -110,8 +110,8 @@ if ( file_exists ( $includeContent ) ) {
                                         Next, import the edited file to add many targets at once.
                                     </td>
                                     <td>
-                                        <img src="images/qs_1_3a.png" alt="Export CSV"><br />
-                                        <img src="images/qs_1_3b.png" alt="Import CSV">
+                                        <img src="../images/qs_1_3a.png" alt="Export CSV"><br />
+                                        <img src="../images/qs_1_3b.png" alt="Import CSV">
                                     </td>
                                 </tr>
                             </table>    
@@ -133,12 +133,12 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td>1.</td>
                                     <td>Upload a template, <strong>or</strong>,</td>
-                                    <td><img src="images/qs_2_1.png" alt="Upload template"></td>
+                                    <td><img src="../images/qs_2_1.png" alt="Upload template"></td>
                                 </tr>
                                 <tr>
                                     <td>2.</td>
                                     <td>Scrape a live web site.</td>
-                                    <td><img src="images/qs_2_2.png" alt="Scrape a site"></td>
+                                    <td><img src="../images/qs_2_2.png" alt="Scrape a site"></td>
                                 </tr>
                             </table>                    
                     </section>
@@ -159,12 +159,12 @@ if ( file_exists ( $includeContent ) ) {
                         <tr>
                             <td>1.</td>
                             <td>Upload a new education package, <strong>or</strong>,</td>
-                            <td><img src="images/qs_3_1.png" alt="Upload education package"></td>
+                            <td><img src="../images/qs_3_1.png" alt="Upload education package"></td>
                         </tr>
                         <tr>
                             <td>2.</td>
                             <td>Upload a copy of the default education package.</td>
-                            <td><img src="images/qs_3_1.png" alt="Upload education package"></td>
+                            <td><img src="../images/qs_3_1.png" alt="Upload education package"></td>
                         </tr>
                         </table>                    
                     </section>
@@ -211,12 +211,12 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td>1.</td>
                                     <td>Start a new campaign.</td>
-                                    <td><img src="images/qs_5_1.png" alt="Start campaign"></td>
+                                    <td><img src="../images/qs_5_1.png" alt="Start campaign"></td>
                                 </tr>
                                 <tr>
                                     <td>2.</td>
                                     <td>Optionally, export campaign statistics as a CSV file.</td>
-                                    <td><img src="images/qs_5_2.png" alt="Download CSV"></td>
+                                    <td><img src="../images/qs_5_2.png" alt="Download CSV"></td>
                                 </tr>
                                 <tr>
                                     <td>3.</td>
