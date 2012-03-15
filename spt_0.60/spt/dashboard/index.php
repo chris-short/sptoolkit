@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		14.0
+ * version:		15.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -67,7 +67,10 @@ $(document).ready(function() {
 				allowPointSelect: true,
 				cursor: 'pointer',
                                                                         dataLabels: {
-                                                                            enabled: false
+                                                                            enabled: true,
+                                                                            formatter: function() {
+                                                                                return this.percentage +' %';
+                                                                            }
                                                                        },
 				showInLegend: true
 			} 
@@ -85,12 +88,12 @@ include('../spt_config/mysql_config.php');
 //get filters if they are set
 //campaign id
 if(isset($_REQUEST['pp_campaign']) && $_REQUEST['pp_campaign'] != 'All'){
-    $campaign_id = $_REQUEST['pp_campaign'];
+    $pp_campaign_id = $_REQUEST['pp_campaign'];
     
     //get all campaign ids
     $r = mysql_query("SELECT id FROM campaigns");
     while($ra = mysql_fetch_assoc ( $r)){
-        if($campaign_id == $ra['id']){
+        if($pp_campaign_id == $ra['id']){
             $match = 1;
         }
     }
@@ -107,12 +110,12 @@ if(isset($_REQUEST['pp_campaign']) && $_REQUEST['pp_campaign'] != 'All'){
 }
 //browser
 if(isset($_REQUEST['pp_browser']) && $_REQUEST['pp_browser'] != 'All'){
-    $browser = $_REQUEST['pp_browser'];
+    $pp_browser = $_REQUEST['pp_browser'];
     
     //get all types of browsers
     $r = mysql_query("SELECT DISTINCT browser FROM campaigns_responses");
     while($ra = mysql_fetch_assoc ( $r)){
-        if($browser == $ra['browser']){
+        if($pp_browser == $ra['browser']){
             $match = 1;
         }
     }
@@ -129,12 +132,12 @@ if(isset($_REQUEST['pp_browser']) && $_REQUEST['pp_browser'] != 'All'){
 }
 //group
 if(isset($_REQUEST['pp_group']) && $_REQUEST['pp_group'] != 'All'){
-    $group_name = $_REQUEST['pp_group'];
+    $pp_group_name = $_REQUEST['pp_group'];
     
     //get all types of browsers
     $r = mysql_query("SELECT DISTINCT group_name FROM campaigns_and_groups");
     while($ra = mysql_fetch_assoc ( $r)){
-        if($group_name == $ra['group_name']){
+        if($pp_group_name == $ra['group_name']){
             $match = 1;
         }
     }
@@ -156,17 +159,17 @@ $total_sql = "SELECT target_id FROM campaigns_responses WHERE post IS NOT NULL A
 $total_link_only_sql = "SELECT target_id FROM campaigns_responses WHERE post IS NULL AND link != 0 AND sent = 2";
 
 //append any filters if necessary
-if(isset($campaign_id)){
-    $total_phishes_sql .= " AND campaign_id = ".$campaign_id;
-    $total_sql .= " AND campaign_id = ".$campaign_id;
-    $total_link_only_sql .= " AND campaign_id = ".$campaign_id;
+if(isset($pp_campaign_id)){
+    $total_phishes_sql .= " AND campaign_id = ".$pp_campaign_id;
+    $total_sql .= " AND campaign_id = ".$pp_campaign_id;
+    $total_link_only_sql .= " AND campaign_id = ".$pp_campaign_id;
 }
 
 //append any filters if necessary
-if(isset($browser)){
-    $total_phishes_sql .= " AND browser = '".$browser."'";
-    $total_sql .= " AND browser = '".$browser."'";
-    $total_link_only_sql .= " AND browser = '".$browser."'";    
+if(isset($pp_browser)){
+    $total_phishes_sql .= " AND browser = '".$pp_browser."'";
+    $total_sql .= " AND browser = '".$pp_browser."'";
+    $total_link_only_sql .= " AND browser = '".$pp_browser."'";    
 }
 
 //get total number of successful phishes sent
@@ -185,9 +188,15 @@ $total_link_only = mysql_num_rows($r);
 $total_no_response = $total_phishes - $total_posts - $total_link_only;
 
 //calcuate percentages
-$total_no_response_percentage = round(($total_no_response / $total_phishes) * 100,2);
-$total_link_only_percentage = round(($total_link_only / $total_phishes) * 100,2);
-$total_posts_percentage = round(($total_posts / $total_phishes) * 100,2);
+if($total_phishes > 0){
+    $total_no_response_percentage = round(($total_no_response / $total_phishes) * 100,2);
+    $total_link_only_percentage = round(($total_link_only / $total_phishes) * 100,2);    
+    $total_posts_percentage = round(($total_posts / $total_phishes) * 100,2);
+}else{
+    $total_no_response_percentage = 0;
+    $total_link_only_percentage = 0;
+    $total_posts_percentage = 0;
+}
 
 if($total_link_only_percentage == 0 && $total_no_response_percentage == 0 && $total_posts_percentage == 0){
     echo "['No Responses Yet', 100]";
@@ -226,12 +235,12 @@ include('../spt_config/mysql_config.php');
 //get filters if they are set
 //campaign id
 if(isset($_REQUEST['bt_campaign']) && $_REQUEST['bt_campaign'] != 'All'){
-    $campaign_id = $_REQUEST['bt_campaign'];
+    $bt_campaign_id = $_REQUEST['bt_campaign'];
     
     //get all campaign ids
     $r = mysql_query("SELECT id FROM campaigns");
     while($ra = mysql_fetch_assoc ( $r)){
-        if($campaign_id == $ra['id']){
+        if($bt_campaign_id == $ra['id']){
             $match = 1;
         }
     }
@@ -248,12 +257,12 @@ if(isset($_REQUEST['bt_campaign']) && $_REQUEST['bt_campaign'] != 'All'){
 }
 //browser
 if(isset($_REQUEST['bt_browser']) && $_REQUEST['bt_browser'] != 'All'){
-    $browser = $_REQUEST['bt_browser'];
+    $bt_browser = $_REQUEST['bt_browser'];
     
     //get all types of browsers
     $r = mysql_query("SELECT DISTINCT browser FROM campaigns_responses");
     while($ra = mysql_fetch_assoc ( $r)){
-        if($browser == $ra['browser']){
+        if($bt_browser == $ra['browser']){
             $match = 1;
         }
     }
@@ -270,12 +279,12 @@ if(isset($_REQUEST['bt_browser']) && $_REQUEST['bt_browser'] != 'All'){
 }
 //group
 if(isset($_REQUEST['bt_group']) && $_REQUEST['bt_group'] != 'All'){
-    $group_name = $_REQUEST['bt_group'];
+    $bt_group_name = $_REQUEST['bt_group'];
     
     //get all types of browsers
     $r = mysql_query("SELECT DISTINCT group_name FROM campaigns_and_groups");
     while($ra = mysql_fetch_assoc ( $r)){
-        if($group_name == $ra['group_name']){
+        if($bt_group_name == $ra['group_name']){
             $match = 1;
         }
     }
@@ -296,16 +305,16 @@ $bad_targets = "SELECT CONCAT(targets.fname, ' ',targets.lname) AS name, SUM(cam
 
 //append any filters if necessary
 //campaign
-if(isset($campaign_id)){
-    $bad_targets .= " AND campaigns_responses.campaign_id = ".$campaign_id;
+if(isset($bt_campaign_id)){
+    $bad_targets .= " AND campaigns_responses.campaign_id = ".$bt_campaign_id;
 }
 //browser
-if(isset($browser)){
-    $bad_targets .= " AND campaigns_responses.browser = '".$browser."'";
+if(isset($bt_browser)){
+    $bad_targets .= " AND campaigns_responses.browser = '".$bt_browser."'";
 }
 //group
-if(isset($group_name)){
-    $bad_targets .= " AND targets.group_name = '".$group_name."'";
+if(isset($bt_group_name)){
+    $bad_targets .= " AND targets.group_name = '".$bt_group_name."'";
 }
 
 $bad_targets .= " GROUP BY name HAVING posts IS NOT NULL ORDER BY posts DESC, links DESC LIMIT 10";
@@ -403,7 +412,10 @@ $(document).ready(function() {
 				allowPointSelect: true,
 				cursor: 'pointer',
                                                                         dataLabels: {
-                                                                            enabled: false
+                                                                            enabled: true,
+                                                                            formatter: function() {
+                                                                                return this.percentage +' %';
+                                                                            }
                                                                        },
 				showInLegend: true
 			} 
@@ -421,12 +433,12 @@ include('../spt_config/mysql_config.php');
 //get filters if they are set
 //campaign id
 if(isset($_REQUEST['es_campaign']) && $_REQUEST['es_campaign'] != 'All'){
-    $campaign_id = $_REQUEST['es_campaign'];
+    $es_campaign_id = $_REQUEST['es_campaign'];
     
     //get all campaign ids
     $r = mysql_query("SELECT id FROM campaigns");
     while($ra = mysql_fetch_assoc ( $r)){
-        if($campaign_id == $ra['id']){
+        if($es_campaign_id == $ra['id']){
             $match = 1;
         }
     }
@@ -443,12 +455,12 @@ if(isset($_REQUEST['es_campaign']) && $_REQUEST['es_campaign'] != 'All'){
 }
 //browser
 if(isset($_REQUEST['es_browser']) && $_REQUEST['es_browser'] != 'All'){
-    $browser = $_REQUEST['es_browser'];
+    $es_browser = $_REQUEST['es_browser'];
     
     //get all types of browsers
     $r = mysql_query("SELECT DISTINCT browser FROM campaigns_responses");
     while($ra = mysql_fetch_assoc ( $r)){
-        if($browser == $ra['browser']){
+        if($es_browser == $ra['browser']){
             $match = 1;
         }
     }
@@ -465,12 +477,12 @@ if(isset($_REQUEST['es_browser']) && $_REQUEST['es_browser'] != 'All'){
 }
 //group
 if(isset($_REQUEST['es_group']) && $_REQUEST['es_group'] != 'All'){
-    $group_name = $_REQUEST['es_group'];
+    $es_group_name = $_REQUEST['es_group'];
     
     //get all types of browsers
     $r = mysql_query("SELECT DISTINCT group_name FROM campaigns_and_groups");
     while($ra = mysql_fetch_assoc ( $r)){
-        if($group_name == $ra['group_name']){
+        if($es_group_name == $ra['group_name']){
             $match = 1;
         }
     }
@@ -490,40 +502,46 @@ if(isset($_REQUEST['es_group']) && $_REQUEST['es_group'] != 'All'){
 $email_status_sql = "SELECT COUNT(sent) AS sent FROM campaigns_responses";
 
 //add WHERE clause
-if(isset($campaign_id) OR isset($browser)){
-    $email_status_sql .= " WHERE";
+$email_status_sql .= " WHERE";
+
+//append any filters if necessary
+if(isset($es_campaign_id)){
+    $email_status_sql .= " campaign_id = ".$es_campaign_id;
+}
+
+if(isset($es_campaign_id)){
+    $email_status_sql .= " AND";
 }
 
 //append any filters if necessary
-if(isset($campaign_id)){
-    $email_status_sql .= " AND campaign_id = ".$campaign_id;
+if(isset($es_browser)){
+    $email_status_sql .= " browser = '".$es_browser."'";
 }
 
-//append any filters if necessary
-if(isset($browser)){
-    $email_status_sql .= " AND browser = '".$browser."'";
+if(isset($es_browser)){
+    $email_status_sql .= " AND";
 }
 
 //query for emails not sent
-$r = mysql_query($email_status_sql." WHERE sent = 0");
+$r = mysql_query($email_status_sql." sent = 0");
 while($ra = mysql_fetch_assoc ( $r)){
     $email_not_sent = $ra['sent'];
 }
 
 //query for emails with an unkown status
-$r = mysql_query($email_status_sql." WHERE sent = 1");
+$r = mysql_query($email_status_sql." sent = 1");
 while($ra = mysql_fetch_assoc ( $r)){
     $email_unknown = $ra['sent'];
 }
 
 //query for emails sent successfully
-$r = mysql_query($email_status_sql." WHERE sent = 2");
+$r = mysql_query($email_status_sql." sent = 2");
 while($ra = mysql_fetch_assoc ( $r)){
     $email_sent_successfully = $ra['sent'];
 }
 
 //query for emails that failed
-$r = mysql_query($email_status_sql." WHERE sent = 3");
+$r = mysql_query($email_status_sql." sent = 3");
 while($ra = mysql_fetch_assoc ( $r)){
     $email_failures = $ra['sent'];
 }
@@ -531,6 +549,19 @@ while($ra = mysql_fetch_assoc ( $r)){
 if($email_failures == 0 && $email_not_sent == 0 && $email_sent_successfully == 0 && $email_unknown == 0){
     echo "['No Responses Yet', 100]";
 }else{
+    $total_emails = $email_sent_successfully + $email_failures + $email_unknown + $email_not_sent;
+    if($email_sent_successfully > 0){
+        $email_sent_successfully = round((($email_sent_successfully / $total_emails) * 100),2);
+    } 
+    if($email_failures > 0){
+        $email_failures = round((($email_failures / $total_emails) * 100),2);
+    }
+    if($email_unknown > 0){
+        $email_unknown = round((($email_unknown / $total_emails) * 100),2);
+    }
+    if($email_not_sent > 0){
+        $email_not_sent = round((($email_not_sent / $total_emails) * 100),2);
+    }
     //print results in highcharts format
     echo "['Success', ".$email_sent_successfully."],";
     echo "['Failures', ".$email_failures."],";
@@ -564,7 +595,10 @@ $(document).ready(function() {
 				allowPointSelect: true,
 				cursor: 'pointer',
                                                                         dataLabels: {
-                                                                            enabled: false
+                                                                            enabled: true,
+                                                                            formatter: function() {
+                                                                                return this.percentage +' %';
+                                                                            }
                                                                        },
 				showInLegend: true
 			} 
@@ -582,12 +616,12 @@ include('../spt_config/mysql_config.php');
 //get filters if they are set
 //campaign id
 if(isset($_REQUEST['bs_campaign']) && $_REQUEST['bs_campaign'] != 'All'){
-    $campaign_id = $_REQUEST['bs_campaign'];
+    $bs_campaign_id = $_REQUEST['bs_campaign'];
     
     //get all campaign ids
     $r = mysql_query("SELECT id FROM campaigns");
     while($ra = mysql_fetch_assoc ( $r)){
-        if($campaign_id == $ra['id']){
+        if($bs_campaign_id == $ra['id']){
             $match = 1;
         }
     }
@@ -604,12 +638,12 @@ if(isset($_REQUEST['bs_campaign']) && $_REQUEST['bs_campaign'] != 'All'){
 }
 //browser
 if(isset($_REQUEST['bs_browser']) && $_REQUEST['bs_browser'] != 'All'){
-    $browser = $_REQUEST['bs_browser'];
+    $bs_browser = $_REQUEST['bs_browser'];
     
     //get all types of browsers
     $r = mysql_query("SELECT DISTINCT browser FROM campaigns_responses");
     while($ra = mysql_fetch_assoc ( $r)){
-        if($browser == $ra['browser']){
+        if($bs_browser == $ra['browser']){
             $match = 1;
         }
     }
@@ -626,12 +660,12 @@ if(isset($_REQUEST['bs_browser']) && $_REQUEST['bs_browser'] != 'All'){
 }
 //group
 if(isset($_REQUEST['bs_group']) && $_REQUEST['bs_group'] != 'All'){
-    $group_name = $_REQUEST['bs_group'];
+    $bs_group_name = $_REQUEST['bs_group'];
     
     //get all types of browsers
     $r = mysql_query("SELECT DISTINCT group_name FROM campaigns_and_groups");
     while($ra = mysql_fetch_assoc ( $r)){
-        if($group_name == $ra['group_name']){
+        if($bs_group_name == $ra['group_name']){
             $match = 1;
         }
     }
@@ -648,16 +682,22 @@ if(isset($_REQUEST['bs_group']) && $_REQUEST['bs_group'] != 'All'){
 }
 
 //set SQL statements
-$browser_stats_sql = "SELECT DISTINCT(CONCAT(browser,browser_version)) AS browser, COUNT(browser) AS count FROM campaigns_responses WHERE browser IS NOT NULL GROUP BY browser";
+$browser_stats_sql = "SELECT DISTINCT(CONCAT(browser, ' ', browser_version)) AS browser, COUNT(browser) AS count FROM campaigns_responses WHERE browser IS NOT NULL GROUP BY browser";
 
 //append any filters if necessary
-if(isset($campaign_id)){
-    $browser_stats_sql .= " AND campaign_id = ".$campaign_id;
+if(isset($bs_campaign_id)){
+    $browser_stats_sql .= " AND campaign_id = ".$bs_campaign_id;
 }
 
 //append any filters if necessary
-if(isset($browser)){
-    $browser_stats_sql .= " AND browser = '".$browser."'";
+if(isset($bs_browser)){
+    $browser_stats_sql .= " AND browser = '".$bs_browser."'";
+}
+
+//get total number of browsers
+$r2 = mysql_query("SELECT COUNT(browser) AS count FROM campaigns_responses WHERE browser IS NOT NULL");
+while($ra2 = mysql_fetch_assoc ( $r2)){
+    $total_browser_count = $ra2['count'];
 }
 
 //get variables
@@ -665,10 +705,13 @@ $r = mysql_query($browser_stats_sql);
 if(  mysql_num_rows ( $r) < 1){
     echo "['No Responses Yet', 100]";
 }else{
+    $r = mysql_query($browser_stats_sql);
     while($ra = mysql_fetch_assoc ( $r)){
         $browser_and_version = $ra['browser'];
         $browser_count = $ra['count'];
-        $temp_count = mysql_num_rows($r);
+        if($browser_count > 0){
+            $browser_count = round(($browser_count / $total_browser_count) * 100,2);
+        }
         echo "['".$browser_and_version."', ".$browser_count."],";        
     }
 }

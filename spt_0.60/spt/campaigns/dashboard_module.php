@@ -1,6 +1,6 @@
 <!--
  * file:    dashboard_module.php
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -45,7 +45,7 @@
                                         //get all the campaign names
                                         $r = mysql_query("SELECT id,campaign_name FROM campaigns");
                                         while($ra = mysql_fetch_assoc ( $r)){
-                                            if($_REQUEST['pp_campaign'] == $ra['id']){
+                                            if(isset($_REQUEST['pp_campaign']) && $_REQUEST['pp_campaign'] == $ra['id']){
                                                 echo "<option value=\"".$ra['id']."\" selected >".$ra['campaign_name']."</option>";
                                             } else{
                                                 echo "<option value=\"".$ra['id']."\">".$ra['campaign_name']."</option>";
@@ -68,7 +68,7 @@
                                         //get all the browsers
                                         $r = mysql_query("SELECT DISTINCT(browser) as browser FROM campaigns_responses WHERE browser IS NOT NULL");
                                         while($ra = mysql_fetch_assoc ( $r)){
-                                            if($_REQUEST['pp_browser'] == $ra['browser']){
+                                            if(isset($_REQUEST['pp_browser']) && $_REQUEST['pp_browser'] == $ra['browser']){
                                                 echo "<option value=\"".$ra['browser']."\" selected>".$ra['browser']."</option>";
                                             }else{
                                                 echo "<option value=\"".$ra['browser']."\">".$ra['browser']."</option>";
@@ -107,7 +107,7 @@
                                         //get all the campaign names
                                         $r = mysql_query("SELECT id,campaign_name FROM campaigns");
                                         while($ra = mysql_fetch_assoc ( $r)){
-                                            if($_REQUEST['bt_campaign'] == $ra['id']){
+                                            if(isset($_REQUEST['bt_campaign']) && $_REQUEST['bt_campaign'] == $ra['id']){
                                                 echo "<option value=\"".$ra['id']."\" selected >".$ra['campaign_name']."</option>";
                                             } else{
                                                 echo "<option value=\"".$ra['id']."\">".$ra['campaign_name']."</option>";
@@ -130,7 +130,7 @@
                                         //get all the browsers
                                         $r = mysql_query("SELECT DISTINCT(browser) as browser FROM campaigns_responses WHERE browser IS NOT NULL");
                                         while($ra = mysql_fetch_assoc ( $r)){
-                                            if($_REQUEST['bt_browser'] == $ra['browser']){
+                                            if(isset($_REQUEST['bt_browser']) && $_REQUEST['bt_browser'] == $ra['browser']){
                                                 echo "<option value=\"".$ra['browser']."\" selected>".$ra['browser']."</option>";
                                             }else{
                                                 echo "<option value=\"".$ra['browser']."\">".$ra['browser']."</option>";
@@ -169,7 +169,7 @@
                                         //get all the campaign names
                                         $r = mysql_query("SELECT id,campaign_name FROM campaigns");
                                         while($ra = mysql_fetch_assoc ( $r)){
-                                            if($_REQUEST['es_campaign'] == $ra['id']){
+                                            if(isset($_REQUEST['es_campaign']) && $_REQUEST['es_campaign'] == $ra['id']){
                                                 echo "<option value=\"".$ra['id']."\" selected >".$ra['campaign_name']."</option>";
                                             } else{
                                                 echo "<option value=\"".$ra['id']."\">".$ra['campaign_name']."</option>";
@@ -208,7 +208,7 @@
                                         //get all the campaign names
                                         $r = mysql_query("SELECT id,campaign_name FROM campaigns");
                                         while($ra = mysql_fetch_assoc ( $r)){
-                                            if($_REQUEST['bs_campaign'] == $ra['id']){
+                                            if(isset($_REQUEST['bs_campaign']) && $_REQUEST['bs_campaign'] == $ra['id']){
                                                 echo "<option value=\"".$ra['id']."\" selected >".$ra['campaign_name']."</option>";
                                             } else{
                                                 echo "<option value=\"".$ra['id']."\">".$ra['campaign_name']."</option>";
@@ -222,7 +222,7 @@
                         <td>Browser</td>
                         <td>
 
-                                <select name="bt_browser">
+                                <select name="bs_browser">
                                     <option value="All">All</option>
                                     <?php
                                         //connect to database
@@ -231,7 +231,7 @@
                                         //get all the browsers
                                         $r = mysql_query("SELECT DISTINCT(browser) as browser FROM campaigns_responses WHERE browser IS NOT NULL");
                                         while($ra = mysql_fetch_assoc ( $r)){
-                                            if($_REQUEST['bs_browser'] == $ra['browser']){
+                                            if(isset($_REQUEST['bs_browser']) && $_REQUEST['bs_browser'] == $ra['browser']){
                                                 echo "<option value=\"".$ra['browser']."\" selected>".$ra['browser']."</option>";
                                             }else{
                                                 echo "<option value=\"".$ra['browser']."\">".$ra['browser']."</option>";

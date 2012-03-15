@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 26.0
+ * version: 27.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -96,7 +96,7 @@ include "../spt_config/mysql_config.php";
 $r = mysql_query ( "SELECT status FROM campaigns" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( $ra['status'] == 1 ) {
-        $_SESSION['alert_message'] = "there is already an active campaign, cancel it or let it finish before starting a new one";
+        $_SESSION['alert_message'] = "there is already an active campaign, pause it, cancel it or let it finish before starting a new one";
         header ( 'location:./#alert' );
         exit;
     }
