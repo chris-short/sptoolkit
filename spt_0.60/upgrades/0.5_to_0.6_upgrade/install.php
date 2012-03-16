@@ -4,60 +4,6 @@
 include "spt_config/mysql_config.php";
 
 
-////check file versions
-
-//initialize array
-$failures = array();
-
-//Check these files using the function above
-array_push($failures, checkVersion("campaigns/campaigns_export.php", "x.0"));
-array_push($failures, checkVersion("campaigns/change_status.php", "x.0"));
-array_push($failures, checkVersion("campaigns/dashboard_module.php", "x.0"));
-array_push($failures, checkVersion("campaigns/delete_campaign.php", "x.0"));
-array_push($failures, checkVersion("campaigns/index.php", "x.0"));
-array_push($failures, checkVersion("campaigns/response.php", "x.0"));
-array_push($failures, checkVersion("campaigns/send_emails.php", "x.0"));
-array_push($failures, checkVersion("campaigns/spt_campaigns.css", "x.0"));
-array_push($failures, checkVersion("campaigns/sql_install.php", "x.0"));
-array_push($failures, checkVersion("campaigns/start_campaign.php", "x.0"));
-array_push($failures, checkVersion("campaigns/update_campaign.php", "x.0"));
-
-array_push($failures, checkVersion("dashboard/index.php", "x.0"));
-array_push($failures, checkVersion("dashboard/spt_dashboard.css", "x.0"));
-
-array_push($failures, checkVersion("editor/file_update.php", "x.0"));
-array_push($failures, checkVersion("editor/index.php", "x.0"));
-array_push($failures, checkVersion("editor/spt_editor.css", "x.0"));
-
-array_push($failures, checkVersion("education/dashboard_module.php", "x.0"));
-array_push($failures, checkVersion("education/delete_package.php", "x.0"));
-array_push($failures, checkVersion("education/index.php", "x.0"));
-array_push($failures, checkVersion("education/spt_education.css", "x.0"));
-array_push($failures, checkVersion("education/sql_install.php", "x.0"));
-array_push($failures, checkVersion("education/upload_package.php", "x.0"));
-
-array_push($failures, checkVersion("education/temp_upload/1/default.css", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/1/index.htm", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/2/default.css", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/2/index.htm", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/3/default.css", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/3/index.htm", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/4/default.css", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/4/index.htm", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/5/default.css", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/5/index.htm", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/6/default.css", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/6/index.htm", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/7/default.css", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/7/index.htm", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/8/default.css", "x.0"));
-array_push($failures, checkVersion("education/temp_upload/8/index.htm", "x.0"));
-
-array_push($failures, checkVersion("errors/404_is_admin.php", "x.0"));
-array_push($failures, checkVersion("errors/404_is_authenticated.php", "x.0"));
-
-
-
 ////insert quick start templates
 
 //first sql statement (prevents some problems)
