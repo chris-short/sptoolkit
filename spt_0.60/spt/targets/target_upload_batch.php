@@ -2,7 +2,7 @@
 
 /**
  * file:    target_upload_batch.php
- * version: 18.0
+ * version: 19.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -133,16 +133,22 @@ foreach ( $lines as $line ) {
         //sanitize lname
         $temp_lname = filter_var ( trim ( $line_contents[2] ), FILTER_SANITIZE_STRING );
 
+        //set the group name
+        $temp_group = filter_var ( trim ( $line_contents[3] ), FILTER_SANITIZE_STRING );
+        
         //validate email
         if ( filter_var ( trim ( $line_contents[0] ), FILTER_VALIDATE_EMAIL ) ) {
+            $r = mysql_query("SELECT email FROM targets WHERE group_name = '$temp_group'");
+            while($ra = mysql_fetch_assoc ( $r)){
+                if($ra['email']==$line_contents[0]){
+                    $temp_counter_bad_emails ++;
+                }
+            }
             $temp_email = trim ( $line_contents[0] );
         } else {
             //increment bad email counter
             $temp_counter_bad_emails ++;
         }
-
-        //set the group name
-        $temp_group = filter_var ( trim ( $line_contents[3] ), FILTER_SANITIZE_STRING );
 
         //ensure the rows has the right number of columns
         if ( count ( $line_contents ) != ($field_count - 1) ) {
