@@ -2,7 +2,7 @@
 
 /**
  * file:    install.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Module Template
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -23,20 +23,31 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
-//This is the install script for the module template
-//Update the 'modules' table for the new module (required)
+//Module Configuration
+//Module Name - This is what will be displayed in the sidebar
+$module_name = "Module_Name";
+//Module Path - this is the directory that will be created in the root of spt where this module will be stored
+$module_path = "module_path";
+//Module Description - This is the description of the module that will be listed in the modules module
+$module_description = "A brief description about your module";
+//Module Date - This is the date the module was created
+$module_date = "1/1/2012";
+//Modure Core - You can specify if this is a core module or not.  Core = 1.  Non-Core = 0.  99% of the time this will be 0.
+$module_core = 0;
+//Module dependencies - Specify which modules this module depends on.  The first one depends on the second one.  Add additional entries by adding a comma and a new entry
+$module_dependencies = array("'Your_Module_Name','Module_it_depends_on'", "'Your_Module_Name','Another_Module_it_depends_On'");
+//Module Upgrade - If this is an upgrade set this value to 1
+$module_upgrade = 0;
 
-$sql = "
-    INSERT INTO `modules` VALUES ('Module Name goes here','Module directory name goes here','Module description goes here.','Date Module created goes here',0)";
+//Write Module Configuration to database or modify the database as necessary if an upgrade
+$sql_module = "INSERT INTO `modules` VALUES ('".$module_name."','".$module_path."','".$module_description."','".$module_date."','".$module_core."')";
+mysql_query($sql_module) or die(mysql_error());
+foreach ($module_dependencies as $mod_dep) {
+	$sql_dependencies = "INSERT INTO `modules_dependencies` VALUES (".$mod_dep.")";
+	mysql_query($sql_dependencies) or die (mysql_error());
+}
 
-mysql_query ( $sql ) or die ( mysql_error () );
-
-//Update the 'modules_dependencies' table for new module (required)
-
-$sql = "
-    INSERT INTO `modules_dependencies` VALUES ('Module Name goes here','The Module this module can not exist without')";
-
-mysql_query ( $sql ) or die ( mysql_error () );
+//Any Additional Installation modifications should go below this line
 
 //Create a table for this module (table name is same as module name) (optional)
 //$sql = "
