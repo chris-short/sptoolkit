@@ -2,7 +2,7 @@
 
 /**
  * file:    module_upload.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,7 +22,6 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
-
 // verify session is authenticated and not hijacked
 $includeContent = "../includes/is_authenticated.php";
 if ( file_exists ( $includeContent ) ) {
@@ -67,68 +66,95 @@ if ( $_FILES["file"]["error"] > 0 ) {
     exit;
 }
 
-//validate that the module doesn't already exist unless it is an upgrade
-//get the entire filename
+//get the filename
 $filename = $_FILES["file"]["name"];
 
-//explode the filename
-$pieces = explode ( ".", $filename );
-//create a variable that is the name of the module
-$module_name = $pieces[0];
-//check to see if this is an upgrade package
-if ( $pieces[1] == "upgrade" ) {
-    $module_upgrade = 1;
-}
-//pull all module names and do the check if its not an upgrade
-if ( ! isset ( $module_upgrade ) ) {
-    include "../spt_config/mysql_config.php";
-    $r = mysql_query ( "SELECT name FROM modules" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-    while ( $ra = mysql_fetch_assoc ( $r ) ) {
-        if ( $module_name == $ra['name'] ) {
-            $_SESSION['alert_message'] = 'there is already a module by this name and there was not an upgrade flag set';
-            header ( 'location:./#alert' );
-            exit;
-        }
-    }
-}
-
-//upload zip file to temp upload location
+//create an upload directory for the unzipped file
 mkdir ( 'upload' );
-move_uploaded_file ( $_FILES["file"]["tmp_name"], "upload/" . $_FILES["file"]["name"] );
 
-//delete existing code if an upgrade
-if ( isset ( $module_upgrade ) ) {
-    rmdir ( '../' . $module_name );
-    $_SESSION['installed_module_upgrade'] = 1;
-}
-//determine what the filename of the file is
-$filename = $_FILES["file"]["name"];
-
-//get directory name for the new module
-$basename = basename ( $filename, ".zip" );
-
-//extract file to its final destination
+//extract the files
 $zip = new ZipArchive;
-$res = $zip -> open ( 'upload/' . $filename );
+$res = $zip -> open ( $_FILES["file"]["tmp_name"] );
 if ( $res === TRUE ) {
-    $zip -> extractTo ( '../' . $basename . '/' );
+    $zip -> extractTo ( 'upload/' );
     $zip -> close ();
-
-    //go delete the original
-    unlink ( 'upload/' . $filename );
 } else {
     $_SESSION['alert_message'] = 'unzipping the file failed';
     header ( 'location:./#alert' );
     exit;
 }
 
-//execute the install file by including the install script that should be with each module
-$path = "../" . $module_name . "/install.php";
-include $path;
+//connect to the database
+include "../spt_config/mysql_config.php";
 
-//pass what module was created to a session and then proceed to the cleanup script
-$_SESSION['installed_module'] = $module_name;
+//get the name, path and upgrade status of this module
+$install_file_contents = file_get_contents ( "upload/install.php" );
+preg_match ( '#\$module_name\s=\s"(.*?)";#', $install_file_contents, $matches );
+$module_name = ($matches[1]);
+preg_match ( '#\$module_path\s=\s"(.*?)";#', $install_file_contents, $matches );
+$module_path = ($matches[1]);
+preg_match ( '#\$module_upgrade\s=\s(.*?);#', $install_file_contents, $matches );
+$module_upgrade = ($matches[1]);
 
-header ( 'location:../modules/module_cleanup.php' );
+//alert if there is a module with the same name or path and this is not specified as an upgrade
+if ( $module_upgrade != 1 ) {
+    $r = mysql_query ( "SELECT name, directory_name FROM modules WHERE name ='$module_name' OR directory_name = '$module_path'" ) or die ( mysql_error () );
+    if ( mysql_num_rows ( $r ) > 0 ) {
+        $_SESSION['alert_message'] = "There is already a module with the same name or stored in the same directory as the module you are trying to upload.  If this is an upgrade, please specify it as such.";
+        header ( 'location:./#alert' );
+        exit;
+    }
+}
+
+//read in the install file
+include "upload/install.php";
+
+//if an upgrade, delete the existing directory
+function rrmdir ( $dir ) {
+    if ( is_dir ( $dir ) ) {
+        $objects = scandir ( $dir );
+        foreach ( $objects as $object ) {
+            if ( $object != "." && $object != ".." ) {
+                if ( filetype ( $dir . "/" . $object ) == "dir" )
+                    rrmdir ( $dir . "/" . $object ); else
+                    unlink ( $dir . "/" . $object );
+            }
+        }
+        reset ( $objects );
+        rmdir ( $dir );
+    }
+}
+
+if ( $module_upgrade == 1 ) {
+    rrmdir ( "../" . $module_path );
+}
+
+//move files to new directory
+function recursive_copy ( $src, $dst ) {
+    $dir = opendir ( $src );
+    @mkdir ( $dst );
+    while ( false !== ( $file = readdir ( $dir )) ) {
+        if ( ( $file != '.' ) && ( $file != '..' ) ) {
+            if ( is_dir ( $src . '/' . $file ) ) {
+                recursive_copy ( $src . '/' . $file, $dst . '/' . $file );
+            } else {
+                copy ( $src . '/' . $file, $dst . '/' . $file );
+            }
+        }
+    }
+    closedir ( $dir );
+}
+
+recursive_copy ( "upload/", "../" . $module_path );
+
+//delete upload directory
+rrmdir ( "upload" );
+
+//delete the install file
+unlink ( "../" . $module_path . "/install.php" );
+
+//set alert message and send them back
+$_SESSION['alert_message'] = "The " . $module_name . " module has been successfully installed.  Look over to the left for a link to your new module!";
+header ( 'location:./#alert' );
 exit;
 ?>
