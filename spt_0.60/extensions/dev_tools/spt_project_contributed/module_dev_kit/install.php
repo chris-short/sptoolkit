@@ -2,7 +2,7 @@
 
 /**
  * file:    install.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Module Template
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -30,8 +30,8 @@ $module_name = "Module_Name";
 $module_path = "module_path";
 //Module Description - This is the description of the module that will be listed in the modules module
 $module_description = "A brief description about your module";
-//Module Date - This is the date the module was created
-$module_date = "1/1/2012";
+//Module Date - This is the date the module was created (yyyy-mm-dd)
+$module_date = "2012-01-01";
 //Modure Core - You can specify if this is a core module or not.  Core = 1.  Non-Core = 0.  99% of the time this will be 0.
 $module_core = 0;
 //Module dependencies - Specify which modules this module depends on.  The first one depends on the second one.  Add additional entries by adding a comma and a new entry

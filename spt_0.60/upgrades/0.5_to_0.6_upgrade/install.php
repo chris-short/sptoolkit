@@ -156,6 +156,7 @@ unlink('images/trash.png');
 unlink('images/trash_sm.png');
 unlink('images/x.png');
 unlink('images/x_sm.png');
+unlink('modules/module_cleanup.php');
 
 
 ?>
