@@ -2,7 +2,7 @@
 
 /**
  * file:    target_upload_batch.php
- * version: 19.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -39,6 +39,9 @@ if ( file_exists ( $includeContent ) ) {
     header ( 'location:../errors/404_is_admin.php' );
 }
 
+//connect to database
+include "../spt_config/mysql_config.php";
+
 //ensure that the file is under 20M
 if ( $_FILES["file"]["size"] > 20000000 ) {
     $_SESSION['alert_message'] = 'max file size is 20MB';
@@ -61,155 +64,191 @@ $lines = file ( $_FILES["file"]["tmp_name"] );
 
 //ensure there is a comma in every line
 foreach ( $lines as $line ) {
-
     if ( ! preg_match ( '/[,]/', $line ) ) {
-        $_SESSION['alert_message'] = "this file is not properly comma delimited";
+        $_SESSION['alert_message'] = "this file is not properly comma delimited, there is not a comma on every line";
         header ( 'location:./#alert' );
         exit;
     }
 }
 
-//ensure the header exists and is in the right order
-//connect to database
-include "../spt_config/mysql_config.php";
-
+//get the header column
 $header_line = explode ( ',', $lines[0] );
+$file_column_count = count($header_line);
 
-//set counter
-$c = 0;
-$c2 = 0;
-
-//get target columns
+//get the number of columns in the database
 $r = mysql_query ( "SHOW COLUMNS FROM targets" );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    if ( $c2 > 0 ) {
-        if ( strtolower ( $ra['Field'] ) != trim ( strtolower ( $header_line[$c] ) ) ) {
-            $_SESSION['alert_message'] = "the header row does not match the column names in the database. The value <strong>" . $ra['Field'] . "</strong> does not match <strong>" . $header_line[$c] . "</strong>";
-            header ( 'location:./#alert' );
-            exit;
-        }
-        $c ++;
+$c = 0;
+$table_column_count = 0;
+while($table_columns_array = mysql_fetch_array($r)){
+    if($c == 0){
+        $c++;
+        continue;
+    }else if($c == 1){
+        $table_columns = array($table_columns_array['Field']);
+    }else{
+        array_push($table_columns, $table_columns_array['Field']);
     }
-    $c2 ++;
+    $c++;
+    $table_column_count++;
 }
 
-//ensure there are at least the three required fields
-foreach ( $lines as $line ) {
-    //separate each line into an array based on the comma delimiter
-    $line_contents = explode ( ',', $line );
+//compare row counts
+if($file_column_count != $table_column_count){
+    $_SESSION['alert_message'] = "the import file's column count does not match what is in the database";
+    header('location:./#alert');
+    exit;
+}
 
-    //ensure there are at least three columns
-    if ( ! isset ( $line_contents[0] ) || ! isset ( $line_contents[1] ) || ! isset ( $line_contents[2] ) ) {
-        $_SESSION['alert_message'] = "you do not have at least the first three required columns in all rows";
-        header ( 'location:./#alert' );
+$c = 0;
+//ensure the column names match
+foreach($header_line as $column){
+    $column = trim($column);
+    if(!in_array($column, $table_columns)){
+        $_SESSION['alert_message'] = "Your import file has a column that does not exist in the database";
+        header('location:./#alert');
         exit;
     }
+    if($c == 0){
+        $header_line_trimmed = array(trim($column));
+    }else{
+        array_push($header_line_trimmed, trim($column));
+    }
+    ++$c;
 }
 
-//initialize counters
+//determine which column is which in the imported file
 $c = 0;
+foreach($table_columns as $table_column){
+    $key = array_search($table_column, $header_line_trimmed);
+    if($c == 0){
+        $table_file_match_array = array($key);
+    }else{
+        array_push($table_file_match_array, $key);
+    }
+    $c++;
+}
 
-$counter = 0;
-$counter_total = 0;
-
-$counter_bad_emails = 0;
-$counter_bad_columns = 0;
-
-$temp_counter_bad_emails = 0;
-$temp_counter_bad_columns = 0;
-
-$field_count = mysql_num_rows ( $r );
+//set error counters
+$bad_email_count = 0;
+$bad_fname_count = 0;
+$bad_lname_count = 0;
+$bad_group_name_count = 0;
+$total_attempted = 0;
+$total_imported = 0;
+$header_counter = 0;
+$continue = 0;
 
 //validate each column of data and if all columns validate write the entire line to the database
-foreach ( $lines as $line ) {
-
-    if ( $c > 0 ) {
-        //separate each line into an array based on the comma delimiter
-        $line_contents = explode ( ',', $line );
-
-        //sanitize fname
-        $temp_fname = filter_var ( trim ( $line_contents[1] ), FILTER_SANITIZE_STRING );
-
-        //sanitize lname
-        $temp_lname = filter_var ( trim ( $line_contents[2] ), FILTER_SANITIZE_STRING );
-
-        //set the group name
-        $temp_group = filter_var ( trim ( $line_contents[3] ), FILTER_SANITIZE_STRING );
-        
-        //validate email
-        if ( filter_var ( trim ( $line_contents[0] ), FILTER_VALIDATE_EMAIL ) ) {
-            $r = mysql_query("SELECT email FROM targets WHERE group_name = '$temp_group'");
-            while($ra = mysql_fetch_assoc ( $r)){
-                if($ra['email']==$line_contents[0]){
-                    $temp_counter_bad_emails ++;
-                }
-            }
-            $temp_email = trim ( $line_contents[0] );
-        } else {
-            //increment bad email counter
-            $temp_counter_bad_emails ++;
-        }
-
-        //ensure the rows has the right number of columns
-        if ( count ( $line_contents ) != ($field_count - 1) ) {
-            //increment the bad columns counter
-            $temp_counter_bad_columns ++;
-        }
-
-        //if there are any errors increment counters, otherwise write values to database
-        if ( $temp_counter_bad_columns == 1 || $temp_counter_bad_emails == 1 ) {
-            $counter_bad_columns = $temp_counter_bad_columns + $counter_bad_columns;
-            $counter_bad_emails = $temp_counter_bad_emails + $counter_bad_emails;
-        } else {
-            //connect to database
-            include "../spt_config/mysql_config.php";
-
-            //insert data
-            mysql_query ( "INSERT INTO targets (fname, lname, email, group_name) VALUES ('$temp_fname','$temp_lname','$temp_email','$temp_group')" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-
-            //set column count variable
-            $column_count = -1;
-            $r = mysql_query ( "SHOW COLUMNS FROM targets" );
-            while ( $ra = mysql_fetch_row ( $r ) ) {
-
-                if ( $ra[0] == "email" || $ra[0] == "fname" || $ra[0] == "lname" || $ra[0] == "group_name" || $ra[0] == "id" ) {
-                    
-                } else {
-                    $column = $ra[0];
-                    $value = $line_contents[$column_count];
-
-                    //add the appropriate value to the appropriate column
-                    mysql_query ( "UPDATE targets SET $column = '$value' WHERE email = '$temp_email'" );
-                }
-                $column_count ++;
-            }
-
-            //increment counter of successful entries
-            $counter ++;
-        }
-
-        //increment how many rows were parsed
-        $counter_total ++;
-
-        //set temp counters back to 0
-        $temp_counter_bad_columns = 0;
-        $temp_counter_bad_emails = 0;
+foreach ( $lines as $line ) { 
+    //skip first/header row
+    if($header_counter == 0){
+        ++$header_counter;
+        continue;
     }
-    //increment counter
-    $c ++;
+    //separate each line into an array based on the comma delimiter
+    $line_contents = explode ( ',', $line );
+    foreach($line_contents as $key => $value){
+        //check to see if its the group name and if its valid
+        if($key == $table_file_match_array[3]){
+            $temp_group_name = filter_var(trim($value), FILTER_SANITIZE_STRING);
+            if(strlen($temp_group_name) < 1){
+                ++$total_attempted;
+                ++$bad_group_name_count; 
+                $continue = 1;
+                continue;
+            }
+        }
+        //check if it is the email column and if it is valid
+        if($key == $table_file_match_array[0]){
+            $temp_email = trim($value);
+            if(!filter_var(trim($value), FILTER_VALIDATE_EMAIL)){
+                ++$total_attempted;
+                ++$bad_email_count;
+                $continue = 1;
+                continue;
+            }
+        }
+        //check if it is the fname column
+        if($key == $table_file_match_array[1]){
+            $temp_fname = filter_var(trim($value), FILTER_SANITIZE_STRING);
+            if(strlen($temp_fname) < 1){
+                ++$total_attempted;
+                ++$bad_fname_count;
+                $continue = 1;
+                continue;
+            }
+        }
+        //check if it is the lname column
+        if($key == $table_file_match_array[2]){
+            $temp_lname = filter_var(trim($value), FILTER_SANITIZE_STRING);
+            if(strlen($temp_lname) < 1){
+                ++$total_attempted;
+                ++$bad_lname_count;
+                $continue = 1;
+                continue;
+            }
+        }
+    }
+    if($continue == 1){
+        $continue = 0;
+        continue;
+    }
+    //ensure that this email address is unique within the group
+    $r = mysql_query("SELECT email FROM targets WHERE group_name = '$temp_group_name'");
+    while($ra = mysql_fetch_assoc($r)){
+        if($ra['email']==$temp_email){
+            ++$bad_email_count;
+            ++$total_attempted;
+            $continue = 1;
+        }
+    }
+    if($continue == 1){
+        $continue = 0;
+        continue;
+    }
+    //if you make it this far write all values to the database and increment the import count
+    $sql = "INSERT INTO targets(";
+    $c = 0;
+    foreach($table_columns as $table_column){
+        if($c != 0){
+            $sql .= ", ";
+        }
+        $sql .= $table_column;
+        ++$c;
+    }
+    $sql .= ") VALUES (";
+    $c = 0;
+    foreach($table_file_match_array as $key => $value){
+        if($c != 0){
+            $sql .= ", ";
+        }
+        $field_value = trim($line_contents[$value]);
+        $sql .= "'".$field_value."'";
+        ++$c;
+    }
+    $sql .= ")";
+    echo $sql."<br />";
+    mysql_query($sql) or die (mysql_error());
+    ++$total_attempted;
+    ++$total_imported;
 }
-
 
 //send stats back if there were bad rows
-if ( $counter_bad_columns > 0 ) {
-    $_SESSION["bad_row_stats"][] = $counter_bad_columns . " rows excluded because there were not enough columns";
+if ( $bad_email_count > 0 ) {
+    $_SESSION["bad_row_stats"][] = $bad_email_count . " rows excluded due to bad email addresses";
 }
-if ( $counter_bad_emails > 0 ) {
-    $_SESSION["bad_row_stats"][] = $counter_bad_emails . " rows excluded due to bad email addresses";
+if ( $bad_fname_count > 0 ) {
+    $_SESSION["bad_row_stats"][] = $bad_fname_count . " rows excluded due to missing first name(s)";
+}
+if ( $bad_lname_count > 0 ) {
+    $_SESSION["bad_row_stats"][] = $bad_lname_count . " rows excluded due to missing last name(s)";
+}
+if ( $bad_group_name_count > 0 ) {
+    $_SESSION["bad_row_stats"][] = $bad_group_name_count . " rows excluded due to missing group name(s)";
 }
 
 //send user back to targets page with success message
-$_SESSION['alert_message'] = $counter . " of " . $counter_total . " targets uploaded successfully";
+$_SESSION['alert_message'] = $total_imported . " of " . $total_attempted . " targets uploaded successfully";
 header ( 'location:./#alert' );
 exit;
 ?>
