@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 12.0
+ * version: 13.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -168,9 +168,9 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
     if ( isset ( $relay_host ) AND isset ( $relay_username ) AND isset ( $relay_password ) ) {
         //Set relay port if set
-        if ( !isset ( $relay_port ) ) {
+        if ( ! isset ( $relay_port ) ) {
             $relay_port = 25;
-        } 
+        }
 
         //Create the Transport
         $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port )
@@ -220,7 +220,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
     //store logs in database
     $mail_log = $logger -> dump ();
-    $mail_log = nl2br($mail_log);
+    $mail_log = nl2br ( htmlentities ( $mail_log ) );
     mysql_query ( "UPDATE campaigns_responses SET response_log='$mail_log' WHERE response_id = '$current_response_id'" );
 
     //specify that message is sent
@@ -230,7 +230,6 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( count ( $failures ) > 0 ) {
         mysql_query ( "UPDATE campaigns_responses SET sent = 3 WHERE response_id = '$current_response_id'" );
     }
-
 }
 
 echo "continue";
