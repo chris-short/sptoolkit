@@ -2,7 +2,7 @@
 
 /**
  * file:    target_upload_single.php
- * version: 16.0
+ * version: 17.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -105,27 +105,33 @@ if ( isset ( $group_name ) && $group_name != "Select an Existing Group..." ) {
 }
 
 //if they are adding a new group name, validate it
-if ( preg_match ( '/[^a-zA-Z0-9_-\s!.()]/', $group_name_new ) ) {
-    $_SESSION["alert_message"] = "there are invalid characters in the group name";
-    header ( 'location:./#alert' );
-    exit;
-}
-
-//ensure that the email address is not already in this group
-$r = mysql_query ( "SELECT email FROM targets WHERE group_name = '$group_name'" );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    if ( $ra['email'] == $email ) {
-        $_SESSION['alert_message'] = "this email address is already in this group";
+if ( isset ( $group_name_new ) ) {
+    if ( preg_match ( '/[^a-zA-Z0-9_-\s!.()]/', $group_name_new ) ) {
+        $_SESSION["alert_message"] = "there are invalid characters in the group name";
         header ( 'location:./#alert' );
         exit;
     }
 }
-$r = mysql_query ( "SELECT email FROM targets WHERE group_name = '$group_name_new'" );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    if ( $ra['email'] == $email ) {
-        $_SESSION['alert_message'] = "this email address is already in this group";
-        header ( 'location:./#alert' );
-        exit;
+
+//ensure that the email address is not already in this group
+if ( isset ( $group_name ) ) {
+    $r = mysql_query ( "SELECT email FROM targets WHERE group_name = '$group_name'" );
+    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+        if ( $ra['email'] == $email ) {
+            $_SESSION['alert_message'] = "this email address is already in this group";
+            header ( 'location:./#alert' );
+            exit;
+        }
+    }
+}
+if ( isset ( $group_name_new ) ) {
+    $r = mysql_query ( "SELECT email FROM targets WHERE group_name = '$group_name_new'" );
+    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+        if ( $ra['email'] == $email ) {
+            $_SESSION['alert_message'] = "this email address is already in this group";
+            header ( 'location:./#alert' );
+            exit;
+        }
     }
 }
 
