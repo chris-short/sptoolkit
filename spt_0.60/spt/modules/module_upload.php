@@ -2,7 +2,7 @@
 
 /**
  * file:    module_upload.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -86,6 +86,13 @@ if ( $res === TRUE ) {
 
 //connect to the database
 include "../spt_config/mysql_config.php";
+
+//check to see if the install file exists and is in the right spot
+if ( ! file_exists ( "upload/install.php" ) ) {
+    $_SESSION['alert_message'] = "please check your module, there is no install.php file in the root of the zipped directory";
+    header ( "location:./#alert" );
+    exit;
+}
 
 //get the name, path and upgrade status of this module
 $install_file_contents = file_get_contents ( "upload/install.php" );
