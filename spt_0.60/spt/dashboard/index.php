@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		15.0
+ * version:		16.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -69,7 +69,7 @@ $(document).ready(function() {
                                                                         dataLabels: {
                                                                             enabled: true,
                                                                             formatter: function() {
-                                                                                return this.percentage +' %';
+                                                                                return this.y +' %';
                                                                             }
                                                                        },
 				showInLegend: true
@@ -189,9 +189,9 @@ $total_no_response = $total_phishes - $total_posts - $total_link_only;
 
 //calcuate percentages
 if($total_phishes > 0){
-    $total_no_response_percentage = round(($total_no_response / $total_phishes) * 100,2);
-    $total_link_only_percentage = round(($total_link_only / $total_phishes) * 100,2);    
-    $total_posts_percentage = round(($total_posts / $total_phishes) * 100,2);
+    $total_no_response_percentage = round((($total_no_response / $total_phishes) * 100),2);
+    $total_link_only_percentage = round((($total_link_only / $total_phishes) * 100),2);    
+    $total_posts_percentage = round((($total_posts / $total_phishes) * 100),2);
 }else{
     $total_no_response_percentage = 0;
     $total_link_only_percentage = 0;
@@ -414,7 +414,7 @@ $(document).ready(function() {
                                                                         dataLabels: {
                                                                             enabled: true,
                                                                             formatter: function() {
-                                                                                return this.percentage +' %';
+                                                                                return this.y +' %';
                                                                             }
                                                                        },
 				showInLegend: true
@@ -597,7 +597,7 @@ $(document).ready(function() {
                                                                         dataLabels: {
                                                                             enabled: true,
                                                                             formatter: function() {
-                                                                                return this.percentage +' %';
+                                                                                return this.y +' %';
                                                                             }
                                                                        },
 				showInLegend: true

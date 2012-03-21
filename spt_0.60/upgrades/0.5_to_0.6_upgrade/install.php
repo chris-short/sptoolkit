@@ -2,7 +2,7 @@
 
 /**
  * file:    install.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.5 - 0.6)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -203,7 +203,7 @@ error_reporting ( 0 );
                 ";
                     mysql_query ( $sql );
 
-                    $sql = "UPDATE campaigns_responses SET sent = 1";
+                    $sql = "UPDATE campaigns_responses SET sent = 2";
                     mysql_query ( $sql );
 
 ////insert quick start templates
