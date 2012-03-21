@@ -1,11 +1,12 @@
 <?php
+
 /**
- * file:		install.php
- * version:		1.0
- * package:		Simple Phishing Toolkit (spt)
- * component:	Upgrade
+ * file:    install.php
+ * version: 2.0
+ * package: Simple Phishing Toolkit (spt)
+ * component:	Upgrade (0.5 - 0.6)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -21,6 +22,7 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
+
 //starts php session
 session_start ();
 
@@ -28,20 +30,18 @@ session_start ();
 // handled via the script itself
 error_reporting ( 0 );
 ?>
+
 <!DOCTYPE HTML> 
 <html>
     <head>
         <title>spt - simple phishing toolkit</title>
-
         <!--meta-->
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="description" content="welcome to spt - simple phishing toolkit.  spt is a super simple but powerful phishing toolkit." />
-
         <!--favicon-->
         <link rel="shortcut icon" href="images/favicon.ico" />
-
         <!--css-->
-        <link rel="stylesheet" href="spt.css" type="text/css" />
+        <link rel="stylesheet" href="includes/spt.css" type="text/css" />
     </head>
 
     <body>
@@ -185,25 +185,25 @@ error_reporting ( 0 );
                     include "spt_config/mysql_config.php";
 
 //add campaign table modifications
-                    $sql = "ALTER TABLE campaigns ADD
-                `date_ended` varchar(255) NOT NULL,
-                `message_delay` int(10) NOT NULL,
-                `status` int(1) NOT NULL,
-                `spt_path` varchar(255) NOT NULL,
-                `relay_host` varchar(255) NOT NULL,
-                `relay_username` varchar(255) NOT NULL,
-                `relay_password` varchar(255) NOT NULL,
-                `relay_port` int(5) NOT NULL,
+                    $sql = "ALTER TABLE campaigns
+                ADD COLUMN `date_ended` varchar(255) NOT NULL,
+                ADD COLUMN `message_delay` int(10) NOT NULL,
+                ADD COLUMN `status` int(1) NOT NULL,
+                ADD COLUMN `spt_path` varchar(255) NOT NULL,
+                ADD COLUMN `relay_host` varchar(255) NOT NULL,
+                ADD COLUMN `relay_username` varchar(255) NOT NULL,
+                ADD COLUMN `relay_password` varchar(255) NOT NULL,
+                ADD COLUMN `relay_port` int(5) NOT NULL
                 ";
                     mysql_query ( $sql ) or die ( mysql_error () );
 
-                    $sql = "ALTER TABLE campaigns_responses ADD
-                `sent` int(1) NOT NULL,
-                `response_log` longtext NOT NULL
+                    $sql = "ALTER TABLE campaigns_responses
+                ADD COLUMN `sent` int(1) NOT NULL,
+                ADD COLUMN `response_log` longtext NOT NULL
                 ";
                     mysql_query ( $sql );
 
-                    $sql = "UPDATE campaigns_responses SET sent = 2";
+                    $sql = "UPDATE campaigns_responses SET sent = 1";
                     mysql_query ( $sql );
 
 ////insert quick start templates
