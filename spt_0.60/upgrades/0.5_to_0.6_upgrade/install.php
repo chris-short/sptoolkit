@@ -2,7 +2,7 @@
 
 /**
  * file:    install.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.5 - 0.6)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -66,6 +66,12 @@ error_reporting ( 0 );
         <form id=\"step_1\" method=\"post\" action=\"\">
                 <span>Click below to begin the upgrade to spt v0.6, <strong>Flying Fish</strong>.<br /><br /><strong>Please be sure to backup your database BEFORE continuing!</strong></span>
                 <br /><br />
+                <span>Release Notes of Note:</span>
+                <ul>
+                    <li>All existing template email.php files will not work.  Scrape your templates again or manually update your email.php files using the Module Dev Kit as your guide.</li>
+                    <li>We've added charts!  We are using <a href=\"http://www.highcharts.com/\">highcharts</a>.  Be sure to familiarize yourself with their <a href=\"http://shop.highsoft.com/highcharts.html\">license</a> before re-distributing!</li>
+                    <li>We no longer use sendmail.  We use <a href=\"http://swiftmailer.org/\">swiftmailer</a>.  If you don't need sendmail for anything else, feel free to delete :)</li>
+                </ul>
                 <input type=\"hidden\" name=\"step1\" value=\"complete\" />
                 <input type=\"submit\" value=\"Begin!\" />
         </form>
@@ -129,9 +135,26 @@ error_reporting ( 0 );
                     }
 
                     echo "</tr>";
+                    
+        //Verify proc_open is enabled
+        echo "
+        <tr>
+            <td>PHP proc_open enabled</td>";
+
+                    if ( ! function_exists ( 'proc_open' ) ) {
+                        echo "
+            <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/cancel.png\" alt=\"problem\" /><span>PHP's proc_open function must not be disabled to ensure that SwiftMailer can successfully send emails.  Ensure this function is not disabled in your php.ini file.  You can visit sptoolkit.com for more information.</span></a></td>";
+                    } else {
+                        echo "
+            <td class=\"td_center\"><img src=\"images/accept.png\" alt=\"success\" /></td>";
+                        $proc_open_good = "true";
+                    }
+
+        echo "</tr>";
+
 
                     //Ensure all enviromental checks pass
-                    if ( isset ( $permission_error ) ) {
+                    if ( isset ( $permission_error ) OR $proc_open_good != "true" ) {
                         $enviro_checks = 0;
                     } else {
                         $enviro_checks = 1;
