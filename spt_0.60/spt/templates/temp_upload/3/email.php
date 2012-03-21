@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Email template - Quick Start campaign templates (Delta.com)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
