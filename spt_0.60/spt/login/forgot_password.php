@@ -2,7 +2,7 @@
 
 /**
  * file:   forgot_password.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -51,7 +51,7 @@ if ( isset ( $_REQUEST['key'] ) ) {
                         $_SESSION['ip'] = md5 ( $_SESSION['salt'] . $_SERVER['REMOTE_ADDR'] . $_SESSION['salt'] );
 
                         //create an authenticated session
-                        $_SESSION['authenticated'] = 1;
+                        $_SESSION['authenticated'] = $_SESSION['salt'];
 
                         //create a username session
                         $_SESSION['username'] = $u;
@@ -59,7 +59,7 @@ if ( isset ( $_REQUEST['key'] ) ) {
                         //check to see if they are an admin
                         if ( $admin == 1 ) {
                             //create an admin session
-                            $_SESSION['admin'] = 1;
+                            $_SESSION['admin'] = $_SESSION['salt'];
                         }
 
                         //disable key

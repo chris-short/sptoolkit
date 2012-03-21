@@ -2,7 +2,7 @@
 
 /**
  * file:    validator.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Login management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -74,7 +74,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     //the actual comparison
     if ( $ra['username'] == $u && $ra['password'] == $p && $ra['disabled'] != 1 ) {
         //create an authenticated session
-        $_SESSION['authenticated'] = 1;
+        $_SESSION['authenticated'] = $_SESSION['salt'];
 
         //create a username session
         $_SESSION['username'] = $u;
@@ -82,7 +82,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         //check to see if they are an admin
         if ( $ra['admin'] == 1 ) {
             //create an admin session
-            $_SESSION['admin'] = 1;
+            $_SESSION['admin'] = $_SESSION['salt'];
         }
 
         //send authenticated user to the dashboard
