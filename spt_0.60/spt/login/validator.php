@@ -74,7 +74,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     //the actual comparison
     if ( $ra['username'] == $u && $ra['password'] == $p && $ra['disabled'] != 1 ) {
         //create an authenticated session
-        $_SESSION['authenticated'] = $_SESSION['salt'];
+        $_SESSION['authenticated'] = 1;
 
         //create a username session
         $_SESSION['username'] = $u;
@@ -82,7 +82,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         //check to see if they are an admin
         if ( $ra['admin'] == 1 ) {
             //create an admin session
-            $_SESSION['admin'] = $_SESSION['salt'];
+            $_SESSION['admin'] = 1;
         }
 
         //send authenticated user to the dashboard

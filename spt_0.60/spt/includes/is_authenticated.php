@@ -2,7 +2,7 @@
 
 /**
  * file:    is_authenticated.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -27,7 +27,7 @@
 session_start ();
 
 //check for authenticated session
-if ( $_SESSION['authenticated'] != $_SESSION['salt'] ) {
+if ( $_SESSION['authenticated'] != 1 ) {
 
     //set error message and send them back to login
     $_SESSION['alert_message'] = "login first";
