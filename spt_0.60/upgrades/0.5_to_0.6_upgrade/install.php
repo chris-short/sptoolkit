@@ -2,7 +2,7 @@
 
 /**
  * file:    install.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.5 - 0.6)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -76,7 +76,7 @@ error_reporting ( 0 );
                 <ul>
                     <li><strong>Backup your database BEFORE continuing!</strong></li>
                     <li>Existing template email.php files will not work.  Scrape your templates again or see article <a href=\"http://www.sptoolkit.com/documentation/204-the-email-php-file/\" target=\"_blank\">204: The email.php file</a> for more information.</li>
-                    <li>We no longer use sendmail.  We use <a href=\"http://swiftmailer.org/\">swiftmailer</a>.  If you don't need sendmail for anything else, feel free to delete.</li>
+                    <li>We no longer use sendmail.  We use <a href=\"http://swiftmailer.org/\" target=\"_blank\">swiftmailer</a>.  If you don't need sendmail for anything else, feel free to delete.</li>
                 </ul>
                 <input type=\"hidden\" name=\"step1\" value=\"complete\" />
                 <input type=\"submit\" value=\"Begin!\" />
@@ -236,7 +236,7 @@ error_reporting ( 0 );
                     mysql_query ( $sql );
 
 ////insert quick start templates
-////first sql statement (prevents some problems)
+//first sql statement (prevents some problems)
                     $sql = "INSERT INTO templates (name, description) VALUES ('[QS] Amazon shipping information','An email from Amazon.com with shipping information about a recently order.  When the link is clicked, automatic education about malware will occur using an embedded YouTube video.  [Video requires Internet access to YouTube]')";
                     mysql_query ( $sql ) or die ( mysql_error () );
 
