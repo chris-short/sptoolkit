@@ -2,7 +2,7 @@
 
 /**
  * file:    install.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.5 - 0.6)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -64,13 +64,19 @@ error_reporting ( 0 );
                     echo
                     "
         <form id=\"step_1\" method=\"post\" action=\"\">
-                <span>Click below to begin the upgrade to spt v0.6, <strong>Flying Fish</strong>.<br /><br /><strong>Please be sure to backup your database BEFORE continuing!</strong></span>
+                <span>Welcome to the <strong>Flying Fish</strong> (v0.60) upgrade!<br /><br />Read the license agreements and important items listed below before clicking begin.  By clicking begin you are agreeing with the licenses and stating that you understand the important items.</span>
                 <br /><br />
-                <span>Release Notes of Note:</span>
+                <span>Licenses:</span>
                 <ul>
-                    <li>All existing template email.php files will not work.  Scrape your templates again or manually update your email.php files using the Module Dev Kit as your guide.</li>
-                    <li>We've added charts!  We are using <a href=\"http://www.highcharts.com/\">highcharts</a>.  Be sure to familiarize yourself with their <a href=\"http://shop.highsoft.com/highcharts.html\">license</a> before re-distributing!</li>
-                    <li>We no longer use sendmail.  We use <a href=\"http://swiftmailer.org/\">swiftmailer</a>.  If you don't need sendmail for anything else, feel free to delete :)</li>
+                    <li><a href=\"license.htm\" target=\"_blank\">spt</a></li>
+                    <li><a href=\"http://shop.highsoft.com/highcharts.html\" target=\"_blank\">highcharts</a></li>
+                    <li><a href=\"includes/swiftmailer/LICENSE\" target=\"_blank\">swiftmailer</a></li>
+                </ul>
+                <span>Important:</span>
+                <ul>
+                    <li><strong>Backup your database BEFORE continuing!</strong></li>
+                    <li>Existing template email.php files will not work.  Scrape your templates again or see article <a href=\"http://www.sptoolkit.com/documentation/204-the-email-php-file/\" target=\"_blank\">204: The email.php file</a> for more information.</li>
+                    <li>We no longer use sendmail.  We use <a href=\"http://swiftmailer.org/\">swiftmailer</a>.  If you don't need sendmail for anything else, feel free to delete.</li>
                 </ul>
                 <input type=\"hidden\" name=\"step1\" value=\"complete\" />
                 <input type=\"submit\" value=\"Begin!\" />
@@ -298,7 +304,7 @@ error_reporting ( 0 );
                     $sql = "INSERT INTO `education` (name, description) VALUES ('[Internet] Phished 1','Displays content about being phished including a Youtube video from Symantec about phishing.  [Requires Internet access to YouTube]')";
                     mysql_query ( $sql ) or die ( mysql_error () );
 
-//figure out the campaign id
+//figure out the education id
                     $r = mysql_query ( "SELECT MAX(id) as max FROM education" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                     while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         $id = $ra['max'];

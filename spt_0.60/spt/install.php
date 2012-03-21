@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 16.0
+ * version: 17.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -55,11 +55,14 @@ session_start ();
                 if ( ! isset ( $_SESSION['install_status'] ) && ! isset ( $_POST['step1'] ) ) {
                     echo "
                 <form id=\"step_1\" method=\"post\" action=\"\">
-                    <span>Welcome! Ready to begin? <br /><br />By proceeding forward, you accept the license agreement below.</span>
+                    <span>Ready to install spt?<br /><br />Read the license agreements listed and agree by clicking the button below.</span>
                     <br /><br />
-                    <iframe src=\"license.htm\" width=\"100%\" height=\"175\">
-                            <p>Your browser does not support iframes.</p>
-                    </iframe>
+                    <span>Licenses</span>
+                    <ul>
+                        <li><a href=\"license.htm\" target=\"_blank\">spt</a></li>
+                        <li><a href=\"http://shop.highsoft.com/highcharts.html\" target=\"_blank\">highcharts</a></li>
+                        <li><a href=\"includes/swiftmailer/LICENSE\" target=\"_blank\">swiftmailer</a></li>
+                    </ul>
                     <br /><br />
                     <input type=\"hidden\" name=\"step1\" value=\"complete\" />
                     <input type=\"submit\" value=\"I Agree!\" />
