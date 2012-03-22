@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Email template - Quick Start campaign templates (Helpdesk support portal)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,7 +30,7 @@
 //variable @link somewhere in the email.
 
 //You can also use @fname (first name), @lname (last name) and @url (phishing url).
-$subject = 'Helpdesk Support Protal Announcement';
+$subject = 'Helpdesk Support Portal Announcement';
 
 //This will set the sender's name and email address as well as reply to address
 $sender_email = "helpdesk@contoso.com";
