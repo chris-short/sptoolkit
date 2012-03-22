@@ -2,7 +2,7 @@
 
 /**
  * file:    scrape_it.php
- * version: 18.0
+ * version: 19.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,7 +22,6 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
-
 // verify session is authenticated and not hijacked
 $includeContent = "../includes/is_authenticated.php";
 if ( file_exists ( $includeContent ) ) {
@@ -156,6 +155,37 @@ copy ( "temp_upload/index.htm", $id . "/index.htm" );
 copy ( "temp_upload/return.htm", $id . "/return.htm" );
 copy ( "temp_upload/email.php", $id . "/email.php" );
 copy ( "temp_upload/screenshot.png", $id . "/screenshot.png" );
+
+//set correct permissions on newly created files
+$directory = $id;
+$filemode = 0775;
+
+function chmodr ( $directory, $filemode ) {
+    if ( ! is_dir ( $directory ) )
+        return chmod ( $directory, $filemode );
+
+    $dh = opendir ( $directory );
+    while ( ($file = readdir ( $dh )) !== false ) {
+        if ( $file != '.' && $file != '..' ) {
+            $fullpath = $directory . '/' . $file;
+            if ( is_link ( $fullpath ) )
+                return FALSE;
+            elseif ( ! is_dir ( $fullpath ) && ! chmod ( $fullpath, $filemode ) )
+                return FALSE;
+            elseif ( ! chmodr ( $fullpath, $filemode ) )
+                return FALSE;
+        }
+    }
+
+    closedir ( $dh );
+
+    if ( chmod ( $directory, $filemode ) )
+        return TRUE;
+    else
+        return FALSE;
+}
+
+chmodr ( $directory, $filemode );
 
 //find and replace email subject if set
 if ( isset ( $_POST['email_subject'] ) ) {
