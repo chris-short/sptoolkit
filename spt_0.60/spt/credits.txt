@@ -2,12 +2,6 @@
 
 Here is a listing of things the spt project is using that someone else created.
 
-# Black icons used during install and inside the dashboard
-
--- Author:   Billy Barker
--- Author site:  http://www.billybarker.net/
--- Download:  http://www.iconfinder.com/search/?q=iconset:30_Free_Black_ToolBar_Icons
-
 # Browser detection script
 
 -- Author: Chris Schuld 
@@ -26,7 +20,7 @@ Here is a listing of things the spt project is using that someone else created.
 -- Author site: http://swiftmailer.org
 -- Download: http://swiftmailer.org/download_file/Swift-4.1.5.tar.gz
 
-# Color icons used through spt code
+# Color icons used in the spt code
 
 -- Author:   FatCow Web Hosting
 -- Author site:  http://www.fatcow.com
