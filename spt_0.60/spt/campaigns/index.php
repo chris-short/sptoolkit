@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 41.0
+ * version: 42.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -119,7 +119,7 @@ if ( isset ( $_REQUEST['c'] ) ) {
                             <tr>
                                 <td colspan="2"><h3>Add Campaign</h3></td>
                                 <td style="text-align: right;">
-                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Specify a name for this campaign that will be displayed in the campaign list on the previous screen.  Use a descriptive name that will help you identify this campaign later. The Path  has been pre-populated for you with the hostname you are currently connecting to spt with.  You can create alterante DNS records that correspond with your campaigns and enter them here.  Whatever you specify in the path field is what your targets will be linked to.</span></a>
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Specify a name for this campaign that will be displayed in the campaign list on the previous screen.  Use a descriptive name that will help you identify this campaign later.<br /><br />The Path  has been pre-populated for you with the hostname you are currently connecting to spt with.  You can create alternate DNS records that correspond with your campaigns and enter them here.  Whatever you specify in the path field is what will be used to formulate the unique link for each target.</span></a>
                                 </td>
                             </tr>
                             <tr>
@@ -167,7 +167,7 @@ if ( isset ( $_REQUEST['c'] ) ) {
                             <tr>
                                 <td colspan="2"><h3>Template</h3></td>
                                 <td style="text-align: right;">
-                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the template that will be used for this campaign.  You can view/edit the email by clicking the link next to Email.  Be careful, as editing the email will edit the email for all future campaigns that use this template.</span></a>
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the template that will be used for this campaign.  You can view/edit the email by going to the editor module and editing the respective email.php file.  Be careful, as editing this file will edit the email for all future campaigns that use this template.</span></a>
                                 </td>
                             </tr>
                             <tr>
