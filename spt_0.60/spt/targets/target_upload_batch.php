@@ -2,7 +2,7 @@
 
 /**
  * file:    target_upload_batch.php
- * version: 20.0
+ * version: 22.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -227,7 +227,6 @@ foreach ( $lines as $line ) {
         ++$c;
     }
     $sql .= ")";
-    echo $sql."<br />";
     mysql_query($sql) or die (mysql_error());
     ++$total_attempted;
     ++$total_imported;
