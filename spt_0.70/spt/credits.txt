@@ -33,3 +33,9 @@ Here is a listing of things the spt project is using that someone else created.
 -- Download: http://www.highcharts.com/download
 -- License: http://shop.highsoft.com/highcharts.html
 -- NOT FREE FOR COMMERCIAL USE!
+
+# Editor
+
+-- Author: Marijn Haverbeke
+-- Author site: http://codemirror.net/
+-- Download: http://codemirror.net/codemirror.zip

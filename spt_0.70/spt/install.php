@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 17.0
+ * version: 18.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -62,6 +62,7 @@ session_start ();
                         <li><a href=\"license.htm\" target=\"_blank\">spt</a></li>
                         <li><a href=\"http://shop.highsoft.com/highcharts.html\" target=\"_blank\">highcharts</a></li>
                         <li><a href=\"includes/swiftmailer/LICENSE\" target=\"_blank\">swiftmailer</a></li>
+                        <li><a href=\"includes/codemirror/LICENSE\" target=\"_blank\">codemirror</a></li>
                     </ul>
                     <br /><br />
                     <input type=\"hidden\" name=\"step1\" value=\"complete\" />
