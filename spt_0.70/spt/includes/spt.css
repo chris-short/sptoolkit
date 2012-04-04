@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:    spt.css
- * version: 16.0
+ * version: 17.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -218,7 +218,7 @@ img
     border-radius: 5px;
 }
 
-#alert, #forgot_password, #forgot_alert, #install_files
+#alert, #forgot_password, #forgot_alert, #install_files, #editor_wrapper
 {
     position: fixed;
     top: 0;
@@ -231,7 +231,7 @@ img
     z-index: 101;
 }
 
-#alert div, #forgot_password div, #forgot_alert div, #install_files div
+#alert div, #forgot_password div, #forgot_alert div, #install_files div, #editor
 {
     margin: auto;
     background-color: #fff;
@@ -244,11 +244,14 @@ img
     display: inline-block;
 }
 
-#alert:target, #forgot_password:target, #forgot_alert:target, #install_files:target
+#alert:target, #forgot_password:target, #forgot_alert:target, #install_files:target, #editor_wrapper
 {
     display: block;
 }
 
+#editor{
+    width:80%;
+}
 .spt_table
 {
     width:100%;
