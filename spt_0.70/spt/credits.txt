@@ -36,6 +36,5 @@ Here is a listing of things the spt project is using that someone else created.
 
 # Editor
 
--- Author: Marijn Haverbeke
--- Author site: http://codemirror.net/
--- Download: http://codemirror.net/codemirror.zip
+-- Author site: http://www.tinymce.com/
+-- Download: http://www.tinymce.com/download/download.php

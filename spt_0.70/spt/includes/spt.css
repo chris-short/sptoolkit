@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:    spt.css
- * version: 18.0
+ * version: 19.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -421,8 +421,4 @@ img
     float:left;
     padding-left:10px;
     padding-right:10px;
-}
-
-.CodeMirror{
-    text-align:left;
 }
