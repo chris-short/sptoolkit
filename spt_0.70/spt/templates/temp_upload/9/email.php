@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Email template - Quick Start campaign templates (Helpdesk support portal)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -44,7 +44,5 @@ $content_type = "text/html; charset=utf-8";
 $fake_link = "http://helpdesk.contoso.com";
 
 //This will populate the body of the email
-$message = '<html><body>';
-$message .= 'Great news!<br /><br />You can now login to the Helpdesk Support Portal to quickly and easily report any problems you are having with your computer, printer or mobile device.  You can also get the latest information and news about system updates and service outages.<br /><br />Please visit the new <a href=@url>Helpdesk Support Portal</a> to report any issues, request help or check the network status.<br /><br />Thank you,<br />Helpdesk';
-$message .= '</body></html>';
+$message = '<html><body>Great news!<br /><br />You can now login to the Helpdesk Support Portal to quickly and easily report any problems you are having with your computer, printer or mobile device.  You can also get the latest information and news about system updates and service outages.<br /><br />Please visit the new <a href=@url>Helpdesk Support Portal</a> to report any issues, request help or check the network status.<br /><br />Thank you,<br />Helpdesk</body></html>';
 ?>

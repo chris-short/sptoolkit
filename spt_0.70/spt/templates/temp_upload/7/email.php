@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Email template - Quick Start campaign templates (mailbox migration required)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -44,7 +44,5 @@ $content_type = "text/html; charset=utf-8";
 $fake_link = "https://login.live.com/login.srf?cbcxt=out&vv=910&wa=wsignin1.0&wtrealm=urn:federation:MicrosoftOnline";
 
 //This will populate the body of the email
-$message = '<html><body>';
-$message .= 'Information Technology Services (ITS) employees are currently upgrading e-mail accounts.  This will provide you the ability to store a greatly increased amount of e-mail correspondence in your e-mail account.<br /><br />Your account has been identified as one of the accounts which are to be upgraded.  Please click the link below and follow the instructions.<br /><br />@link<br /><br />The new quota level for e-mail accounts will after the upgrade be set to 100GB.<br /><br />Regards,<br />Information Technology Services Help Desk';
-$message .= '</body></html>';
+$message = '<html><body>Information Technology Services (ITS) employees are currently upgrading e-mail accounts.  This will provide you the ability to store a greatly increased amount of e-mail correspondence in your e-mail account.<br /><br />Your account has been identified as one of the accounts which are to be upgraded.  Please click the link below and follow the instructions.<br /><br />@link<br /><br />The new quota level for e-mail accounts will after the upgrade be set to 100GB.<br /><br />Regards,<br />Information Technology Services Help Desk</body></html>';
 ?>

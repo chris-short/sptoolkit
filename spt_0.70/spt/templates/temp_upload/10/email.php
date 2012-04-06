@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Email template - Quick Start campaign templates (Woodgrove bank)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -44,7 +44,5 @@ $content_type = "text/html; charset=utf-8";
 $fake_link = "https://www.woodgrovebank.com/personal_banking.rf";
 
 //This will populate the body of the email
-$message = '<html><body>';
-$message .= 'Dear Woodgrove Bank customer,<br /><br />Your online access to your banking account is about to expire.<br /><br />To continue using the MyWGBank portal, your account must be renewed.  You may renew your account, at no cost to you, by logging into your account at the link below.<br /><br />@link<br /><br />If your online access to your banking account is not renewed this month, it will be closed permanently and you will need to visit your local branch to enroll again for online access to your banking account.  We hope that online access to your banking account has been a valuable part of your banking.<br /><br /><br />MESSAGE ID:  42IDQERF4JM3FDD4DS55K25HNSASGJ65L38Q8342<br /><br /><br />Copyright Woodgrove Bank.  All Rights Reserved.<br /><br />Received this message in error?  Please visit our <a href=@url>Customer Service</a> pages to report this occurence to us.';
-$message .= '</body></html>';
+$message = '<html><body>Dear Woodgrove Bank customer,<br /><br />Your online access to your banking account is about to expire.<br /><br />To continue using the MyWGBank portal, your account must be renewed.  You may renew your account, at no cost to you, by logging into your account at the link below.<br /><br />@link<br /><br />If your online access to your banking account is not renewed this month, it will be closed permanently and you will need to visit your local branch to enroll again for online access to your banking account.  We hope that online access to your banking account has been a valuable part of your banking.<br /><br /><br />MESSAGE ID:  42IDQERF4JM3FDD4DS55K25HNSASGJ65L38Q8342<br /><br /><br />Copyright Woodgrove Bank.  All Rights Reserved.<br /><br />Received this message in error?  Please visit our <a href=@url>Customer Service</a> pages to report this occurence to us.</body></html>';
 ?>

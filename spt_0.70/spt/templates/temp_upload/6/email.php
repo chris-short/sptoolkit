@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Email template - Quick Start campaign templates (mailbox quota reached)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -44,7 +44,5 @@ $content_type = "text/html; charset=utf-8";
 $fake_link = "https://login.live.com/login.srf?cbcxt=out&vv=910&wa=wsignin1.0&wtrealm=urn:federation:MicrosoftOnline";
 
 //This will populate the body of the email
-$message = '<html><body>';
-$message .= 'Your mailbox is currently using 99.7% of its quota limit.  You cannot send or receive email until you have updated your mailbox account. To update your mailbox account, <a href=@url>Click Here</a>.<br /><br />Failure to update your account may result to loss of important information in your mailbox or cause limited access to it.  We are sincerely sorry for any inconvenience this might cause.<br /><br />Thanks for your cooperation,<br />Helpdesk';
-$message .= '</body></html>';
+$message = '<html><body>Your mailbox is currently using 99.7% of its quota limit.  You cannot send or receive email until you have updated your mailbox account. To update your mailbox account, <a href=@url>Click Here</a>.<br /><br />Failure to update your account may result to loss of important information in your mailbox or cause limited access to it.  We are sincerely sorry for any inconvenience this might cause.<br /><br />Thanks for your cooperation,<br />Helpdesk</body></html>';
 ?>

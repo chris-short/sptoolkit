@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Outlook 2010 manual clone template
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -44,7 +44,5 @@ $content_type = "text/html; charset=utf-8";
 $fake_link = "https://login.microsoft.com/login";
 
 //This will populate the body of the email
-$message = '<html><body>';
-$message .= 'Hi @fname,<br /><br />The password requirements for Webmail have been changed recently.  Please follow the link below to update your Webmail account password to avoid an interruption in Webmail access.<br /><br />@link<br /><br />Repsectfully,<br />IT Services Helpdesk';
-$message .= '</body></html>';
+$message = '<html><body>Hi @fname,<br /><br />The password requirements for Webmail have been changed recently.  Please follow the link below to update your Webmail account password to avoid an interruption in Webmail access.<br /><br />@link<br /><br />Repsectfully,<br />IT Services Helpdesk</body></html>';
 ?>

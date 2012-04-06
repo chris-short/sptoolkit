@@ -2,7 +2,7 @@
 
 /**
  * file:    editor.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -92,38 +92,61 @@ if ( isset ( $_REQUEST['filename'] ) ) {
         }
     }
     //send error if there is no match
-    if ( $match != 1 ) {
+    if ( !isset($match) OR $match != 1 ) {
         $_SESSION['alert_message'] = "please select an existing filename";
         header ( 'location:.#alert' );
         exit;
     }
     $match = 0;
 }
-//start editor header
-echo "<div id=\"editor_header\">";
-//start editor naviation wrapper
-echo "<div id=\"editor_navigation_wrapper\">";
 //editor options
 if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['filename'] ) && ! isset ( $_REQUEST['web'] ) ) {
+    //get the name of the template
+    $r = mysql_query("SELECT name FROM templates WHERE id = '$id'");
+    while($ra = mysql_fetch_assoc ( $r)){
+        $name = $ra['name'];
+    }
     echo "
-            <ul id=\"editor_nav\">
-                <li>Email</li>
-                <li><a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "&web=1\">Website</a></li>
-                </li>
-            </ul>";
+            <div>
+                <table id=\"editor_header\">
+                    <tr>
+                        <td colspan=\"3\" class=\"td_left\"><h3>Editor - ".$name."</h3></td>
+                        <td class=\"td_right\">
+                            <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Editor help content to go here.</span></a>
+                            &nbsp<a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=\"4\" class=\"td_left\">Email&nbsp&nbsp<a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "&web=1\">Website</a></td>
+                    </tr>
+                </table>
+            </div>";
 }
 if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $_REQUEST['web'] ) ) {
+    //get the name of the template
+    $r = mysql_query("SELECT name FROM templates WHERE id = '$id'");
+    while($ra = mysql_fetch_assoc ( $r)){
+        $name = $ra['name'];
+    }
     echo "
-        <form method=\"GET\" action\"\">
-        <input type=\"hidden\" name=\"editor\" value=\"1\" />
-        <input type=\"hidden\" name=\"type\" value=\"template\" />
-        <input type=\"hidden\" name=\"id\" value=\"" . $id . "\" />        
-        <input type=\"hidden\" name=\"web\" value=\"1\" />
-        <ul id=\"editor_nav\">
-            <li><a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "\">Email</a></li>
-            <li>Website</li>
-            <li>
-                <select name=\"filename\">";
+        <div>
+            <form method=\"GET\" action\"\">
+                <input type=\"hidden\" name=\"editor\" value=\"1\" />
+                <input type=\"hidden\" name=\"type\" value=\"template\" />
+                <input type=\"hidden\" name=\"id\" value=\"" . $id . "\" />        
+                <input type=\"hidden\" name=\"web\" value=\"1\" />
+                <table id=\"editor_header\">
+                    <tr>
+                        <td colspan=\"3\" class=\"td_left\"><h3>Editor - ".$name."</h3></td>
+                        <td class=\"td_right\">
+                                <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Editor help content to go here.</span></a>
+                                &nbsp;<a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=\"4\" class=\"td_left\">
+                            <a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "\">Email</a>&nbsp;&nbsp;Website&nbsp;&nbsp;
+                            <select name=\"filename\">";
 //query template directory for files
     $files = scandir ( '../templates/' . $id . '/' );
 //do this process for each item
@@ -148,49 +171,75 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $
         }
     }
     echo "                
-                </select>
-            </li>
-            <li><input type=\"submit\" value=\"Select\" /></li>
-        </ul>
-        </form>";
+                            </select>
+                            <input type=\"submit\" value=\"load\" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>";
 }
-//end editor navigation wrapper
-echo "</div>";
-//start editor action wrapper
-echo "<div id=\"editor_actions\">";
-//editor actions
-echo "<ul><li><a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a></li><li>?</li></ul>";
-//end editor action wrapper
-echo "</div>";
-//end editor header
-echo "</div>";
 //determine if email
 if ( $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['web'] ) && ! isset ( $_REQUEST['filename'] ) ) {
-    //start tinymce
-    //start the textarea
+    //get the email.php file for this template
+    $file = file_get_contents($id."/email.php");
+    //get the sender friendly name
+    preg_match('#\$sender_friendly\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches);
+    $sender_friendly = $matches[1];
+    //get the sender email address
+    preg_match('#\$sender_email\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches);
+    $sender_email = $matches[1];
+    //get the reply to address
+    preg_match('#\$reply_to\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches);
+    $reply_to = $matches[1];
+    //get the subject
+    preg_match('#\$subject\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches);
+    $subject = $matches[1];
+    //get the fake link
+    preg_match('#\$fake_link\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches);
+    $fake_link = $matches[1];
+    //get the message
+    preg_match('#\$message\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches);
+    $message = $matches[1];
+    
+    //start the form
     echo "
                 <form action=\"\" method=\"POST\">
-                    <textarea id=\"code\" name=\"code\">";
-    //get the template id
-    //get the filename
-    //retrieve and echo the file contents
-    //close the textarea & wrapper
-    echo "
+                    <table>
+                        <tr>
+                            <td class=\"td_left\">Sender's Friendly Name</td>
+                            <td><input type=\"text\" name=\"sender_friendly\" value=\"".$sender_friendly."\" size=100 /></td>
+                        </tr>
+                        <tr>
+                            <td class=\"td_left\">Sender's Email Address</td>
+                            <td><input type=\"text\" name=\"sender_email\" value=\"".$sender_email."\" size=100 /></td>
+                        </tr>
+                        <tr>
+                            <td class=\"td_left\">Reply To Address</td>
+                            <td><input type=\"text\" name=\"reply_to\" value=\"".$reply_to."\" size=100 /></td>
+                        </tr>
+                        <tr>
+                            <td class=\"td_left\">Subject</td>
+                            <td><input type=\"text\" name=\"subject\" value=\"".$subject."\" size=100 /></td>
+                        </tr>
+                        <tr>
+                            <td class=\"td_left\">Fake Link</td>
+                            <td><input type=\"text\" name=\"fake_link\" value=\"".$fake_link."\" size=100 /></td>
+                        </tr>
+                    </table><br />
+                    <textarea id=\"code\" name=\"code\">
+                        ".$message."
                     </textarea>
                 </form>";
 }
 //determine if website
 else {
+    //get the contents of the file
+    $file = file_get_contents($id."/".$_REQUEST['filename']);
     //start the textarea
     echo "
                 <form action=\"\" method=\"POST\">
-                    <textarea id=\"code\" name=\"code\">";
-    //get the template id
-    //get the filename
-    //retrieve and echo the file contents
-    //close the textarea & wrapper
-    echo "
-                    </textarea>
+                    <textarea id=\"code\" name=\"code\" rows=\"30\">".$file."</textarea>
                 </form>";
 }
 echo "

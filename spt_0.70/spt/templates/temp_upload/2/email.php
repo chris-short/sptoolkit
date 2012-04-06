@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Email template - Quick Start campaign templates (***REMOVED***.com)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -46,7 +46,5 @@ $content_type = "text/html; charset=utf-8";
 $fake_link = "https://client.***REMOVED***.com/Login/SignOn/CustomerCenterLogin.aspx";
 
 //This will populate the body of the email
-$message = '<html><body>';
-$message .= 'We have recently received many reports from our customers about fraudulent online transactions.  We have launched a new security system to secure new and old accounts from this kind of fraud.  To prevent your investment account from this fraud, update your information on by clicking the link below.<br /><br />@link<br /><br />Thank You,<br />***REMOVED*** Security Team';
-$message .= '</body></html>';
+$message = '<html><body>We have recently received many reports from our customers about fraudulent online transactions.  We have launched a new security system to secure new and old accounts from this kind of fraud.  To prevent your investment account from this fraud, update your information on by clicking the link below.<br /><br />@link<br /><br />Thank You,<br />***REMOVED*** Security Team</body></html>';
 ?>

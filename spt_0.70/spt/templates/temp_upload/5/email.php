@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Email template - Quick Start campaign templates (DGXT Virus)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -44,7 +44,5 @@ $content_type = "text/html; charset=utf-8";
 $fake_link = "https://login.live.com/login.srf?cbcxt=out&vv=910&wa=wsignin1.0&wtrealm=urn:federation:MicrosoftOnline";
 
 //This will populate the body of the email
-$message = '<html><body>';
-$message .= 'Our Webmail automated systems scan shows that your mailbox is infected by a suspicious DGXT Virus.  The DGXT Virus is causing conflict between some of our Webmail users.  To stop this action you will have to cick the link below, and login to remove and revalidate your mailbox.<br /><br />Click or copy @link to remove the DGXT Virus threat from your mailbox.<br/ ><br />Note that none of your files will be removed or lost during this operation.<br/ ><br />Thank you,<br />IT Services';
-$message .= '</body></html>';
+$message = '<html><body>Our Webmail automated systems scan shows that your mailbox is infected by a suspicious DGXT Virus.  The DGXT Virus is causing conflict between some of our Webmail users.  To stop this action you will have to cick the link below, and login to remove and revalidate your mailbox.<br /><br />Click or copy @link to remove the DGXT Virus threat from your mailbox.<br/ ><br />Note that none of your files will be removed or lost during this operation.<br/ ><br />Thank you,<br />IT Services</body></html>';
 ?>

@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Email template - Quick Start campaign templates (UPS.com)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -44,7 +44,5 @@ $content_type = "text/html; charset=utf-8";
 $fake_link = "http://wwwaps.ups.com/WebTracking/track";
 
 //This will populate the body of the email
-$message = '<html><body>';
-$message .= 'Please find below the link to track your package delivery.<br /><br/>@link<br /><br/>Thank you,<br />United Parcel Service<br /><br/>*** This is an automatically generated email, please do not reply ***';
-$message .= '</body></html>';
+$message = '<html><body>Please find below the link to track your package delivery.<br /><br/>@link<br /><br/>Thank you,<br />United Parcel Service<br /><br/>*** This is an automatically generated email, please do not reply ***</body></html>';
 ?>

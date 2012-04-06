@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 12.0
+ * version: 13.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Standard email template
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -46,7 +46,5 @@ $content_type = "text/html; charset=utf-8";
 $fake_link = "https://fake_display_link_goes_here.com/login";
 
 //This will populate the body of the email
-$message = '<html><body>';
-$message .= 'Your message will go here.';
-$message .= '</body></html>';
+$message = '<html><body>Your message will go here.</body></html>';
 ?>

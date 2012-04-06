@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:    spt.css
- * version: 19.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -229,6 +229,7 @@ img
     background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
     z-index: 101;
+    overflow: auto;
 }
 
 #alert div, #forgot_password div, #forgot_alert div, #install_files div, #editor
@@ -280,6 +281,16 @@ img
 .td_center
 {
     text-align: center;
+}
+
+.td_left
+{
+    text-align: left;
+}
+
+.td_right
+{
+    text-align: right;
 }
 
 .dark_background
@@ -389,36 +400,8 @@ img
 
 #editor_header{
     width:100%;
-    height:40px;
 }
 
-#editor_navigation_wrapper{
-    width:80%;
-    margin-left:0px;
-    height:35px;
-    float:left;
-    padding-top:5px;
-}
-
-#editor_actions{
-    width:20%;
-    float:left;
-    height:40px;
-}
-
-#editor_actions ul{
-    list-style: none;
-}
-
-#editor_actions li {
-    float:right;
-}
-
-#editor_nav{
-    list-style: none;
-}
-#editor_nav li{
-    float:left;
-    padding-left:10px;
-    padding-right:10px;
+#code_tbl{
+    width:100%;
 }
