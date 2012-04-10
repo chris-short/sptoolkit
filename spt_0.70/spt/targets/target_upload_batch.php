@@ -225,7 +225,7 @@ foreach ( $lines as $line ) {
         if($c != 0){
             $sql .= ", ";
         }
-        $field_value = mysql_real_escape_string(trim($line_contents[$value]));
+        $field_value = filter_var(trim($line_contents[$value]), FILTER_SANITIZE_STRING);
         $sql .= "'".$field_value."'";
         ++$c;
     }
