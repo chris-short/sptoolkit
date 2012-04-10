@@ -222,7 +222,7 @@ foreach ( $lines as $line ) {
         if($c != 0){
             $sql .= ", ";
         }
-        $field_value = trim($line_contents[$value]);
+        $field_value = mysql_real_escape_string(trim($line_contents[$value]));
         $sql .= "'".$field_value."'";
         ++$c;
     }
