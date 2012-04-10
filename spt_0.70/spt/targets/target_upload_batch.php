@@ -39,6 +39,9 @@ if ( file_exists ( $includeContent ) ) {
     header ( 'location:../errors/404_is_admin.php' );
 }
 
+//set script timeout value to infinite
+set_time_limit(0);
+
 //connect to database
 include "../spt_config/mysql_config.php";
 
