@@ -482,7 +482,7 @@ if ( file_exists ( $includeContent ) ) {
                     while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         echo "<tr>";
                         echo "<td><a href=\"?g=" . $ra['group_name'] . "#group_list\">" . $ra['group_name'] . "</a></td>";
-                        $group_name = mysql_real_escape_string($ra['group_name']);
+                        $group_name = filter_var($ra['group_name'],FILTER_SANITIZE_STRING);
                         $r1 = mysql_query ( "SELECT COUNT(group_name) FROM targets WHERE group_name = '$group_name'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                         while ( $ra1 = mysql_fetch_assoc ( $r1 ) ) {
                             echo "<td>" . $ra1['COUNT(group_name)'] . "</td>";
