@@ -2,7 +2,7 @@
 
 /**
  * file:    response.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -26,7 +26,12 @@ session_start ();
 
 //if values are being posted recieve all parameters into an array
 if ( $_POST ) {
-    $post = implode ( '<br />', array_keys ( $_POST ) );
+    
+    $post_keys = array_keys( $_POST );
+    foreach($post_keys as $pkey) {
+        $post = $post . filter_var ( $pkey , FILTER_SANITIZE_SPECIAL_CHARS ) . "<br />";
+    }
+
 
     //pull in session variables
     $target_id = $_SESSION['target_id'];

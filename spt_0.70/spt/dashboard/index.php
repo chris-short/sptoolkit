@@ -1,7 +1,7 @@
 <?php
 /**
  * file:		index.php
- * version:		16.0
+ * version:		17.0
  * package:		Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -28,6 +28,12 @@ if ( file_exists ( $includeContent ) ) {
 } else {
     header ( 'location:../errors/404_is_authenticated.php' );
 }
+if ($_SERVER['HTTPS'] == "on") {
+    $request_protocol = "https"; 
+}
+else {
+    $request_protocol = "http"; 
+}
 ?>
 <!DOCTYPE HTML> 
 <html>
@@ -42,7 +48,7 @@ if ( file_exists ( $includeContent ) ) {
         <link rel="stylesheet" href="../includes/spt.css" type="text/css" />
         <link rel="stylesheet" href="spt_dashboard.css" type="text/css" />
         <!--scripts-->
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="<?echo $request_protocol?>://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     	<script type="text/javascript">
 
 var phish_pie;
