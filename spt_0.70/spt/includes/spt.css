@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:    spt.css
- * version: 20.0
+ * version: 21.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -402,6 +402,6 @@ img
     width:100%;
 }
 
-#code_tbl{
+#code{
     width:100%;
 }
