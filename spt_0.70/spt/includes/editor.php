@@ -2,7 +2,7 @@
 
 /**
  * file:    editor.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,6 +22,15 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
+//determine if data is posted
+if($_POST){
+    //validate that the type is specified
+    if(!isset($_POST['type'])){
+        $_SESSION['alert_message'] =  "please specify a type when saving content from the editor";
+        header ('location:.#alert');
+        exit;
+    }    
+}
 //start the editor wrapper
 echo "
     <div id=\"editor_wrapper\">
@@ -113,11 +122,10 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && ! isset (
                         <td colspan=\"3\" class=\"td_left\"><h3>Editor - ".$name."</h3></td>
                         <td class=\"td_right\">
                             <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Editor help content to go here.</span></a>
-                            &nbsp<a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan=\"4\" class=\"td_left\">Email&nbsp&nbsp<a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "&web=1\">Website</a></td>
+                        <td colspan=\"4\" class=\"td_left\"><img src=\"../images/email_edit_sm.png\" alt=\"email\" />&nbsp<span class=\"thick_underline\">Email</span>&nbsp&nbsp<a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "&web=1\"><img src=\"../images/world_edit_sm.png\" alt=\"web\" />&nbspWebsite</a></td>
                     </tr>
                 </table>
             </div>";
@@ -130,7 +138,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $
     }
     echo "
         <div>
-            <form method=\"GET\" action\"\">
+            <form id=\"email_editor\" method=\"GET\" action=\"\">
                 <input type=\"hidden\" name=\"editor\" value=\"1\" />
                 <input type=\"hidden\" name=\"type\" value=\"template\" />
                 <input type=\"hidden\" name=\"id\" value=\"" . $id . "\" />        
@@ -145,7 +153,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $
                     </tr>
                     <tr>
                         <td colspan=\"4\" class=\"td_left\">
-                            <a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "\">Email</a>&nbsp;&nbsp;Website&nbsp;&nbsp;
+                            <a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "\"><img src=\"../images/email_edit_sm.png\" alt=\"email\" />&nbspEmail</a>&nbsp;&nbsp;<img src=\"../images/world_edit_sm.png\" alt=\"web\" />&nbsp<span class=\"thick_underline\">Website</span>&nbsp;&nbsp;
                             <select name=\"filename\">";
 //query template directory for files
     $files = scandir ( '../templates/' . $id . '/' );
@@ -204,7 +212,7 @@ if ( $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['web'] ) && ! isset 
     
     //start the form
     echo "
-                <form action=\"\" method=\"POST\">
+                <form action=\".\" method=\"POST\">
                     <table>
                         <tr>
                             <td class=\"td_left\">Sender's Friendly Name</td>
@@ -230,6 +238,8 @@ if ( $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['web'] ) && ! isset 
                     <textarea id=\"code\" name=\"code\">
                         ".$message."
                     </textarea>
+                    <br />
+                    <span class = \"center\"><a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type = \"image\" src = \"../images/accept.png\" /></span>
                 </form>";
 }
 //determine if website
@@ -240,6 +250,8 @@ else {
     echo "
                 <form action=\"\" method=\"POST\">
                     <textarea id=\"code\" name=\"code\">".$file."</textarea>
+                    <br />
+                    <span class = \"center\"><a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type = \"image\" src = \"../images/accept.png\" /></span>
                 </form>";
 }
 echo "
@@ -256,6 +268,7 @@ echo "
 		mode : \"textareas\",
 		theme : \"advanced\",
 		plugins : \"autolink,lists,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,xhtmlxtras,wordcount,advlist,fullpage\",
+        height : \"100%\",
 
 		// Theme options
 		theme_advanced_buttons1 : \"preview,code,fullscreen,|,link,unlink,image,insertdate,inserttime,|,forecolor,backcolor,bullist,numlist,charmap,bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect\",
