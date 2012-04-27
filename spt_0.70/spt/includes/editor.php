@@ -2,7 +2,7 @@
 
 /**
  * file:    editor.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -23,13 +23,112 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
 //determine if data is posted
-if($_POST){
+if ( $_POST ) {
     //validate that the type is specified
-    if(!isset($_POST['type'])){
-        $_SESSION['alert_message'] =  "please specify a type when saving content from the editor";
-        header ('location:.#alert');
+    if ( ! isset ( $_POST['type'] ) ) {
+        $_SESSION['alert_message'] = "please specify a type when saving content from the editor";
+        header ( 'location:.#alert' );
         exit;
-    }    
+    }
+    //check to see if type is template
+    if ( isset ( $_POST['type'] ) && $_POST['type'] == "template" ) {
+        //validate that the subtype is set
+        if ( ! isset ( $_POST['subtype'] ) OR ($_POST['subtype'] != "full" && $_POST['subtype'] != "email" ) ) {
+            $_SESSION['alert_message'] = "please specify a subtype";
+            header ( 'location:.#alert' );
+            exit;
+        }
+        //get the template id
+        if ( ! isset ( $_POST['id'] ) ) {
+            $_SESSION['alert_message'] = "please specify a template id";
+            header ( 'location:.#alert' );
+            exit;
+        } else {
+            $id = filter_var ( $_POST['id'], FILTER_SANITIZE_NUMBER_INT );
+        }
+        //if the subtype is email
+        if ( $_POST['subtype'] == "email" ) {
+            //validate all the appropriate field are set and
+            if ( ! isset ( $_POST['sender_friendly'] ) OR ! isset ( $_POST['sender_email'] ) OR ! isset ( $_POST['reply_to'] ) OR ! isset ( $_POST['subject'] ) OR ! isset ( $_POST['fake_link'] ) OR ! isset ( $_POST['code'] ) ) {
+                $_SESSION['alert_message'] = "please enter a value into all fields for the email";
+                header ( 'location:.#alert' );
+                exit;
+            }
+            //get the email.php file for this template
+            $file = file_get_contents ( $id . "/email.php" );
+            //validate sender friendly name and then write to file
+            if ( $_POST['sender_friendly'] ) {
+                $sender_friendly = filter_var ( $_POST['sender_friendly'], FILTER_SANITIZE_MAGIC_QUOTES );
+                //write the changes to the file
+                $file = preg_replace ( '#\$sender_friendly\s=\s[\'|\"](.*?)[\'|\"];#', '\$sender_friendly = "' . $sender_friendly . '";', $file, $limit = 1 );
+            }
+            //validate the sender email and then write to file
+            if ( $_POST['sender_email'] ) {
+                $sender_email = filter_var ( $_POST['sender_email'], FILTER_SANITIZE_EMAIL );
+                //write the changes to the file
+                $file = preg_replace ( '#\$sender_email\s=\s[\'|\"](.*?)[\'|\"];#', '\$sender_email = "' . $sender_email . '";', $file );
+            }
+            //sanitize reply to address and then write to file
+            if ( $_POST['reply_to'] ) {
+                $reply_to = filter_var ( $_POST['reply_to'], FILTER_SANITIZE_EMAIL );
+                //write the changes to the file
+                $file = preg_replace ( '#\$reply_to\s=\s[\'|\"](.*?)[\'|\"];#', '\$reply_to = "' . $reply_to . '";', $file );
+            }
+            //santize subject line then write it to file
+            if ( $_POST['subject'] ) {
+                $subject = filter_var ( $_POST['subject'], FILTER_SANITIZE_STRING );
+                //write the changes to the file
+                $file = preg_replace ( '#\$subject\s=\s[\'|\"](.*?)[\'|\"];#', '\$subject = "' . $subject . '";', $file );
+            }
+            //sanitize fake link and then write to file
+            if ( $_POST['fake_link'] ) {
+                $fake_link = filter_var ( $_POST['fake_link'], FILTER_SANITIZE_STRING );
+                //write the changes to the file
+                $file = preg_replace ( '#\$fake_link\s=\s[\'|\"](.*?)[\'|\"];#', '\$fake_link = "' . $fake_link . '";', $file );
+            }
+            //sanitize message and then write to file
+            if ( $_POST['code'] ) {
+                $message = str_replace ( "\n", "", $_POST['code'] );
+                //write the changes to the file
+                $file = preg_replace ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', '\$message = \'' . $message . '\';', $file );
+            }
+            //write the file back
+            file_put_contents ( $id . "/email.php", $file );
+            //direct people back to where they came from with success alert message
+            $_SESSION['alert_message'] = "changes saved";
+            header ( 'location:.?editor=1&type=template&id=' . $id . '#alert' );
+            exit;
+        }
+        //if the subtype is full
+        if ( $_POST['subtype'] == "full" ) {
+            //validate that all the apropriate fields are completed
+            if ( ! isset ( $_POST['code'] ) ) {
+                $_SESSION['alert_message'] = "you must enter something";
+                header ( 'location:.#alert' );
+                exit;
+            }
+            //set filename
+            $filename = $_REQUEST['filename'];
+            //get the contents of the file
+            $file = file_get_contents ( $id . "/" . $filename );
+            //sanitize message and then write to file
+            if ( $_POST['code'] ) {
+                $message = str_replace ( "\n", "", $_POST['code'] );
+                //write the changes to the file
+                $file = preg_replace ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', '\$message = \'' . $message . '\';', $file );
+            }
+            //write the file back
+            file_put_contents ( $id . "/" . $filename, $file );
+            //direct people back to where they came from with success alert message
+            $_SESSION['alert_message'] = "changes saved";
+            header ( 'location:.?editor=1&type=template&id=' . $id . '&web=1&filename=' . $filename . '#alert' );
+            exit;
+        }
+    }
+    //check to see if type is education    
+    if ( $_POST['type'] == "education" ) {
+        
+    }
 }
 //start the editor wrapper
 echo "
@@ -101,7 +200,7 @@ if ( isset ( $_REQUEST['filename'] ) ) {
         }
     }
     //send error if there is no match
-    if ( !isset($match) OR $match != 1 ) {
+    if ( ! isset ( $match ) OR $match != 1 ) {
         $_SESSION['alert_message'] = "please select an existing filename";
         header ( 'location:.#alert' );
         exit;
@@ -111,15 +210,15 @@ if ( isset ( $_REQUEST['filename'] ) ) {
 //editor options
 if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['filename'] ) && ! isset ( $_REQUEST['web'] ) ) {
     //get the name of the template
-    $r = mysql_query("SELECT name FROM templates WHERE id = '$id'");
-    while($ra = mysql_fetch_assoc ( $r)){
+    $r = mysql_query ( "SELECT name FROM templates WHERE id = '$id'" );
+    while ( $ra = mysql_fetch_assoc ( $r ) ) {
         $name = $ra['name'];
     }
     echo "
             <div>
                 <table id=\"editor_header\">
                     <tr>
-                        <td colspan=\"3\" class=\"td_left\"><h3>Editor - ".$name."</h3></td>
+                        <td colspan=\"3\" class=\"td_left\"><h3>Editor - " . $name . "</h3></td>
                         <td class=\"td_right\">
                             <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Editor help content to go here.</span></a>
                         </td>
@@ -132,8 +231,8 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && ! isset (
 }
 if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $_REQUEST['web'] ) ) {
     //get the name of the template
-    $r = mysql_query("SELECT name FROM templates WHERE id = '$id'");
-    while($ra = mysql_fetch_assoc ( $r)){
+    $r = mysql_query ( "SELECT name FROM templates WHERE id = '$id'" );
+    while ( $ra = mysql_fetch_assoc ( $r ) ) {
         $name = $ra['name'];
     }
     echo "
@@ -145,7 +244,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $
                 <input type=\"hidden\" name=\"web\" value=\"1\" />
                 <table id=\"editor_header\">
                     <tr>
-                        <td colspan=\"3\" class=\"td_left\"><h3>Editor - ".$name."</h3></td>
+                        <td colspan=\"3\" class=\"td_left\"><h3>Editor - " . $name . "</h3></td>
                         <td class=\"td_right\">
                                 <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Editor help content to go here.</span></a>
                                 &nbsp;<a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>
@@ -190,53 +289,56 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $
 //determine if email
 if ( $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['web'] ) && ! isset ( $_REQUEST['filename'] ) ) {
     //get the email.php file for this template
-    $file = file_get_contents($id."/email.php");
+    $file = file_get_contents ( $id . "/email.php" );
     //get the sender friendly name
-    preg_match('#\$sender_friendly\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches);
+    preg_match ( '#\$sender_friendly\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
     $sender_friendly = $matches[1];
     //get the sender email address
-    preg_match('#\$sender_email\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches);
+    preg_match ( '#\$sender_email\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
     $sender_email = $matches[1];
     //get the reply to address
-    preg_match('#\$reply_to\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches);
+    preg_match ( '#\$reply_to\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
     $reply_to = $matches[1];
     //get the subject
-    preg_match('#\$subject\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches);
+    preg_match ( '#\$subject\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
     $subject = $matches[1];
     //get the fake link
-    preg_match('#\$fake_link\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches);
+    preg_match ( '#\$fake_link\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
     $fake_link = $matches[1];
     //get the message
-    preg_match('#\$message\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches);
+    preg_match ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
     $message = $matches[1];
-    
+
     //start the form
     echo "
-                <form action=\".\" method=\"POST\">
+                <form action=\"?editor=1&type=template&id=" . $id . "\" method=\"POST\">
+                    <input type=\"hidden\" name=\"id\" value=\"" . $id . "\" />
+                    <input type=\"hidden\" name=\"type\" value=\"template\" />
+                    <input type=\"hidden\" name=\"subtype\" value=\"email\" />
                     <table>
                         <tr>
                             <td class=\"td_left\">Sender's Friendly Name</td>
-                            <td><input type=\"text\" name=\"sender_friendly\" value=\"".$sender_friendly."\" size=100 /></td>
+                            <td><input type=\"text\" name=\"sender_friendly\" value=\"" . $sender_friendly . "\" size=100 /></td>
                         </tr>
                         <tr>
                             <td class=\"td_left\">Sender's Email Address</td>
-                            <td><input type=\"text\" name=\"sender_email\" value=\"".$sender_email."\" size=100 /></td>
+                            <td><input type=\"text\" name=\"sender_email\" value=\"" . $sender_email . "\" size=100 /></td>
                         </tr>
                         <tr>
                             <td class=\"td_left\">Reply To Address</td>
-                            <td><input type=\"text\" name=\"reply_to\" value=\"".$reply_to."\" size=100 /></td>
+                            <td><input type=\"text\" name=\"reply_to\" value=\"" . $reply_to . "\" size=100 /></td>
                         </tr>
                         <tr>
                             <td class=\"td_left\">Subject</td>
-                            <td><input type=\"text\" name=\"subject\" value=\"".$subject."\" size=100 /></td>
+                            <td><input type=\"text\" name=\"subject\" value=\"" . $subject . "\" size=100 /></td>
                         </tr>
                         <tr>
                             <td class=\"td_left\">Fake Link</td>
-                            <td><input type=\"text\" name=\"fake_link\" value=\"".$fake_link."\" size=100 /></td>
+                            <td><input type=\"text\" name=\"fake_link\" value=\"" . $fake_link . "\" size=100 /></td>
                         </tr>
                     </table><br />
                     <textarea id=\"code\" name=\"code\">
-                        ".$message."
+                        " . $message . "
                     </textarea>
                     <br />
                     <span class = \"center\"><a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type = \"image\" src = \"../images/accept.png\" /></span>
@@ -244,12 +346,17 @@ if ( $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['web'] ) && ! isset 
 }
 //determine if website
 else {
+    //set filename
+    $filename = $_REQUEST['filename'];
     //get the contents of the file
-    $file = file_get_contents($id."/".$_REQUEST['filename']);
+    $file = file_get_contents ( $id . "/" . $filename );
     //start the textarea
     echo "
-                <form action=\"\" method=\"POST\">
-                    <textarea id=\"code\" name=\"code\">".$file."</textarea>
+                <form action=\"?editor=1&type=template&id=" . $id . "&web=1&filename=" . $filename . "\" method=\"POST\">
+                    <input type=\"hidden\" name=\"id\" value=\"" . $id . "\" />
+                    <input type=\"hidden\" name=\"type\" value=\"template\" />
+                    <input type=\"hidden\" name=\"subtype\" value=\"full\" />
+                    <textarea id=\"code\" name=\"code\">" . $file . "</textarea>
                     <br />
                     <span class = \"center\"><a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type = \"image\" src = \"../images/accept.png\" /></span>
                 </form>";
@@ -268,7 +375,7 @@ echo "
 		mode : \"textareas\",
 		theme : \"advanced\",
 		plugins : \"autolink,lists,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,xhtmlxtras,wordcount,advlist,fullpage\",
-        height : \"100%\",
+                                    height : \"100%\",
 
 		// Theme options
 		theme_advanced_buttons1 : \"preview,code,fullscreen,|,link,unlink,image,insertdate,inserttime,|,forecolor,backcolor,bullist,numlist,charmap,bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect\",
