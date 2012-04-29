@@ -2,7 +2,7 @@
 
 /**
  * file:    editor.php
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -89,8 +89,9 @@ if ( $_POST ) {
             //sanitize message and then write to file
             if ( $_POST['code'] ) {
                 $message = str_replace ( "\n", "", $_POST['code'] );
+                $message = preg_replace("!" . '\x24' . "!" , '\\\$' , $message );
                 //write the changes to the file
-                $file = preg_replace ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', '\$message = \'' . $message . '\';', $file );
+                $file = preg_replace ( '#\$message\s=\s\'(.*?)\';#', '\$message = \'' . $message . '\';', $file );
             }
             //write the file back
             file_put_contents ( $id . "/email.php", $file );
@@ -113,7 +114,10 @@ if ( $_POST ) {
             $file = file_get_contents ( $id . "/" . $filename );
             //sanitize message and then write to file
             if ( $_POST['code'] ) {
-                $message = str_replace ( "\n", "", $_POST['code'] );
+                $code = str_replace ( "\n", "", $_POST['code'] );
+                preg_match('#\$message\s=\s\'(.*?)\';#', $code, $matches);
+                $message = preg_replace("!" . '\x24' . "!" , '\\\$' , $matches[1] );
+                $code = preg_replace('#\$message\s=\s\'(.*?)\';#', $message, $code);
                 //write the changes to the file
                 $file = preg_replace ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', '\$message = \'' . $message . '\';', $file );
             }
@@ -220,7 +224,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && ! isset (
                     <tr>
                         <td colspan=\"3\" class=\"td_left\"><h3>Editor - " . $name . "</h3></td>
                         <td class=\"td_right\">
-                            <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Editor help content to go here.</span></a>
+                            <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Use the editor to edit emails and web components of your templates and educational material.  Click the green checkmark to save your changes.</span></a>
                         </td>
                     </tr>
                     <tr>
@@ -345,7 +349,7 @@ if ( $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['web'] ) && ! isset 
                 </form>";
 }
 //determine if website
-else {
+if(isset($_REQUEST['filename'])) {
     //set filename
     $filename = $_REQUEST['filename'];
     //get the contents of the file
