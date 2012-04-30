@@ -2,7 +2,7 @@
 
 /**
  * file:    editor.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -89,7 +89,7 @@ if ( $_POST ) {
             //sanitize message and then write to file
             if ( $_POST['code'] ) {
                 $message = str_replace ( "\n", "", $_POST['code'] );
-                $message = preg_replace("!" . '\x24' . "!" , '\\\$' , $message );
+                $message = preg_replace ( "!" . '\x24' . "!", '\\\$', $message );
                 //write the changes to the file
                 $file = preg_replace ( '#\$message\s=\s\'(.*?)\';#', '\$message = \'' . $message . '\';', $file );
             }
@@ -115,9 +115,9 @@ if ( $_POST ) {
             //sanitize message and then write to file
             if ( $_POST['code'] ) {
                 $code = str_replace ( "\n", "", $_POST['code'] );
-                preg_match('#\$message\s=\s\'(.*?)\';#', $code, $matches);
-                $message = preg_replace("!" . '\x24' . "!" , '\\\$' , $matches[1] );
-                $code = preg_replace('#\$message\s=\s\'(.*?)\';#', $message, $code);
+                preg_match ( '#\$message\s=\s\'(.*?)\';#', $code, $matches );
+                $message = preg_replace ( "!" . '\x24' . "!", '\\\$', $matches[1] );
+                $code = preg_replace ( '#\$message\s=\s\'(.*?)\';#', $message, $code );
                 //write the changes to the file
                 $file = preg_replace ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', '\$message = \'' . $message . '\';', $file );
             }
@@ -129,9 +129,41 @@ if ( $_POST ) {
             exit;
         }
     }
-    //check to see if type is education    
-    if ( $_POST['type'] == "education" ) {
-        
+    //check to see if type is education     
+    if ( isset ( $_POST['type'] ) && $_POST['type'] == "education" ) {
+        //get the template id
+        if ( ! isset ( $_POST['id'] ) ) {
+            $_SESSION['alert_message'] = "please specify an education id";
+            header ( 'location:.#alert' );
+            exit;
+        } else {
+            $id = filter_var ( $_POST['id'], FILTER_SANITIZE_NUMBER_INT );
+        }
+        //validate that all the apropriate fields are completed
+        if ( ! isset ( $_POST['code'] ) ) {
+            $_SESSION['alert_message'] = "you must enter something";
+            header ( 'location:.#alert' );
+            exit;
+        }
+        //set filename
+        $filename = $_REQUEST['filename'];
+        //get the contents of the file
+        $file = file_get_contents ( $id . "/" . $filename );
+        //sanitize message and then write to file
+        if ( $_POST['code'] ) {
+            $code = str_replace ( "\n", "", $_POST['code'] );
+            preg_match ( '#\$message\s=\s\'(.*?)\';#', $code, $matches );
+            $message = preg_replace ( "!" . '\x24' . "!", '\\\$', $matches[1] );
+            $code = preg_replace ( '#\$message\s=\s\'(.*?)\';#', $message, $code );
+            //write the changes to the file
+            $file = preg_replace ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', '\$message = \'' . $message . '\';', $file );
+        }
+        //write the file back
+        file_put_contents ( $id . "/" . $filename, $file );
+        //direct people back to where they came from with success alert message
+        $_SESSION['alert_message'] = "changes saved";
+        header ( 'location:.?editor=1&type=education&id=' . $id . '&filename=' . $filename . '#alert' );
+        exit;
     }
 }
 //start the editor wrapper
@@ -290,6 +322,62 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $
             </form>
         </div>";
 }
+if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "education" ) {
+    //get the name of the template
+    $r = mysql_query ( "SELECT name FROM education WHERE id = '$id'" );
+    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+        $name = $ra['name'];
+    }
+    echo "
+        <div>
+            <form id=\"education_editor\" method=\"GET\" action=\"\">
+                <input type=\"hidden\" name=\"editor\" value=\"1\" />
+                <input type=\"hidden\" name=\"type\" value=\"education\" />
+                <input type=\"hidden\" name=\"id\" value=\"" . $id . "\" />        
+                <table id=\"editor_header\">
+                    <tr>
+                        <td colspan=\"3\" class=\"td_left\"><h3>Editor - " . $name . "</h3></td>
+                        <td class=\"td_right\">
+                                <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Editor help content to go here.</span></a>
+                                &nbsp;<a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=\"4\" class=\"td_left\">
+                            <span>Select File</span>&nbsp;&nbsp;
+                            <select name=\"filename\">";
+//query template directory for files
+    $files = scandir ( '../education/' . $id . '/' );
+//do this process for each item
+    foreach ( $files as $file ) {
+        //determine if the item is a directory or file
+        if ( ! is_dir ( $file ) ) {
+            //break apart the filename
+            $file_array = explode ( ".", $file );
+            //look for htm, php and html files
+            if ( $file_array[1] == "htm" OR $file_array[1] == "php" OR $file_array[1] == "html" OR $file_array[1] == "css" OR $file_array[1] == "js" ) {
+                if ( $file == "license.htm" ) {
+                    
+                } else {
+                    //add the file to the drop-down
+                    echo "<option value=\"" . $file . "\" ";
+                    if ( isset ( $_REQUEST['filename'] ) && $_REQUEST['filename'] == $file ) {
+                        echo "SELECTED";
+                    }
+                    echo " >" . $file . "</option>";
+                }
+            }
+        }
+    }
+    echo "                
+                            </select>
+                            <input type=\"submit\" value=\"load\" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>";
+}
 //determine if email
 if ( $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['web'] ) && ! isset ( $_REQUEST['filename'] ) ) {
     //get the email.php file for this template
@@ -348,17 +436,23 @@ if ( $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['web'] ) && ! isset 
                     <span class = \"center\"><a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type = \"image\" src = \"../images/accept.png\" /></span>
                 </form>";
 }
-//determine if website
-if(isset($_REQUEST['filename'])) {
+//determine if template or education file
+if ( isset ( $_REQUEST['filename'] ) ) {
     //set filename
     $filename = $_REQUEST['filename'];
     //get the contents of the file
     $file = file_get_contents ( $id . "/" . $filename );
+    //determine type
+    $type = $_REQUEST['type'];
     //start the textarea
     echo "
-                <form action=\"?editor=1&type=template&id=" . $id . "&web=1&filename=" . $filename . "\" method=\"POST\">
+                <form action=\"?editor=1&type=".$type."&id=" . $id;
+    if($type == "template"){
+        echo "&web=1";
+    }
+    echo "&filename=" . $filename . "\" method=\"POST\">
                     <input type=\"hidden\" name=\"id\" value=\"" . $id . "\" />
-                    <input type=\"hidden\" name=\"type\" value=\"template\" />
+                    <input type=\"hidden\" name=\"type\" value=\"".$type."\" />
                     <input type=\"hidden\" name=\"subtype\" value=\"full\" />
                     <textarea id=\"code\" name=\"code\">" . $file . "</textarea>
                     <br />
