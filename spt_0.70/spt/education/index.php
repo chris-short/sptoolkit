@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 13.0
+ * version: 14.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -49,6 +49,11 @@ if ( file_exists ( $includeContent ) ) {
     <body>
         <div id="wrapper">
             <!--popovers-->
+            <?php
+            if(isset($_REQUEST['editor']) && $_REQUEST['editor'] == 1){
+                include "../includes/editor.php";
+            }
+            ?>
             <form method="post" action="upload_package.php" enctype="multipart/form-data">
                 <div id="add_package">
                     <div>
