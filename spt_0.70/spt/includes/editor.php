@@ -2,7 +2,7 @@
 
 /**
  * file:    editor.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -115,11 +115,16 @@ if ( $_POST ) {
             //sanitize message and then write to file
             if ( $_POST['code'] ) {
                 $code = str_replace ( "\n", "", $_POST['code'] );
-                preg_match ( '#\$message\s=\s\'(.*?)\';#', $code, $matches );
-                $message = preg_replace ( "!" . '\x24' . "!", '\\\$', $matches[1] );
-                $code = preg_replace ( '#\$message\s=\s\'(.*?)\';#', $message, $code );
-                //write the changes to the file
-                $file = preg_replace ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', '\$message = \'' . $message . '\';', $file );
+                if($filename == "email.php"){
+                    preg_match ( '#\$message\s=\s\'(.*?)\';#', $code, $matches );
+                    $message = preg_replace ( "!" . '\x24' . "!", '\\\$', $matches[1] );
+                    $code = preg_replace ( '#\$message\s=\s\'(.*?)\';#', $message, $code );
+                    //write the changes to the file
+                    $file = preg_replace ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', '\$message = \'' . $message . '\';', $code );
+                }
+                else{
+                    $file = $code;
+                }
             }
             //write the file back
             file_put_contents ( $id . "/" . $filename, $file );
@@ -152,11 +157,17 @@ if ( $_POST ) {
         //sanitize message and then write to file
         if ( $_POST['code'] ) {
             $code = str_replace ( "\n", "", $_POST['code'] );
-            preg_match ( '#\$message\s=\s\'(.*?)\';#', $code, $matches );
-            $message = preg_replace ( "!" . '\x24' . "!", '\\\$', $matches[1] );
-            $code = preg_replace ( '#\$message\s=\s\'(.*?)\';#', $message, $code );
-            //write the changes to the file
-            $file = preg_replace ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', '\$message = \'' . $message . '\';', $file );
+            if($filename == "email.php"){
+                preg_match ( '#\$message\s=\s\'(.*?)\';#', $code, $matches );
+                $message = preg_replace ( "!" . '\x24' . "!", '\\\$', $matches[1] );
+                $code = preg_replace ( '#\$message\s=\s\'(.*?)\';#', $message, $code );
+                //write the changes to the file
+                $file = preg_replace ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', '\$message = \'' . $message . '\';', $code );
+            }
+            else{
+                $file = $code;
+            }
+            
         }
         //write the file back
         file_put_contents ( $id . "/" . $filename, $file );
@@ -256,7 +267,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && ! isset (
                     <tr>
                         <td colspan=\"3\" class=\"td_left\"><h3>Editor - " . $name . "</h3></td>
                         <td class=\"td_right\">
-                            <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Use the editor to edit emails and web components of your templates and educational material.  Click the green checkmark to save your changes.</span></a>
+                            <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Use the editor to edit your template's emails.<br /><br />You may use the following paramters that will be replaced at runtime:<br /><ul><li>@url - exact link</li><li>@link - will present anchor tag with fake link</li><li>@fname - First Name</li><li>@lname - Last Name</li></ul>Hover over each icon in the editor for a little more information about what each does.<br /><br />Click the green checkmark to save your changes.</span></a>
                         </td>
                     </tr>
                     <tr>
@@ -282,8 +293,11 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $
                     <tr>
                         <td colspan=\"3\" class=\"td_left\"><h3>Editor - " . $name . "</h3></td>
                         <td class=\"td_right\">
-                                <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Editor help content to go here.</span></a>
-                                &nbsp;<a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>
+                                <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Select a file from the template or education you selected, load it and use the editor to edit your file.<br /><br />Hover over each icon in the editor for a little more information about what each does.<br /><br />Click the green checkmark to save your changes.</span></a>";
+        if(!isset($_REQUEST['filename'])){
+            echo "&nbsp;<a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>";
+        }
+        echo "
                         </td>
                     </tr>
                     <tr>
@@ -300,7 +314,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $
             $file_array = explode ( ".", $file );
             //look for htm, php and html files
             if ( $file_array[1] == "htm" OR $file_array[1] == "php" OR $file_array[1] == "html" OR $file_array[1] == "css" OR $file_array[1] == "js" ) {
-                if ( $file == "license.htm" ) {
+                if ( $file == "license.htm" OR $file == "email.php" ) {
                     
                 } else {
                     //add the file to the drop-down
@@ -338,8 +352,11 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "education" ) {
                     <tr>
                         <td colspan=\"3\" class=\"td_left\"><h3>Editor - " . $name . "</h3></td>
                         <td class=\"td_right\">
-                                <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Editor help content to go here.</span></a>
-                                &nbsp;<a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>
+                                <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Select a file from the template or education you selected, load it and use the editor to edit your file.<br /><br />Hover over each icon in the editor for a little more information about what each does.<br /><br />Click the green checkmark to save your changes.</span></a>";
+        if(!isset($_REQUEST['filename'])){
+            echo "&nbsp;<a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>";
+        }
+        echo "
                         </td>
                     </tr>
                     <tr>

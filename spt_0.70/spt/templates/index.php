@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 28.0
+ * version: 29.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -112,7 +112,7 @@ if ( file_exists ( $includeContent ) ) {
                             <tr>
                                 <td colspan="2" style="text-align: left;"><h3>Email</h3></td>
                                 <td style="text-align: right;">
-                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>You can enter the following variables that will be changed into their actual values on runtime:<br /><br />@fname - Target's first name<br />@lname - Target's last name<br /><br />The fake link is the link that will be presented in the email to the user that essentially masks the formulated phishing link.</span></a>
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Use these fields to create an email for your template.  For more advanced editing, edit this template after you've completed the scrape by clicking the pencil icon next to the template.</span></a>
                                 </td>
                             </tr>
                             <tr>
@@ -195,7 +195,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"" . $ra['id'] . "\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
                         <td style=\"vertical-align:text-top; text-align: left;\">" . $ra['description'] . "</td>\n
                         <td><img class= \"drop_shadow\" src=\"" . $ra['id'] . "/screenshot.png\" alt=\"missing screenshot\" /></td>\n
-                        <td><a href=\"?editor=1&type=template&id=".$ra['id']."\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;<a href=\"delete_template.php?t=" . $ra['id'] . "\"><img src=\"../images/world_delete_sm.png\" alt=\"delete\" /></a></td>\n
+                        <td><a href=\"?editor=1&type=template&id=".$ra['id']."\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;&nbsp;<a href=\"delete_template.php?t=" . $ra['id'] . "\"><img src=\"../images/world_delete_sm.png\" alt=\"delete\" /></a></td>\n
                     </tr>\n";
 }
 ?>
