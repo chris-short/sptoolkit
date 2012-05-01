@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 12.0
+ * version: 13.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -105,7 +105,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                     <tr>
                         <td style="text-align: left;"><h3>Name</h3></td>
                         <td style="text-align: left;"><h3>Description</h3></td>
-                        <td><h3>Delete</h3></td>
+                        <td><h3>Actions</h3></td>
                     </tr>
 
 <?php
@@ -119,7 +119,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                     <tr>
                         <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"" . $ra['id'] . "\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
                         <td style=\"vertical-align:text-top; text-align: left;\">" . $ra['description'] . "</td>\n
-                        <td><a href=\"delete_package.php?t=" . $ra['id'] . "\"><img src=\"../images/package_delete_sm.png\" alt=\"delete\" /></a></td>\n
+                        <td><a href=\"?editor=1&type=education&id=".$ra['id']."\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;&nbsp;<a href=\"delete_package.php?t=" . $ra['id'] . "\"><img src=\"../images/package_delete_sm.png\" alt=\"delete\" /></a></td>\n
                     </tr>\n";
 }
 ?>
