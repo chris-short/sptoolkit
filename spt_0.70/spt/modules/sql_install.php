@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -36,7 +36,7 @@ $sql = "
 mysql_query ( $sql ) or die ( mysql_error () );
 
 //Upload Module Data
-$sql = "INSERT INTO `modules` VALUES ('Dashboard','dashboard','The dashboard is a landing page for the application that provides a quick look at everything that is going on in spt.  It is a required, core module.  Think of it as your homepage in spt.','2011-08-21',1),('Modules','modules','The modules module manages all other modules.  Yes, that sentence had the word module in it too many times.  All modules depend on this module for installation and uninstallation.  This module is a required, core module.','2011-08-21',1),('Users','users','The users module manages users and permissions regarding access to spt.  It is a required, core module for which all modules depend.','2011-08-21',1),('Targets','targets','This module allows you to manage lists of people and their email addresses.  It also allows you to place people into groups.','2011-08-26',1),('Campaigns','campaigns','This module manages a phishing campaign from start to finish.','2011-08-29',1),('Templates','templates','The Template module manages all aspects of templates that are used in campaigns.','2011-08-29',1),('Education','education','The education module allows you to manage educational packages that can be utilized in campaigns.','2011-12-4',1),('Editor','editor','The editor gives you basic web based editing of your template and education files. This eliminates the need to access files at the command line or attempting to find the files within the templates directory of your spt installation for an offline edit.','2012-02-11',1)";
+$sql = "INSERT INTO `modules` VALUES ('Dashboard','dashboard','The dashboard is a landing page for the application that provides a quick look at everything that is going on in spt.  It is a required, core module.  Think of it as your homepage in spt.','2011-08-21',1),('Modules','modules','The modules module manages all other modules.  Yes, that sentence had the word module in it too many times.  All modules depend on this module for installation and uninstallation.  This module is a required, core module.','2011-08-21',1),('Users','users','The users module manages users and permissions regarding access to spt.  It is a required, core module for which all modules depend.','2011-08-21',1),('Targets','targets','This module allows you to manage lists of people and their email addresses.  It also allows you to place people into groups.','2011-08-26',1),('Campaigns','campaigns','This module manages a phishing campaign from start to finish.','2011-08-29',1),('Templates','templates','The Template module manages all aspects of templates that are used in campaigns.','2011-08-29',1),('Education','education','The education module allows you to manage educational packages that can be utilized in campaigns.','2011-12-4',1)";
 
 mysql_query ( $sql ) or die ( mysql_error () );
 
@@ -50,7 +50,7 @@ $sql = "
 mysql_query ( $sql ) or die ( mysql_error () );
 
 //Upload Module Dependency Data
-$sql = "INSERT INTO `modules_dependencies` VALUES ('Dashboard','Users'),('Modules','Users'),('Campaigns','Targets'),('Targets','Users'),('Campaigns','Users'),('Campaigns','Templates'),('Templates','Users'),('Education','Campaigns'),('Campaigns','Education'),('Education','Users'),('Editor','Templates'),('Editor','Education')";
+$sql = "INSERT INTO `modules_dependencies` VALUES ('Dashboard','Users'),('Modules','Users'),('Campaigns','Targets'),('Targets','Users'),('Campaigns','Users'),('Campaigns','Templates'),('Templates','Users'),('Education','Campaigns'),('Campaigns','Education'),('Education','Users')";
 
 mysql_query ( $sql ) or die ( mysql_error () );
 ?>
