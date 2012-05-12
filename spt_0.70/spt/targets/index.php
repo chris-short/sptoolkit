@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 35.0
+ * version: 36.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -89,6 +89,24 @@ if ( file_exists ( $includeContent ) ) {
                     window.location = ".#alert"
                     window.location.reload()
                 }								
+            }
+        </script>
+        <script language="Javascript" type="text/javascript">
+            function updateMetricsName(field_name,value) 
+            { 
+                //begin new request
+                xmlhttp = new XMLHttpRequest();
+
+                //send update request
+                xmlhttp.open("POST","update_metrics_name.php",false);
+                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlhttp.send("field_name="+field_name+"&value="+value);
+
+                if (xmlhttp.responseText != "set")
+                {
+                    window.location = ".#alert"
+                    window.location.reload()
+                }                               
             }
         </script>
         <script type="text/javascript" src="../includes/escape.js"></script>
@@ -248,6 +266,11 @@ if ( file_exists ( $includeContent ) ) {
                 </form>
                 <table id="manage_metrics">
                     <tr>
+                        <td><h3>Show</h3></td>
+                        <td><h3>Metric</h3></td>
+                        <td><h3>Delete</h3></td>
+                    </tr>
+                    <tr>
                         <td>-</td>
                         <td>First Name</td>
                         <td>-</td>
@@ -285,7 +308,7 @@ if ( file_exists ( $includeContent ) ) {
 
                         echo "
                         ></td>
-                        <td>" . $ra['field_name'] . "</td>
+                        <td><input id=\"metric_field_" . $ra['field_name'] . "\" onchange=\"updateMetricsName('" . $ra['field_name'] . "',this.value)\" value=\"" . $ra['field_name'] . "\" /></td>
                         <td><a href=\"delete_metric.php?m=" . $ra['field_name'] . "\"><img src=\"../images/table_delete_sm.png\" alt=\"delete\" /></a></td>
                     </tr>";
                     }
