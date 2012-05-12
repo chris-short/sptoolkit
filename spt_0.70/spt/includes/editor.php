@@ -2,7 +2,7 @@
 
 /**
  * file:    editor.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -314,7 +314,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $
             $file_array = explode ( ".", $file );
             //look for htm, php and html files
             if ( $file_array[1] == "htm" OR $file_array[1] == "php" OR $file_array[1] == "html" OR $file_array[1] == "css" OR $file_array[1] == "js" ) {
-                if ( $file == "license.htm" OR $file == "email.php" ) {
+                if ( $file == "license.htm" ) {
                     
                 } else {
                     //add the file to the drop-down
