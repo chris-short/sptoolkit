@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 13.0
+ * version: 14.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -223,8 +223,11 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $mail_log = nl2br ( htmlentities ( $mail_log ) );
     mysql_query ( "UPDATE campaigns_responses SET response_log='$mail_log' WHERE response_id = '$current_response_id'" );
 
-    //specify that message is sent
-    mysql_query ( "UPDATE campaigns_responses SET sent = 2 WHERE response_id = '$current_response_id'" );
+    //get current datetime
+    $sent_time = date ( 'Y-m-d H:i:s' );
+
+    //specify that message is sent and timestamp it
+    mysql_query ( "UPDATE campaigns_responses SET sent = 2, sent_time = '$sent_time' WHERE response_id = '$current_response_id'" );
 
     //specify if there was a failure
     if ( count ( $failures ) > 0 ) {
