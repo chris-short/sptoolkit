@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 14.0
+ * version: 15.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -46,6 +46,12 @@ if ( ! isset ( $_POST["c"] ) ) {
     exit;
 } else {
     $campaign_id = $_POST['c'];
+}
+
+if ( isset($_POST['ssl']) && $_POST['ssl'] == "Yes"){
+    $ssl = "yes";
+}else{
+    $ssl = "no";
 }
 
 //connect to database
@@ -172,15 +178,30 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
             $relay_port = 25;
         }
 
-        //Create the Transport
-        $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port )
+        if($ssl == "no"){
+            //Create the Transport
+            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port )
                 -> setUsername ( $relay_username )
                 -> setPassword ( $relay_password )
-        ;
+        ;    
+        }else{
+            //Create the Transport
+            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' )
+                -> setUsername ( $relay_username )
+                -> setPassword ( $relay_password )
+        ;    
+        }
+        
     }
     if ( isset ( $relay_host ) AND ! isset ( $relay_username ) AND ! isset ( $relay_password ) ) {
-        //Create the Transport
-        $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port );
+        if($ssl == "no"){
+            //Create the Transport
+            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port );    
+        }else{
+            //Create the Transport
+            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' );    
+        }
+        
     }
     if ( ! isset ( $relay_host ) AND ! isset ( $relay_username ) AND ! isset ( $relay_password ) ) {
         //parse out the domain from the recipient email address
@@ -192,7 +213,12 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
         //
         //create the transport
-        $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25 );
+        if($ssl == "no"){
+            $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25 );    
+        }else{
+            $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25, 'ssl' );    
+        }
+        
     }
 
     //Create the Mailer using your created Transport

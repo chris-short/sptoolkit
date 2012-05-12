@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 42.0
+ * version: 43.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -240,6 +240,10 @@ if ( isset ( $_REQUEST['c'] ) ) {
                                 <td colspan="2"><input type="text" name="relay_port" size="6" value="25" /></td>
                             </tr>
                             <tr>
+                                <td>SSL</td>
+                                <td colspan="2"><?php $transports = stream_get_transports(); if((array_search("ssl", $transports)) OR (array_search("tls", $transports))){echo "<input type=\"checkbox\" name=\"ssl\" /><br />";}else{echo "<a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>Missing SSL or TLS transport.</span></a>";} ?></td>
+                            </tr>
+                            <tr>
                                 <td>Username</td>
                                 <td colspan="2"><input type="text" name="relay_username" /></td>
                             </tr>
@@ -331,7 +335,7 @@ if ( isset ( $_REQUEST['c'] ) ) {
 
 //pull data for entire campaign if group and filters are NOT set
                     if ( ! isset ( $group ) && ! isset ( $filter ) && isset ( $campaign_id ) ) {
-                        $r = mysql_query ( "SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                        $r = mysql_query ( "SELECT campaigns_responses.sent_time AS sent_time, campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
                         //title the page with the campaign number
                         $title = $campaign_name . " :: All Responses";
@@ -339,7 +343,7 @@ if ( isset ( $_REQUEST['c'] ) ) {
 
 //pull data if a group is set
                     if ( isset ( $group ) ) {
-                        $r = mysql_query ( "SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE targets.group_name = '$group' AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                        $r = mysql_query ( "SELECT campaigns_responses.sent_time AS sent_time, campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE targets.group_name = '$group' AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
                         //title the page with the campaign number
                         $title = $campaign_name . " :: " . $group;
@@ -349,7 +353,7 @@ if ( isset ( $_REQUEST['c'] ) ) {
                     if ( isset ( $filter ) ) {
                         //if filter is for links
                         if ( $filter == "link" ) {
-                            $r = mysql_query ( "SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.link = 1 AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                            $r = mysql_query ( "SELECT campaigns_responses.sent_time AS sent_time, campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.link = 1 AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
                             //title the page with the campaign number
                             $title = $campaign_name;
@@ -363,7 +367,7 @@ if ( isset ( $_REQUEST['c'] ) ) {
 
                         //if filter is for posts
                         if ( $filter == "post" ) {
-                            $r = mysql_query ( "SELECT campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.post != \"\"  AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                            $r = mysql_query ( "SELECT campaigns_responses.sent_time AS sent_time, campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.post != \"\"  AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
                             //title the page with the campaign number
                             $title = $campaign_name;
@@ -445,7 +449,7 @@ if ( isset ( $_REQUEST['c'] ) ) {
             <br />
             <table class=\"left\">
                 <tr>
-                    <td>Date Sent</td>
+                    <td>Date Started</td>
                     <td>" . $date_sent . "</td>
                 </tr>
                 <tr>
@@ -488,10 +492,10 @@ if ( isset ( $_REQUEST['c'] ) ) {
             <br />
             <table id=\"response_table\">
                 <tr>
-                    <td><h3>ID</h3></td>
                     <td><h3>First Name</h3></td>
                     <td><h3>Last Name</h3></td>
                     <td><h3>Email</h3></td>
+                    <td><h3>Sent Time</h3></td>
                     <td><h3>Link</h3></td>
                     <td><h3>Clicked at</h3></td>
                     <td><h3>IP</h3></td>
@@ -505,10 +509,10 @@ if ( isset ( $_REQUEST['c'] ) ) {
                         //dump data into table
                         while ( $ra = mysql_fetch_assoc ( $r ) ) {
                             echo "<tr>";
-                            echo "<td>" . $ra['target_id'] . "</td>";
                             echo "<td>" . $ra['fname'] . "</td>";
                             echo "<td>" . $ra['lname'] . "</td>";
                             echo "<td>" . $ra['email'] . "</td>";
+                            echo "<td>" . $ra['sent_time'] . "</td>";
                             if ( $ra['link'] == 1 ) {
                                 $link = 'Y';
                             } else {
