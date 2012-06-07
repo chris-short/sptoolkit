@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 19.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -199,10 +199,25 @@ session_start ();
                 if ( isset ( $_POST['step3'] ) && $_POST['step3'] == "complete" ) {
                     //validate the database config data
                     $host = $_POST['host'];
+                    if(!empty($host)){
+                        $_SESSION['temp_host'] = $host;
+                    }
                     $port = $_POST['port'];
+                    if(!empty($port)){
+                        $_SESSION['temp_port'] = $port;
+                    }
                     $username = trim ( $_POST['username'] );
+                    if(!empty($username)){
+                        $_SESSION['temp_username'] = $username;
+                    }
                     $password = trim ( $_POST['password'] );
+                    if(!empty($password)){
+                        $_SESSION['temp_password'] = $password;
+                    }
                     $database = trim ( $_POST['database'] );
+                    if(!empty($database)){
+                        $_SESSION['temp_database'] = $database;
+                    }
 
                     //validate that all fields were entered
                     if ( ! $host || ! $port || ! $username || ! $password || ! $database ) {
@@ -333,23 +348,59 @@ session_start ();
             <table>
                 <tr>
                     <td>Host</td>
-                    <td><input type=\"text\" name=\"host\" value=\"localhost\"/></td>
+                    <td><input type=\"text\" name=\"host\" ";
+                    if(isset($_SESSION['temp_host'])){
+                        echo "value=\"".$_SESSION['temp_host']."\" ";
+                        unset($_SESSION['temp_host']);
+                    }
+                    else{
+                        echo "value=\"localhost\"";
+                    }
+                    echo "
+                        /></td>
                 </tr>
                 <tr>
                     <td>Port</td>
-                    <td><input type=\"text\" name=\"port\" value=\"3306\" /></td>
+                    <td><input type=\"text\" name=\"port\" ";
+                    if(isset($_SESSION['temp_port'])){
+                        echo "value=\"".$_SESSION['temp_port']."\" ";
+                        unset($_SESSION['temp_port']);
+                    }
+                    else{
+                        echo "value=\"3306\"";
+                    }
+                    echo "
+                         /></td>
                 </tr>
                 <tr>
                     <td>Username</td>
-                    <td><input type=\"text\" name=\"username\" /></td>
+                    <td><input type=\"text\" name=\"username\" ";
+                    if(isset($_SESSION['temp_username'])){
+                        echo "value=\"".$_SESSION['temp_username']."\" ";
+                        unset($_SESSION['temp_username']);
+                    }
+                    echo "
+                        /></td>
                 </tr>
                 <tr>
                     <td>Password</td>
-                    <td><input type=\"password\" name=\"password\" autocomplete=\"off\"/></td>
+                    <td><input type=\"password\" name=\"password\" ";
+                        if(isset($_SESSION['temp_password'])){
+                        echo "value=\"".$_SESSION['temp_password']."\" ";
+                        unset($_SESSION['temp_password']);
+                    }
+                    echo "
+                    autocomplete=\"off\"/></td>
                 </tr>
                 <tr>
                     <td>Database</td>
-                    <td><input type=\"database\" name=\"database\" /></td>
+                    <td><input type=\"database\" name=\"database\" ";
+                    if(isset($_SESSION['temp_database'])){
+                        echo "value=\"".$_SESSION['temp_database']."\" ";
+                        unset($_SESSION['temp_database']);
+                    }
+                    echo "
+                    /></td>
                 </tr>
                     <input type=\"hidden\" name=\"step3\" value=\"complete\" />
                 <tr>
@@ -388,6 +439,17 @@ session_start ();
                 if ( isset ( $_POST['step5'] ) && $_POST['step5'] == "complete" ) {
                     //validate that the newly entered username is a valid email address
                     $new_username = $_POST['username'];
+                    if(!empty($new_username)){
+                        $_SESSION['temp_new_username'] = $new_username;
+                    }
+                    $new_fname = $_POST['first_name'];
+                    if(!empty($new_fname)){
+                        $_SESSION['temp_new_fname'] = $new_fname;
+                    }
+                    $new_lname = $_POST['last_name'];
+                    if(!empty($new_lname)){
+                        $_SESSION['temp_new_lname'] = $new_lname;
+                    }
                     if ( ! filter_var ( $new_username, FILTER_VALIDATE_EMAIL ) ) {
                         echo "
             Please enter a valid email address<br /><br />
@@ -408,7 +470,6 @@ session_start ();
                     }
 
                     //make sure its only letters
-                    $new_fname = $_POST['first_name'];
                     if ( preg_match ( '/[^a-zA-Z]/', $new_fname ) ) {
                         echo "
             Your first name may only contain letters<br /><br />
@@ -429,7 +490,6 @@ session_start ();
                     }
 
                     //make sure the last name is between 1 and 50 characters
-                    $new_lname = $_POST['last_name'];
                     if ( strlen ( $new_lname ) > 50 || strlen ( $new_lname ) < 1 ) {
                         echo "
             Your last name must be between 1 and 50 characters<br /><br />
@@ -521,15 +581,33 @@ session_start ();
             <table>
                 <tr>
                     <td>First Name</td>
-                    <td><input type=\"text\" name=\"first_name\" /></td>
+                    <td><input type=\"text\" name=\"first_name\" ";
+                    if(isset($_SESSION['temp_new_fname'])){
+                        echo "value=\"".$_SESSION['temp_new_fname']."\" ";
+                        unset($_SESSION['temp_new_fname']);
+                    }
+                    echo "
+                        /></td>
                 </tr>
                 <tr>
                     <td>Last Name</td>
-                    <td><input type=\"text\" name=\"last_name\" /></td>
+                    <td><input type=\"text\" name=\"last_name\" ";
+                        if(isset($_SESSION['temp_new_lname'])){
+                            echo "value=\"".$_SESSION['temp_new_lname']."\" ";
+                            unset($_SESSION['temp_new_lname']);
+                        }
+                    echo "
+                        /></td>
                 </tr>
                 <tr>
                     <td>Email</td>
-                    <td><input type=\"text\" name=\"username\" /></td>
+                    <td><input type=\"text\" name=\"username\" ";
+                    if(isset($_SESSION['temp_new_username'])){
+                        echo "value=\"".$_SESSION['temp_new_username']."\" ";
+                        unset($_SESSION['temp_new_username']);
+                    }
+                    echo "
+                        /></td>
                 </tr>
                 <tr>
                     <td>Password</td>
