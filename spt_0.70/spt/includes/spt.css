@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:    spt.css
- * version: 22.0
+ * version: 23.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -409,4 +409,9 @@ img
 
 .thick_underline{
     border-bottom: #ccc solid medium;    
+}
+
+.popover_alert_message{
+    text-align: center;
+    color: red;
 }

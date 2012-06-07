@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 15.0
+ * version: 16.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -88,7 +88,14 @@ $ra = mysql_fetch_assoc ( $r );
                         <tr>\n
                             <td>re-enter password</td>\n
                             <td><input id=\"password_check\" type=\"password\" name=\"password_check\" autocomplete=\"off\"/></td>\n
-                        </tr>\n
+                        </tr>\n";
+                        if(isset($_SESSION['alert_message'])){
+                            echo "
+                                <tr>
+                                    <td class=\"popover_alert_message\" colspan=2>".$_SESSION['alert_message']."</td></tr>
+                                </tr>";
+                        }
+                        echo "
                         <tr>\n
                             <td colspan=\"2\" style=\"text-align: center;\"><br />
                                 <a href=\"\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"image\" src=\"../images/accept.png\" alt=\"edit\" />
@@ -111,15 +118,15 @@ $ra = mysql_fetch_assoc ( $r );
                         </tr>
                         <tr>
                             <td>first name</td>
-                            <td><input id="fname" type="text" name="fname" /></td>
+                            <td><input id="fname" type="text" name="fname" <?php if(isset($_SESSION['temp_new_fname'])){echo "value = \"".$_SESSION['temp_new_fname']."\"";unset($_SESSION['temp_new_fname']);} ?> /></td>
                         </tr>
                         <tr>
                             <td>last name</td>
-                            <td><input id="lname" type="text" name="lname" /></td>
+                            <td><input id="lname" type="text" name="lname" <?php if(isset($_SESSION['temp_new_lname'])){echo "value = \"".$_SESSION['temp_new_lname']."\"";unset($_SESSION['temp_new_lname']);} ?> /></td>
                         </tr>
                         <tr>
                             <td>email</td>
-                            <td><input id="username" type="text" name="username" /></td>
+                            <td><input id="username" type="text" name="username" <?php if(isset($_SESSION['temp_new_username'])){echo "value = \"".$_SESSION['temp_new_username']."\"";unset($_SESSION['temp_new_username']);} ?>/></td>
                         </tr>
                         <tr>
                             <td>password</td>
@@ -131,12 +138,21 @@ $ra = mysql_fetch_assoc ( $r );
                         </tr>
                         <tr>
                             <td>admin</td>
-                            <td><input id="admin" type="checkbox" name="a" /></td>
+                        <td><input id="admin" type="checkbox" name="a" <?php if(isset($_SESSION['temp_a'])){echo $_SESSION['temp_a'];unset($_SESSION['temp_a']);}?> /></td>
                         </tr>
                         <tr>
                             <td>disabled</td>
-                            <td><input id="disabled" type="checkbox" name="disabled" /></td>
+                            <td><input id="disabled" type="checkbox" name="disabled" <?php if(isset($_SESSION['temp_disabled'])){echo $_SESSION['temp_disabled'];unset($_SESSION['temp_disabled']);}?> /></td>
                         </tr>
+                        <?php
+                            if(isset($_SESSION['alert_message'])){
+                                echo "
+                                   <tr>
+                                        <td class=\"popover_alert_message\" colspan=2>".$_SESSION['alert_message']."</td>
+                                   </tr>
+                                ";
+                            }
+                        ?>
                         <tr>
                             <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                         </tr>
@@ -220,7 +236,14 @@ if ( isset ( $_REQUEST['u'] ) ) {
         }
         echo "
                             /></td>\n
-                        </tr>\n
+                        </tr>\n";
+                       if(isset($_SESSION['alert_message'])){
+                            echo "
+                                <tr>
+                                    <td class=\"popover_alert_message\" colspan=2>".$_SESSION['alert_message']."</td></tr>
+                                </tr>";
+                        }
+                        echo "
                         <tr>\n
                             <td colspan=\"2\" style=\"text-align: center;\"><br />
                                 <a href=\"\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"image\" src=\"../images/accept.png\" alt=\"edit\" />
