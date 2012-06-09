@@ -2,7 +2,7 @@
 
 /**
  * file:    module_upload.php
- * version: 11.0
+ * version: 12.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,28 +41,28 @@ if ( file_exists ( $includeContent ) ) {
 //validate a file was uploaded
 if ( ! is_uploaded_file ( $_FILES['file']['tmp_name'] ) ) {
     $_SESSION['alert_message'] = 'you must upload a file';
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_module' );
     exit;
 }
 
 //ensure its a zip file
 if ( preg_match ( '/^(zip)\i/', $_FILES["file"]["type"] ) ) {
     $_SESSION['alert_message'] = 'you must only upload zip files';
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_module' );
     exit;
 } else
 
 //ensure that the file is under 20M
 if ( $_FILES["file"]["size"] > 20000000 ) {
     $_SESSION['alert_message'] = 'max file size is 20MB';
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_module' );
     exit;
 }
 
 //ensure there are no errors
 if ( $_FILES["file"]["error"] > 0 ) {
     $_SESSION['alert_message'] = "there was a problem uploading your file";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_module' );
     exit;
 }
 
@@ -80,7 +80,7 @@ if ( $res === TRUE ) {
     $zip -> close ();
 } else {
     $_SESSION['alert_message'] = 'unzipping the file failed';
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_module' );
     exit;
 }
 
@@ -90,7 +90,7 @@ include "../spt_config/mysql_config.php";
 //check to see if the install file exists and is in the right spot
 if ( ! file_exists ( "upload/install.php" ) ) {
     $_SESSION['alert_message'] = "please check your module, there is no install.php file in the root of the zipped directory";
-    header ( "location:./#alert" );
+    header ( "location:./#add_module" );
     exit;
 }
 
@@ -108,7 +108,7 @@ if ( $module_upgrade != 1 ) {
     $r = mysql_query ( "SELECT name, directory_name FROM modules WHERE name ='$module_name' OR directory_name = '$module_path'" ) or die ( mysql_error () );
     if ( mysql_num_rows ( $r ) > 0 ) {
         $_SESSION['alert_message'] = "There is already a module with the same name or stored in the same directory as the module you are trying to upload.  If this is an upgrade, please specify it as such.";
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_module' );
         exit;
     }
 }
