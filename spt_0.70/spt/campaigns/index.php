@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 43.0
+ * version: 44.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -96,22 +96,6 @@ if ( isset ( $_REQUEST['c'] ) ) {
     <body>
         <div id="wrapper">
             <!--popovers-->
-            <?php
-//check to see if the alert session is set
-            if ( isset ( $_SESSION['alert_message'] ) ) {
-                //create alert popover
-                echo "<div id=\"alert\">";
-
-                //echo the alert message
-                echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
-
-                //unset the seession
-                unset ( $_SESSION['alert_message'] );
-
-                //close alert popover
-                echo "</div>";
-            }
-            ?>
             <div id="add_campaign">
                 <div>
                     <form method="post" action="start_campaign.php">
@@ -124,7 +108,12 @@ if ( isset ( $_REQUEST['c'] ) ) {
                             </tr>
                             <tr>
                                 <td>Name</td>
-                                <td colspan="2"><input name="campaign_name" /></td>
+                                <td colspan="2"><input name="campaign_name" <?php
+if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
+    echo "value=\"" . $_SESSION['temp_campaign_name'] . "\"";
+    unset ( $_SESSION['temp_campaign_name'] );
+}
+?> /></td>
                             </tr>
                             <tr>
                                 <td>Path</td>
@@ -137,7 +126,14 @@ if ( isset ( $_REQUEST['c'] ) ) {
                                     $path = preg_replace ( '/\/campaigns.*/', '', $path );
 
 //create a hidden field with the path of spt
-                                    echo "<input type=\"text\" name=\"spt_path\" value=\"" . $path . "\" size=\"45\"/>";
+                                    echo "<input type=\"text\" name=\"spt_path\" value=\"";
+                                    if ( isset ( $_SESSION['temp_spt_path'] ) ) {
+                                        echo $_SESSION['temp_spt_path'];
+                                        unset ( $_SESSION['temp_spt_path'] );
+                                    } else {
+                                        echo $path;
+                                    }
+                                    echo "\" size=\"45\"/>";
                                     ?>
                                 </td>
                             </tr>
@@ -158,8 +154,13 @@ if ( isset ( $_REQUEST['c'] ) ) {
 //query for all groups
                                         $r = mysql_query ( 'SELECT DISTINCT group_name FROM targets' );
                                         while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                                            echo "<option>" . $ra['group_name'] . "</option>";
+                                            if ( isset ( $_SESSION['temp_target_groups'] ) && in_array ( $ra['group_name'], $_SESSION['temp_target_groups'] ) ) {
+                                                echo "<option selected=\"selected\">" . $ra['group_name'] . "</option>";
+                                            } else {
+                                                echo "<option>" . $ra['group_name'] . "</option>";
+                                            }
                                         }
+                                        unset ( $_SESSION['temp_target_groups'] );
                                         ?>	
                                     </select>
                                 </td>
@@ -181,8 +182,13 @@ if ( isset ( $_REQUEST['c'] ) ) {
 //query for all groups
                                         $r = mysql_query ( 'SELECT id, name FROM templates' );
                                         while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                                            echo "<option value=" . $ra['id'] . ">" . $ra['name'] . "</option>";
+                                            if ( isset ( $_SESSION['temp_template_id'] ) && $_SESSION['temp_template_id'] == $ra['id'] ) {
+                                                echo "<option value=" . $ra['id'] . " selected=\"selected\">" . $ra['name'] . "</option>";
+                                            } else {
+                                                echo "<option value=" . $ra['id'] . ">" . $ra['name'] . "</option>";
+                                            }
                                         }
+                                        unset ( $_SESSION['temp_template_id'] );
                                         ?>	
                                     </select>
                                 </td>
@@ -215,15 +221,28 @@ if ( isset ( $_REQUEST['c'] ) ) {
 //query for all groups
                                         $r = mysql_query ( 'SELECT id, name FROM education' );
                                         while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                                            if ( isset ( $_SESSION['temp_education_id'] ) && $_SESSION['temp_education_id'] == $ra['id'] ) {
+                                                echo "<option value=" . $ra['id'] . " selected=\"selected\" >" . $ra['name'] . "</option>";
+                                            }
                                             echo "<option value=" . $ra['id'] . ">" . $ra['name'] . "</option>";
                                         }
+                                        unset ( $_SESSION['temp_education_id'] );
                                         ?>	
                                     </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td colspan="2"><input type="radio" name="education_timing" value="1" /> Educate on link click<br /><input type="radio" name="education_timing" value="2" /> Educate on form submission</td>
+                                <td colspan="2"><input type="radio" name="education_timing" value="1" <?php
+                                        if ( isset ( $_SESSION['temp_education_timing'] ) && $_SESSION['temp_education_timing'] == 1 ) {
+                                            echo "CHECKED";
+                                        }
+                                        ?>/> Educate on link click<br /><input type="radio" name="education_timing" value="2" <?php
+                                                       if ( isset ( $_SESSION['temp_education_timing'] ) && $_SESSION['temp_education_timing'] == 2 ) {
+                                                           echo "CHECKED";
+                                                           unset ( $_SESSION['temp_education_timing'] );
+                                                       }
+                                        ?>/> Educate on form submission</td>
                             </tr>
                             <tr>
                                 <td colspan="2"><h3>SMTP Relay</h3></td>
@@ -233,19 +252,48 @@ if ( isset ( $_REQUEST['c'] ) ) {
                             </tr>
                             <tr>
                                 <td>Host</td>
-                                <td colspan="2"><input type="text" name="relay_host" size="30"/></td>
+                                <td colspan="2"><input type="text" name="relay_host" size="30" <?php
+                                                       if ( isset ( $_SESSION['temp_relay_host'] ) ) {
+                                                           echo "value=\"" . $_SESSION['temp_relay_host'] . "\"";
+                                                           unset ( $_SESSION['temp_relay_host'] );
+                                                       }
+                                        ?> /></td>
                             </tr>
                             <tr>
                                 <td>Port</td>
-                                <td colspan="2"><input type="text" name="relay_port" size="6" value="25" /></td>
+                                <td colspan="2"><input type="text" name="relay_port" size="6" <?php
+                                                       if ( isset ( $_SESSION['temp_relay_port'] ) ) {
+                                                           echo "value=\"" . $_SESSION['temp_relay_port'] . "\"";
+                                                           unset ( $_SESSION['temp_relay_port'] );
+                                                       } else {
+                                                           echo "value=\"25\"";
+                                                       }
+                                        ?> /></td>
                             </tr>
                             <tr>
                                 <td>SSL</td>
-                                <td colspan="2"><?php $transports = stream_get_transports(); if((array_search("ssl", $transports)) OR (array_search("tls", $transports))){echo "<input type=\"checkbox\" name=\"ssl\" /><br />";}else{echo "<a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>Missing SSL or TLS transport.</span></a>";} ?></td>
+                                <td colspan="2"><?php
+                                                       $transports = stream_get_transports ();
+                                                       if ( (array_search ( "ssl", $transports )) OR (array_search ( "tls", $transports )) ) {
+                                                           echo "<input type=\"checkbox\" name=\"ssl\" ";
+                                                           if ( isset ( $_SESSION['temp_ssl'] ) ) {
+                                                               echo "CHECKED";
+                                                               unset ( $_SESSION['temp_ssl'] );
+                                                           }
+                                                           echo "/><br />";
+                                                       } else {
+                                                           echo "<a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>Missing SSL or TLS transport.</span></a>";
+                                                       }
+                                        ?></td>
                             </tr>
                             <tr>
                                 <td>Username</td>
-                                <td colspan="2"><input type="text" name="relay_username" /></td>
+                                <td colspan="2"><input type="text" name="relay_username" <?php
+                                    if ( isset ( $_SESSION['temp_relay_username'] ) ) {
+                                        echo "value=\"" . $_SESSION['temp_relay_username'] . "\"";
+                                        unset ( $_SESSION['temp_relay_username'] );
+                                    }
+                                        ?>/></td>
                             </tr>
                             <tr>
                                 <td>Password</td>
@@ -259,8 +307,21 @@ if ( isset ( $_REQUEST['c'] ) ) {
                             </tr>
                             <tr>
                                 <td>Delay</td>
-                                <td colspan="2"><input type="text" name="message_delay" value="1000" />&nbsp;<i>ms</i> (100-60000)</td>
+                                <td colspan="2"><input type="text" name="message_delay" <?php
+                                                       if ( isset ( $_SESSION['temp_message_delay'] ) ) {
+                                                           echo "value=\"" . $_SESSION['temp_message_delay'] . "\"";
+                                                           unset ( $_SESSION['temp_message_delay'] );
+                                                       } else {
+                                                           echo "value=\"1000\"";
+                                                       }
+                                        ?> />&nbsp;<i>ms</i> (100-60000)</td>
+
                             </tr>
+                            <?php
+                            if ( isset ( $_SESSION['alert_message'] ) ) {
+                                echo "<tr><td colspan=3 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
+                            }
+                            ?>
                             <tr>
                                 <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/accept.png" alt="accept" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
                             </tr>
@@ -268,6 +329,22 @@ if ( isset ( $_REQUEST['c'] ) ) {
                     </form>
                 </div>
             </div>
+            <?php
+//check to see if the alert session is set
+            if ( isset ( $_SESSION['alert_message'] ) ) {
+                //create alert popover
+                echo "<div id=\"alert\">";
+
+                //echo the alert message
+                echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
+
+                //unset the seession
+                unset ( $_SESSION['alert_message'] );
+
+                //close alert popover
+                echo "</div>";
+            }
+            ?>
             <div id="responses">
                 <div>
                     <?php

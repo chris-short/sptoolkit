@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 27.0
+ * version: 28.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -38,57 +38,85 @@ if ( file_exists ( $includeContent ) ) {
     header ( 'location:../errors/404_is_admin.php' );
 }
 
+//pull in all posted values
+$campaign_name = $_POST['campaign_name'];
+if ( ! empty ( $campaign_name ) ) {
+    $_SESSION['temp_campaign_name'] = $campaign_name;
+}
+$target_groups = $_POST['target_groups'];
+if ( ! empty ( $target_groups ) ) {
+    $_SESSION['temp_target_groups'] = $target_groups;
+}
+$template_id = $_POST['template_id'];
+if ( ! empty ( $template_id ) ) {
+    $_SESSION['temp_template_id'] = $template_id;
+}
+$message_delay = $_POST['message_delay'];
+if ( ! empty ( $message_delay ) ) {
+    $_SESSION['temp_message_delay'] = $message_delay;
+}
+$spt_path = $_POST['spt_path'];
+if ( ! empty ( $spt_path ) ) {
+    $_SESSION['temp_spt_path'] = $spt_path;
+}
+$education_id = filter_var ( $_POST['education_id'], FILTER_SANITIZE_NUMBER_INT );
+if ( ! empty ( $education_id ) ) {
+    $_SESSION['temp_education_id'] = $education_id;
+}
+$date_sent = date ( "F j, Y, g:i a" );
+if ( ! empty ( $date_sent ) ) {
+    $_SESSION['temp_date_sent'] = $date_sent;
+}
+if ( isset ( $_POST['education_timing'] ) ) {
+    $education_timing = filter_var ( $_POST['education_timing'], FILTER_SANITIZE_NUMBER_INT );
+    $_SESSION['temp_education_timing'] = $education_timing;
+}
+if ( isset ( $_POST['relay_host'] ) ) {
+    $relay_host = filter_var ( $_POST['relay_host'], FILTER_SANITIZE_STRING );
+    $_SESSION['temp_relay_host'] = $relay_host;
+}
+if ( isset ( $_POST['relay_port'] ) ) {
+    $relay_port = filter_var ( $_POST['relay_port'], FILTER_SANITIZE_NUMBER_INT );
+    $_SESSION['temp_relay_port'] = $relay_port;
+}
+if(isset($_POST['ssl'])){
+    $ssl = filter_var($POST['ssl'], FILTER_SANITIZE_NUMBER_INT);
+    $_SESSION['temp_ssl'] = $ssl;
+}
+if ( isset ( $_POST['relay_username'] ) ) {
+    $relay_username = filter_var ( $_POST['relay_username'], FILTER_SANITIZE_STRING );
+    $_SESSION['temp_relay_username'] = $relay_username;
+}
+if ( isset ( $_POST['relay_password'] ) ) {
+    $relay_password = $_POST['relay_password'];
+    $_SESSION['temp_relay_password'] = $relay_password;
+}
 //ensure the campaign name is set
-if ( strlen ( $_POST['campaign_name'] ) < 1 ) {
+if ( strlen ( $campaign_name ) < 1 ) {
     $_SESSION['alert_message'] = "you must give the campaign a name";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_campaign' );
     exit;
 }
-
 //ensure a target group was selected
-if ( ! isset ( $_POST['target_groups'] ) ) {
+if ( ! isset ( $target_groups ) ) {
     $_SESSION['alert_message'] = "please select at least one target group";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_campaign' );
     exit;
 }
-
 //ensure a template is selected
-if ( ! isset ( $_POST['template_id'] ) ) {
+if ( ! isset ( $template_id ) ) {
     $_SESSION['alert_message'] = "please select a template";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_campaign' );
     exit;
 }
 
 //ensure that a message delay is set
-if ( ! isset ( $_POST['message_delay'] ) ) {
+if ( ! isset ( $message_delay ) ) {
     $_SESSION['alert_message'] = "please enter a value for message delay";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_campaign' );
     exit;
 }
 
-//recieve the entered values and put into variables
-$campaign_name = filter_var ( $_POST['campaign_name'], FILTER_SANITIZE_STRING );
-$spt_path = $_POST['spt_path'];
-$target_groups = $_POST['target_groups'];
-$template_id = filter_var ( $_POST['template_id'], FILTER_SANITIZE_NUMBER_INT );
-$education_id = filter_var ( $_POST['education_id'], FILTER_SANITIZE_NUMBER_INT );
-$message_delay = filter_var ( $_POST['message_delay'], FILTER_SANITIZE_NUMBER_INT );
-$date_sent = date ( "F j, Y, g:i a" );
-if ( isset ( $_POST['education_timing'] ) ) {
-    $education_timing = filter_var ( $_POST['education_timing'], FILTER_SANITIZE_NUMBER_INT );
-}
-if ( isset ( $_POST['relay_host'] ) ) {
-    $relay_host = filter_var ( $_POST['relay_host'], FILTER_SANITIZE_STRING );
-}
-if ( isset ( $_POST['relay_port'] ) ) {
-    $relay_port = filter_var ( $_POST['relay_port'], FILTER_SANITIZE_NUMBER_INT );
-}
-if ( isset ( $_POST['relay_username'] ) ) {
-    $relay_username = filter_var ( $_POST['relay_username'], FILTER_SANITIZE_STRING );
-}
-if ( isset ( $_POST['relay_password'] ) ) {
-    $relay_password = $_POST['relay_password'];
-}
 //connect to database
 include "../spt_config/mysql_config.php";
 
@@ -97,7 +125,7 @@ $r = mysql_query ( "SELECT status FROM campaigns" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( $ra['status'] == 1 ) {
         $_SESSION['alert_message'] = "there is already an active campaign, pause it, cancel it or let it finish before starting a new one";
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_campaign' );
         exit;
     }
 }
@@ -112,7 +140,7 @@ foreach ( $target_groups as $group ) {
     }
     if ( ! isset ( $match ) ) {
         $_SESSION['alert_message'] = "invalid group";
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_campaign' );
         exit;
     }
 }
@@ -126,7 +154,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 if ( ! isset ( $match0 ) ) {
     $_SESSION['alert_message'] = "please select a valid template";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_campaign' );
     exit;
 }
 
@@ -139,7 +167,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 if ( ! isset ( $match1 ) ) {
     $_SESSION['alert_message'] = "please select a valid education package";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_campaign' );
     exit;
 }
 
@@ -154,7 +182,7 @@ if ( isset ( $education_timing ) ) {
 }
 if ( $match2 != 1 ) {
     $_SESSION['alert_message'] = "please select a valid education timing option";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_campaign' );
     exit;
 }
 
@@ -163,19 +191,19 @@ if ( isset ( $message_delay ) ) {
     //ensure the message delay is greater than 100 ms
     if ( $message_delay < 100 ) {
         $_SESSION['alert_message'] = "the message delay factor must be greater than 100ms";
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_campaign' );
         exit;
     }
     //ensure the message delay is in incrmeents of 100
     if ( substr ( $message_delay, -2 ) != "00" ) {
         $_SESSION['alert_message'] = "the message delay factor should be in increments of 100ms";
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_campaign' );
         exit;
     }
     //ensure the message delay is not greater than 1 minute
     if ( $message_delay > 60000 ) {
         $_SESSION['alert_message'] = "the message delay factor cannot be more than 1 minute";
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_campaign' );
         exit;
     }
 } else {
@@ -210,6 +238,11 @@ if ( isset ( $relay_password ) ) {
 //update relay port if it is set
 if ( isset ( $relay_port ) ) {
     mysql_query ( "UPDATE campaigns SET relay_port = '$relay_port' WHERE id = '$campaign_id'" );
+}
+
+//update ssl status if ssl is checked
+if ( isset ( $ssl ) ) {
+    mysql_query ( "UPDATE campaigns SET ssl = 1 WHERE id = '$campaign_id'" );
 }
 
 //link the campaign id and group name while retrieving all applicable targets
