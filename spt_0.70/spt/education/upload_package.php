@@ -2,7 +2,7 @@
 
 /**
  * file:    upload_package.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -39,44 +39,50 @@ if ( file_exists ( $includeContent ) ) {
     header ( 'location:../errors/404_is_admin.php' );
 }
 
+//pull in all posted value
+$name = filter_var ( $_POST['name'], FILTER_SANITIZE_STRING );
+if(!empty($name)){
+    $_SESSION['temp_name'] = $name;
+}
+$description = filter_var ( $_POST['description'], FILTER_SANITIZE_STRING );
+if(!empty($description)){
+    $_SESSION['temp_description'] = $description;
+}
+
 //validate that a name is provided
 if ( strlen ( $_POST['name'] ) < 1 ) {
     $_SESSION['alert_message'] = 'you must enter a name';
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_package' );
     exit;
 }
 
 //validate that a description is provided
 if ( ! isset ( $_POST['description'] ) ) {
     $_SESSION['alert_message'] = 'you must enter a description';
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_package' );
     exit;
 }
-
-//set values
-$name = filter_var ( $_POST['name'], FILTER_SANITIZE_STRING );
-$description = filter_var ( $_POST['description'], FILTER_SANITIZE_STRING );
 
 //validate a file was uploaded
 if ( is_uploaded_file ( $_FILES['file']['tmp_name'] ) ) {
     //ensure its a zip file
     if ( preg_match ( '/^(zip)\i/', $_FILES["file"]["type"] ) ) {
         $_SESSION['alert_message'] = 'you must only upload zip files';
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_package' );
         exit;
     }
 
     //ensure that the file is under 20M
     if ( $_FILES["file"]["size"] > 100000000 ) {
         $_SESSION['alert_message'] = 'max file size is 100MB';
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_package' );
         exit;
     }
 
     //ensure there are no errors
     if ( $_FILES["file"]["error"] > 0 ) {
         $_SESSION['alert_message'] = $_FILES["file"]["error"];
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_package' );
         exit;
     }
 
@@ -110,7 +116,7 @@ if ( is_uploaded_file ( $_FILES['file']['tmp_name'] ) ) {
         unlink ( 'temp_upload/' . $filename );
     } else {
         $_SESSION['alert_message'] = 'unzipping the file failed';
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_package' );
         exit;
     }
 } else {

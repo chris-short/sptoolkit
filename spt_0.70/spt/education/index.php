@@ -1,8 +1,7 @@
 <?php
-
 /**
  * file:    index.php
- * version: 14.0
+ * version: 15.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,7 +49,7 @@ if ( file_exists ( $includeContent ) ) {
         <div id="wrapper">
             <!--popovers-->
             <?php
-            if(isset($_REQUEST['editor']) && $_REQUEST['editor'] == 1){
+            if ( isset ( $_REQUEST['editor'] ) && $_REQUEST['editor'] == 1 ) {
                 include "../includes/editor.php";
             }
             ?>
@@ -66,16 +65,31 @@ if ( file_exists ( $includeContent ) ) {
                             </tr>
                             <tr>
                                 <td>Name</td>
-                                <td colspan="2"><input name="name" /></td>
+                                <td colspan="2"><input name="name" <?php
+            if ( isset ( $_SESSION['temp_name'] ) ) {
+                echo "value=\"" . $_SESSION['temp_name'] . "\"";
+                unset ( $_SESSION['temp_name'] );
+            }
+            ?> /></td>
                             </tr>
                             <tr>
                                 <td>Description</td>
-                                <td colspan="2"><textarea name="description" cols=50 rows=4></textarea></td>
+                                <td colspan="2"><textarea name="description" cols=50 rows=4 ><?php
+                                                       if ( isset ( $_SESSION['temp_description'] ) ) {
+                                                           echo $_SESSION['temp_description'];
+                                                           unset ( $_SESSION['temp_description'] );
+                                                       }
+            ?></textarea></td>
                             </tr>
                             <tr>
                                 <td><i>(optional)</i></td>
                                 <td colspan="2"><input type="file"  name="file" /></td>
                             </tr>
+                            <?php
+                                if(isset($_SESSION['alert_message'])){
+                                    echo "<tr><td colspan=2 class=\"popover_alert_message\">".$_SESSION['alert_message']."</td></tr>";
+                                }
+                            ?>
                             <tr>
                                 <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                             </tr>
@@ -83,22 +97,22 @@ if ( file_exists ( $includeContent ) ) {
                     </div>
                 </div>
             </form>
-<?php
+            <?php
 //check to see if the alert session is set
-if ( isset ( $_SESSION['alert_message'] ) ) {
-    //create alert popover
-    echo "<div id=\"alert\">";
+            if ( isset ( $_SESSION['alert_message'] ) ) {
+                //create alert popover
+                echo "<div id=\"alert\">";
 
-    //echo the alert message
-    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
+                //echo the alert message
+                echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
 
-    //unset the seession
-    unset ( $_SESSION['alert_message'] );
+                //unset the seession
+                unset ( $_SESSION['alert_message'] );
 
-    //close alert popover
-    echo "</div>";
-}
-?>
+                //close alert popover
+                echo "</div>";
+            }
+            ?>
 
             <!--sidebar-->
 <?php include '../includes/sidebar.php'; ?>					
@@ -113,21 +127,21 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                         <td><h3>Actions</h3></td>
                     </tr>
 
-<?php
+                    <?php
 //connect to database
-include "../spt_config/mysql_config.php";
+                    include "../spt_config/mysql_config.php";
 
 //pull in list of all templates
-$r = mysql_query ( "SELECT * FROM education" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    echo "
+                    $r = mysql_query ( "SELECT * FROM education" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                        echo "
                     <tr>
                         <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"" . $ra['id'] . "\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
                         <td style=\"vertical-align:text-top; text-align: left;\">" . $ra['description'] . "</td>\n
-                        <td><a href=\"?editor=1&type=education&id=".$ra['id']."\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;&nbsp;<a href=\"delete_package.php?t=" . $ra['id'] . "\"><img src=\"../images/package_delete_sm.png\" alt=\"delete\" /></a></td>\n
+                        <td><a href=\"?editor=1&type=education&id=" . $ra['id'] . "\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;&nbsp;<a href=\"delete_package.php?t=" . $ra['id'] . "\"><img src=\"../images/package_delete_sm.png\" alt=\"delete\" /></a></td>\n
                     </tr>\n";
-}
-?>
+                    }
+                    ?>
                 </table>
             </div>
         </div>
