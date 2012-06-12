@@ -2,7 +2,7 @@
 
 /**
  * file:    scrape_it.php
- * version: 19.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -38,18 +38,47 @@ if ( file_exists ( $includeContent ) ) {
     header ( 'location:../errors/404_is_admin.php' );
 }
 
+//set sessions
+if(!empty($_POST['url'])){
+    $_SESSION['temp_url'] = $_POST['url'];
+}
+if(!empty($_POST['name'])){
+    $_SESSION['temp_name'] = $_POST['name'];
+}
+if(!empty($_POST['description'])){
+    $_SESSION['temp_description'] = $_POST['description'];
+}
+if(!empty($_POST['email_subject'])){
+    $_SESSION['temp_email_subject'] = $_POST['email_subject'];
+}
+if(!empty($_POST['email_from'])){
+    $_SESSION['temp_email_from'] = $_POST['email_from'];
+}
+if(!empty($_POST['email_from_friendly'])){
+    $_SESSION['temp_email_from_friendly'] = $_POST['email_from_friendly'];
+}
+if(!empty($_POST['reply_to'])) {
+    $_SESSION['temp_reply_to'] = $_POST['reply_to'];
+}
+if(!empty($_POST['email_message'])){
+    $_SESSION['temp_email_message'] = $_POST['email_message'];
+}
+if(!empty($_POST['email_fake_link'])){
+    $_SESSION['temp_email_fake_link'] = $_POST['email_fake_link'];
+}
+
 //get URL from passed parameter
 if ( ! isset ( $_POST['url'] ) ) {
     //set error message and send them back to template page
     $_SESSION['alert_message'] = "please enter a URL";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_scrape' );
     exit;
 }
 
 //validate url
 if ( ! filter_var ( $_POST['url'], FILTER_SANITIZE_URL ) ) {
     $_SESSION['alert_message'] = "please enter a valid URL";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_scrape' );
     exit;
 } else {
     $url = filter_var ( $_POST['url'], FILTER_SANITIZE_URL );
@@ -61,7 +90,7 @@ if ( strlen ( $_POST['name'] ) > 0 ) {
 } else {
     //set error message and send them back to template page
     $_SESSION['alert_message'] = "please enter a name";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_scrape' );
     exit;
 }
 
@@ -71,7 +100,7 @@ if ( isset ( $_POST['description'] ) ) {
 } else {
     //set error message and send them back to template page
     $_SESSION['alert_message'] = "please enter a description";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_scrape' );
     exit;
 }
 
@@ -89,7 +118,7 @@ function get_url_contents ( $url, $timeout = 10, $userAgent = 'Mozilla/5.0 (Maci
     curl_close ( $rawhtml );
     if ( ! $output ) {
         $_SESSION['alert_message'] = "no output was returned from this URL";
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_scrape' );
         exit;
     }
     return $output;
@@ -219,6 +248,6 @@ if ( isset ( $_POST['email_fake_link'] ) ) {
 
 //send them back to template page with a success message
 $_SESSION['alert_message'] = "Template installed successfully!";
-header ( 'location:../templates' );
+header ( 'location:./#alert' );
 exit;
 ?>

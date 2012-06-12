@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 29.0
+ * version: 30.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -21,7 +21,6 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
-
 // verify session is authenticated and not hijacked
 $includeContent = "../includes/is_authenticated.php";
 if ( file_exists ( $includeContent ) ) {
@@ -49,7 +48,7 @@ if ( file_exists ( $includeContent ) ) {
         <div id="wrapper">
             <!--popovers-->
             <?php
-            if(isset($_REQUEST['editor']) && $_REQUEST['editor'] == 1){
+            if ( isset ( $_REQUEST['editor'] ) && $_REQUEST['editor'] == 1 ) {
                 include "../includes/editor.php";
             }
             ?>
@@ -65,17 +64,30 @@ if ( file_exists ( $includeContent ) ) {
                             </tr>
                             <tr>
                                 <td>Name</td>
-                                <td><input name="name" /></td>
-
+                                <td><input name="name" <?php
+            if ( isset ( $_SESSION['temp_name'] ) ) {
+                echo "value = \"" . $_SESSION['temp_name'] . "\"";
+                unset ( $_SESSION['temp_name'] );
+            }
+            ?>/></td>
                             </tr>
                             <tr>
                                 <td>Description</td>
-                                <td><textarea name="description" cols=50 rows=4></textarea></td>
+                                <td><textarea name="description" cols=50 rows=4><?php
+                                           if ( isset ( $_SESSION['temp_description'] ) ) {
+                                               echo $_SESSION['temp_description'];
+                                           }
+            ?></textarea></td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td><input type="file"  name="file" /></td>
                             </tr>
+                            <?php
+                            if ( isset ( $_SESSION['alert_message'] ) ) {
+                                echo "<tr><td colspan=2 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
+                            }
+                            ?>
                             <tr>
                                 <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                             </tr>
@@ -96,15 +108,30 @@ if ( file_exists ( $includeContent ) ) {
                             </tr>
                             <tr>
                                 <td>Name</td>
-                                <td colspan="2"><input name="name" /></td>
+                                <td colspan="2"><input name="name" <?php
+                            if ( isset ( $_SESSION['temp_name'] ) ) {
+                                echo "value=\"" . $_SESSION['temp_name'] . "\"";
+                                unset ( $_SESSION['temp_name'] );
+                            }
+                            ?>/></td>
                             </tr>
                             <tr>
                                 <td>Description</td>
-                                <td colspan="2"><textarea name="description" cols=50 rows=4></textarea></td>
+                                <td colspan="2"><textarea name="description" cols=50 rows=4><?php
+                                                       if ( isset ( $_SESSION['temp_description'] ) ) {
+                                                           echo $_SESSION['temp_description'];
+                                                           unset ( $_SESSION['temp_description'] );
+                                                       }
+                            ?></textarea></td>
                             </tr>
                             <tr>
                                 <td>URL</td>
-                                <td colspan="2"><input name="url" /></td>
+                                <td colspan="2"><input name="url" <?php
+                                        if ( isset ( $_SESSION['temp_url'] ) ) {
+                                            echo "value=\"" . $_SESSION['temp_url'] . "\"";
+                                            unset ( $_SESSION['temp_url'] );
+                                        }
+                            ?>/></td>
                             </tr>
                             <tr>
                                 <td colspan="3"><br /></td>
@@ -117,31 +144,68 @@ if ( file_exists ( $includeContent ) ) {
                             </tr>
                             <tr>
                                 <td>Subject</td>
-                                <td colspan="2"><input name="email_subject" /></td>
+                                <td colspan="2"><input name="email_subject" <?php
+                                                       if ( isset ( $_SESSION['temp_email_subject'] ) ) {
+                                                           echo "value=\"" . $_SESSION['temp_email_subject'] . "\"";
+                                                           unset ( $_SESSION['temp_email_subject'] );
+                                                       }
+                            ?>/></td>
                             </tr>
                             <tr>
                                 <td>Sender Address</td>
-                                <td colspan="2"><input name="email_from" /></td>
+                                <td colspan="2"><input name="email_from" <?php
+                                                       if ( isset ( $_SESSION['temp_email_from'] ) ) {
+                                                           echo "value=\"" . $_SESSION['temp_email_from'] . "\"";
+                                                           unset ( $_SESSION['temp_email_from'] );
+                                                       }
+                            ?>/></td>
                             </tr>
                             <tr>
                                 <td>Sender Name</td>
-                                <td colspan="2"><input name="email_from_friendly" /></td>
+                                <td colspan="2"><input name="email_from_friendly" <?php
+                                                       if ( isset ( $_SESSION['temp_email_from_friendly'] ) ) {
+                                                           echo "value=\"" . $_SESSION['temp_email_from_friendly'] . "\"";
+                                                           unset ( $_SESSION['temp_email_from_friendly'] );
+                                                       }
+                            ?>/></td>
                             </tr>
                             <tr>
                                 <td>Reply To</td>
-                                <td colspan="2"><input name="reply_to" /></td>
+                                <td colspan="2"><input name="reply_to" <?php
+                                                       if ( isset ( $_SESSION['temp_reply_to'] ) ) {
+                                                           echo "value=\"" . $_SESSION['temp_reply_to'] . "\"";
+                                                           unset ( $_SESSION['temp_reply_to'] );
+                                                       }
+                            ?>/></td>
                             </tr>
                             <tr>
                                 <td>Message</td>
-                                <td><textarea name="email_message" cols=50 rows=4>@link</textarea></td>
+                                <td><textarea name="email_message" cols=50 rows=4><?php
+                                                       if ( isset ( $_SESSION['temp_email_message'] ) ) {
+                                                           echo $_SESSION['temp_email_message'];
+                                                           unset ( $_SESSION['temp_email_message'] );
+                                                       } else {
+                                                           echo "@link";
+                                                       }
+                            ?></textarea></td>
                                 <td style="text-align: right;">
                                     <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>You can enter the following variables that will be changed into their actual values on runtime:<br /><br />@fname - Target's first name<br />@lname - Target's last name<br />@url - Allows you to wrap your own text with the phishing URL (requires you to build your own anchor and put @url in the href attribute)<br />@link - Will be displayed to user as the fake link you provide.<br /><br />@url or @link <strong>must</strong> be present in the 'Message' field!</span></a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Fake Link</td>
-                                <td colspan="2"><input name="email_fake_link" /></td>
+                                <td colspan="2"><input name="email_fake_link" <?php
+                                        if ( isset ( $_SESSION['temp_email_fake_link'] ) ) {
+                                            echo "value=\"" . $_SESSION['temp_email_fake_link'] . "\"";
+                                            unset ( $_SESSION['temp_email_fake_link'] );
+                                        }
+                            ?>/></td>
                             </tr>
+                            <?php
+                            if ( isset ( $_SESSION['alert_message'] ) ) {
+                                echo "<tr><td colspan=3 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
+                            }
+                            ?>
                             <tr>
                                 <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                             </tr>
@@ -150,22 +214,22 @@ if ( file_exists ( $includeContent ) ) {
                 </div>
             </form>
 
-<?php
+            <?php
 //check to see if the alert session is set
-if ( isset ( $_SESSION['alert_message'] ) ) {
-    //create alert popover
-    echo "<div id=\"alert\">";
+            if ( isset ( $_SESSION['alert_message'] ) ) {
+                //create alert popover
+                echo "<div id=\"alert\">";
 
-    //echo the alert message
-    echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
+                //echo the alert message
+                echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
 
-    //unset the seession
-    unset ( $_SESSION['alert_message'] );
+                //unset the seession
+                unset ( $_SESSION['alert_message'] );
 
-    //close alert popover
-    echo "</div>";
-}
-?>
+                //close alert popover
+                echo "</div>";
+            }
+            ?>
 
 
             <!--sidebar-->
@@ -183,22 +247,22 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                         <td><h3>Actions</h3></td>
                     </tr>
 
-<?php
+                    <?php
 //connect to database
-include "../spt_config/mysql_config.php";
+                    include "../spt_config/mysql_config.php";
 
 //pull in list of all templates
-$r = mysql_query ( "SELECT * FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    echo "
+                    $r = mysql_query ( "SELECT * FROM templates" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                        echo "
                     <tr>
                         <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"" . $ra['id'] . "\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
                         <td style=\"vertical-align:text-top; text-align: left;\">" . $ra['description'] . "</td>\n
                         <td><img class= \"drop_shadow\" src=\"" . $ra['id'] . "/screenshot.png\" alt=\"missing screenshot\" /></td>\n
-                        <td><a href=\"?editor=1&type=template&id=".$ra['id']."\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;&nbsp;<a href=\"delete_template.php?t=" . $ra['id'] . "\"><img src=\"../images/world_delete_sm.png\" alt=\"delete\" /></a></td>\n
+                        <td><a href=\"?editor=1&type=template&id=" . $ra['id'] . "\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;&nbsp;<a href=\"delete_template.php?t=" . $ra['id'] . "\"><img src=\"../images/world_delete_sm.png\" alt=\"delete\" /></a></td>\n
                     </tr>\n";
-}
-?>
+                    }
+                    ?>
                 </table>
             </div>
         </div>
