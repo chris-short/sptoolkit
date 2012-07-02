@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 30.0
+ * version: 31.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -109,9 +109,9 @@ if ( file_exists ( $includeContent ) ) {
                             <tr>
                                 <td>Name</td>
                                 <td colspan="2"><input name="name" <?php
-                            if ( isset ( $_SESSION['temp_name'] ) ) {
-                                echo "value=\"" . $_SESSION['temp_name'] . "\"";
-                                unset ( $_SESSION['temp_name'] );
+                            if ( isset ( $_SESSION['temp_scrape_name'] ) ) {
+                                echo "value=\"" . $_SESSION['temp_scrape_name'] . "\"";
+                                unset ( $_SESSION['temp_scrape_name'] );
                             }
                             ?>/></td>
                             </tr>

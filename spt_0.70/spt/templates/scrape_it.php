@@ -2,7 +2,7 @@
 
 /**
  * file:    scrape_it.php
- * version: 20.0
+ * version: 21.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -43,7 +43,7 @@ if(!empty($_POST['url'])){
     $_SESSION['temp_url'] = $_POST['url'];
 }
 if(!empty($_POST['name'])){
-    $_SESSION['temp_name'] = $_POST['name'];
+    $_SESSION['temp_scrape_name'] = $_POST['name'];
 }
 if(!empty($_POST['description'])){
     $_SESSION['temp_description'] = $_POST['description'];
