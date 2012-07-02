@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 44.0
+ * version: 45.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -578,8 +578,11 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                     <td><h3>IP</h3></td>
                     <td><h3>Browser</h3></td>
                     <td><h3>Version</h3></td>
-                    <td><h3>OS</h3></td>
-                    <td><h3>Post</h3></td>                    
+                    <td><h3>OS</h3></td>";
+                if ( $education_timing != 1 ) {
+                    echo "<td><h3>Post</h3></td>";
+                }
+                echo "
                     <td><h3>Status</h3></td>
                 </tr>";
 
@@ -601,15 +604,19 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                             echo "<td>" . $ra['browser'] . "</td>";
                             echo "<td>" . $ra['browser_version'] . "</td>";
                             echo "<td>" . $ra['os'] . "</td>";
-                            if ( strlen ( $ra['post'] ) < 1 ) {
-                                $post = 'N';
-                                echo "<td>" . $post . "</td>";
-                            } else {
-                                $post = $ra['post'];
-                                $post_count = explode ( "<br />", $post );
-                                $post_count = count ( $post_count );
-                                echo "<td><a class=\"tooltip_sm\">" . $post_count . "<span>" . $post . "</span></a></td>";
-                            }
+                           if($education_timing == 1){
+                           }
+                           else{
+                                if ( strlen ( $ra['post'] ) < 1 ) {
+                                    $post = 'N';
+                                    echo "<td>".$post."</td>";
+                                } else {
+                                    $post = $ra['post'];
+                                    $post_count = explode ( "<br />", $post );
+                                    $post_count = count ( $post_count );
+                                    echo "<td><a class=\"tooltip_sm\">" . $post_count . "<span>" . $post . "</span></a></td>";
+                                }
+                           }
                             $log = $ra['response_log'];
                             if ( strlen ( $log ) < 1 ) {
                                 $log = "The message was attempted, but no log was recorded";
