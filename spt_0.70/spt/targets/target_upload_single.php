@@ -2,7 +2,7 @@
 
 /**
  * file:    target_upload_single.php
- * version: 17.0
+ * version: 18.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -38,12 +38,29 @@ if ( file_exists ( $includeContent ) ) {
     header ( 'location:../errors/404_is_admin.php' );
 }
 
+//recieve posted elements into session variables
+if ( ! empty ( $_POST['fname'] ) ) {
+    $_SESSION['temp_fname'] = $_POST['fname'];
+}
+if ( ! empty ( $_POST['lname'] ) ) {
+    $_SESSION['temp_lname'] = $_POST['lname'];
+}
+if ( ! empty ( $_POST['email'] ) ) {
+    $_SESSION['temp_email'] = $_POST['email'];
+}
+if ( ! empty ( $_POST['group_name'] ) ) {
+    $_SESSION['temp_group_name'] = $_POST['group_name'];
+}
+if ( ! empty ( $_POST['group_name_new'] ) ) {
+    $_SESSION['temp_group_name_new'] = $_POST['group_name_new'];
+}
+
 //validate first name is set and if so throw it in a variable
 if ( isset ( $_POST['fname'] ) ) {
     $fname = filter_var ( $_POST['fname'], FILTER_SANITIZE_STRING );
 } else {
     $_SESSION['alert_message'] = "you must enter a first name";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_one' );
     exit;
 }
 
@@ -52,7 +69,7 @@ if ( isset ( $_POST['lname'] ) ) {
     $lname = filter_var ( $_POST['lname'], FILTER_SANITIZE_STRING );
 } else {
     $_SESSION['alert_message'] = "you must enter a last name";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_one' );
     exit;
 }
 
@@ -61,7 +78,7 @@ if ( isset ( $_POST['email'] ) ) {
     $email = $_POST['email'];
 } else {
     $_SESSION['alert_message'] = "you must enter an email address";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_one' );
     exit;
 }
 
@@ -76,14 +93,14 @@ if ( isset ( $_POST['group_name'] ) || isset ( $_POST['group_name_new'] ) ) {
 }
 if ( ! isset ( $group_name ) && ! isset ( $group_name_new ) ) {
     $_SESSION['alert_message'] = "you must select an existing group or create a new group";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_one' );
     exit;
 }
 
 //do a little validation on the email
 if ( ! filter_var ( $email, FILTER_VALIDATE_EMAIL ) ) {
     $_SESSION['alert_message'] = "you must enter an actual email address";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_one' );
     exit;
 }
 
@@ -99,7 +116,7 @@ if ( isset ( $group_name ) && $group_name != "Select an Existing Group..." ) {
     }
     if ( $match != 1 ) {
         $_SESSION["alert_message"] = "if your going to attempt to select a group that already exists, select one that already exists";
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_one' );
         exit;
     }
 }
@@ -108,7 +125,7 @@ if ( isset ( $group_name ) && $group_name != "Select an Existing Group..." ) {
 if ( isset ( $group_name_new ) ) {
     if ( preg_match ( '/[^a-zA-Z0-9_-\s!.()]/', $group_name_new ) ) {
         $_SESSION["alert_message"] = "there are invalid characters in the group name";
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_one' );
         exit;
     }
 }
@@ -119,7 +136,7 @@ if ( isset ( $group_name ) ) {
     while ( $ra = mysql_fetch_assoc ( $r ) ) {
         if ( $ra['email'] == $email ) {
             $_SESSION['alert_message'] = "this email address is already in this group";
-            header ( 'location:./#alert' );
+            header ( 'location:./#add_one' );
             exit;
         }
     }
@@ -129,7 +146,7 @@ if ( isset ( $group_name_new ) ) {
     while ( $ra = mysql_fetch_assoc ( $r ) ) {
         if ( $ra['email'] == $email ) {
             $_SESSION['alert_message'] = "this email address is already in this group";
-            header ( 'location:./#alert' );
+            header ( 'location:./#add_one' );
             exit;
         }
     }

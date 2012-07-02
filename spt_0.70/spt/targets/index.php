@@ -1,8 +1,7 @@
 <?php
-
 /**
  * file:    index.php
- * version: 36.0
+ * version: 37.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,7 +21,6 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
-
 // verify session is authenticated and not hijacked
 $includeContent = "../includes/is_authenticated.php";
 if ( file_exists ( $includeContent ) ) {
@@ -112,45 +110,6 @@ if ( file_exists ( $includeContent ) ) {
         <script type="text/javascript" src="../includes/escape.js"></script>
     </head>
     <body>
-        <?php
-//check to see if the alert session is set
-        if ( isset ( $_SESSION['alert_message'] ) ) {
-            //create alert popover
-            echo "<div id=\"alert\">";
-
-            //echo the alert message
-            echo "<div>" . $_SESSION['alert_message'] . "<br />";
-
-            if ( isset ( $_SESSION['bad_row_stats'] ) ) {
-                //count how many stats there are
-                $count = count ( $_SESSION['bad_row_stats'] );
-
-                //start the list
-                echo "<ul>";
-
-                //echo all bad row stats
-                while ( $count > 0 ) {
-                    echo "<li>" . $_SESSION['bad_row_stats'][($count - 1)] . "</li>";
-                    $count --;
-                }
-
-                //end the list
-                echo "</ul>";
-
-                //unset bad row stat session
-                unset ( $_SESSION['bad_row_stats'] );
-            }
-
-            //close the alert message
-            echo "<br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
-
-            //close alert popover
-            echo "</div>";
-
-            //unset the seession
-            unset ( $_SESSION['alert_message'] );
-        }
-        ?>
         <div id="add_one">
             <div>
                 <form action="target_upload_single.php" method="post" enctype="multipart/form-data">
@@ -163,15 +122,30 @@ if ( file_exists ( $includeContent ) ) {
                         </tr>
                         <tr>
                             <td>First Name</td>
-                            <td colspan="2"><input type="text" name="fname" /></td>
+                            <td colspan="2"><input type="text" name="fname" <?
+        if ( isset ( $_SESSION['temp_fname'] ) ) {
+            echo "value=\"" . $_SESSION['temp_fname'] . "\" ";
+            unset ( $_SESSION['temp_fname'] );
+        }
+        ?>/></td>
                         </tr>
                         <tr>
                             <td>Last Name</td>
-                            <td colspan="2"><input type="text" name="lname" /></td>
+                            <td colspan="2"><input type="text" name="lname" <?
+        if ( isset ( $_SESSION['temp_lname'] ) ) {
+            echo "value=\"" . $_SESSION['temp_lname'] . "\" ";
+            unset ( $_SESSION['temp_lname'] );
+        }
+        ?>/></td>
                         </tr>
                         <tr>
                             <td>Email</td>
-                            <td colspan="2"><input type="text" name="email" /></td>
+                            <td colspan="2"><input type="text" name="email" <?
+        if ( isset ( $_SESSION['temp_email'] ) ) {
+            echo "value=\"" . $_SESSION['temp_email'] . "\" ";
+            unset ( $_SESSION['temp_email'] );
+        }
+        ?>/></td>
                         </tr>
                         <tr>
                             <td>Existing Group</td>
@@ -185,7 +159,13 @@ if ( file_exists ( $includeContent ) ) {
 //pull in current group names
                                     $r = mysql_query ( "SELECT DISTINCT group_name FROM targets ORDER BY group_name" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                                     while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                                        echo "<option value=\"" . $ra['group_name'] . "\">" . $ra['group_name'] . "</option>";
+                                        echo "<option value=\"" . $ra['group_name'] . "";
+                                        echo "\" ";
+                                        if(isset($_SESSION['temp_group_name']) && $_SESSION['temp_group_name'] == $ra['group_name']){
+                                            echo "\" SELECTED";
+                                            unset($_SESSION['temp_group_name']);
+                                        }
+                                        echo ">" . $ra['group_name'] . "</option>";
                                     }
                                     ?>
                                 </select>
@@ -197,7 +177,12 @@ if ( file_exists ( $includeContent ) ) {
                         <tr>
                             <td>New Group</td>
                             <td colspan="2"> 
-                                <input type="text" name="group_name_new" />
+                                <input type="text" name="group_name_new" <?
+        if ( isset ( $_SESSION['temp_group_name_new'] ) ) {
+            echo "value=\"" . $_SESSION['temp_group_name_new'] . "\" ";
+            unset ( $_SESSION['temp_group_name_new'] );
+        }
+        ?>/>
                             </td>
                         </tr>
                         <tr>
@@ -218,6 +203,11 @@ if ( file_exists ( $includeContent ) ) {
                         </tr>";
                         }
                         ?>
+                            <?php
+                            if ( isset ( $_SESSION['alert_message'] ) ) {
+                                echo "<tr><td colspan=3 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
+                            }
+                            ?>
                         <tr>
                             <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                         </tr>
@@ -466,9 +456,49 @@ if ( file_exists ( $includeContent ) ) {
                 </table>
             </div>
         </div>
+                <?php
+//check to see if the alert session is set
+        if ( isset ( $_SESSION['alert_message'] ) ) {
+            //create alert popover
+            echo "<div id=\"alert\">";
+
+            //echo the alert message
+            echo "<div>" . $_SESSION['alert_message'] . "<br />";
+
+            if ( isset ( $_SESSION['bad_row_stats'] ) ) {
+                //count how many stats there are
+                $count = count ( $_SESSION['bad_row_stats'] );
+
+                //start the list
+                echo "<ul>";
+
+                //echo all bad row stats
+                while ( $count > 0 ) {
+                    echo "<li>" . $_SESSION['bad_row_stats'][($count - 1)] . "</li>";
+                    $count --;
+                }
+
+                //end the list
+                echo "</ul>";
+
+                //unset bad row stat session
+                unset ( $_SESSION['bad_row_stats'] );
+            }
+
+            //close the alert message
+            echo "<br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
+
+            //close alert popover
+            echo "</div>";
+
+            //unset the seession
+            unset ( $_SESSION['alert_message'] );
+        }
+        ?>
+
         <div id="wrapper">
             <!--sidebar-->
-<?php include '../includes/sidebar.php'; ?>					
+            <?php include '../includes/sidebar.php'; ?>					
 
             <!--content-->
             <div id="content">
@@ -505,7 +535,7 @@ if ( file_exists ( $includeContent ) ) {
                     while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         echo "<tr>";
                         echo "<td><a href=\"?g=" . $ra['group_name'] . "#group_list\">" . $ra['group_name'] . "</a></td>";
-                        $group_name = filter_var($ra['group_name'],FILTER_SANITIZE_STRING);
+                        $group_name = filter_var ( $ra['group_name'], FILTER_SANITIZE_STRING );
                         $r1 = mysql_query ( "SELECT COUNT(group_name) FROM targets WHERE group_name = '$group_name'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                         while ( $ra1 = mysql_fetch_assoc ( $r1 ) ) {
                             echo "<td>" . $ra1['COUNT(group_name)'] . "</td>";
