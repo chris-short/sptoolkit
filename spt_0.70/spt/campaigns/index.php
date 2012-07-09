@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 46.0
+ * version: 47.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -617,7 +617,11 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                                 if ( $ra['trained'] == 1 ) {
                                     echo "<td>" . $ra['trained_time'] . "</td>";
                                 } else {
-                                    echo "<td>N</td>";
+                                    if ( $ra['link'] == 1 ) {
+                                        echo "<td>Unknown</td>";
+                                    } else {
+                                        echo "<td>N</td>";
+                                    }
                                 }
                             }
                             $log = $ra['response_log'];
