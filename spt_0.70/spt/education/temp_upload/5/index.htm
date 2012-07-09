@@ -1,6 +1,6 @@
 <!--
  * file:    index.htm
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Default education module
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -45,6 +45,21 @@
             <p style = "text-align: center;"><img class="center" src="fdp_net_07.jpg" alt="phished!" /></p>
             <p>Be on the lookout!  You may be sent phishing scam simulations in the future!<p>
             <p class="credits">Image: <a href="http://www.freedigitalphotos.net/images/view_photog.php?photogid=2664" target="_blank">Stuart Miles / FreeDigitalPhotos.net</a></p>
+            <form method="post" action="../../campaigns/trained.php">
+                <p>
+                <table>
+                    <tr>
+                        <td><input type="checkbox" name="trained" /></td>
+                        <td>I understand what phishing is and will make every attempt to not fall for a phishing scam in the future.</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" value="I agree"/></td>
+                    </tr>
+                </table>
+                </p>
+            </form>
+
         </div>
     </body>
 </html>
