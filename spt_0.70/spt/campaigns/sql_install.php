@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 15.0
+ * version: 17.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -43,6 +43,7 @@ $sql = "
         `relay_password` varchar(255) NOT NULL,
         `relay_port` int(5) NOT NULL,
         `ssl` int(1) NOT NULL,
+        `shorten` varchar(255) NOT NULL,
         PRIMARY KEY (`id`)
     )";
 
@@ -75,8 +76,19 @@ $sql = "
         `sent_time` datetime DEFAULT NULL,
         `response_log` longtext NOT NULL,
         `trained` int(1) NOT NULL,
-        `trained_time` datetime DEFAULT NULL
+        `trained_time` datetime DEFAULT NULL,
+        `url` longtext NOT NULL
     )";
 
 mysql_query ( $sql ) or die ( mysql_error () );
+
+//Shorten Table
+$sql = "
+    CREATE TABLE `campaigns_shorten` (
+        `service` varchar(255) NOT NULL,
+        `api_key` varchar(255) NOT NULL
+    )";
+
+mysql_query ( $sql ) or die ( mysql_error () );
+
 ?>

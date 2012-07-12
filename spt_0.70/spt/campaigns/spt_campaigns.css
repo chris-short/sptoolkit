@@ -1,7 +1,7 @@
 /*css - campaigns*/
 /**
  * file:    spt_campaigns.css
- * version: 11.0
+ * version: 12.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -34,7 +34,7 @@
     vertical-align:middle;
 }
 
-#add_campaign, #responses
+#add_campaign, #responses, #shorten
 {
     position: fixed;
     top: 0;
@@ -48,7 +48,7 @@
     overflow: auto;
 }
 
-#add_campaign div
+#add_campaign div, #shorten div
 {
     margin: auto;
     background-color: #fff;
@@ -74,7 +74,7 @@
     display: inline-block;
 }
 
-#add_campaign:target, #responses:target
+#add_campaign:target, #responses:target, #shorten:target
 {
     display: block;
 }

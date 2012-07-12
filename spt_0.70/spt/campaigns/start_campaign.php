@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 28.0
+ * version: 29.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -79,8 +79,8 @@ if ( isset ( $_POST['relay_port'] ) ) {
     $relay_port = filter_var ( $_POST['relay_port'], FILTER_SANITIZE_NUMBER_INT );
     $_SESSION['temp_relay_port'] = $relay_port;
 }
-if(isset($_POST['ssl'])){
-    $ssl = filter_var($POST['ssl'], FILTER_SANITIZE_NUMBER_INT);
+if ( isset ( $_POST['ssl'] ) ) {
+    $ssl = filter_var ( $POST['ssl'], FILTER_SANITIZE_NUMBER_INT );
     $_SESSION['temp_ssl'] = $ssl;
 }
 if ( isset ( $_POST['relay_username'] ) ) {
@@ -90,6 +90,10 @@ if ( isset ( $_POST['relay_username'] ) ) {
 if ( isset ( $_POST['relay_password'] ) ) {
     $relay_password = $_POST['relay_password'];
     $_SESSION['temp_relay_password'] = $relay_password;
+}
+if ( isset ( $_POST['shorten_radio'] ) ) {
+    $shorten = filter_var ( $_POST['shorten_radio'], FILTER_SANITIZE_STRING );
+    $_SESSION['temp_shorten'] = $shorten;
 }
 //ensure the campaign name is set
 if ( strlen ( $campaign_name ) < 1 ) {
@@ -244,6 +248,14 @@ if ( isset ( $relay_port ) ) {
 if ( isset ( $ssl ) ) {
     mysql_query ( "UPDATE campaigns SET ssl = 1 WHERE id = '$campaign_id'" );
 }
+
+//update shorten if it is set
+if ( isset ( $shorten ) ) {
+    mysql_query ( "UPDATE campaigns SET shorten = '$shorten' WHERE id='$campaign_id'" );
+}else{
+    mysql_query("UPDATE campaigns SET shorten = 'none' WHERE id = '$campaign_id'");
+}
+
 
 //link the campaign id and group name while retrieving all applicable targets
 foreach ( $target_groups as $group ) {

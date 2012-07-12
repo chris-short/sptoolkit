@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 47.0
+ * version: 48.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -317,6 +317,32 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                                         ?> />&nbsp;<i>ms</i> (100-60000)</td>
 
                             </tr>
+                            <tr>
+                                <td colspan="2"><h3>Shorten</h3></td>
+                                <td style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>If you want to further mask the phishing link in your emails using a popular URL shortening service, select the service below you'd like to shorten with.<br /><br />You may have to provide an API key for some services by opening the Shorten button at the top of this page.</span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4"><input type="radio" name="shorten_radio" value="Google" <?php
+                                                       if ( isset ( $_SESSION['temp_shorten'] ) && $_SESSION['temp_shorten'] == "google" ) {
+                                                           echo "checked";
+                                                           unset ( $_SESSION['temp_shorten'] );
+                                                       }
+                                        ?> />&nbsp;Google&nbsp;&nbsp;
+                                    <input type="radio" name="shorten_radio" value="TinyURL" <?php
+                                                       if ( isset ( $_SESSION['temp_shorten'] ) && $_SESSION['temp_shorten'] == "tinyurl" ) {
+                                                           echo "checked";
+                                                           unset ( $_SESSION['temp_shorten'] );
+                                                       }
+                                        ?> />&nbsp;TinyURL&nbsp;&nbsp;
+                                    <input type="radio" name="shorten_radio" value="None" <?php
+                                           if ( isset ( $_SESSION['temp_shorten'] ) && $_SESSION['temp_shorten'] == "none" ) {
+                                               echo "checked";
+                                               unset ( $_SESSION['temp_shorten'] );
+                                           }
+                                        ?> />&nbsp;None&nbsp;&nbsp;</td>
+                            </tr>
                             <?php
                             if ( isset ( $_SESSION['alert_message'] ) ) {
                                 echo "<tr><td colspan=3 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
@@ -329,22 +355,6 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                     </form>
                 </div>
             </div>
-            <?php
-//check to see if the alert session is set
-            if ( isset ( $_SESSION['alert_message'] ) ) {
-                //create alert popover
-                echo "<div id=\"alert\">";
-
-                //echo the alert message
-                echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
-
-                //unset the seession
-                unset ( $_SESSION['alert_message'] );
-
-                //close alert popover
-                echo "</div>";
-            }
-            ?>
             <div id="responses">
                 <div>
                     <?php
@@ -412,7 +422,7 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
 
 //pull data for entire campaign if group and filters are NOT set
                     if ( ! isset ( $group ) && ! isset ( $filter ) && isset ( $campaign_id ) ) {
-                        $r = mysql_query ( "SELECT campaigns_responses.trained AS trained, campaigns_responses.trained_time AS trained_time, campaigns_responses.sent_time AS sent_time, campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                        $r = mysql_query ( "SELECT campaigns_responses.url AS url, campaigns_responses.trained AS trained, campaigns_responses.trained_time AS trained_time, campaigns_responses.sent_time AS sent_time, campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
                         //title the page with the campaign number
                         $title = $campaign_name . " :: All Responses";
@@ -420,7 +430,7 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
 
 //pull data if a group is set
                     if ( isset ( $group ) ) {
-                        $r = mysql_query ( "SELECT campaigns_responses.trained AS trained, campaigns_responses.trained_time AS trained_time, campaigns_responses.sent_time AS sent_time, campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE targets.group_name = '$group' AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                        $r = mysql_query ( "SELECT campaigns_responses.url AS url, campaigns_responses.trained AS trained, campaigns_responses.trained_time AS trained_time, campaigns_responses.sent_time AS sent_time, campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE targets.group_name = '$group' AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
                         //title the page with the campaign number
                         $title = $campaign_name . " :: " . $group;
@@ -430,7 +440,7 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                     if ( isset ( $filter ) ) {
                         //if filter is for links
                         if ( $filter == "link" ) {
-                            $r = mysql_query ( "SELECT campaigns_responses.trained AS trained, campaigns_responses.trained_time AS trained_time, campaigns_responses.sent_time AS sent_time, campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.link = 1 AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                            $r = mysql_query ( "SELECT campaigns_responses.url AS url, campaigns_responses.trained AS trained, campaigns_responses.trained_time AS trained_time, campaigns_responses.sent_time AS sent_time, campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.link = 1 AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
                             //title the page with the campaign number
                             $title = $campaign_name;
@@ -444,7 +454,7 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
 
                         //if filter is for posts
                         if ( $filter == "post" ) {
-                            $r = mysql_query ( "SELECT campaigns_responses.trained AS trained, campaigns_responses.trained_time AS trained_time, campaigns_responses.sent_time AS sent_time, campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.post != \"\"  AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                            $r = mysql_query ( "SELECT campaigns_responses.url AS url, campaigns_responses.trained AS trained, campaigns_responses.trained_time AS trained_time, campaigns_responses.sent_time AS sent_time, campaigns_responses.target_id AS target_id, campaigns_responses.campaign_id AS campaign_id, campaigns_responses.link AS link, campaigns_responses.post AS post, targets.id AS id, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, campaigns_responses.sent AS sent, campaigns_responses.response_log AS response_log FROM campaigns_responses JOIN targets ON campaigns_responses.target_id=targets.id WHERE campaigns_responses.post != \"\"  AND campaigns_responses.campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
                             //title the page with the campaign number
                             $title = $campaign_name;
@@ -459,12 +469,13 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
 
                     if ( isset ( $_REQUEST['c'] ) ) {
                         //get basic campaign data
-                        $r2 = mysql_query ( "SELECT date_sent, date_ended, campaign_name, domain_name, education_id, template_id, education_timing FROM campaigns WHERE id = '$campaign_id'" );
+                        $r2 = mysql_query ( "SELECT date_sent, date_ended, campaign_name, domain_name, education_id, template_id, education_timing, shorten FROM campaigns WHERE id = '$campaign_id'" );
                         while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
                             $date_sent = $ra2['date_sent'];
                             $date_ended = $ra2['date_ended'];
                             $campaign_name = $ra2['campaign_name'];
                             $formulated_url = "http://" . $ra2['domain_name'] . "/campaigns/response.php?r=response_key";
+                            $shorten = $ra2['shorten'];
                             $education_id = $ra2['education_id'];
                             $template_id = $ra2['template_id'];
                             $education_timing = $ra2['education_timing'];
@@ -540,6 +551,10 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                 <tr>
                     <td>Phishing URL</td>
                     <td>" . $formulated_url . "</td>
+                </tr>
+                <tr>
+                    <td>Shortener Used</td>
+                    <td>" . $shorten . "</td>
                 </tr>";
 
                         if ( $education_id != 0 ) {
@@ -593,9 +608,9 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                             echo "<td>" . $ra['email'] . "</td>";
                             echo "<td>" . $ra['sent_time'] . "</td>";
                             if ( $ra['link'] == 1 ) {
-                                echo "<td>" . $ra['link_time'] . "</td>";
+                                echo "<td><a class=\"tooltip\">" . $ra['link_time'] . "<span>" . $ra['url'] . "</span></a></td>";
                             } else {
-                                echo "<td>N</td>";
+                                echo "<td><a class=\"tooltip\">N<span>" . $ra['url'] . "</span></a></td>";
                             }
                             echo "<td><a href=\"http://geomaplookup.net/?ip=" . $ra['ip'] . "\" target=\"blank\">" . $ra['ip'] . "</a></td>";
                             echo "<td>" . $ra['browser'] . " " . $ra['browser_version'] . "</td>";
@@ -637,7 +652,57 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                     ?>
                 </div>
             </div>
+            <div id="shorten">
+                <div>
+                    <form method="post" action="config_shorten.php">
+                        <table id="config_shorten">
+                            <tr>
+                                <td colspan="2"><h3>Shorten Settings</h3></td>
+                                <td style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter your Google API key for the Google Shortener service to enable the ability to mask and shorten your URLs within campagins using goo.gl URLs.</span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><a href="https://code.google.com/apis/console">Google API key</a></td>
+                                <td><input type="text" name="google" <?php
+                    include "../spt_config/mysql_config.php";
+                    $sql = "SELECT api_key FROM campaigns_shorten WHERE service = 'google'";
+                    $r = mysql_query ( $sql );
+                    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                        echo "value=\"" . $ra['api_key'] . "\" ";
+                    }
+                    ?> />
+                                </td>
+                            </tr>
+                            <?php
+                            if ( isset ( $_SESSION['alert_message'] ) ) {
+                                echo "<tr><td colspan=3 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
+                            }
+                            ?>
+                            <tr>
+                                <td></td>
+                                <td colspan="2"><input type="submit" value="Update" /></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <?php
+//check to see if the alert session is set
+            if ( isset ( $_SESSION['alert_message'] ) ) {
+//create alert popover
+                echo "<div id=\"alert\">";
 
+//echo the alert message
+                echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
+
+//unset the seession
+                unset ( $_SESSION['alert_message'] );
+
+//close alert popover
+                echo "</div>";
+            }
+            ?>
             <!--sidebar-->
             <?php include '../includes/sidebar.php'; ?>					
 
@@ -645,6 +710,7 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
             <div id="content">
                 <span class="button"><a href="#add_campaign"><img src="../images/email_to_friend_sm.png" alt="add" /> Campaign</a></span>
                 <span class="button"><a href="campaigns_export.php"><img src="../images/page_white_put_sm.png" alt="export" /> Export</a></span>
+                <span class="button"><a href="#shorten"><img src="../images/cog_edit_sm.png" alt="config_shorten" />Shorten</a></span>
                 <table class="spt_table">
                     <tr>
                         <td><h3>Name</h3></td>

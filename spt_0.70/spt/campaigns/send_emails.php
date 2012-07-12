@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 15.0
+ * version: 16.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -141,6 +141,17 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     }
 }
 
+//determine if a shortener is to be used and if so specify which one
+$r = mysql_query("SELECT shorten FROM campaigns WHERE id='$campaign_id'");
+while($ra = mysql_fetch_assoc ( $r)){
+    if($ra['shorten'] == "Google"){
+        $shorten = "google";
+    }
+    if($ra['shorten'] == "TinyURL"){
+        $shorten = "tinyurl";
+    }    
+}
+
 //get the next specified number of email addresses 
 $r = mysql_query ( "SELECT targets.fname AS fname, targets.lname AS lname, targets.email as email, targets.id as id, campaigns_responses.response_id as response_id FROM campaigns_responses JOIN targets ON targets.id = campaigns_responses.target_id WHERE campaigns_responses.campaign_id = '$campaign_id' AND campaigns_responses.sent = 0 LIMIT 0, $number_messages_sent" ) or die ( mysql_error () );
 
@@ -157,6 +168,44 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
     //formulate link
     $link = "http://" . $spt_path . "/campaigns/response.php?r=" . $current_response_id;
+    
+    //shorten url if requested
+    if(isset($shorten) && $shorten == "google"){
+        //get API key
+        $r_api = mysql_query("SELECT api_key FROM campaigns_shorten WHERE service = 'Google'");
+        while ($ra = mysql_fetch_assoc ( $r_api)){
+            $api_key = $ra['api_key'];
+        }
+        //construct the URL with api
+        $api_url = "https://www.googleapis.com/urlshortener/vi/url?key=".$api_key;
+        //start curl session
+        $ch = curl_init();
+        //set curl options
+        curl_setopt($ch,CURLOPT_URL, $api_url);
+        curl_setopt($ch,CURLOPT_POST,1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS,json_encode(array("longUrl"=>$link)));
+        curl_setopt($ch,CURLOPT_HTTPHEADER,array("Content-Type: application/json"));
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        //talk to google
+        $link = curl_exec($ch);
+        //close session
+        curl_close($ch);
+        //decode results 
+        $link = json_decode($link, true);
+    }
+    if(isset($shorten) && $shorten == "tinyurl"){
+        //start curl session
+        $ch = curl_init();  
+        //set curl options
+        curl_setopt($ch,CURLOPT_URL,'http://tinyurl.com/api-create.php?url='.$link);  
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);  
+        //talk to tinyurl
+        $link = curl_exec($ch);  
+        //close session
+        curl_close($ch);  
+    }
+    //store link in database
+    mysql_query("UPDATE campaigns_responses SET url = '$link' WHERE response_id = '$current_response_id'");
     $url = $link;
     $link = "<a href=\"" . $link . "\">" . $fake_link . "</a>";
 
