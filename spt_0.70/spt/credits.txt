@@ -38,3 +38,9 @@ Here is a listing of things the spt project is using that someone else created.
 
 -- Author site: http://www.tinymce.com/
 -- Download: http://www.tinymce.com/download/download.php
+
+# Google URL Shortener
+
+-- Author: Rafał Kukawski <rafael@webhelp.pl>
+-- Author site: http://webhelp.pl/artykuly/korzystanie-z-goo-gl-api/
+-- License: license http://kukawski.pl/mit-license.txt MIT Lincense
