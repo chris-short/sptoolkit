@@ -2,7 +2,7 @@
 
 /**
  * file:    module_uninstall.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Module management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -92,7 +92,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         //get the db name to prepare for table listing
         $db_name = $_SESSION['spt_db_name'];
 
-        $tables = mysql_list_tables ( $db_name ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+        $tables = mysql_query("SHOW TABLES FROM $db_name" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
         while ( list($table) = mysql_fetch_row ( $tables ) ) {
             if ( stristr ( $module, $table ) ) {
