@@ -1,7 +1,7 @@
 /*css - quick start*/
 /**
  * file:    spt_quickstart.css
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -93,7 +93,7 @@ article.tabs section:nth-child(6) a
     margin-left: 500px;
 }
 
-#intro:target a span, #step1:target a span, #step2:target a span, #step3:target a span, #step3:target a span, #step4:target a span
+#intro:target a span, #step1:target a span, #step2:target a span, #step3:target a span, #step3:target a span, #step4:target a span, #step5:target a span
 {
     border-bottom: #ccc solid medium;
 }
