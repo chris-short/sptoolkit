@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 37.0
+ * version: 38.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -122,7 +122,7 @@ if ( file_exists ( $includeContent ) ) {
                         </tr>
                         <tr>
                             <td>First Name</td>
-                            <td colspan="2"><input type="text" name="fname" <?
+                            <td colspan="2"><input type="text" name="fname" <?php
         if ( isset ( $_SESSION['temp_fname'] ) ) {
             echo "value=\"" . $_SESSION['temp_fname'] . "\" ";
             unset ( $_SESSION['temp_fname'] );
@@ -131,7 +131,7 @@ if ( file_exists ( $includeContent ) ) {
                         </tr>
                         <tr>
                             <td>Last Name</td>
-                            <td colspan="2"><input type="text" name="lname" <?
+                            <td colspan="2"><input type="text" name="lname" <?php
         if ( isset ( $_SESSION['temp_lname'] ) ) {
             echo "value=\"" . $_SESSION['temp_lname'] . "\" ";
             unset ( $_SESSION['temp_lname'] );
@@ -140,7 +140,7 @@ if ( file_exists ( $includeContent ) ) {
                         </tr>
                         <tr>
                             <td>Email</td>
-                            <td colspan="2"><input type="text" name="email" <?
+                            <td colspan="2"><input type="text" name="email" <?php
         if ( isset ( $_SESSION['temp_email'] ) ) {
             echo "value=\"" . $_SESSION['temp_email'] . "\" ";
             unset ( $_SESSION['temp_email'] );
@@ -177,7 +177,7 @@ if ( file_exists ( $includeContent ) ) {
                         <tr>
                             <td>New Group</td>
                             <td colspan="2"> 
-                                <input type="text" name="group_name_new" <?
+                                <input type="text" name="group_name_new" <?php
         if ( isset ( $_SESSION['temp_group_name_new'] ) ) {
             echo "value=\"" . $_SESSION['temp_group_name_new'] . "\" ";
             unset ( $_SESSION['temp_group_name_new'] );
