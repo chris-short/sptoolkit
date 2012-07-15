@@ -2,7 +2,7 @@
 
 /**
  * file:    editor.php
- * version: 12.0
+ * version: 13.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -337,7 +337,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $
         </div>";
 }
 if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "education" ) {
-    //get the name of the template
+    //get the name of the education package
     $r = mysql_query ( "SELECT name FROM education WHERE id = '$id'" );
     while ( $ra = mysql_fetch_assoc ( $r ) ) {
         $name = $ra['name'];
