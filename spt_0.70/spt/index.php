@@ -68,15 +68,17 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
         $browser = new Browser();
 
 //firefox check
-        if ( $browser -> getBrowser () == Browser::BROWSER_FIREFOX && $browser -> getVersion () <= "7" ) {
+        if ( $browser -> getBrowser () == Browser::BROWSER_FIREFOX && $browser -> getVersion () <= 7 ) {
             echo "
         <div id=\"browser_warning\">You are running an older version of Firefox (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version of Firefox.</div>";
         }
-        if ( $browser -> getBrowser () == Browser::BROWSER_CHROME && $browser -> getVersion () <= "14" ) {
+//chrome check
+        if ( $browser -> getBrowser () == Browser::BROWSER_CHROME && $browser -> getVersion () <= 14 ) {
             echo "
         <div id=\"browser_warning\">You are running an older version of Chrome (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version.</div>";
         }
-        if ( $browser -> getBrowser () == Browser::BROWSER_IE && $browser -> getVersion () <= "8.9" ) {
+//ie check
+        if ( $browser -> getBrowser () == Browser::BROWSER_IE && $browser -> getVersion () <= 8.9 ) {
             echo "
         <div id=\"browser_warning\">You are running an older version of Internet Explorer (v" . $browser -> getVersion () . ")vthat has not been tested...Please update to the latest version.</div>";
         }
