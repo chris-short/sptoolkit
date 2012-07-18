@@ -746,7 +746,7 @@ echo "</div>";
 ?>
             
                 <div class="dashboard_module">
-                    <script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
+                    <script charset="utf-8" src="<?php echo $request_protocol?>://widgets.twimg.com/j/2/widget.js"></script>
                     <script>
                     new TWTR.Widget({
                     version: 2,
