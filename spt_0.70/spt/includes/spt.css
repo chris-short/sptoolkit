@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:    spt.css
- * version: 23.0
+ * version: 24.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -414,4 +414,16 @@ img
 .popover_alert_message{
     text-align: center;
     color: red;
+}
+
+#editor_form{
+    height:80%;
+}
+
+#editor_form_email{
+    height:55%;
+}
+
+.mceIframeContainer{
+    height:100%;
 }

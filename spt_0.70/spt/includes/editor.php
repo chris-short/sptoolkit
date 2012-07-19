@@ -2,7 +2,7 @@
 
 /**
  * file:    editor.php
- * version: 13.0
+ * version: 14.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -420,7 +420,7 @@ if ( $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['web'] ) && ! isset 
 
     //start the form
     echo "
-                <form action=\"?editor=1&type=template&id=" . $id . "\" method=\"POST\">
+                <form id=\"editor_form_email\" action=\"?editor=1&type=template&id=" . $id . "\" method=\"POST\">
                     <input type=\"hidden\" name=\"id\" value=\"" . $id . "\" />
                     <input type=\"hidden\" name=\"type\" value=\"template\" />
                     <input type=\"hidden\" name=\"subtype\" value=\"email\" />
@@ -463,7 +463,7 @@ if ( isset ( $_REQUEST['filename'] ) ) {
     $type = $_REQUEST['type'];
     //start the textarea
     echo "
-                <form action=\"?editor=1&type=".$type."&id=" . $id;
+                <form id=\"editor_form\" action=\"?editor=1&type=".$type."&id=" . $id;
     if($type == "template"){
         echo "&web=1";
     }
