@@ -2,7 +2,7 @@
 
 /**
  * file:    upload_template.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -63,29 +63,22 @@ if ( ! isset ( $_POST['description'] ) ) {
     exit;
 }
 
-//validate a file was uploaded
-if ( ! is_uploaded_file ( $_FILES['file']['tmp_name'] ) ) {
-    $_SESSION['alert_message'] = 'you must upload a file';
-    header ( 'location:./#add_template' );
-    exit;
-}
-
-//ensure its a zip file
-if ( preg_match ( '/^(zip)\i/', $_FILES["file"]["type"] ) ) {
+//if file uploaded ensure its a zip file
+if ( is_uploaded_file($_FILES['file']['tmp_name']) && preg_match ( '/^(zip)\i/', $_FILES["file"]["type"] ) ) {
     $_SESSION['alert_message'] = 'you must only upload zip files';
     header ( 'location:./#add_template' );
     exit;
 }
 
-//ensure that the file is under 20M
-if ( $_FILES["file"]["size"] > 20000000 ) {
+//if file uploaded ensure that the file is under 20M
+if ( is_uploaded_file($_FILES['file']['tmp_name']) && $_FILES["file"]["size"] > 20000000 ) {
     $_SESSION['alert_message'] = 'max file size is 20MB';
     header ( 'location:./#add_template' );
     exit;
 }
 
-//ensure there are no errors
-if ( $_FILES["file"]["error"] > 0 ) {
+//if file uploaded ensure there are no errors
+if ( is_uploaded_file($_FILES['file']['tmp_name']) && $_FILES["file"]["error"] > 0 ) {
     $_SESSION['alert_message'] = "there was a problem uploading your file";
     header ( 'location:./#add_template' );
     exit;
@@ -101,29 +94,67 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $id = $ra['max'];
 }
 
-//upload zip file to temp upload location
-move_uploaded_file ( $_FILES["file"]["tmp_name"], "temp_upload/" . $_FILES["file"]["name"] );
+//if file uploaded move zip file to temp upload location
+if (is_uploaded_file($_FILES['file']['tmp_name'])){
+    move_uploaded_file ( $_FILES["file"]["tmp_name"], "temp_upload/" . $_FILES["file"]["name"] );
 
-//determine what the filename of the file is
-$filename = $_FILES["file"]["name"];
+    //determine what the filename of the file is
+    $filename = $_FILES["file"]["name"];
 
-//make a directory for the new templated id
-mkdir ( $id );
+    //make a directory for the new templated id
+    mkdir ( $id );
 
-//extract file to its final destination
-$zip = new ZipArchive;
-$res = $zip -> open ( 'temp_upload/' . $filename );
-if ( $res === TRUE ) {
-    $zip -> extractTo ( '../templates/' . $id . '/' );
-    $zip -> close ();
+    //extract file to its final destination
+    $zip = new ZipArchive;
+    $res = $zip -> open ( 'temp_upload/' . $filename );
+    if ( $res === TRUE ) {
+        $zip -> extractTo ( '../templates/' . $id . '/' );
+        $zip -> close ();
 
-    //go delete the original
-    unlink ( 'temp_upload/' . $filename );
-} else {
-    $_SESSION['alert_message'] = 'unzipping the file failed';
-    header ( 'location:./#add_template' );
-    exit;
+        //go delete the original
+        unlink ( 'temp_upload/' . $filename );
+    } else {
+        $_SESSION['alert_message'] = 'unzipping the file failed';
+        header ( 'location:./#add_template' );
+        exit;
+    }
+}else{
+    //create a directory for the new template
+    mkdir ( $id );
+    //copy scraped file into new template directory
+    copy ( "temp_upload/index.htm", $id . "/index.htm" );
+    //copy default email and return files into new template directory
+    copy ( "temp_upload/return.htm", $id . "/return.htm" );
+    copy ( "temp_upload/email.php", $id . "/email.php" );
+    copy ( "temp_upload/screenshot.png", $id . "/screenshot.png" );
+    //set correct permissions on newly created files
+    $directory = $id;
+    $filemode = 0775;
+    function chmodr ( $directory, $filemode ) {
+        if ( ! is_dir ( $directory ) )
+            return chmod ( $directory, $filemode );
+        $dh = opendir ( $directory );
+        while ( ($file = readdir ( $dh )) !== false ) {
+            if ( $file != '.' && $file != '..' ) {
+                $fullpath = $directory . '/' . $file;
+                if ( is_link ( $fullpath ) )
+                    return FALSE;
+                elseif ( ! is_dir ( $fullpath ) && ! chmod ( $fullpath, $filemode ) )
+                    return FALSE;
+                elseif ( ! chmodr ( $fullpath, $filemode ) )
+                    return FALSE;
+            }
+        }
+        closedir ( $dh );
+        if ( chmod ( $directory, $filemode ) )
+            return TRUE;
+        else
+            return FALSE;
+    }
+    chmodr ( $directory, $filemode );
 }
+
+
 
 $_SESSION['alert_message'] = 'template added successfully';
 header ( 'location:./#alert' );

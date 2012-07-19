@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 31.0
+ * version: 32.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -80,7 +80,7 @@ if ( file_exists ( $includeContent ) ) {
             ?></textarea></td>
                             </tr>
                             <tr>
-                                <td></td>
+                                <td><i>(optional)</i></td>
                                 <td><input type="file"  name="file" /></td>
                             </tr>
                             <?php
