@@ -161,7 +161,7 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                                             }
                                         }
                                         unset ( $_SESSION['temp_target_groups'] );
-                                        ?>	
+                                        ?>    
                                     </select>
                                 </td>
                             </tr>
@@ -270,9 +270,9 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                                                        }
                                         ?> /></td>
                             </tr>
-                            <tr>
+<!--DISABLED SSL - NEEDS MORE TESTING <tr>
                                 <td>SSL</td>
-                                <td colspan="2"><?php
+                                <td colspan="2"><?php/*
                                                        $transports = stream_get_transports ();
                                                        if ( (array_search ( "ssl", $transports )) OR (array_search ( "tls", $transports )) ) {
                                                            echo "<input type=\"checkbox\" name=\"ssl\" ";
@@ -284,8 +284,8 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                                                        } else {
                                                            echo "<a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>Missing SSL or TLS transport.</span></a>";
                                                        }
-                                        ?></td>
-                            </tr>
+                                        */?></td>
+                            </tr> -->
                             <tr>
                                 <td>Username</td>
                                 <td colspan="2"><input type="text" name="relay_username" <?php
