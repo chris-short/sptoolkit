@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 49.0
+ * version: 50.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -172,7 +172,7 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Webpage</td>
+                                <td>Email/Webpage</td>
                                 <td colspan="2">
                                     <select name = "template_id">
                                         <?php
