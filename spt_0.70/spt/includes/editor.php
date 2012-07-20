@@ -2,7 +2,7 @@
 
 /**
  * file:    editor.php
- * version: 15.0
+ * version: 16.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -234,8 +234,10 @@ if ( isset ( $_REQUEST['web'] ) && $_REQUEST['web'] != 1 ) {
 }
 //validate the filename
 if ( isset ( $_REQUEST['filename'] ) ) {
+    //determine whether this is education or templates
+    $type = $_REQUEST['type'];
     //query template directory for files
-    $files = scandir ( '../templates/' . $id . '/' );
+    $files = scandir ( '../'.$type.'/' . $id . '/' );
     //do this process for each item
     foreach ( $files as $file ) {
         //determine if the item is a directory or file
