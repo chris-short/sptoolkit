@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 21.0
+ * version: 22.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -70,21 +70,21 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
 //firefox check
         if ( $browser -> getBrowser () == Browser::BROWSER_FIREFOX && $browser -> getVersion () <= 7 ) {
             echo "
-        <div id=\"browser_warning\">You are running an older version of Firefox (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version of Firefox.</div>";
+        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Firefox (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version of Firefox for maximum compatibility.<br /><br />".$browser -> getUserAgent ()."</div>";
         }
 //chrome check
         if ( $browser -> getBrowser () == Browser::BROWSER_CHROME && $browser -> getVersion () <= 14 ) {
             echo "
-        <div id=\"browser_warning\">You are running an older version of Chrome (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version.</div>";
+        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Chrome (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version for maximum compatibility.<br /><br />".$browser -> getUserAgent ()."</div>";
         }
 //ie check
         if ( $browser -> getBrowser () == Browser::BROWSER_IE && $browser -> getVersion () <= 8.9 ) {
             echo "
-        <div id=\"browser_warning\">You are running an older version of Internet Explorer (v" . $browser -> getVersion () . ")vthat has not been tested...Please update to the latest version.</div>";
+        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Internet Explorer (v" . $browser -> getVersion () . ")vthat has not been tested...Please update to the latest version for maximum compatibility.<br /><br />".$browser -> getUserAgent ()."</div>";
         }
         if ( $browser -> getBrowser () != Browser::BROWSER_IE && $browser -> getBrowser () != Browser::BROWSER_CHROME && $browser -> getBrowser () != Browser::BROWSER_FIREFOX ) {
             echo "
-        <div id=\"browser_warning\">You are running a web browser that has not been tested.  Try the latest version of <a href=\"http://google.com/chrome\" target=\"_blank\">Google Chrome</a>, <a href=\"http://microsoft.com/ie\" target=\"_blank\">Microsoft Internet Explorer</a> or <a href=\"http://mozilla.org/firefox\" target=\"_blank\">Mozilla Firefox</a></div>";
+        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running a web browser that has not been tested.  Try the latest version of <a href=\"http://google.com/chrome\" target=\"_blank\">Google Chrome</a>, <a href=\"http://microsoft.com/ie\" target=\"_blank\">Microsoft Internet Explorer</a> or <a href=\"http://mozilla.org/firefox\" target=\"_blank\">Mozilla Firefox to ensure maximum compatibility.</a></div>";
         }
         ?>
 
