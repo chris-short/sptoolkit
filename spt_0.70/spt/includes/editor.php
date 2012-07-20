@@ -31,7 +31,7 @@ if ( $_POST ) {
         exit;
     }
     //check to see if type is template
-    if ( isset ( $_POST['type'] ) && $_POST['type'] == "template" ) {
+    if ( isset ( $_POST['type'] ) && $_POST['type'] == "templates" ) {
         //validate that the subtype is set
         if ( ! isset ( $_POST['subtype'] ) OR ($_POST['subtype'] != "full" && $_POST['subtype'] != "email" ) ) {
             $_SESSION['alert_message'] = "please specify a subtype";
@@ -97,7 +97,7 @@ if ( $_POST ) {
             file_put_contents ( $id . "/email.php", $file );
             //direct people back to where they came from with success alert message
             $_SESSION['alert_message'] = "changes saved";
-            header ( 'location:.?editor=1&type=template&id=' . $id );
+            header ( 'location:.?editor=1&type=templates&id=' . $id );
             exit;
         }
         //if the subtype is full
@@ -130,7 +130,7 @@ if ( $_POST ) {
             file_put_contents ( $id . "/" . $filename, $file );
             //direct people back to where they came from with success alert message
             $_SESSION['alert_message'] = "changes saved";
-            header ( 'location:.?editor=1&type=template&id=' . $id . '&web=1&filename=' . $filename );
+            header ( 'location:.?editor=1&type=templates&id=' . $id . '&web=1&filename=' . $filename );
             exit;
         }
     }
@@ -188,7 +188,7 @@ if ( ! isset ( $_REQUEST['editor'] ) OR $_REQUEST['editor'] != 1 ) {
     exit;
 }
 //validate the type parameter
-if ( ! isset ( $_REQUEST['type'] ) OR ! preg_match ( '#(template|education)#', $_REQUEST['type'] ) ) {
+if ( ! isset ( $_REQUEST['type'] ) OR ! preg_match ( '#(templates|education)#', $_REQUEST['type'] ) ) {
     $_SESSION['alert_message'] = "you must specify a valid type";
     header ( 'location:.#alert' );
     exit;
@@ -202,7 +202,7 @@ if ( ! isset ( $_REQUEST['id'] ) ) {
 //connect to database
 include '../spt_config/mysql_config.php';
 //validate the id parameter based on the type parameter
-if ( $_REQUEST['type'] == "template" ) {
+if ( $_REQUEST['type'] == "templates" ) {
     //get template id and sanitize
     $id = filter_var ( $_REQUEST['id'], FILTER_SANITIZE_NUMBER_INT );
     //query database for template id
@@ -257,7 +257,7 @@ if ( isset ( $_REQUEST['filename'] ) ) {
     $match = 0;
 }
 //editor options
-if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['filename'] ) && ! isset ( $_REQUEST['web'] ) ) {
+if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "templates" && ! isset ( $_REQUEST['filename'] ) && ! isset ( $_REQUEST['web'] ) ) {
     //get the name of the template
     $r = mysql_query ( "SELECT name FROM templates WHERE id = '$id'" );
     while ( $ra = mysql_fetch_assoc ( $r ) ) {
@@ -278,7 +278,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && ! isset (
                 </table>
             </div>";
 }
-if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $_REQUEST['web'] ) ) {
+if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "templates" && isset ( $_REQUEST['web'] ) ) {
     //get the name of the template
     $r = mysql_query ( "SELECT name FROM templates WHERE id = '$id'" );
     while ( $ra = mysql_fetch_assoc ( $r ) ) {
@@ -288,7 +288,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "template" && isset ( $
         <div>
             <form id=\"email_editor\" method=\"GET\" action=\"\">
                 <input type=\"hidden\" name=\"editor\" value=\"1\" />
-                <input type=\"hidden\" name=\"type\" value=\"template\" />
+                <input type=\"hidden\" name=\"type\" value=\"templates\" />
                 <input type=\"hidden\" name=\"id\" value=\"" . $id . "\" />        
                 <input type=\"hidden\" name=\"web\" value=\"1\" />
                 <table id=\"editor_header\">
@@ -398,7 +398,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "education" ) {
         </div>";
 }
 //determine if email
-if ( $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['web'] ) && ! isset ( $_REQUEST['filename'] ) ) {
+if ( $_REQUEST['type'] == "templates" && ! isset ( $_REQUEST['web'] ) && ! isset ( $_REQUEST['filename'] ) ) {
     //get the email.php file for this template
     $file = file_get_contents ( $id . "/email.php" );
     //get the sender friendly name
@@ -422,9 +422,9 @@ if ( $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['web'] ) && ! isset 
 
     //start the form
     echo "
-                <form id=\"editor_form_email\" action=\"?editor=1&type=template&id=" . $id . "\" method=\"POST\">
+                <form id=\"editor_form_email\" action=\"?editor=1&type=templates&id=" . $id . "\" method=\"POST\">
                     <input type=\"hidden\" name=\"id\" value=\"" . $id . "\" />
-                    <input type=\"hidden\" name=\"type\" value=\"template\" />
+                    <input type=\"hidden\" name=\"type\" value=\"templates\" />
                     <input type=\"hidden\" name=\"subtype\" value=\"email\" />
                     <table>
                         <tr>
@@ -471,7 +471,7 @@ if ( isset ( $_REQUEST['filename'] ) ) {
     //start the textarea
     echo "
                 <form id=\"editor_form\" action=\"?editor=1&type=".$type."&id=" . $id;
-    if($type == "template"){
+    if($type == "templates"){
         echo "&web=1";
     }
     echo "&filename=" . $filename . "\" method=\"POST\">
