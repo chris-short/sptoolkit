@@ -2,7 +2,7 @@
 
 /**
  * file:    editor.php
- * version: 14.0
+ * version: 15.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -97,7 +97,7 @@ if ( $_POST ) {
             file_put_contents ( $id . "/email.php", $file );
             //direct people back to where they came from with success alert message
             $_SESSION['alert_message'] = "changes saved";
-            header ( 'location:.?editor=1&type=template&id=' . $id . '#alert' );
+            header ( 'location:.?editor=1&type=template&id=' . $id );
             exit;
         }
         //if the subtype is full
@@ -130,7 +130,7 @@ if ( $_POST ) {
             file_put_contents ( $id . "/" . $filename, $file );
             //direct people back to where they came from with success alert message
             $_SESSION['alert_message'] = "changes saved";
-            header ( 'location:.?editor=1&type=template&id=' . $id . '&web=1&filename=' . $filename . '#alert' );
+            header ( 'location:.?editor=1&type=template&id=' . $id . '&web=1&filename=' . $filename );
             exit;
         }
     }
@@ -450,7 +450,12 @@ if ( $_REQUEST['type'] == "template" && ! isset ( $_REQUEST['web'] ) && ! isset 
                         " . $message . "
                     </textarea>
                     <br />
-                    <span class = \"center\"><a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type = \"image\" src = \"../images/accept.png\" /></span>
+                    <span class = \"center\"><a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type = \"image\" src = \"../images/accept.png\" /></span>";
+                    if(isset($_SESSION['alert_message'])){
+                        echo "<br /><span id=\"save_message\" class= \"popover_alert_message\" style=\"display:block\">".$_SESSION['alert_message']."</span>";
+                    }
+    echo "
+
                 </form>";
 }
 //determine if template or education file
@@ -473,12 +478,28 @@ if ( isset ( $_REQUEST['filename'] ) ) {
                     <input type=\"hidden\" name=\"subtype\" value=\"full\" />
                     <textarea id=\"code\" name=\"code\">" . $file . "</textarea>
                     <br />
-                    <span class = \"center\"><a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type = \"image\" src = \"../images/accept.png\" /></span>
+                    <span class = \"center\"><a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type = \"image\" src = \"../images/accept.png\" /></span>";
+                    if(isset($_SESSION['alert_message'])){
+                        echo "<br /><span id=\"save_message\" class= \"popover_alert_message\" style=\"display:block\">".$_SESSION['alert_message']."</span>";
+                    }
+    echo "
+
                 </form>";
 }
 echo "
         </div>
     </div>";
+
+echo "
+    <script type=\"text/javascript\">
+    // close the div in 5 secs
+    window.setTimeout(\"closeSave();\", 5000);
+
+    function closeSave(){
+    document.getElementById(\"save_message\").style.display=\"none\";
+    }
+    </script>
+";
 
 //initialize tinymce
 echo "    
