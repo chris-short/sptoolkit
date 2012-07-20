@@ -70,17 +70,17 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
 //firefox check
         if ( $browser -> getBrowser () == Browser::BROWSER_FIREFOX && $browser -> getVersion () <= 7 ) {
             echo "
-        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Firefox (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version of Firefox for maximum compatibility.<br /><br />".$browser -> getUserAgent ()."</div>";
+        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Firefox (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version of Firefox for maximum compatibility.</div>";
         }
 //chrome check
         if ( $browser -> getBrowser () == Browser::BROWSER_CHROME && $browser -> getVersion () <= 14 ) {
             echo "
-        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Chrome (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version for maximum compatibility.<br /><br />".$browser -> getUserAgent ()."</div>";
+        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Chrome (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version for maximum compatibility.</div>";
         }
 //ie check
         if ( $browser -> getBrowser () == Browser::BROWSER_IE && $browser -> getVersion () <= 8.9 ) {
             echo "
-        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Internet Explorer (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version for maximum compatibility.<br /><br />".$browser -> getUserAgent ()."</div>";
+        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Internet Explorer (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version for maximum compatibility.</div>";
         }
         if ( $browser -> getBrowser () != Browser::BROWSER_IE && $browser -> getBrowser () != Browser::BROWSER_CHROME && $browser -> getBrowser () != Browser::BROWSER_FIREFOX ) {
             echo "
