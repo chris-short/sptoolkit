@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 22.0
+ * version: 23.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -80,7 +80,7 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
 //ie check
         if ( $browser -> getBrowser () == Browser::BROWSER_IE && $browser -> getVersion () <= 8.9 ) {
             echo "
-        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Internet Explorer (v" . $browser -> getVersion () . ")vthat has not been tested...Please update to the latest version for maximum compatibility.<br /><br />".$browser -> getUserAgent ()."</div>";
+        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Internet Explorer (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version for maximum compatibility.<br /><br />".$browser -> getUserAgent ()."</div>";
         }
         if ( $browser -> getBrowser () != Browser::BROWSER_IE && $browser -> getBrowser () != Browser::BROWSER_CHROME && $browser -> getBrowser () != Browser::BROWSER_FIREFOX ) {
             echo "
