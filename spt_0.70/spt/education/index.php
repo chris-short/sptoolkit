@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 19.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -155,7 +155,7 @@ if ( file_exists ( $includeContent ) ) {
                             </tr>
                             <tr>
                                 <td><strong>Description</strong></td>
-                                <td colspan="2" style="text-align: left;"><textarea name="description" style="text-align:left;" cols=50 rows=10> <?php
+                                <td colspan="2" style="text-align: left;"><textarea name="description" style="text-align:left;" cols=50 rows=10><?php
                                 if ( isset ( $_SESSION['temp_package_description'] ) ) {
                                     echo $_SESSION['temp_package_description'];
                                     unset ( $_SESSION['temp_package_description'] );
@@ -221,7 +221,7 @@ if ( file_exists ( $includeContent ) ) {
                     while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         echo "
                     <tr>
-                        <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"?id=" . $ra['id'] . "#update_package\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
+                        <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"?id=" . $ra['id'] . "#update_package\">" . $ra['name'] . "</a></td>\n
                         <td style=\"vertical-align:text-top; text-align: left;\">" . $ra['description'] . "</td>\n
                         <td><a href=\"?editor=1&type=education&id=" . $ra['id'] . "\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;<a href=\"copy_package.php?id=".$ra['id']."\"><img src=\"../images/page_copy_sm.png\" alt=\"copy\"/>&nbsp;&nbsp;<a href=\"delete_package.php?t=" . $ra['id'] . "\"><img src=\"../images/package_delete_sm.png\" alt=\"delete\" /></a></td>\n
                     </tr>\n";
