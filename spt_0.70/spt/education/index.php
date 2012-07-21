@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 18.0
+ * version: 19.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -141,7 +141,7 @@ if ( file_exists ( $includeContent ) ) {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Name</td>
+                                <td><strong>Name</strong></td>
                                 <td colspan="2" style="text-align: left;"><input name="name" size="50" <?php
                                 if ( isset ( $_SESSION['temp_package_name'] ) ) {
                                     echo "value=\"" . $_SESSION['temp_package_name'] . "\"";
@@ -154,7 +154,7 @@ if ( file_exists ( $includeContent ) ) {
                                 ?>/></td>
                             </tr>
                             <tr>
-                                <td>Description</td>
+                                <td><strong>Description</strong></td>
                                 <td colspan="2" style="text-align: left;"><textarea name="description" style="text-align:left;" cols=50 rows=10> <?php
                                 if ( isset ( $_SESSION['temp_package_description'] ) ) {
                                     echo $_SESSION['temp_package_description'];
@@ -166,8 +166,8 @@ if ( file_exists ( $includeContent ) ) {
                                 }
                                 ?></textarea></td>
                             </tr>
-                           <td>Website</td>
-                                <td colspan="2" style="text-align: left;"><a href=<?php echo "\"".$package_id."\"";?> target="_blank">Click Here for Preview</a></td>
+                           <td><strong>Website</strong></td>
+                                <td colspan="2" style="text-align: left;"><a href=<?php echo "\"".$package_id."\"";?> target="_blank">Click here for preview</a></td>
                             </tr>
                             <?php
                                 if ( isset ( $_SESSION['alert_message'] ) ) {

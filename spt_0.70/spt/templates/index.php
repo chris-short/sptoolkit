@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 36.0
+ * version: 37.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -139,7 +139,7 @@ if ( file_exists ( $includeContent ) ) {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Name</td>
+                                <td><strong>Name</strong></td>
                                 <td colspan="2" style="text-align: left;"><input name="name" size="50" <?php
                                 if ( isset ( $_SESSION['temp_template_name'] ) ) {
                                     echo "value=\"" . $_SESSION['temp_template_name'] . "\"";
@@ -152,7 +152,7 @@ if ( file_exists ( $includeContent ) ) {
                                 ?>/></td>
                             </tr>
                             <tr>
-                                <td>Description</td>
+                                <td><strong>Description</strong></td>
                                 <td colspan="2" style="text-align: left;"><textarea name="description" style="text-align:left;" cols=50 rows=10><?php
                                 if ( isset ( $_SESSION['temp_template_description'] ) ) {
                                     echo $_SESSION['temp_template_description'];
@@ -165,7 +165,7 @@ if ( file_exists ( $includeContent ) ) {
                                 ?></textarea></td>
                             </tr>
                             <tr>
-                                <td>Email</td>
+                                <td><strong>Email</strong></td>
                             </tr>
                             <?php
                                 //get the email.php file for this template
@@ -190,38 +190,32 @@ if ( file_exists ( $includeContent ) ) {
                                 $message = $matches[1];
                             ?>
                             <tr>
-                                <td></td>
                                 <td class="template_detail_label">From Name:</td>
-                                <td class="template_detail_detail"><?php echo $sender_friendly; ?></td>
+                                <td colspan="2" class="template_detail_detail"><?php echo $sender_friendly; ?></td>
                             </tr>
                             <tr>
-                                <td></td>
                                 <td class="template_detail_label">From Email:</td>
-                                <td class="template_detail_detail"><?php echo $sender_email; ?></td>
+                                <td colspan="2" class="template_detail_detail"><?php echo $sender_email; ?></td>
                             </tr>
                             <tr>
-                                <td></td>
                                 <td class="template_detail_label">Reply To:</td>
-                                <td class="template_detail_detail"><?php echo $reply_to; ?></td>
+                                <td colspan="2" class="template_detail_detail"><?php echo $reply_to; ?></td>
                             </tr>
                             <tr>
-                                <td></td>
                                 <td class="template_detail_label">Subject:</td>
-                                <td class="template_detail_detail"><?php echo $subject; ?></td>
+                                <td colspan="2" class="template_detail_detail"><?php echo $subject; ?></td>
                             </tr>
                             <tr>
-                                <td></td>
                                 <td class="template_detail_label">Fake Link:</td>
-                                <td class="template_detail_detail"><?php echo $fake_link; ?></td>
+                                <td colspan="2" class="template_detail_detail"><?php echo $fake_link; ?></td>
                             </tr>
                             <tr>
-                                <td></td>
                                 <td class="template_detail_label">Message:</td>
-                                <td class="template_detail_detail"><?php echo $message; ?></td>
+                                <td colspan="2" class="template_detail_detail"><?php echo $message; ?></td>
                             </tr>
                             <tr>
-                                <td>Website</td>
-                                <td colspan="2" style="text-align: left;"><a href=<?php echo "\"".$template_id."\"";?> target="_blank">Click Here for Preview</a></td>
+                                <td><strong>Website</strong></td>
+                                <td colspan="2" style="text-align: left;"><a href=<?php echo "\"".$template_id."\"";?> target="_blank">Click here for preview</a></td>
                             </tr>
                             <?php
                                 if ( isset ( $_SESSION['alert_message'] ) ) {
