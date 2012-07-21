@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 19.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -747,6 +747,15 @@ echo "</div>";
 ?>
 
                 <div class="dashboard_module">
+                    <table id="twitter_feed">
+                        <tr>
+                            <td colspan="2"><h3>@sptookit on Twitter</h3></td>
+                            <td style="text-align: right;">
+                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>You can disable the Twitter feed if you want to by editing the value of the <strong>$exclude_twitter</strong> variable in the <strong>/dashboard/index.php</strong> file.<br /><br />The default value is set to 0, which enables the feed.<br />Change value to 1 and save the file to disable the feed.<br /><br />This setting will be controlled via a "Settings" module in a future release of the spt.</span></a>
+                            </td>
+                        </tr>                        
+                        <tr>
+                            <td colspan="3">
 <?php
 //EER twitter opt-out
 if ($exclude_twitter == 1) {
@@ -754,40 +763,46 @@ if ($exclude_twitter == 1) {
     echo "<!--";
 }
 ?>
-                    <script charset="utf-8" src="<?php echo $request_protocol ?>://widgets.twimg.com/j/2/widget.js"></script>
-                    <script>
-                        new TWTR.Widget({
-                            version: 2,
-                            type: 'profile',
-                            rpp: 10,
-                            interval: 30000,
-                            width: 700,
-                            height: 100,
-                            theme: {
-                                shell: {
-                                    background: '#ffffff',
-                                    color: '#000000'
-                                },
-                                tweets: {
-                                    background: '#ffffff',
-                                    color: '#000000',
-                                    links: '#a3a3a3'
-                                }
-                            },
-                            features: {
-                                scrollbar: true,
-                                loop: false,
-                                live: true,
-                                behavior: 'all'
-                            }
-                        }).render().setUser('sptoolkit').start();
-                    </script>
+
+                                <script charset="utf-8" src="<?php echo $request_protocol ?>://widgets.twimg.com/j/2/widget.js"></script>
+                                <script>
+                                    new TWTR.Widget({
+                                        version: 2,
+                                        type: 'profile',
+                                        rpp: 10,
+                                        interval: 30000,
+                                        width: 700,
+                                        height: 100,
+                                        theme: {
+                                            shell: {
+                                                background: '#ffffff',
+                                                color: '#000000'
+                                            },
+                                            tweets: {
+                                                background: '#ffffff',
+                                                color: '#000000',
+                                                links: '#a3a3a3'
+                                            }
+                                        },
+                                        features: {
+                                            scrollbar: true,
+                                            loop: false,
+                                            live: true,
+                                            behavior: 'all'
+                                        }
+                                    }).render().setUser('sptoolkit').start();
+                                </script>    
+                            </td>    
+                        </tr>
+
 <?php
 //EER twitter opt-out
 if ($exclude_twitter == 1) {
     echo "-->";
 }
 ?>
+
+                    </table>
                 </div>
 
             </div>
