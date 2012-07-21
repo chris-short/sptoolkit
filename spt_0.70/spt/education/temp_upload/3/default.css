@@ -59,6 +59,31 @@ h1
     float:right;
 }
 
+.education_tracking_table
+{
+    width:100%;
+    border: 1px;
+    border-color: #FF0000;
+    border-style: dashed;
+    padding: 5px;
+    margin: auto;
+    margin-top: 10px;
+    padding-top:10px;
+}
+
+.education_tracking_table td
+{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.credits
+{
+    font-family:Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    text-align: right;
+}
+
 a
 {
     text-decoration: none;
@@ -68,4 +93,11 @@ a
 a:hover
 {
     color: #999;
+}
+
+img
+{
+    border-style: initial;
+    border-color: initial;
+    border-width: 0px;
 }

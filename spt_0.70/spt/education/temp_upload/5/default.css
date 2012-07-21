@@ -1,7 +1,7 @@
 /* default.css */
 /**
  * file:    default.css
- * version: 1.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Default education module
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -54,10 +54,27 @@ h1
     text-align:center;
 }
 
-
 .right
 {
     float:right;
+}
+
+.education_tracking_table
+{
+    width:100%;
+    border: 1px;
+    border-color: #FF0000;
+    border-style: dashed;
+    padding: 5px;
+    margin: auto;
+    margin-top: 10px;
+    padding-top:10px;
+}
+
+.education_tracking_table td
+{
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .credits
