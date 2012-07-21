@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 18.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -141,7 +141,7 @@ if ( file_exists ( $includeContent ) ) {
                                 </td>
                             </tr>
                             <tr>
-                                <td>Name</td>
+                                <td><strong>Name</strong></td>
                                 <td colspan="2" style="text-align: left;"><input name="name" size="50" <?php
                                 if ( isset ( $_SESSION['temp_package_name'] ) ) {
                                     echo "value=\"" . $_SESSION['temp_package_name'] . "\"";
@@ -154,8 +154,8 @@ if ( file_exists ( $includeContent ) ) {
                                 ?>/></td>
                             </tr>
                             <tr>
-                                <td>Description</td>
-                                <td colspan="2" style="text-align: left;"><textarea name="description" style="text-align:left;" cols=50 rows=10> <?php
+                                <td><strong>Description</strong></td>
+                                <td colspan="2" style="text-align: left;"><textarea name="description" style="text-align:left;" cols=50 rows=10><?php
                                 if ( isset ( $_SESSION['temp_package_description'] ) ) {
                                     echo $_SESSION['temp_package_description'];
                                     unset ( $_SESSION['temp_package_description'] );
@@ -166,8 +166,8 @@ if ( file_exists ( $includeContent ) ) {
                                 }
                                 ?></textarea></td>
                             </tr>
-                           <td>Website</td>
-                                <td colspan="2" style="text-align: left;"><a href=<?php echo "\"".$package_id."\"";?> target="_blank">Click Here for Preview</a></td>
+                           <td><strong>Website</strong></td>
+                                <td colspan="2" style="text-align: left;"><a href=<?php echo "\"".$package_id."\"";?> target="_blank">Click here for preview</a></td>
                             </tr>
                             <?php
                                 if ( isset ( $_SESSION['alert_message'] ) ) {
@@ -221,7 +221,7 @@ if ( file_exists ( $includeContent ) ) {
                     while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         echo "
                     <tr>
-                        <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"?id=" . $ra['id'] . "#update_package\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
+                        <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"?id=" . $ra['id'] . "#update_package\">" . $ra['name'] . "</a></td>\n
                         <td style=\"vertical-align:text-top; text-align: left;\">" . $ra['description'] . "</td>\n
                         <td><a href=\"?editor=1&type=education&id=" . $ra['id'] . "\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;<a href=\"copy_package.php?id=".$ra['id']."\"><img src=\"../images/page_copy_sm.png\" alt=\"copy\"/>&nbsp;&nbsp;<a href=\"delete_package.php?t=" . $ra['id'] . "\"><img src=\"../images/package_delete_sm.png\" alt=\"delete\" /></a></td>\n
                     </tr>\n";
