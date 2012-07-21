@@ -2,7 +2,7 @@
 
 /**
  * file:    email.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Email template - Quick Start campaign templates (Amazon.com)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -54,7 +54,7 @@ $delivery_date = date( "l, F d, Y", $delivery_day );
 //You can also use @fname (first name), @lname (last name) and @url (phishing url).
 
 //This will populate the subject line of the email that is sent
-$subject = 'Your Amazon.com order of "Omron HBW-980G Fat Loss ..." has shipped!';
+$subject = 'Your Amazon.com order of Omron HBW-980G Fat Loss ... has shipped!';
 
 //This will set the sender's name and email address as well as reply to address
 $sender_email = "notify@amazon.com";
