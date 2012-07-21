@@ -2,7 +2,7 @@
 
 /**
  * file:    editor.php
- * version: 16.0
+ * version: 17.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -33,7 +33,7 @@ if ( $_POST ) {
     //check to see if type is template
     if ( isset ( $_POST['type'] ) && $_POST['type'] == "templates" ) {
         //validate that the subtype is set
-        if ( ! isset ( $_POST['subtype'] ) OR ($_POST['subtype'] != "full" && $_POST['subtype'] != "email" ) ) {
+        if ( ! isset ( $_POST['subtype'] ) OR ($_POST['subtype'] != "full" && $_POST['subtype'] != "email" && $_POST['subtype'] != "text") ) {
             $_SESSION['alert_message'] = "please specify a subtype";
             header ( 'location:.#alert' );
             exit;
@@ -133,6 +133,31 @@ if ( $_POST ) {
             header ( 'location:.?editor=1&type=templates&id=' . $id . '&web=1&filename=' . $filename );
             exit;
         }
+        //if the subtype is text
+        if ( $_POST['subtype'] == "text" ) {
+            //validate that all the apropriate fields are completed
+            if ( ! isset ( $_POST['code'] ) ) {
+                $_SESSION['alert_message'] = "you must enter something";
+                header ( 'location:.#alert' );
+                exit;
+            }
+            //set filename
+            $filename = $_REQUEST['filename'];
+            //get the contents of the file
+            $file = file_get_contents ( $id . "/" . $filename );
+            //sanitize message and then write to file
+            if ( $_POST['code'] ) {
+                $code = str_replace ( "\n", "", $_POST['code'] );
+                $file = $code;
+            }
+            //write the file back
+            file_put_contents ( $id . "/" . $filename, $file );
+            //direct people back to where they came from with success alert message
+            $_SESSION['alert_message'] = "changes saved";
+            header ( 'location:.?editor=1&type=templates&id=' . $id . '&text=1&filename=' . $filename );
+            exit;
+        }
+
     }
     //check to see if type is education     
     if ( isset ( $_POST['type'] ) && $_POST['type'] == "education" ) {
@@ -157,24 +182,19 @@ if ( $_POST ) {
         //sanitize message and then write to file
         if ( $_POST['code'] ) {
             $code = str_replace ( "\n", "", $_POST['code'] );
-            if($filename == "email.php"){
-                preg_match ( '#\$message\s=\s\'(.*?)\';#', $code, $matches );
-                $message = preg_replace ( "!" . '\x24' . "!", '\\\$', $matches[1] );
-                $code = preg_replace ( '#\$message\s=\s\'(.*?)\';#', $message, $code );
-                //write the changes to the file
-                $file = preg_replace ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', '\$message = \'' . $message . '\';', $code );
-            }
-            else{
-                $file = $code;
-            }
-            
+            $file = $code;
         }
         //write the file back
         file_put_contents ( $id . "/" . $filename, $file );
         //direct people back to where they came from with success alert message
         $_SESSION['alert_message'] = "changes saved";
-        header ( 'location:.?editor=1&type=education&id=' . $id . '&filename=' . $filename . '#alert' );
-        exit;
+        if(isset($_REQUEST['text'])){
+            header('location:?editor=1&type=education&id='.$id.'&text=1&filename='.$filename );
+            exit;
+        }else{
+            header ( 'location:.?editor=1&type=education&id=' . $id . '&filename=' . $filename );
+            exit;
+        }
     }
 }
 //start the editor wrapper
@@ -257,7 +277,7 @@ if ( isset ( $_REQUEST['filename'] ) ) {
     $match = 0;
 }
 //editor options
-if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "templates" && ! isset ( $_REQUEST['filename'] ) && ! isset ( $_REQUEST['web'] ) ) {
+if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "templates" && ! isset ( $_REQUEST['filename'] ) && ! isset ( $_REQUEST['web'] ) && ! isset ($_REQUEST['text'])) {
     //get the name of the template
     $r = mysql_query ( "SELECT name FROM templates WHERE id = '$id'" );
     while ( $ra = mysql_fetch_assoc ( $r ) ) {
@@ -273,7 +293,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "templates" && ! isset 
                         </td>
                     </tr>
                     <tr>
-                        <td colspan=\"4\" class=\"td_left\"><img src=\"../images/email_edit_sm.png\" alt=\"email\" />&nbsp<span class=\"thick_underline\">Email</span>&nbsp&nbsp<a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "&web=1\"><img src=\"../images/world_edit_sm.png\" alt=\"web\" />&nbspWebsite</a></td>
+                        <td colspan=\"4\" class=\"td_left\"><img src=\"../images/email_edit_sm.png\" alt=\"email\" />&nbsp<span class=\"thick_underline\">Email</span>&nbsp&nbsp<a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "&web=1\"><img src=\"../images/world_edit_sm.png\" alt=\"web\" />&nbspWebsite</a>&nbsp&nbsp<a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "&text=1\"><img src=\"../images/pencil_sm.png\" alt=\"text\" />&nbspText Editor</a></td>
                     </tr>
                 </table>
             </div>";
@@ -331,6 +351,65 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "templates" && isset ( 
     }
     echo "                
                             </select>
+                            <input type=\"submit\" value=\"load\" />&nbsp&nbsp<a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "&text=1\"><img src=\"../images/pencil_sm.png\" alt=\"text\" />&nbspText Editor</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>";
+}
+if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "templates" && !isset ($_REQUEST['web']) && isset ( $_REQUEST['text'] ) ) {
+    //get the name of the template
+    $r = mysql_query ( "SELECT name FROM templates WHERE id = '$id'" );
+    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+        $name = $ra['name'];
+    }
+    echo "
+        <div>
+            <form id=\"email_editor\" method=\"GET\" action=\"\">
+                <input type=\"hidden\" name=\"editor\" value=\"1\" />
+                <input type=\"hidden\" name=\"type\" value=\"templates\" />
+                <input type=\"hidden\" name=\"id\" value=\"" . $id . "\" />        
+                <input type=\"hidden\" name=\"text\" value=\"1\" />
+                <table id=\"editor_header\">
+                    <tr>
+                        <td colspan=\"3\" class=\"td_left\"><h3>Editor - " . $name . "</h3></td>
+                        <td class=\"td_right\">
+                                <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Select a file from the template or education you selected, load it and use the editor to edit your file.<br /><br />Hover over each icon in the editor for a little more information about what each does.<br /><br />Click the green checkmark to save your changes.</span></a>";
+        if(!isset($_REQUEST['filename'])){
+            echo "&nbsp;<a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>";
+        }
+        echo "
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=\"4\" class=\"td_left\">
+                            <a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "\"><img src=\"../images/email_edit_sm.png\" alt=\"email\" />&nbspEmail</a>&nbsp&nbsp<a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "&web=1\"><img src=\"../images/world_edit_sm.png\" alt=\"web\" />&nbspWebsite</a>&nbsp&nbsp<img src=\"../images/pencil_sm.png\" alt=\"text\" />&nbsp<span class=\"thick_underline\">Text Editor</span>&nbsp;&nbsp;
+                            <select name=\"filename\">";
+//query template directory for files
+    $files = scandir ( '../templates/' . $id . '/' );
+//do this process for each item
+    foreach ( $files as $file ) {
+        //determine if the item is a directory or file
+        if ( ! is_dir ( $file ) ) {
+            //break apart the filename
+            $file_array = explode ( ".", $file );
+            //look for htm, php and html files
+            if ( $file_array[1] == "jpg" OR $file_array[1] == "png" OR $file_array[1] == "gif" ){
+                //do nothing for images files
+            }else {
+                //add the file to the drop-down
+                echo "<option value=\"" . $file . "\" ";
+                if ( isset ( $_REQUEST['filename'] ) && $_REQUEST['filename'] == $file ) {
+                    echo "SELECTED";
+                }
+                echo " >" . $file . "</option>";
+            }
+            
+        }
+    }
+    echo "                
+                            </select>
                             <input type=\"submit\" value=\"load\" />
                         </td>
                     </tr>
@@ -338,7 +417,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "templates" && isset ( 
             </form>
         </div>";
 }
-if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "education" ) {
+if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "education" && !isset($_REQUEST['text']) ) {
     //get the name of the education package
     $r = mysql_query ( "SELECT name FROM education WHERE id = '$id'" );
     while ( $ra = mysql_fetch_assoc ( $r ) ) {
@@ -363,11 +442,10 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "education" ) {
                     </tr>
                     <tr>
                         <td colspan=\"4\" class=\"td_left\">
-                            <span>Select File</span>&nbsp;&nbsp;
-                            <select name=\"filename\">";
-//query education directory for files
+                            <img src=\"../images/world_edit_sm.png\" alt=\"web\" />&nbsp<span class=\"thick_underline\">Website</span>&nbsp&nbsp<select name=\"filename\">";
+    //query education directory for files
     $files = scandir ( '../education/' . $id . '/' );
-//do this process for each item
+    //do this process for each item
     foreach ( $files as $file ) {
         //determine if the item is a directory or file
         if ( ! is_dir ( $file ) ) {
@@ -390,6 +468,61 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "education" ) {
     }
     echo "                
                             </select>
+                            <input type=\"submit\" value=\"load\" />&nbsp;&nbsp;<a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "&text=1\"><img src=\"../images/pencil_sm.png\" alt=\"text\" />&nbspText Editor&nbsp;&nbsp;
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>";
+}
+if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "education" && isset($_REQUEST['text']) ) {
+    //get the name of the education package
+    $r = mysql_query ( "SELECT name FROM education WHERE id = '$id'" );
+    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+        $name = $ra['name'];
+    }
+    echo "
+        <div>
+            <form id=\"education_editor\" method=\"GET\" action=\"\">
+                <input type=\"hidden\" name=\"editor\" value=\"1\" />
+                <input type=\"hidden\" name=\"type\" value=\"education\" />
+                <input type=\"hidden\" name=\"id\" value=\"" . $id . "\" />        
+                <input type=\"hidden\" name=\"text\" value=\"1\" />
+                <table id=\"editor_header\">
+                    <tr>
+                        <td colspan=\"3\" class=\"td_left\"><h3>Editor - " . $name . "</h3></td>
+                        <td class=\"td_right\">
+                                <a class=\"tooltip\"><img src=\"../images/lightbulb.png\" alt=\"help\" /><span>Select a file from the template or education you selected, load it and use the editor to edit your file.<br /><br />Hover over each icon in the editor for a little more information about what each does.<br /><br />Click the green checkmark to save your changes.</span></a>";
+        if(!isset($_REQUEST['filename'])){
+            echo "&nbsp;<a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>";
+        }
+        echo "
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=\"4\" class=\"td_left\">
+                            <a href=\"?editor=1&type=" . $_REQUEST['type'] . "&id=" . $id . "\"><img src=\"../images/world_edit_sm.png\" alt=\"web\" />&nbspWebsite</a>&nbsp;&nbsp;<img src=\"../images/pencil_sm.png\" alt=\"text\" />&nbsp<span class=\"thick_underline\" />Text Editor</span>&nbsp;&nbsp;<select name=\"filename\">";
+    //query education directory for files
+    $files = scandir ( '../education/' . $id . '/' );
+    //do this process for each item
+    foreach ( $files as $file ) {
+        //determine if the item is a directory or file
+        if ( ! is_dir ( $file ) ) {
+            //break apart the filename
+            $file_array = explode ( ".", $file );
+            //look for htm, php and html files
+            if ( $file_array[1] != "png" OR $file_array[1] == "jpg" OR $file_array[1] == "gif" ) {
+                //add the file to the drop-down
+                echo "<option value=\"" . $file . "\" ";
+                if ( isset ( $_REQUEST['filename'] ) && $_REQUEST['filename'] == $file ) {
+                    echo "SELECTED";
+                }
+                echo " >" . $file . "</option>";
+            }
+        }
+    }
+    echo "                
+                            </select>
                             <input type=\"submit\" value=\"load\" />
                         </td>
                     </tr>
@@ -398,7 +531,7 @@ if ( isset ( $_REQUEST['type'] ) && $_REQUEST['type'] == "education" ) {
         </div>";
 }
 //determine if email
-if ( $_REQUEST['type'] == "templates" && ! isset ( $_REQUEST['web'] ) && ! isset ( $_REQUEST['filename'] ) ) {
+if ( $_REQUEST['type'] == "templates" && ! isset ( $_REQUEST['web'] ) && ! isset ( $_REQUEST['filename']) && ! isset ($_REQUEST['text']) ) {
     //get the email.php file for this template
     $file = file_get_contents ( $id . "/email.php" );
     //get the sender friendly name
@@ -460,8 +593,8 @@ if ( $_REQUEST['type'] == "templates" && ! isset ( $_REQUEST['web'] ) && ! isset
 
                 </form>";
 }
-//determine if template or education file
-if ( isset ( $_REQUEST['filename'] ) ) {
+//determine if web
+if ( isset ( $_REQUEST['filename'] ) && !isset($_REQUEST['text'])) {
     //set filename
     $filename = $_REQUEST['filename'];
     //get the contents of the file
@@ -488,6 +621,23 @@ if ( isset ( $_REQUEST['filename'] ) ) {
 
                 </form>";
 }
+//determine if text editor
+if(isset($_REQUEST['text']) && isset($_REQUEST['filename'])){
+    //get data
+    $data = file_get_contents($id."/".$_REQUEST['filename']);
+    //start the textarea
+    echo "
+        <form id=\"editor_form_text\" action=\"?editor=1&type=".$type."&id=".$id."&text=1&filename=".$_REQUEST['filename']."\" method=\"POST\" >
+            <input type=\"hidden\" name=\"id\" value=\"".$id."\" />
+            <input type=\"hidden\" name=\"type\" value=\"".$type."\" />
+            <input type=\"hidden\" name=\"subtype\" value=\"text\" />
+            <textarea id=\"text_editor\" name=\"code\">" . $data . "</textarea>
+            <br /><br />
+            <span class=\"center\"><a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type = \"image\" src = \"../images/accept.png\" /></span>";
+            if(isset($_SESSION['alert_message'])){
+                echo "<br /><span id=\"save_message\" class= \"popover_alert_message\" style=\"display:block\">".$_SESSION['alert_message']."</span>";
+            }
+}
 echo "
         </div>
     </div>";
@@ -503,55 +653,57 @@ echo "
     </script>
 ";
 
-//initialize tinymce
-echo "    
-    <script type=\"text/javascript\" src=\"../includes/tiny_mce/tiny_mce.js\"></script>
-    <script type=\"text/javascript\">
+if(!isset($_REQUEST['text'])){
+    //initialize tinymce
+    echo "    
+        <script type=\"text/javascript\" src=\"../includes/tiny_mce/tiny_mce.js\"></script>
+        <script type=\"text/javascript\">
 
-	tinyMCE.init({
-		// General options
-		mode : \"textareas\",
-		theme : \"advanced\",
-		plugins : \"autolink,lists,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,xhtmlxtras,wordcount,advlist,fullpage\",
-                                    height : \"100%\",
+        tinyMCE.init({
+            // General options
+            mode : \"textareas\",
+            theme : \"advanced\",
+            plugins : \"autolink,lists,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,xhtmlxtras,wordcount,advlist,fullpage\",
+                                        height : \"100%\",
 
-		// Theme options
-		theme_advanced_buttons1 : \"preview,code,fullscreen,|,link,unlink,image,insertdate,inserttime,|,forecolor,backcolor,bullist,numlist,charmap,bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect\",
-		theme_advanced_buttons2 : \"\",
-		theme_advanced_buttons3 : \"\",
-		theme_advanced_buttons4 : \"\",
-		theme_advanced_toolbar_location : \"top\",
-		theme_advanced_toolbar_align : \"left\",
-		theme_advanced_statusbar_location : \"bottom\",
-		theme_advanced_resizing : true,
+            // Theme options
+            theme_advanced_buttons1 : \"preview,code,fullscreen,|,link,unlink,image,insertdate,inserttime,|,forecolor,backcolor,bullist,numlist,charmap,bold,italic,underline,strikethrough,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect\",
+            theme_advanced_buttons2 : \"\",
+            theme_advanced_buttons3 : \"\",
+            theme_advanced_buttons4 : \"\",
+            theme_advanced_toolbar_location : \"top\",
+            theme_advanced_toolbar_align : \"left\",
+            theme_advanced_statusbar_location : \"bottom\",
+            theme_advanced_resizing : true,
 
-		// Drop lists for link/image/media/template dialogs
-		template_external_list_url : \"lists/template_list.js\",
-		external_link_list_url : \"lists/link_list.js\",
-		external_image_list_url : \"lists/image_list.js\",
-		media_external_list_url : \"lists/media_list.js\",
+            // Drop lists for link/image/media/template dialogs
+            template_external_list_url : \"lists/template_list.js\",
+            external_link_list_url : \"lists/link_list.js\",
+            external_image_list_url : \"lists/image_list.js\",
+            media_external_list_url : \"lists/media_list.js\",
 
-		// Style formats
-		style_formats : [
-			{title : 'Bold text', inline : 'b'},
-			{title : 'Red text', inline : 'span', styles : {color : '#ff0000'}},
-			{title : 'Red header', block : 'h1', styles : {color : '#ff0000'}},
-			{title : 'Example 1', inline : 'span', classes : 'example1'},
-			{title : 'Example 2', inline : 'span', classes : 'example2'},
-			{title : 'Table styles'},
-			{title : 'Table row 1', selector : 'tr', classes : 'tablerow1'}
-		],
+            // Style formats
+            style_formats : [
+                {title : 'Bold text', inline : 'b'},
+                {title : 'Red text', inline : 'span', styles : {color : '#ff0000'}},
+                {title : 'Red header', block : 'h1', styles : {color : '#ff0000'}},
+                {title : 'Example 1', inline : 'span', classes : 'example1'},
+                {title : 'Example 2', inline : 'span', classes : 'example2'},
+                {title : 'Table styles'},
+                {title : 'Table row 1', selector : 'tr', classes : 'tablerow1'}
+            ],
 
-		formats : {
-			alignleft : {selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes : 'left'},
-			aligncenter : {selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes : 'center'},
-			alignright : {selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes : 'right'},
-			alignfull : {selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes : 'full'},
-			bold : {inline : 'span', 'classes' : 'bold'},
-			italic : {inline : 'span', 'classes' : 'italic'},
-			underline : {inline : 'span', 'classes' : 'underline', exact : true},
-			strikethrough : {inline : 'del'}
-		},
-	});
-    </script>";
+            formats : {
+                alignleft : {selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes : 'left'},
+                aligncenter : {selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes : 'center'},
+                alignright : {selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes : 'right'},
+                alignfull : {selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img', classes : 'full'},
+                bold : {inline : 'span', 'classes' : 'bold'},
+                italic : {inline : 'span', 'classes' : 'italic'},
+                underline : {inline : 'span', 'classes' : 'underline', exact : true},
+                strikethrough : {inline : 'del'}
+            },
+        });
+        </script>";   
+}
 ?>
