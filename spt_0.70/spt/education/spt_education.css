@@ -1,7 +1,8 @@
+
 /*css - templates*/
 /**
  * file:    spt_education.css
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,7 +23,7 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#add_package
+#add_package, #update_package
 {
     position: fixed;
     top: 0;
@@ -33,9 +34,10 @@
     background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
     z-index: 101;
+    overflow: auto;
 }
 
-#add_package div
+#add_package div, #update_package div
 {
     margin: auto;
     background-color: #fff;
@@ -48,7 +50,7 @@
     display: inline-block;
 }
 
-#add_package:target
+#add_package:target, #update_package:target
 {
     display: block;
 }

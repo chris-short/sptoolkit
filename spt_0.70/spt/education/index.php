@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 16.0
+ * version: 17.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -100,7 +100,89 @@ if ( file_exists ( $includeContent ) ) {
                     </div>
                 </div>
             </form>
-            <?php
+            <form method="post" action="update_package.php" enctype="multipart/form-data">
+                <div id="update_package">
+                    <div>
+                        <?php
+                            if(isset($_REQUEST['id'])){
+                                //retrieve template id
+                                $package_id = $_REQUEST['id'];
+                                //connect to database
+                                include "../spt_config/mysql_config.php";
+                                //query database for existing templates
+                                $sql = "SELECT id FROM education";
+                                $r = mysql_query($sql);
+                                $match = 0;
+                                while($ra = mysql_fetch_assoc($r)){
+                                    if($ra['id'] == $package_id){
+                                        $match = 1;
+                                    }
+                                }
+                                //if template id provided doesn't match existing id, throw alert
+                                if($match == 0){
+                                    $_SESSION['alert_message'] = 'please select an existing package';
+                                    header ( 'location:./#alert' );
+                                    exit;
+                                }
+                                //if it does match then grab information on this id
+                                $sql = "SELECT * FROM education WHERE id='$package_id'";
+                                $r = mysql_query($sql);
+                                while($ra = mysql_fetch_assoc($r)){
+                                    $package_name = $ra['name'];
+                                    $package_description = $ra['description'];
+                                }
+                            }
+                        ?>
+                        <table id="package_details">
+                            <tr>
+                                <td colspan="2" style="text-align: left;"><h3>Package Details</h3></td>
+                                <td style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Update the name and description of the education package or preview the package with the provided link.</span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Name</td>
+                                <td colspan="2" style="text-align: left;"><input name="name" size="50" <?php
+                                if ( isset ( $_SESSION['temp_package_name'] ) ) {
+                                    echo "value=\"" . $_SESSION['temp_package_name'] . "\"";
+                                    unset ( $_SESSION['temp_package_name'] );
+                                }else{
+                                    if(isset($_REQUEST['id'])){
+                                        echo "value=\"" . $package_name . "\"";    
+                                    }
+                                }
+                                ?>/></td>
+                            </tr>
+                            <tr>
+                                <td>Description</td>
+                                <td colspan="2" style="text-align: left;"><textarea name="description" style="text-align:left;" cols=50 rows=10> <?php
+                                if ( isset ( $_SESSION['temp_package_description'] ) ) {
+                                    echo $_SESSION['temp_package_description'];
+                                    unset ( $_SESSION['temp_package_description'] );
+                                }else{
+                                    if(isset($_REQUEST['id'])){
+                                        echo $package_description;    
+                                    }
+                                }
+                                ?></textarea></td>
+                            </tr>
+                           <td>Website</td>
+                                <td colspan="2" style="text-align: left;"><a href=<?php echo "\"".$package_id."\"";?> target="_blank">Click Here for Preview</a></td>
+                            </tr>
+                            <?php
+                                if ( isset ( $_SESSION['alert_message'] ) ) {
+                                    echo "<tr><td colspan=2 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
+                                }
+                            ?>
+                            <input type="hidden" name="packageid" value=<?php echo "\"".$package_id."\""; ?> />
+                            <tr>
+                                <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </form>
+                    <?php
 //check to see if the alert session is set
             if ( isset ( $_SESSION['alert_message'] ) ) {
                 //create alert popover
@@ -139,7 +221,7 @@ if ( file_exists ( $includeContent ) ) {
                     while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         echo "
                     <tr>
-                        <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"" . $ra['id'] . "\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
+                        <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"?id=" . $ra['id'] . "#update_package\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
                         <td style=\"vertical-align:text-top; text-align: left;\">" . $ra['description'] . "</td>\n
                         <td><a href=\"?editor=1&type=education&id=" . $ra['id'] . "\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;&nbsp;<a href=\"delete_package.php?t=" . $ra['id'] . "\"><img src=\"../images/package_delete_sm.png\" alt=\"delete\" /></a></td>\n
                     </tr>\n";
