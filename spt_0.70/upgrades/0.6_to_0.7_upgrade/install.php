@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -328,7 +328,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 3) {
     mysql_query($sql) or die(mysql_error());
     $sql = "INSERT INTO templates (name, description) VALUES ('[QST05 v0.70] DGXT Virus','An email IT Services about a virus found in the targets mailbox.  [Email template only, no web site]')";
     mysql_query($sql) or die(mysql_error());
-    $sql = "INSERT INTO templates (name, description) VALUES ('[QST06 v.070] Mailbox quota reached','An email from the Helpdesk about a mailbox over quota situation.  W[Email template only, no web site]')";
+    $sql = "INSERT INTO templates (name, description) VALUES ('[QST06 v.070] Mailbox quota reached','An email from the Helpdesk about a mailbox over quota situation.  [Email template only, no web site]')";
     mysql_query($sql) or die(mysql_error());
     $sql = "INSERT INTO templates (name, description) VALUES ('[QST07 v0.70] Mailbox migration required','An email from the Helpdesk about actions required to be done for a mailbox migration.  [Email template only, no web site]')";
     mysql_query($sql) or die(mysql_error());

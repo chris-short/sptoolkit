@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 6.0
+ * version: 7.0
  * package:	Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -55,7 +55,7 @@ $sql = "INSERT INTO templates (name, description) VALUES ('[QST04 v0.70] UPS pac
 mysql_query($sql) or die(mysql_error());
 $sql = "INSERT INTO templates (name, description) VALUES ('[QST05 v0.70] DGXT Virus','An email IT Services about a virus found in the targets mailbox.  [Email template only, no web site]')";
 mysql_query($sql) or die(mysql_error());
-$sql = "INSERT INTO templates (name, description) VALUES ('[QST06 v.070] Mailbox quota reached','An email from the Helpdesk about a mailbox over quota situation.  W[Email template only, no web site]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QST06 v.070] Mailbox quota reached','An email from the Helpdesk about a mailbox over quota situation.  [Email template only, no web site]')";
 mysql_query($sql) or die(mysql_error());
 $sql = "INSERT INTO templates (name, description) VALUES ('[QST07 v0.70] Mailbox migration required','An email from the Helpdesk about actions required to be done for a mailbox migration.  [Email template only, no web site]')";
 mysql_query($sql) or die(mysql_error());
