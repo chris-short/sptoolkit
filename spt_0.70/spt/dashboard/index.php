@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 18.0
+ * version: 19.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -750,7 +750,7 @@ echo "</div>";
 <?php
 //EER twitter opt-out
 if ($exclude_twitter == 1) {
-    echo "Twitter feed has been disabled using '$exclude_twitter' variable.";
+    echo "Twitter feed has been disabled using the 'exclude_twitter' variable.";
     echo "<!--";
 }
 ?>
