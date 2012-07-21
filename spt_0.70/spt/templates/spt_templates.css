@@ -1,7 +1,7 @@
 /*css - templates*/
 /**
  * file:    spt_templates.css
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,7 +22,7 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#add_template, #add_scrape
+#add_template, #add_scrape, #update_template
 {
     position: fixed;
     top: 0;
@@ -33,9 +33,10 @@
     background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
     z-index: 101;
+    overflow: auto;
 }
 
-#add_template div, #add_scrape div
+#add_template div, #add_scrape div, #update_template div
 {
     margin: auto;
     background-color: #fff;
@@ -48,7 +49,7 @@
     display: inline-block;
 }
 
-#add_template:target, #add_scrape:target
+#add_template:target, #add_scrape:target, #update_template:target
 {
     display: block;
 }
@@ -63,4 +64,13 @@
 {
     width:400px;
     text-align:left;
+}
+#template_details td{
+    text-align: left;
+}
+.template_detail_label{
+    width: 100px;
+}
+.template_detail_detail{
+    width: 300px;
 }
