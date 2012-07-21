@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 15.0
+ * version: 16.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -42,6 +42,9 @@ if ( file_exists ( $includeContent ) ) {
         <!--css-->
         <link rel="stylesheet" href="../includes/spt.css" type="text/css" />
         <link rel="stylesheet" href="spt_education.css" type="text/css" />
+        <!--[if IE]>
+        <link rel="stylesheet" href="../includes/spt_ie.css" type="text/css" />
+        <![endif]-->
         <!--scripts-->
         <script type="text/javascript" src="../includes/escape.js"></script>
     </head>
