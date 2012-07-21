@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 33.0
+ * version: 35.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -98,7 +98,144 @@ if ( file_exists ( $includeContent ) ) {
                     </div>
                 </div>
             </form>
-
+            <form method="post" action="update_template.php" enctype="multipart/form-data">
+                <div id="update_template">
+                    <div>
+                        <?php
+                            if(isset($_REQUEST['id'])){
+                                //retrieve template id
+                                $template_id = $_REQUEST['id'];
+                                //connect to database
+                                include "../spt_config/mysql_config.php";
+                                //query database for existing templates
+                                $sql = "SELECT id FROM templates";
+                                $r = mysql_query($sql);
+                                $match = 0;
+                                while($ra = mysql_fetch_assoc($r)){
+                                    if($ra['id'] == $template_id){
+                                        $match = 1;
+                                    }
+                                }
+                                //if template id provided doesn't match existing id, throw alert
+                                if($match == 0){
+                                    $_SESSION['alert_message'] = 'please select an existing template';
+                                    header ( 'location:./#alert' );
+                                    exit;
+                                }
+                                //if it does match then grab information on this id
+                                $sql = "SELECT * FROM templates WHERE id='$template_id'";
+                                $r = mysql_query($sql);
+                                while($ra = mysql_fetch_assoc($r)){
+                                    $template_name = $ra['name'];
+                                    $template_description = $ra['description'];
+                                }
+                            }
+                        ?>
+                        <table id="template_details">
+                            <tr>
+                                <td colspan="2" style="text-align: left;"><h3>Template Details</h3></td>
+                                <td style="text-align: right;">
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Update the name and description of the template or preview the template with the provided link.<br /><br />To edit the email close this window and click on the pencil icon in the far right column of this template.</span></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Name</td>
+                                <td colspan="2" style="text-align: left;"><input name="name" size="50" <?php
+                                if ( isset ( $_SESSION['temp_template_name'] ) ) {
+                                    echo "value=\"" . $_SESSION['temp_template_name'] . "\"";
+                                    unset ( $_SESSION['temp_template_name'] );
+                                }else{
+                                    if(isset($_REQUEST['id'])){
+                                        echo "value=\"" . $template_name . "\"";    
+                                    }
+                                }
+                                ?>/></td>
+                            </tr>
+                            <tr>
+                                <td>Description</td>
+                                <td colspan="2" style="text-align: left;"><textarea name="description" style="text-align:left;" cols=50 rows=10> <?php
+                                if ( isset ( $_SESSION['temp_template_description'] ) ) {
+                                    echo $_SESSION['temp_template_description'];
+                                    unset ( $_SESSION['temp_template_description'] );
+                                }else{
+                                    if(isset($_REQUEST['id'])){
+                                        echo $template_description;    
+                                    }
+                                }
+                                ?></textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                            </tr>
+                            <?php
+                                //get the email.php file for this template
+                                $file = file_get_contents ( $template_id . "/email.php" );
+                                //get the sender friendly name
+                                preg_match ( '#\$sender_friendly\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
+                                $sender_friendly = $matches[1];
+                                //get the sender email address
+                                preg_match ( '#\$sender_email\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
+                                $sender_email = $matches[1];
+                                //get the reply to address
+                                preg_match ( '#\$reply_to\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
+                                $reply_to = $matches[1];
+                                //get the subject
+                                preg_match ( '#\$subject\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
+                                $subject = $matches[1];
+                                //get the fake link
+                                preg_match ( '#\$fake_link\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
+                                $fake_link = $matches[1];
+                                //get the message
+                                preg_match ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
+                                $message = $matches[1];
+                            ?>
+                            <tr>
+                                <td></td>
+                                <td class="template_detail_label">From Name:</td>
+                                <td class="template_detail_detail"><? echo $sender_friendly;?></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="template_detail_label">From Email:</td>
+                                <td class="template_detail_detail"><? echo $sender_email;?></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="template_detail_label">Reply To:</td>
+                                <td class="template_detail_detail"><? echo $reply_to;?></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="template_detail_label">Subject:</td>
+                                <td class="template_detail_detail"><? echo $subject;?></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="template_detail_label">Fake Link:</td>
+                                <td class="template_detail_detail"><? echo $fake_link;?></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="template_detail_label">Message:</td>
+                                <td class="template_detail_detail"><? echo $message;?></td>
+                            </tr>
+                            <tr>
+                                <td>Website</td>
+                                <td colspan="2" style="text-align: left;"><a href=<?php echo "\"".$template_id."\"";?> target="_blank">Click Here for Preview</a></td>
+                            </tr>
+                            <?php
+                                if ( isset ( $_SESSION['alert_message'] ) ) {
+                                    echo "<tr><td colspan=2 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
+                                }
+                            ?>
+                            <input type="hidden" name="tempid" value=<?php echo "\"".$template_id."\""; ?> />
+                            <tr>
+                                <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </form>
             <form method="post" action="scrape_it.php" enctype="multipart/form-data">
                 <div id="add_scrape">
                     <div>
@@ -247,7 +384,7 @@ if ( file_exists ( $includeContent ) ) {
                         <td style="text-align: left;"><h3>Name</h3></td>
                         <td style="text-align: left;"><h3>Description</h3></td>
                         <td><h3>Screenshot</h3></td>
-                        <td><h3>Actions</h3></td>
+                        <td style="width:75px;"><h3>Actions</h3></td>
                     </tr>
 
                     <?php
@@ -259,10 +396,10 @@ if ( file_exists ( $includeContent ) ) {
                     while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         echo "
                     <tr>
-                        <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"" . $ra['id'] . "\" target=\"_blank\">" . $ra['name'] . "</a></td>\n
-                        <td style=\"vertical-align:text-top; text-align: left;\">" . $ra['description'] . "</td>\n
+                        <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"?id=".$ra['id']."#update_template\">" . $ra['name'] . "</a></td>\n
+                        <td style=\"vertical-align:text-top; text-align: left; width:300px;\">" . $ra['description'] . "</td>\n
                         <td><img class= \"drop_shadow\" src=\"" . $ra['id'] . "/screenshot.png\" alt=\"missing screenshot\" /></td>\n
-                        <td><a href=\"?editor=1&type=templates&id=" . $ra['id'] . "\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;&nbsp;<a href=\"delete_template.php?t=" . $ra['id'] . "\"><img src=\"../images/world_delete_sm.png\" alt=\"delete\" /></a></td>\n
+                        <td><a href=\"?editor=1&type=templates&id=" . $ra['id'] . "\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;<a href=\"copy_template.php?id=".$ra['id']."\"><img src=\"../images/page_copy_sm.png\" alt=\"copy\"/>&nbsp;&nbsp;<a href=\"delete_template.php?t=" . $ra['id'] . "\"><img src=\"../images/world_delete_sm.png\" alt=\"delete\" /></a></td>\n
                     </tr>\n";
                     }
                     ?>
