@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 20.0
+ * version: 21.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -571,6 +571,11 @@ session_start ();
                     //add first user to target list in test group
                     mysql_query("INSERT INTO targets(fname, lname, email, group_name) VALUES('$new_fname','$new_lname','$new_username', 'Admins - Test')") or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );                    
                     
+                    //unset new user sessions
+                    unset($_SESSION['temp_new_username']);
+                    unset($_SESSION['temp_new_fname']);
+                    unset($_SESSION['temp_new_lname']);
+
                     $_SESSION['install_status'] = 6;
                 }
 
