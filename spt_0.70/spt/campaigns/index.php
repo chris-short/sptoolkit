@@ -727,7 +727,7 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                     include "../spt_config/mysql_config.php";
 
 //pull in list of all campaigns
-                    $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                    $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id ORDER BY campaigns.id DESC" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                     while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         echo "
                                 <tr>
