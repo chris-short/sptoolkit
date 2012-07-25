@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 29.0
+ * version: 30.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -188,6 +188,17 @@ if ( $match2 != 1 ) {
     $_SESSION['alert_message'] = "please select a valid education timing option";
     header ( 'location:./#add_campaign' );
     exit;
+}
+
+//if Google shortener is selected validate that their is an API stored in the database
+if(isset($shorten) && $shorten == "Google"){
+    //query database for a Google API
+    $r = mysql_query("SELECT service, api_key FROM campaigns_shorten WHERE service = 'Google'");
+    if(mysql_num_rows($r) != 1){
+        $_SESSION['alert_message'] = "you must enter your Google API key before trying to use the Google Shortener";
+        header('location:./#add_campaign');
+        exit;
+    }
 }
 
 //validate the message delay
