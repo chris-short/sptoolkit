@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 50.0
+ * version: 52.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -272,19 +272,19 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                             </tr>
 <!--DISABLED SSL - NEEDS MORE TESTING <tr>
                                 <td>SSL</td>
-                                <td colspan="2"><?php/*
-                                                       $transports = stream_get_transports ();
-                                                       if ( (array_search ( "ssl", $transports )) OR (array_search ( "tls", $transports )) ) {
-                                                           echo "<input type=\"checkbox\" name=\"ssl\" ";
-                                                           if ( isset ( $_SESSION['temp_ssl'] ) ) {
-                                                               echo "CHECKED";
-                                                               unset ( $_SESSION['temp_ssl'] );
-                                                           }
-                                                           echo "/><br />";
-                                                       } else {
-                                                           echo "<a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>Missing SSL or TLS transport.</span></a>";
-                                                       }
-                                        */?></td>
+                                <td colspan="2"><?php
+                                                       //$transports = stream_get_transports ();
+                                                       //if ( (array_search ( "ssl", $transports )) OR (array_search ( "tls", $transports )) ) {
+                                                       //   echo "<input type=\"checkbox\" name=\"ssl\" ";
+                                                       //    if ( isset ( $_SESSION['temp_ssl'] ) ) {
+                                                       //        echo "CHECKED";
+                                                       //        unset ( $_SESSION['temp_ssl'] );
+                                                       //    }
+                                                       //    echo "/><br />";
+                                                       //} else {
+                                                       //    echo "<a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>Missing SSL or TLS transport.</span></a>";
+                                                       //}
+                                        ?></td>
                             </tr> -->
                             <tr>
                                 <td>Username</td>
@@ -727,7 +727,7 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                     include "../spt_config/mysql_config.php";
 
 //pull in list of all campaigns
-                    $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                    $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id ORDER BY campaigns.id DESC" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                     while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         echo "
                                 <tr>

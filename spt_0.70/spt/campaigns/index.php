@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 50.0
+ * version: 52.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -272,19 +272,19 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                             </tr>
 <!--DISABLED SSL - NEEDS MORE TESTING <tr>
                                 <td>SSL</td>
-                                <td colspan="2"><?php/*
-                                                       $transports = stream_get_transports ();
-                                                       if ( (array_search ( "ssl", $transports )) OR (array_search ( "tls", $transports )) ) {
-                                                           echo "<input type=\"checkbox\" name=\"ssl\" ";
-                                                           if ( isset ( $_SESSION['temp_ssl'] ) ) {
-                                                               echo "CHECKED";
-                                                               unset ( $_SESSION['temp_ssl'] );
-                                                           }
-                                                           echo "/><br />";
-                                                       } else {
-                                                           echo "<a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>Missing SSL or TLS transport.</span></a>";
-                                                       }
-                                        */?></td>
+                                <td colspan="2"><?php
+                                                       //$transports = stream_get_transports ();
+                                                       //if ( (array_search ( "ssl", $transports )) OR (array_search ( "tls", $transports )) ) {
+                                                       //   echo "<input type=\"checkbox\" name=\"ssl\" ";
+                                                       //    if ( isset ( $_SESSION['temp_ssl'] ) ) {
+                                                       //        echo "CHECKED";
+                                                       //        unset ( $_SESSION['temp_ssl'] );
+                                                       //    }
+                                                       //    echo "/><br />";
+                                                       //} else {
+                                                       //    echo "<a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>Missing SSL or TLS transport.</span></a>";
+                                                       //}
+                                        ?></td>
                             </tr> -->
                             <tr>
                                 <td>Username</td>
