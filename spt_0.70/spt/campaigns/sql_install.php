@@ -42,7 +42,7 @@ $sql = "
         `relay_username` varchar(255) NOT NULL,
         `relay_password` varchar(255) NOT NULL,
         `relay_port` int(5) NOT NULL,
-        `ssl` int(1) NOT NULL,
+        `encrypt` int(1) NOT NULL,
         `shorten` varchar(255) NOT NULL,
         PRIMARY KEY (`id`)
     )";
