@@ -48,12 +48,6 @@ if ( ! isset ( $_POST["c"] ) ) {
     $campaign_id = $_POST['c'];
 }
 
-if ( isset($_POST['ssl']) && $_POST['ssl'] == "Yes"){
-    $ssl = "yes";
-}else{
-    $ssl = "no";
-}
-
 //connect to database
 include('../spt_config/mysql_config.php');
 
@@ -140,6 +134,17 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         }
     }
 }
+
+//determine if the email should be encrypted
+$r = mysql_query("SELECT encrypt FROM campaigns WHERE id='$campaign_id'");
+while($ra = mysql_fetch_assoc($r)){
+    if($ra['encrypt'] == 1){
+        $ssl = "yes";
+    }else{
+        $ssl = "no";
+    }
+}
+
 
 //determine if a shortener is to be used and if so specify which one
 $r = mysql_query("SELECT shorten FROM campaigns WHERE id='$campaign_id'");
