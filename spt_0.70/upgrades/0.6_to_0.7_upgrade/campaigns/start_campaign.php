@@ -80,7 +80,7 @@ if ( isset ( $_POST['relay_port'] ) ) {
     $_SESSION['temp_relay_port'] = $relay_port;
 }
 if ( isset ( $_POST['ssl'] ) ) {
-    $ssl = filter_var ( $POST['ssl'], FILTER_SANITIZE_NUMBER_INT );
+    $ssl = "Yes";
     $_SESSION['temp_ssl'] = $ssl;
 }
 if ( isset ( $_POST['relay_username'] ) ) {
@@ -257,7 +257,7 @@ if ( isset ( $relay_port ) ) {
 
 //update ssl status if ssl is checked
 if ( isset ( $ssl ) ) {
-    mysql_query ( "UPDATE campaigns SET ssl = 1 WHERE id = '$campaign_id'" );
+    mysql_query ( "UPDATE campaigns SET encrypt = 1 WHERE id = '$campaign_id'" );
 }
 
 //update shorten if it is set

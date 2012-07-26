@@ -179,11 +179,11 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     array_push($failures, checkVersion("index.php", "23.0"));
     array_push($failures, checkVersion("campaigns/campaigns_export.php", "8.0"));
     array_push($failures, checkVersion("campaigns/config_shorten.php", "1.0"));
-    array_push($failures, checkVersion("campaigns/index.php", "50.0"));
+    array_push($failures, checkVersion("campaigns/index.php", "52.0"));
     array_push($failures, checkVersion("campaigns/response.php", "7.0"));
     array_push($failures, checkVersion("campaigns/send_emails.php", "17.0"));
     array_push($failures, checkVersion("campaigns/spt_campaigns.css", "12.0"));
-    array_push($failures, checkVersion("campaigns/start_campaign.php", "29.0"));
+    array_push($failures, checkVersion("campaigns/start_campaign.php", "30.0"));
     array_push($failures, checkVersion("campaigns/trained.php", "1.0"));
     array_push($failures, checkVersion("dashboard/index.php", "20.0"));
     //array_push($failures, checkVersion("dir/file.php", "xx.0"));

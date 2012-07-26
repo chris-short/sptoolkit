@@ -270,22 +270,22 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                                                        }
                                         ?> /></td>
                             </tr>
-<!--DISABLED SSL - NEEDS MORE TESTING <tr>
+                            <tr>
                                 <td>SSL</td>
                                 <td colspan="2"><?php
-                                                       //$transports = stream_get_transports ();
-                                                       //if ( (array_search ( "ssl", $transports )) OR (array_search ( "tls", $transports )) ) {
-                                                       //   echo "<input type=\"checkbox\" name=\"ssl\" ";
-                                                       //    if ( isset ( $_SESSION['temp_ssl'] ) ) {
-                                                       //        echo "CHECKED";
-                                                       //        unset ( $_SESSION['temp_ssl'] );
-                                                       //    }
-                                                       //    echo "/><br />";
-                                                       //} else {
-                                                       //    echo "<a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>Missing SSL or TLS transport.</span></a>";
-                                                       //}
+                                                       $transports = stream_get_transports ();
+                                                       if ( (array_search ( "ssl", $transports )) OR (array_search ( "tls", $transports )) ) {
+                                                          echo "<input type=\"checkbox\" name=\"ssl\" ";
+                                                           if ( isset ( $_SESSION['temp_ssl'] ) ) {
+                                                               echo "CHECKED";
+                                                               unset ( $_SESSION['temp_ssl'] );
+                                                           }
+                                                           echo "/><br />";
+                                                       } else {
+                                                           echo "<a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>Missing SSL or TLS transport.</span></a>";
+                                                       }
                                         ?></td>
-                            </tr> -->
+                            </tr>
                             <tr>
                                 <td>Username</td>
                                 <td colspan="2"><input type="text" name="relay_username" <?php
