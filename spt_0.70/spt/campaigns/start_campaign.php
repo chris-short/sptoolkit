@@ -80,7 +80,7 @@ if ( isset ( $_POST['relay_port'] ) ) {
     $_SESSION['temp_relay_port'] = $relay_port;
 }
 if ( isset ( $_POST['ssl'] ) ) {
-    $ssl = filter_var ( $POST['ssl'], FILTER_SANITIZE_NUMBER_INT );
+    $ssl = filter_var ( $_POST['ssl'], FILTER_SANITIZE_NUMBER_INT );
     $_SESSION['temp_ssl'] = $ssl;
 }
 if ( isset ( $_POST['relay_username'] ) ) {
