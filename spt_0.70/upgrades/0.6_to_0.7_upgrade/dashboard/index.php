@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 20.0
+ * version: 21.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -28,7 +28,7 @@ if (file_exists($includeContent)) {
 } else {
     header('location:../errors/404_is_authenticated.php');
 }
-if ($_SERVER['HTTPS'] == "on") {
+if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
     $request_protocol = "https";
 } else {
     $request_protocol = "http";

@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 38.0
+ * version: 39.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -230,6 +230,11 @@ if ( file_exists ( $includeContent ) ) {
                                 <input type="file"  name="file" />
                             </td>
                         </tr>
+                        <?php
+                        if ( isset ( $_SESSION['alert_message'] ) ) {
+                            echo "<tr><td colspan=3 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
+                        }
+                        ?>
                         <tr>
                             <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                         </tr>

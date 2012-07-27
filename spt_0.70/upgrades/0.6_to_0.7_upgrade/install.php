@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -185,11 +185,11 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     array_push($failures, checkVersion("campaigns/spt_campaigns.css", "12.0"));
     array_push($failures, checkVersion("campaigns/start_campaign.php", "30.0"));
     array_push($failures, checkVersion("campaigns/trained.php", "1.0"));
-    array_push($failures, checkVersion("dashboard/index.php", "20.0"));
-    //array_push($failures, checkVersion("dir/file.php", "xx.0"));
-    //array_push($failures, checkVersion("dir/file.php", "xx.0"));
-    //array_push($failures, checkVersion("dir/file.php", "xx.0"));
-    //array_push($failures, checkVersion("dir/file.php", "xx.0"));
+    array_push($failures, checkVersion("dashboard/index.php", "21.0"));
+    array_push($failures, checkVersion("targets/index.php", "39.0"));
+    array_push($failures, checkVersion("targets/target_upload_batch.php", "23.0"));
+    array_push($failures, checkVersion("templates/index.php", "38.0"));
+    array_push($failures, checkVersion("education/index.php", "21.0"));
     //array_push($failures, checkVersion("dir/file.php", "xx.0"));
     //array_push($failures, checkVersion("dir/file.php", "xx.0"));
     //array_push($failures, checkVersion("dir/file.php", "xx.0"));

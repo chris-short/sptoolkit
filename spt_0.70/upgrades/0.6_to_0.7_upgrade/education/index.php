@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 20.0
+ * version: 21.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -167,14 +167,14 @@ if ( file_exists ( $includeContent ) ) {
                                 ?></textarea></td>
                             </tr>
                            <td><strong>Website</strong></td>
-                                <td colspan="2" style="text-align: left;"><a href=<?php echo "\"".$package_id."\"";?> target="_blank">Click here for preview</a></td>
+                                <td colspan="2" style="text-align: left;"><a href=<?php if(isset($_REQUEST['id'])){ echo "\"".$package_id."\"";}?> target="_blank">Click here for preview</a></td>
                             </tr>
                             <?php
                                 if ( isset ( $_SESSION['alert_message'] ) ) {
                                     echo "<tr><td colspan=2 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
                                 }
                             ?>
-                            <input type="hidden" name="packageid" value=<?php echo "\"".$package_id."\""; ?> />
+                            <input type="hidden" name="packageid" value=<?php if(isset($_REQUEST['id'])){ echo "\"".$package_id."\"";} ?> />
                             <tr>
                                 <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                             </tr>

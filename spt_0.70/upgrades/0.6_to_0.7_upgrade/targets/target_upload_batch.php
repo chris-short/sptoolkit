@@ -2,7 +2,7 @@
 
 /**
  * file:    target_upload_batch.php
- * version: 22.0
+ * version: 23.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -48,14 +48,14 @@ include "../spt_config/mysql_config.php";
 //ensure that the file is under 20M
 if ( $_FILES["file"]["size"] > 20000000 ) {
     $_SESSION['alert_message'] = 'max file size is 20MB';
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_many' );
     exit;
 }
 
 //ensure there are no errors
 if ( $_FILES["file"]["error"] > 0 ) {
     $_SESSION['alert_message'] = "you either did not select a file or there was a problem with it";
-    header ( 'location:./#alert' );
+    header ( 'location:./#add_many' );
     exit;
 }
 
@@ -69,7 +69,7 @@ $lines = file ( $_FILES["file"]["tmp_name"] );
 foreach ( $lines as $line ) {
     if ( ! preg_match ( '/[,]/', $line ) ) {
         $_SESSION['alert_message'] = "this file is not properly comma delimited, there is not a comma on every line";
-        header ( 'location:./#alert' );
+        header ( 'location:./#add_many' );
         exit;
     }
 }
@@ -98,7 +98,7 @@ while($table_columns_array = mysql_fetch_array($r)){
 //compare row counts
 if($file_column_count != $table_column_count){
     $_SESSION['alert_message'] = "the import file's column count does not match what is in the database";
-    header('location:./#alert');
+    header('location:./#add_many');
     exit;
 }
 
@@ -108,7 +108,7 @@ foreach($header_line as $column){
     $column = trim($column);
     if(!in_array($column, $table_columns)){
         $_SESSION['alert_message'] = "Your import file has a column that does not exist in the database";
-        header('location:./#alert');
+        header('location:./#add_many');
         exit;
     }
     if($c == 0){

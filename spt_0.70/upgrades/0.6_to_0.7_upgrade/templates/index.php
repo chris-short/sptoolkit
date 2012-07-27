@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 37.0
+ * version: 38.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -168,61 +168,63 @@ if ( file_exists ( $includeContent ) ) {
                                 <td><strong>Email</strong></td>
                             </tr>
                             <?php
-                                //get the email.php file for this template
-                                $file = file_get_contents ( $template_id . "/email.php" );
-                                //get the sender friendly name
-                                preg_match ( '#\$sender_friendly\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
-                                $sender_friendly = $matches[1];
-                                //get the sender email address
-                                preg_match ( '#\$sender_email\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
-                                $sender_email = $matches[1];
-                                //get the reply to address
-                                preg_match ( '#\$reply_to\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
-                                $reply_to = $matches[1];
-                                //get the subject
-                                preg_match ( '#\$subject\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
-                                $subject = $matches[1];
-                                //get the fake link
-                                preg_match ( '#\$fake_link\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
-                                $fake_link = $matches[1];
-                                //get the message
-                                preg_match ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
-                                $message = $matches[1];
+                                if(isset($_REQUEST['id'])){
+                                    //get the email.php file for this template
+                                    $file = file_get_contents ( $template_id . "/email.php" );
+                                    //get the sender friendly name
+                                    preg_match ( '#\$sender_friendly\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
+                                    $sender_friendly = $matches[1];
+                                    //get the sender email address
+                                    preg_match ( '#\$sender_email\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
+                                    $sender_email = $matches[1];
+                                    //get the reply to address
+                                    preg_match ( '#\$reply_to\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
+                                    $reply_to = $matches[1];
+                                    //get the subject
+                                    preg_match ( '#\$subject\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
+                                    $subject = $matches[1];
+                                    //get the fake link
+                                    preg_match ( '#\$fake_link\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
+                                    $fake_link = $matches[1];
+                                    //get the message
+                                    preg_match ( '#\$message\s=\s[\'|\"](.*?)[\'|\"];#', $file, $matches );
+                                    $message = $matches[1];
+                                }
                             ?>
                             <tr>
                                 <td class="template_detail_label">From Name:</td>
-                                <td colspan="2" class="template_detail_detail"><?php echo $sender_friendly; ?></td>
+                                <td colspan="2" class="template_detail_detail"><?php if(isset($_REQUEST['id'])){ echo $sender_friendly;} ?></td>
                             </tr>
                             <tr>
                                 <td class="template_detail_label">From Email:</td>
-                                <td colspan="2" class="template_detail_detail"><?php echo $sender_email; ?></td>
+                                <td colspan="2" class="template_detail_detail"><?php if(isset($_REQUEST['id'])){ echo $sender_email; } ?></td>
                             </tr>
                             <tr>
                                 <td class="template_detail_label">Reply To:</td>
-                                <td colspan="2" class="template_detail_detail"><?php echo $reply_to; ?></td>
+                                <td colspan="2" class="template_detail_detail"><?php if(isset($_REQUEST['id'])){echo $reply_to;} ?></td>
                             </tr>
                             <tr>
                                 <td class="template_detail_label">Subject:</td>
-                                <td colspan="2" class="template_detail_detail"><?php echo $subject; ?></td>
+                                <td colspan="2" class="template_detail_detail"><?php if(isset($_REQUEST['id'])){echo $subject;} ?></td>
                             </tr>
                             <tr>
                                 <td class="template_detail_label">Fake Link:</td>
-                                <td colspan="2" class="template_detail_detail"><?php echo $fake_link; ?></td>
+                                <td colspan="2" class="template_detail_detail"><?php if(isset($_REQUEST['id'])){echo $fake_link;} ?></td>
                             </tr>
                             <tr>
                                 <td class="template_detail_label">Message:</td>
-                                <td colspan="2" class="template_detail_detail"><?php echo $message; ?></td>
+                                <td colspan="2" class="template_detail_detail"><?php if(isset($_REQUEST['id'])){echo $message;} ?></td>
                             </tr>
                             <tr>
                                 <td><strong>Website</strong></td>
-                                <td colspan="2" style="text-align: left;"><a href=<?php echo "\"".$template_id."\"";?> target="_blank">Click here for preview</a></td>
+                                <td colspan="2" style="text-align: left;"><a href=<?php if(isset($_REQUEST['id'])){ echo "\"".$template_id."\"";}?> target="_blank">Click here for preview</a></td>
                             </tr>
                             <?php
                                 if ( isset ( $_SESSION['alert_message'] ) ) {
                                     echo "<tr><td colspan=2 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
                                 }
                             ?>
-                            <input type="hidden" name="tempid" value=<?php echo "\"".$template_id."\""; ?> />
+                            <input type="hidden" name="tempid" value=<?php if(isset($_REQUEST['id'])){echo "\"".$template_id."\""; }?> />
                             <tr>
                                 <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                             </tr>
