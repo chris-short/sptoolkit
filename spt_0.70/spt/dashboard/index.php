@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 21.0
+ * version: 22.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -67,7 +67,7 @@ $exclude_twitter = 0;
                     },
                     tooltip: {
                         formatter: function() {
-                            return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+                            return '<b>'+ this.point.name +'</b>: '+ Math.round(this.percentage*Math.pow(10,2))/Math.pow(10,2) +'% (' + this.y + ')';
                         }
                     },   
                     plotOptions: {
@@ -77,7 +77,7 @@ $exclude_twitter = 0;
                             dataLabels: {
                                 enabled: true,
                                 formatter: function() {
-                                    return this.y +' %';
+                                    return Math.round(this.percentage*Math.pow(10,0))/Math.pow(10,0) +'% (' + this.y + ')' ;
                                 }
                             },
                             showInLegend: true
@@ -195,24 +195,13 @@ $total_link_only = mysql_num_rows($r);
 //calculate no reponse
 $total_no_response = $total_phishes - $total_posts - $total_link_only;
 
-//calcuate percentages
-if ($total_phishes > 0) {
-    $total_no_response_percentage = round((($total_no_response / $total_phishes) * 100), 2);
-    $total_link_only_percentage = round((($total_link_only / $total_phishes) * 100), 2);
-    $total_posts_percentage = round((($total_posts / $total_phishes) * 100), 2);
-} else {
-    $total_no_response_percentage = 0;
-    $total_link_only_percentage = 0;
-    $total_posts_percentage = 0;
-}
-
-if ($total_link_only_percentage == 0 && $total_no_response_percentage == 0 && $total_posts_percentage == 0) {
+if ($total_link_only == 0 && $total_no_response == 0 && $total_posts == 0) {
     echo "['No Responses Yet', 100]";
 } else {
     //print results in highcharts format
-    echo "['Did Not Click', " . $total_no_response_percentage . "],";
-    echo "['Followed Link', " . $total_link_only_percentage . "],";
-    echo "['Submitted Form', " . $total_posts_percentage . "],";
+    echo "['Did Not Click', " . $total_no_response . "],";
+    echo "['Followed Link', " . $total_link_only . "],";
+    echo "['Submitted Form', " . $total_posts . "],";
 }
 ?>
                     ]
@@ -411,7 +400,7 @@ echo "]}]";
             },
             tooltip: {
                 formatter: function() {
-                    return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+                    return '<b>'+ this.point.name +'</b>: '+ Math.round(this.percentage*Math.pow(10,2))/Math.pow(10,2) +'% (' + this.y + ')';
                 }
             },   
             plotOptions: {
@@ -421,7 +410,7 @@ echo "]}]";
                     dataLabels: {
                         enabled: true,
                         formatter: function() {
-                            return this.y +' %';
+                            return Math.round(this.percentage*Math.pow(10,0))/Math.pow(10,0) +'% (' + this.y + ')';;
                         }
                     },
                     showInLegend: true
@@ -556,19 +545,7 @@ while ($ra = mysql_fetch_assoc($r)) {
 if ($email_failures == 0 && $email_not_sent == 0 && $email_sent_successfully == 0 && $email_unknown == 0) {
     echo "['No Responses Yet', 100]";
 } else {
-    $total_emails = $email_sent_successfully + $email_failures + $email_unknown + $email_not_sent;
-    if ($email_sent_successfully > 0) {
-        $email_sent_successfully = round((($email_sent_successfully / $total_emails) * 100), 2);
-    }
-    if ($email_failures > 0) {
-        $email_failures = round((($email_failures / $total_emails) * 100), 2);
-    }
-    if ($email_unknown > 0) {
-        $email_unknown = round((($email_unknown / $total_emails) * 100), 2);
-    }
-    if ($email_not_sent > 0) {
-        $email_not_sent = round((($email_not_sent / $total_emails) * 100), 2);
-    }
+
     //print results in highcharts format
     echo "['Success', " . $email_sent_successfully . "],";
     echo "['Failures', " . $email_failures . "],";
@@ -594,7 +571,7 @@ if ($email_failures == 0 && $email_not_sent == 0 && $email_sent_successfully == 
             },
             tooltip: {
                 formatter: function() {
-                    return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+                    return '<b>'+ this.point.name +'</b>: '+ Math.round(this.percentage*Math.pow(10,2))/Math.pow(10,2) +'% (' + this.y + ')';
                 }
             },   
             plotOptions: {
@@ -604,7 +581,7 @@ if ($email_failures == 0 && $email_not_sent == 0 && $email_sent_successfully == 
                     dataLabels: {
                         enabled: true,
                         formatter: function() {
-                            return this.y +' %';
+                            return Math.round(this.percentage*Math.pow(10,0))/Math.pow(10,0) +'% (' + this.y + ')';
                         }
                     },
                     showInLegend: true
@@ -716,9 +693,6 @@ if (mysql_num_rows($r) < 1) {
     while ($ra = mysql_fetch_assoc($r)) {
         $browser_and_version = $ra['browser'];
         $browser_count = $ra['count'];
-        if ($browser_count > 0) {
-            $browser_count = round(($browser_count / $total_browser_count) * 100, 2);
-        }
         echo "['" . $browser_and_version . "', " . $browser_count . "],";
     }
 }
