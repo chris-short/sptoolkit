@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -225,7 +225,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     } else {
         echo
         "
-                                        <td class=\"td_center\"><img src=\"images/thumbs-up.png\" alt=\"success\" /></td>
+                                        <td class=\"td_center\"><img src=\"images/accept.png\" alt=\"success\" /></td>
                                 ";
     }
 
@@ -400,6 +400,9 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 3) {
     mysql_query($sql) or die(mysql_error());
     $sql = "INSERT INTO `education` (name, description) VALUES ('[QSE08 v0.70] Phishing Image 2','Displays local content about being phished.  [No Internet access required].')";
     mysql_query($sql) or die(mysql_error());
+
+//change editor to a non-core module
+    mysql_query ("UPDATE modules SET core = 0 WHERE name = 'Editor'");
 
 //set initial counter values
     $install_count = 8;
