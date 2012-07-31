@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -310,7 +310,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 3) {
     
 ////insert quick start templates
 //first sql statement (prevents some problems)
-    $sql = "INSERT INTO templates (name, description) VALUES ('[QS01 v0.70] Amazon shipping information','An email from Amazon.com with shipping information about a recent order.  [Email template only, no web site]')";
+    $sql = "INSERT INTO templates (name, description) VALUES ('[QST01 v0.70] Amazon shipping information','An email from Amazon.com with shipping information about a recent order.  [Email template only, no web site]')";
     mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id

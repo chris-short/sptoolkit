@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 7.0
+ * version: 8.0
  * package:	Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -37,7 +37,7 @@ mysql_query($sql) or die(mysql_error());
 
 ////insert quick start templates
 //first sql statement (prevents some problems)
-$sql = "INSERT INTO templates (name, description) VALUES ('[QS01 v0.70] Amazon shipping information','An email from Amazon.com with shipping information about a recent order.  [Email template only, no web site]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QST01 v0.70] Amazon shipping information','An email from Amazon.com with shipping information about a recent order.  [Email template only, no web site]')";
 mysql_query($sql) or die(mysql_error());
 
 //figure out the campaign id
