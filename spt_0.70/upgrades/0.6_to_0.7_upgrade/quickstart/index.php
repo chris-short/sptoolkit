@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Quick Start 
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -84,14 +84,14 @@ if ( file_exists ( $includeContent ) ) {
                             <table>
                                 <tr>
                                     <td colspan="3">
-                                        <strong>Configure metrics and add targets</strong>
+                                        <strong>Targets Module:  Configure metrics and add targets</strong>
                                         <br /><br />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="step"><strong>Step</strong></td>
                                     <td class="do_this"><strong>Do this</strong></td>
-                                    <td class="click_this"><strong>Click this (in Targets module)</strong></td>
+                                    <td class="click_this"><strong>Click this</strong></td>
                                 </tr>
                                 <tr>
                                     <td>1.</td>
@@ -121,14 +121,14 @@ if ( file_exists ( $includeContent ) ) {
                             <table>
                                 <tr>
                                     <td colspan="3">
-                                        <strong>Upload, copy or edit templates or scrape web sites (Optional)</strong>
+                                        <strong>Templates Module:  Upload, copy or edit templates or scrape web sites (Optional)</strong>
                                         <br /><br />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="step"><strong>Step</strong></td>
                                     <td class="do_this"><strong>Do this</strong></td>
-                                    <td class="click_this"><strong>Click this (in Templates module)</strong></td>
+                                    <td class="click_this"><strong>Click this</strong></td>
                                 </tr>
                                 <tr>
                                     <td>1.</td>
@@ -157,14 +157,14 @@ if ( file_exists ( $includeContent ) ) {
                         <table>
                         <tr>
                             <td colspan="3">
-                                <strong>Upload, copy or edit education packages (Optional)</strong>
+                                <strong>Education Module:  Upload, copy or edit education packages (Optional)</strong>
                                 <br /><br />
                             </td>
                         </tr>
                         <tr>
                             <td class="step"><strong>Step</strong></td>
                             <td class="do_this"><strong>Do this</strong></td>
-                            <td class="click_this"><strong>Click this (in Education module)</strong></td>
+                            <td class="click_this"><strong>Click this</strong></td>
                         </tr>
                         <tr>
                             <td>1.</td>
@@ -188,14 +188,14 @@ if ( file_exists ( $includeContent ) ) {
                             <table>
                                 <tr>
                                     <td colspan="3">
-                                        <strong>Start and monitor a campaign</strong>
+                                        <strong>Campaigns Module:  Start and monitor a campaign</strong>
                                         <br /><br />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="step"><strong>Step</strong></td>
                                     <td class="do_this"><strong>Do this</strong></td>
-                                    <td class="click_this"><strong>Click this (in Campaigns module)</strong></td>
+                                    <td class="click_this"><strong>Click this</strong></td>
                                 </tr>
                                 <tr>
                                     <td>1.</td>
