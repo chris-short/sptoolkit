@@ -187,12 +187,13 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     array_push($failures, checkVersion("campaigns/trained.php", "1.0"));
     array_push($failures, checkVersion("dashboard/index.php", "23.0"));
     array_push($failures, checkVersion("education/index.php", "21.0"));
+    array_push($failures, checkVersion("education/delete_package.php", "8.0"));
     array_push($failures, checkVersion("quickstart/index.php", "13.0"));
     array_push($failures, checkVersion("quickstart/spt_quickstart.css", "4.0"));
     array_push($failures, checkVersion("targets/index.php", "39.0"));
     array_push($failures, checkVersion("targets/target_upload_batch.php", "23.0"));
     array_push($failures, checkVersion("templates/index.php", "38.0"));
-    //array_push($failures, checkVersion("dir/file.php", "xx.0"));
+    array_push($failures, checkVersion("templates/delete_template.php", "9.0"));
     //array_push($failures, checkVersion("dir/file.php", "xx.0"));
     //array_push($failures, checkVersion("dir/file.php", "xx.0"));
     //array_push($failures, checkVersion("dir/file.php", "xx.0"));
