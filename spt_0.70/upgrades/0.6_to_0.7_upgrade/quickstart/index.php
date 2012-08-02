@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 11.0
+ * version: 12.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Quick Start 
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -110,7 +110,7 @@ if ( file_exists ( $includeContent ) ) {
                                         Next, import the edited file to add many targets at once.
                                     </td>
                                     <td>
-                                        <a href="../targets/target_export.php"><img src="../images/page_white_put_sm.png" alt="template" /> Export</a><br />
+                                        <a href="../targets/target_export.php"><img src="../images/page_white_put_sm.png" alt="template" /> Export</a><br /><br />
                                         <a href="../targets/#add_many"><img src="../images/group_add_sm.png" alt="add" /> Import</a>
                                     </td>
                                 </tr>
@@ -144,12 +144,12 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td>2.</td>
                                     <td>Copy an existing template and then edit to customize it, <strong>or</strong>,</td>
-                                    <td><a href="../templates"><img src="../images/page_copy_sm.png" alt="copy"></a> then <a href="../templates"><img src="../images/pencil_sm.png" alt="edit"></a> [for specific template]</td>
+                                    <td><a href="../templates"><img src="../images/page_copy_sm.png" alt="copy"></a> then <a href="../templates"><img src="../images/pencil_sm.png" alt="edit"></a></td>
                                 </tr>
                                 <tr>
                                     <td>3.</td>
                                     <td>Edit an existing template to customize it without copying it first, <strong>or</strong>,</td>
-                                    <td><a href="../templates"><img src="../images/pencil_sm.png" alt="edit"></a> [for specific template]</td>
+                                    <td><a href="../templates"><img src="../images/pencil_sm.png" alt="edit"></a></td>
                                 </tr>
                                 <tr>
                                     <td>4.</td>
@@ -186,12 +186,12 @@ if ( file_exists ( $includeContent ) ) {
                         <tr>
                             <td>2.</td>
                             <td>Copy an existing education package and then edit to customize it, <strong>or</strong>,</td>
-                            <td><a href="../education"><img src="../images/page_copy_sm.png" alt="copy"></a> then <a href="../templates"><img src="../images/pencil_sm.png" alt="edit"></a> [for specific education]</td>
+                            <td><a href="../education"><img src="../images/page_copy_sm.png" alt="copy"></a> then <a href="../templates"><img src="../images/pencil_sm.png" alt="edit"></a></td>
                         </tr>
                         <tr>
                             <td>3.</td>
                             <td>Edit an existing education package to customize it without copying it first, <strong>or</strong>,</td>
-                            <td><a href="../education"><img src="../images/pencil_sm.png" alt="edit"></a> [for specific education]</td>
+                            <td><a href="../education"><img src="../images/pencil_sm.png" alt="edit"></a></td>
                         </tr>
                         <tr>
                             <td colspan="3">
@@ -218,23 +218,29 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td>1.</td>
                                     <td>Optionally, enter your URL shortener API key.</td>
-                                    <td><img src="../images/qs_5_3.png" alt="Enter API key"></td>
+                                    <td><a href="../campaigns/#shorten"><img src="../images/cog_edit_sm.png" alt="config_shorten" />Shorten</a></td>
                                 </tr>
                                 <tr>
                                     <td>2.</td>
                                     <td>Start a new campaign.</td>
-                                    <td><img src="../images/qs_5_1.png" alt="Start campaign"></td>
+                                    <td><a href="../campaigns/#add_campaign"><img src="../images/email_to_friend_sm.png" alt="add" /> Campaign</a></td>
                                 </tr>
                                 <tr>
                                     <td>3.</td>
                                     <td>Optionally, export campaign statistics as a CSV file.</td>
-                                    <td><img src="../images/qs_5_2.png" alt="Download CSV"></td>
+                                    <td><a href="../campaigns/campaigns_export.php"><img src="../images/page_white_put_sm.png" alt="export" /> Export</a></td>
                                 </tr>
                                 <tr>
                                     <td>4.</td>
                                     <td>Review campaign statistics from the dashboard.</td>
-                                    <td><img src="../images/house_sm.png" alt="Review statistics"></td>
+                                    <td><a href="../#phish_pie"<img src="../images/house_sm.png" alt="Review statistics"></a></td>
                                 </tr>
+                                <tr>
+                                <td colspan="3">
+                                    <br /><br />
+                                    <strong>NOTE:</strong>You will not be returned to the Quick Start after closing the page you visit by clicking any links here.
+                                </td>
+                            </tr>
                             </table>                                             
                     </section>
                 </article>
