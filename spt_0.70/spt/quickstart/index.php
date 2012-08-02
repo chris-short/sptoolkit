@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 12.0
+ * version: 13.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Quick Start 
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -117,7 +117,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td colspan="3">
                                         <br /><br />
-                                        <strong>NOTE:</strong>You will not be returned to the Quick Start after closing the page you visit by clicking any links here.
+                                        <strong>NOTE:</strong>  You will not be returned to the Quick Start after closing the page you visit by clicking any links here.
                                     </td>
                                 </tr>
                             </table>    
@@ -144,12 +144,12 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td>2.</td>
                                     <td>Copy an existing template and then edit to customize it, <strong>or</strong>,</td>
-                                    <td><a href="../templates"><img src="../images/page_copy_sm.png" alt="copy"></a> then <a href="../templates"><img src="../images/pencil_sm.png" alt="edit"></a></td>
+                                    <td><a href="../templates"><img src="../images/page_copy_sm.png" alt="copy" /></a> then <a href="../templates"><img src="../images/pencil_sm.png" alt="edit" /></a></td>
                                 </tr>
                                 <tr>
                                     <td>3.</td>
                                     <td>Edit an existing template to customize it without copying it first, <strong>or</strong>,</td>
-                                    <td><a href="../templates"><img src="../images/pencil_sm.png" alt="edit"></a></td>
+                                    <td><a href="../templates"><img src="../images/pencil_sm.png" alt="edit" /></a></td>
                                 </tr>
                                 <tr>
                                     <td>4.</td>
@@ -159,7 +159,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td colspan="3">
                                         <br /><br />
-                                        <strong>NOTE:</strong>You will not be returned to the Quick Start after closing the page you visit by clicking any links here.
+                                        <strong>NOTE:</strong>  You will not be returned to the Quick Start after closing the page you visit by clicking any links here.
                                     </td>
                                 </tr>
                             </table>                    
@@ -186,17 +186,17 @@ if ( file_exists ( $includeContent ) ) {
                         <tr>
                             <td>2.</td>
                             <td>Copy an existing education package and then edit to customize it, <strong>or</strong>,</td>
-                            <td><a href="../education"><img src="../images/page_copy_sm.png" alt="copy"></a> then <a href="../templates"><img src="../images/pencil_sm.png" alt="edit"></a></td>
+                            <td><a href="../education"><img src="../images/page_copy_sm.png" alt="copy" /></a> then <a href="../education"><img src="../images/pencil_sm.png" alt="edit" /></a></td>
                         </tr>
                         <tr>
                             <td>3.</td>
                             <td>Edit an existing education package to customize it without copying it first, <strong>or</strong>,</td>
-                            <td><a href="../education"><img src="../images/pencil_sm.png" alt="edit"></a></td>
+                            <td><a href="../education"><img src="../images/pencil_sm.png" alt="edit" /></a></td>
                         </tr>
                         <tr>
                             <td colspan="3">
                                 <br /><br />
-                                <strong>NOTE:</strong>You will not be returned to the Quick Start after closing the page you visit by clicking any links here.
+                                <strong>NOTE:</strong>  You will not be returned to the Quick Start after closing the page you visit by clicking any links here.
                             </td>
                         </tr>
                         </table>                    
@@ -218,7 +218,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td>1.</td>
                                     <td>Optionally, enter your URL shortener API key.</td>
-                                    <td><a href="../campaigns/#shorten"><img src="../images/cog_edit_sm.png" alt="config_shorten" />Shorten</a></td>
+                                    <td><a href="../campaigns/#shorten"><img src="../images/cog_edit_sm.png" alt="config_shorten" /> Shorten</a></td>
                                 </tr>
                                 <tr>
                                     <td>2.</td>
@@ -233,7 +233,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td>4.</td>
                                     <td>Review campaign statistics from the dashboard.</td>
-                                    <td><a href="../#phish_pie"<img src="../images/house_sm.png" alt="Review statistics"></a></td>
+                                    <td><a href="../#phish_pie"><img src="../images/house_sm.png" alt="review" /></a></td>
                                 </tr>
                                 <tr>
                                 <td colspan="3">
