@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Quick Start 
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -96,7 +96,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td>1.</td>
                                     <td>Create or edit your metrics (custom attributes).</td>
-                                    <td><img src="../images/qs_1_1.png" alt="Edit metrics"></td>
+                                    <td><a href="../targets/#metrics"><img src="../images/table_edit_sm.png" alt="metrics" /> Metrics</a></td>
                                 </tr>
                                 <tr>
                                     <td>2.</td>
