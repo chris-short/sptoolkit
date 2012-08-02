@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 9.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Quick Start 
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -66,15 +66,15 @@ if ( file_exists ( $includeContent ) ) {
                                 </td>
                             </tr>
                             <tr>
-                                <td class="step">1</td>
+                                <td colspan="2" class="step">1</td>
                                 <td>To perform a quick phishing campaign test with your email address:  Skip to <strong>Step 4</strong> and start a campaign immediately using the included quick start templates [QST] and quick start education [QSE].  Select the <strong>Admins - Test</strong> target group that automatically includes your email address (based on your entry during spt installation).<br /><br /><strong>Or...</strong></td>
                             </tr>
                             <tr>
-                                <td class="step">2</td>
+                                <td colspan="2" class="step">2</td>
                                 <td>To perform a quick phishing campaign against other targets:  Complete <strong>Step 1</strong> and then skip to <strong>Step 4</strong> and start a campaign immediately using the included quick start templates [QST] and quick start education [QSE].  Select one or more of the target groups created in <strong>Step 1</strong>.<br /><br /><strong>Or...</strong></td>
                             </tr>
                             <tr>
-                                <td class="step">3</td>
+                                <td colspan="2" class="step">3</td>
                                 <td>Work your way through each step starting with <strong>Step 1</strong> for a completely customized phishing campaign.</td>
                             </tr>
                         </table>
@@ -96,12 +96,12 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td>1.</td>
                                     <td>Create or edit your metrics (custom attributes).</td>
-                                    <td><img src="../images/qs_1_1.png" alt="Edit metrics"></td>
+                                    <td><a href="../targets/#metrics"><img src="../images/table_edit_sm.png" alt="metrics" /> Metrics</a></td>
                                 </tr>
                                 <tr>
                                     <td>2.</td>
                                     <td>Create single targets, <strong>or</strong>,</td>
-                                    <td><img src="../images/qs_1_2.png" alt="Add one target"></td>
+                                    <td><a href="../targets/#add_one"><img src="../images/user_add_sm.png" alt="add" /> One</a></td>
                                 </tr>
                                 <tr>
                                     <td>3.</td>
@@ -110,8 +110,14 @@ if ( file_exists ( $includeContent ) ) {
                                         Next, import the edited file to add many targets at once.
                                     </td>
                                     <td>
-                                        <img src="../images/qs_1_3a.png" alt="Export CSV"><br />
-                                        <img src="../images/qs_1_3b.png" alt="Import CSV">
+                                        <a href="../targets/target_export.php"><img src="../images/page_white_put_sm.png" alt="template" /> Export</a><br />
+                                        <a href="../targets/#add_many"><img src="../images/group_add_sm.png" alt="add" /> Import</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <br /><br />
+                                        <strong>NOTE:</strong>You will not be returned to the Quick Start after closing the page you visit by clicking any links here.
                                     </td>
                                 </tr>
                             </table>    
@@ -133,22 +139,28 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td>1.</td>
                                     <td>Upload a new template, <strong>or</strong>,</td>
-                                    <td><img src="../images/qs_2_1.png" alt="Upload template"></td>
+                                    <td><a href="../templates/#add_template"><img src="../images/package_add_sm.png" alt="add" /> Template</a></td>
                                 </tr>
                                 <tr>
                                     <td>2.</td>
                                     <td>Copy an existing template and then edit to customize it, <strong>or</strong>,</td>
-                                    <td><img src="../images/page_copy_sm.png" alt="Copy template"> then <img src="../images/pencil_sm.png" alt="Edit template"></td>
+                                    <td><a href="../templates"><img src="../images/page_copy_sm.png" alt="copy"></a> then <a href="../templates"><img src="../images/pencil_sm.png" alt="edit"></a> [for specific template]</td>
                                 </tr>
                                 <tr>
                                     <td>3.</td>
                                     <td>Edit an existing template to customize it without copying it first, <strong>or</strong>,</td>
-                                    <td><img src="../images/pencil_sm.png" alt="Edit template"></td>
+                                    <td><a href="../templates"><img src="../images/pencil_sm.png" alt="edit"></a> [for specific template]</td>
                                 </tr>
                                 <tr>
                                     <td>4.</td>
                                     <td>Scrape a live web site.</td>
-                                    <td><img src="../images/qs_2_2.png" alt="Scrape a site"></td>
+                                    <td><a href="../templates/#add_scrape"><img src="../images/world_add_sm.png" alt="add" /> Scrape</a></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <br /><br />
+                                        <strong>NOTE:</strong>You will not be returned to the Quick Start after closing the page you visit by clicking any links here.
+                                    </td>
                                 </tr>
                             </table>                    
                     </section>
@@ -169,17 +181,23 @@ if ( file_exists ( $includeContent ) ) {
                         <tr>
                             <td>1.</td>
                             <td>Upload a new education package, <strong>or</strong>,</td>
-                            <td><img src="../images/qs_3_1.png" alt="Upload education package"></td>
+                            <td><a href="../education/#add_package"><img src="../images/package_add_sm.png" alt="add" /> Package</a></td>
                         </tr>
                         <tr>
                             <td>2.</td>
                             <td>Copy an existing education package and then edit to customize it, <strong>or</strong>,</td>
-                            <td><img src="../images/page_copy_sm.png" alt="Copy template"> then <img src="../images/pencil_sm.png" alt="Edit template"></td>
+                            <td><a href="../education"><img src="../images/page_copy_sm.png" alt="copy"></a> then <a href="../templates"><img src="../images/pencil_sm.png" alt="edit"></a> [for specific education]</td>
                         </tr>
                         <tr>
                             <td>3.</td>
                             <td>Edit an existing education package to customize it without copying it first, <strong>or</strong>,</td>
-                            <td><img src="../images/pencil_sm.png" alt="Edit template"></td>
+                            <td><a href="../education"><img src="../images/pencil_sm.png" alt="edit"></a> [for specific education]</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <br /><br />
+                                <strong>NOTE:</strong>You will not be returned to the Quick Start after closing the page you visit by clicking any links here.
+                            </td>
                         </tr>
                         </table>                    
                     </section>
