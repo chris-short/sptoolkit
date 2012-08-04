@@ -2,7 +2,7 @@
 
 /**
  * file:    upload_template.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -63,8 +63,15 @@ if ( ! isset ( $_POST['description'] ) ) {
     exit;
 }
 
+//validate that a file was selected
+if ( $_FILES["file"]["error"] > 0 ) {
+    $_SESSION['alert_message'] = "you either did not select a file or there was a problem with it";
+    header ( 'location:./#add_template' );
+    exit;
+}
+
 //if file uploaded ensure its a zip file
-if ( is_uploaded_file($_FILES['file']['tmp_name']) && preg_match ( '/^(zip)\i/', $_FILES["file"]["type"] ) ) {
+if ( is_uploaded_file($_FILES['file']['tmp_name']) && $_FILES["file"]["type"] != "application/zip" ) {
     $_SESSION['alert_message'] = 'you must only upload zip files';
     header ( 'location:./#add_template' );
     exit;
@@ -118,43 +125,7 @@ if (is_uploaded_file($_FILES['file']['tmp_name'])){
         header ( 'location:./#add_template' );
         exit;
     }
-}else{
-    //create a directory for the new template
-    mkdir ( $id );
-    //copy scraped file into new template directory
-    copy ( "temp_upload/index.htm", $id . "/index.htm" );
-    //copy default email and return files into new template directory
-    copy ( "temp_upload/return.htm", $id . "/return.htm" );
-    copy ( "temp_upload/email.php", $id . "/email.php" );
-    copy ( "temp_upload/screenshot.png", $id . "/screenshot.png" );
-    //set correct permissions on newly created files
-    $directory = $id;
-    $filemode = 0775;
-    function chmodr ( $directory, $filemode ) {
-        if ( ! is_dir ( $directory ) )
-            return chmod ( $directory, $filemode );
-        $dh = opendir ( $directory );
-        while ( ($file = readdir ( $dh )) !== false ) {
-            if ( $file != '.' && $file != '..' ) {
-                $fullpath = $directory . '/' . $file;
-                if ( is_link ( $fullpath ) )
-                    return FALSE;
-                elseif ( ! is_dir ( $fullpath ) && ! chmod ( $fullpath, $filemode ) )
-                    return FALSE;
-                elseif ( ! chmodr ( $fullpath, $filemode ) )
-                    return FALSE;
-            }
-        }
-        closedir ( $dh );
-        if ( chmod ( $directory, $filemode ) )
-            return TRUE;
-        else
-            return FALSE;
-    }
-    chmodr ( $directory, $filemode );
 }
-
-
 
 $_SESSION['alert_message'] = 'template added successfully';
 header ( 'location:./#alert' );
