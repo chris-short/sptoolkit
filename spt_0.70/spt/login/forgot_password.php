@@ -2,7 +2,7 @@
 
 /**
  * file:   forgot_password.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -137,7 +137,7 @@ if ( isset ( $_REQUEST['key'] ) ) {
         if(!filter_var($sender_email, FILTER_VALIDATE_EMAIL)){
             $sender_email = "no-reply@sptoolkit.com";
         }
-        $sender_friendly .= "The Simple Phishing Toolkit";
+        $sender_friendly = "The Simple Phishing Toolkit";
         
         //Set the content type
         $content_type = "text/html; charset=utf-8";
