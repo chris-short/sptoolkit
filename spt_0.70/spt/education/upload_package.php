@@ -2,7 +2,7 @@
 
 /**
  * file:    upload_package.php
- * version: 11.0
+ * version: 12.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -70,8 +70,12 @@ if ( $_FILES["file"]["error"] > 0 ) {
     exit;
 }
 
+//get file info
+$finfo = finfo_open(FILEINFO_MIME_TYPE);
+$finfo = finfo_file($finfo, $_FILES["file"]["tmp_name"]);
+
 //if file uploaded ensure its a zip file
-if (is_uploaded_file($_FILES['file']['tmp_name']) && $_FILES["file"]["type"] != "application/zip" ) {
+if (is_uploaded_file($_FILES['file']['tmp_name']) && ( !preg_match("/zip/i", $finfo) OR $_FILES["file"]["type"] != "application/zip") ) {
     $_SESSION['alert_message'] = 'you must only upload zip files';
     header('location:./#add_package');
     exit;
