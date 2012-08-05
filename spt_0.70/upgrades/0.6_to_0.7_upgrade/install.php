@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 14.0
+ * version: 15.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -189,6 +189,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     array_push($failures, checkVersion("education/index.php", "21.0"));
     array_push($failures, checkVersion("education/delete_package.php", "8.0"));
     array_push($failures, checkVersion("education/upload_package.php", "11.0"));
+    array_push($failures, checkVersion("login/forgot_password.php", "10.0"));   
     array_push($failures, checkVersion("quickstart/index.php", "13.0"));
     array_push($failures, checkVersion("quickstart/spt_quickstart.css", "4.0"));
     array_push($failures, checkVersion("targets/index.php", "39.0"));
@@ -434,6 +435,9 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 3) {
     } while ($i < $install_count);
 
 //delete some files
+    unlink ( 'education/temp_upload/default.css' );
+    unlink ( 'education/temp_upload/index.htm' );
+    unlink ( 'education/temp_upload/logo.png' );
     unlink ( 'images/qs_1_1.png' );
     unlink ( 'images/qs_1_2.png' );
     unlink ( 'images/qs_1_3a.png' );
