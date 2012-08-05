@@ -2,7 +2,7 @@
 
 /**
  * file:    upload_template.php
- * version: 11.0
+ * version: 12.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -121,6 +121,11 @@ if (is_uploaded_file($_FILES['file']['tmp_name'])){
         //go delete the original
         unlink ( 'temp_upload/' . $filename );
     } else {
+        //clean up
+        unlink ( 'temp_upload/' . $filename );
+        rmdir ( '../templates/' . $id . '/' );
+        mysql_query ( "DELETE FROM templates WHERE id = '$id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );        
+        //return back to form
         $_SESSION['alert_message'] = 'unzipping the file failed';
         header ( 'location:./#add_template' );
         exit;

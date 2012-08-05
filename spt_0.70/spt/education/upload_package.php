@@ -2,7 +2,7 @@
 
 /**
  * file:    upload_package.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -121,6 +121,11 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
             //go delete the original
             unlink('temp_upload/' . $filename);
         } else {
+            //clean up
+            unlink ( 'temp_upload/' . $filename );
+            rmdir ( '../education/' . $id . '/' );
+            mysql_query ( "DELETE FROM education WHERE id = '$id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );        
+            //return back to form
             $_SESSION['alert_message'] = 'unzipping the file failed';
             header('location:./#add_package');
             exit;
