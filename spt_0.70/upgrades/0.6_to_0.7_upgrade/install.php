@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 16.0
+ * version: 17.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -181,7 +181,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     array_push($failures, checkVersion("campaigns/config_shorten.php", "1.0"));
     array_push($failures, checkVersion("campaigns/index.php", "52.0"));
     array_push($failures, checkVersion("campaigns/response.php", "7.0"));
-    array_push($failures, checkVersion("campaigns/send_emails.php", "17.0"));
+    array_push($failures, checkVersion("campaigns/send_emails.php", "18.0"));
     array_push($failures, checkVersion("campaigns/spt_campaigns.css", "12.0"));
     array_push($failures, checkVersion("campaigns/start_campaign.php", "30.0"));
     array_push($failures, checkVersion("campaigns/trained.php", "1.0"));
@@ -218,7 +218,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     if (count($fails) > 0) {
         echo
         "
-                                        <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/x.png\" alt=\"problem\" /><span>The following files did not report the expected version.  Please ensure you've uploaded and overwitten these files with the files in the upgrade download.<br /><br /><ul>";
+                                        <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/cancel.png\" alt=\"problem\" /><span>The following files did not report the expected version.  Please ensure you've uploaded and overwitten these files with the files in the upgrade download.<br /><br /><ul>";
         foreach ($fails as $fail) {
             echo "<li>" . $fail . "</li>";
         }
