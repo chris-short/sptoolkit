@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 19.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -238,15 +238,78 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     array_push($failures, checkVersion("templates/spt_templates.css", "3.0"));
     array_push($failures, checkVersion("templates/update_template.php", "1.0"));
     array_push($failures, checkVersion("templates/upload_template.php", "13.0"));
+    array_push($failures, checkVersion("templates/temp_upload/email.php", "13.0"));
+    array_push($failures, checkVersion("templates/temp_upload/1/default.css", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/1/email.php", "4.0"));
+    array_push($failures, checkVersion("templates/temp_upload/1/index_alt.htm", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/1/index_sample.htm", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/1/index.htm", "5.0")); 
+    array_push($failures, checkVersion("templates/temp_upload/2/default.css", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/2/email.php", "3.0"));
+    array_push($failures, checkVersion("templates/temp_upload/2/index_alt.htm", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/2/index_sample.htm", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/2/index.htm", "5.0"));    
+    array_push($failures, checkVersion("templates/temp_upload/3/default.css", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/3/email.php", "7.0"));
+    array_push($failures, checkVersion("templates/temp_upload/3/index_alt.htm", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/3/index_sample.htm", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/3/index.htm", "5.0"));
+    array_push($failures, checkVersion("templates/temp_upload/4/default.css", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/4/email.php", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/4/index_alt.htm", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/4/index_sample.htm", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/4/index.htm", "5.0"));
+    array_push($failures, checkVersion("templates/temp_upload/5/default.css", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/5/email.php", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/5/index_alt.htm", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/5/index_sample.htm", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/5/index.htm", "5.0"));    
+    array_push($failures, checkVersion("templates/temp_upload/6/default.css", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/6/email.php", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/6/index_alt.htm", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/6/index_sample.htm", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/6/index.htm", "5.0"));    
+    array_push($failures, checkVersion("templates/temp_upload/7/default.css", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/7/email.php", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/7/index_alt.htm", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/7/index_sample.htm", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/7/index.htm", "5.0"));    
+    array_push($failures, checkVersion("templates/temp_upload/8/default.css", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/8/email.php", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/8/index_alt.htm", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/8/index_sample.htm", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/8/index.htm", "5.0"));    
+    array_push($failures, checkVersion("templates/temp_upload/9/default.css", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/9/email.php", "4.0"));
+    array_push($failures, checkVersion("templates/temp_upload/9/index_alt.htm", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/9/index_sample.htm", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/9/index.htm", "5.0"));
+    array_push($failures, checkVersion("templates/temp_upload/10/default.css", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/10/email.php", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/10/index_alt.htm", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/10/index_sample.htm", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/10/index.htm", "5.0"));
+    array_push($failures, checkVersion("templates/temp_upload/11/default.css", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/11/email.php", "4.0"));
+    array_push($failures, checkVersion("templates/temp_upload/11/index_alt.htm", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/11/index_sample.htm", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/11/index.htm", "5.0"));
+    array_push($failures, checkVersion("templates/temp_upload/12/default.css", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/12/email.php", "3.0"));
+    array_push($failures, checkVersion("templates/temp_upload/12/index_alt.htm", "1.0"));
+    array_push($failures, checkVersion("templates/temp_upload/12/index_sample.htm", "2.0"));
+    array_push($failures, checkVersion("templates/temp_upload/12/index.htm", "5.0"));
+    array_push($failures, checkVersion("templates/temp_upload/13/email.php", "11.0"));
+    array_push($failures, checkVersion("templates/temp_upload/13/index.htm", "4.0"));
+    array_push($failures, checkVersion("templates/temp_upload/13/return_error500.htm", "3.0"));
+    array_push($failures, checkVersion("templates/temp_upload/13/return_phished.htm", "3.0"));
+    array_push($failures, checkVersion("templates/temp_upload/13/return.htm", "3.0"));      
     array_push($failures, checkVersion("users/add_user.php", "9.0"));
     array_push($failures, checkVersion("users/edit_other_user.php", "7.0"));
     array_push($failures, checkVersion("users/edit_user.php", "7.0"));
     array_push($failures, checkVersion("users/index.php", "16.0"));
 
-    //array_push($failures, checkVersion("dir/file.php", "xx.0"));
-    //array_push($failures, checkVersion("dir/file.php", "xx.0"));
-    //array_push($failures, checkVersion("dir/file.php", "xx.0"));
-    //array_push($failures, checkVersion("dir/file.php", "xx.0"));
+    
     //initialize array
     $fails = array();
 
