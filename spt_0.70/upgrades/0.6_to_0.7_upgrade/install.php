@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 17.0
+ * version: 18.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -299,7 +299,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 3) {
 
 //Modify campaigns table
     $sql = "ALTER TABLE campaigns
-                    ADD COLUMN `ssl` int(1) NOT NULL,
+                    ADD COLUMN `encrypt` int(1) NOT NULL,
                     ADD COLUMN `shorten` varchar(255) NOT NULL ";
     mysql_query($sql) or die(mysql_error());
 
