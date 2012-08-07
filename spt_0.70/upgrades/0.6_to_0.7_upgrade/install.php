@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 18.0
+ * version: 19.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -185,22 +185,64 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     array_push($failures, checkVersion("campaigns/spt_campaigns.css", "12.0"));
     array_push($failures, checkVersion("campaigns/start_campaign.php", "30.0"));
     array_push($failures, checkVersion("campaigns/trained.php", "1.0"));
-    array_push($failures, checkVersion("dashboard/index.php", "23.0"));
+    array_push($failures, checkVersion("dashboard/copy_package.php", "1.0"));
+    array_push($failures, checkVersion("education/de;ete_package.php", "8.0"));    
     array_push($failures, checkVersion("education/index.php", "21.0"));
-    array_push($failures, checkVersion("education/delete_package.php", "8.0"));
+    array_push($failures, checkVersion("education/spt_education.css", "3.0"));
+    array_push($failures, checkVersion("education/update_package.php", "1.0"));
     array_push($failures, checkVersion("education/upload_package.php", "12.0"));
+    array_push($failures, checkVersion("education/upload_package.php", "12.0"));
+    array_push($failures, checkVersion("education/temp_upload/1/default.css", "3.0"));
+    array_push($failures, checkVersion("education/temp_upload/1/index.htm", "5.0"));
+    array_push($failures, checkVersion("education/temp_upload/1/trained.htm", "2.0"));
+    array_push($failures, checkVersion("education/temp_upload/2/default.css", "3.0"));
+    array_push($failures, checkVersion("education/temp_upload/2/index.htm", "5.0"));
+    array_push($failures, checkVersion("education/temp_upload/2/trained.htm", "2.0"));
+    array_push($failures, checkVersion("education/temp_upload/3/default.css", "3.0"));
+    array_push($failures, checkVersion("education/temp_upload/3/index.htm", "3.0"));
+    array_push($failures, checkVersion("education/temp_upload/3/trained.htm", "2.0"));
+    array_push($failures, checkVersion("education/temp_upload/4/default.css", "3.0"));
+    array_push($failures, checkVersion("education/temp_upload/4/index.htm", "1.0"));
+    array_push($failures, checkVersion("education/temp_upload/4/trained.htm", "2.0"));
+    array_push($failures, checkVersion("education/temp_upload/5/default.css", "3.0"));
+    array_push($failures, checkVersion("education/temp_upload/5/index.htm", "2.0"));
+    array_push($failures, checkVersion("education/temp_upload/5/trained.htm", "2.0"));
+    array_push($failures, checkVersion("education/temp_upload/6/default.css", "3.0"));
+    array_push($failures, checkVersion("education/temp_upload/6/index.htm", "2.0"));
+    array_push($failures, checkVersion("education/temp_upload/6/trained.htm", "2.0"));
+    array_push($failures, checkVersion("education/temp_upload/7/default.css", "3.0"));
+    array_push($failures, checkVersion("education/temp_upload/7/index.htm", "2.0"));
+    array_push($failures, checkVersion("education/temp_upload/7/trained.htm", "2.0"));
+    array_push($failures, checkVersion("education/temp_upload/8/default.css", "3.0"));
+    array_push($failures, checkVersion("education/temp_upload/8/index.htm", "2.0"));
+    array_push($failures, checkVersion("education/temp_upload/8/trained.htm", "2.0"));
+    array_push($failures, checkVersion("includes/editor.php", "17.0"));
+    array_push($failures, checkVersion("includes/sidebar.php", "12.0"));
+    array_push($failures, checkVersion("includes/spt_ie.css", "1.0"));
+    array_push($failures, checkVersion("includes/spt.css", "25.0"));    
     array_push($failures, checkVersion("login/forgot_password.php", "10.0"));   
+    array_push($failures, checkVersion("modules/index.php", "14.0"));
+    array_push($failures, checkVersion("modules/module_uninstall.php", "7.0"));
+    array_push($failures, checkVersion("modules/module_upload.php", "13.0"));    
     array_push($failures, checkVersion("quickstart/index.php", "13.0"));
     array_push($failures, checkVersion("quickstart/spt_quickstart.css", "4.0"));
     array_push($failures, checkVersion("targets/index.php", "39.0"));
     array_push($failures, checkVersion("targets/target_upload_batch.php", "23.0"));
-    array_push($failures, checkVersion("templates/index.php", "38.0"));
+    array_push($failures, checkVersion("targets/target_upload_single.php", "18.0"));
+    array_push($failures, checkVersion("targets/update_metrics_name.php", "1.0"));
+    array_push($failures, checkVersion("targets/update_metrics.php", "2.0"));
+    array_push($failures, checkVersion("templates/copy_template.php", "1.0"));
     array_push($failures, checkVersion("templates/delete_template.php", "9.0"));
+    array_push($failures, checkVersion("templates/index.php", "38.0"));
+    array_push($failures, checkVersion("templates/scrape_it.php", "21.0"));
+    array_push($failures, checkVersion("templates/spt_templates.css", "3.0"));
+    array_push($failures, checkVersion("templates/update_template.php", "1.0"));
     array_push($failures, checkVersion("templates/upload_template.php", "13.0"));
-    array_push($failures, checkVersion("modules/module_upload.php", "13.0"));
-    //array_push($failures, checkVersion("dir/file.php", "xx.0"));
-    //array_push($failures, checkVersion("dir/file.php", "xx.0"));
-    //array_push($failures, checkVersion("dir/file.php", "xx.0"));
+    array_push($failures, checkVersion("users/add_user.php", "9.0"));
+    array_push($failures, checkVersion("users/edit_other_user.php", "7.0"));
+    array_push($failures, checkVersion("users/edit_user.php", "7.0"));
+    array_push($failures, checkVersion("users/index.php", "16.0"));
+
     //array_push($failures, checkVersion("dir/file.php", "xx.0"));
     //array_push($failures, checkVersion("dir/file.php", "xx.0"));
     //array_push($failures, checkVersion("dir/file.php", "xx.0"));
