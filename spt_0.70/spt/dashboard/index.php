@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 23.0
+ * version: 24.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -196,7 +196,7 @@ $total_link_only = mysql_num_rows($r);
 $total_no_response = $total_phishes - $total_posts - $total_link_only;
 
 if ($total_link_only == 0 && $total_no_response == 0 && $total_posts == 0) {
-    echo "['No Responses Yet', 100]";
+    echo "['No Responses Yet', 0]";
 } else {
     //print results in highcharts format
     echo "['Did Not Click', " . $total_no_response . "],";

@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 21.0
+ * version: 22.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -308,6 +308,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     array_push($failures, checkVersion("users/edit_other_user.php", "7.0"));
     array_push($failures, checkVersion("users/edit_user.php", "7.0"));
     array_push($failures, checkVersion("users/index.php", "16.0"));
+    array_push($failures, checkVersion("dashboard/index.php", "24.0"));
 
     
     //initialize array
