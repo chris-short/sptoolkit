@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 20.0
+ * version: 21.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -187,7 +187,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     array_push($failures, checkVersion("campaigns/trained.php", "1.0"));
     array_push($failures, checkVersion("dashboard/copy_package.php", "1.0"));
     array_push($failures, checkVersion("education/de;ete_package.php", "8.0"));    
-    array_push($failures, checkVersion("education/index.php", "21.0"));
+    array_push($failures, checkVersion("education/index.php", "22.0"));
     array_push($failures, checkVersion("education/spt_education.css", "3.0"));
     array_push($failures, checkVersion("education/update_package.php", "1.0"));
     array_push($failures, checkVersion("education/upload_package.php", "12.0"));
@@ -233,7 +233,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     array_push($failures, checkVersion("targets/update_metrics.php", "2.0"));
     array_push($failures, checkVersion("templates/copy_template.php", "1.0"));
     array_push($failures, checkVersion("templates/delete_template.php", "9.0"));
-    array_push($failures, checkVersion("templates/index.php", "38.0"));
+    array_push($failures, checkVersion("templates/index.php", "39.0"));
     array_push($failures, checkVersion("templates/scrape_it.php", "21.0"));
     array_push($failures, checkVersion("templates/spt_templates.css", "3.0"));
     array_push($failures, checkVersion("templates/update_template.php", "1.0"));
