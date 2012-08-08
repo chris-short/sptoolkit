@@ -308,7 +308,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     array_push($failures, checkVersion("users/edit_other_user.php", "7.0"));
     array_push($failures, checkVersion("users/edit_user.php", "7.0"));
     array_push($failures, checkVersion("users/index.php", "16.0"));
-    array_push($failures, checkVersion("dashboard/index.php", "24.0"));
+    array_push($failures, checkVersion("dashboard/index.php", "25.0"));
 
     
     //initialize array

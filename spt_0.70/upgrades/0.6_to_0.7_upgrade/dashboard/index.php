@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 24.0
+ * version: 25.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -543,7 +543,7 @@ while ($ra = mysql_fetch_assoc($r)) {
 }
 
 if ($email_failures == 0 && $email_not_sent == 0 && $email_sent_successfully == 0 && $email_unknown == 0) {
-    echo "['No Responses Yet', 100]";
+    echo "['No Responses Yet', 0]";
 } else {
 
     //print results in highcharts format
@@ -687,7 +687,7 @@ while ($ra2 = mysql_fetch_assoc($r2)) {
 //get variables
 $r = mysql_query($browser_stats_sql);
 if (mysql_num_rows($r) < 1) {
-    echo "['No Responses Yet', 100]";
+    echo "['No Responses Yet', 0]";
 } else {
     $r = mysql_query($browser_stats_sql);
     while ($ra = mysql_fetch_assoc($r)) {
