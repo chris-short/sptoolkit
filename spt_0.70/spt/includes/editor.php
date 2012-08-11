@@ -2,7 +2,7 @@
 
 /**
  * file:    editor.php
- * version: 17.0
+ * version: 18.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -24,6 +24,14 @@
  * */
 //determine if data is posted
 if ( $_POST ) {
+    // verify user is an admin
+    $includeContent = "../includes/is_admin.php";
+    if ( file_exists ( $includeContent ) ) {
+        require_once $includeContent;
+    } else {
+        echo "stop";
+        exit;
+    }
     //validate that the type is specified
     if ( ! isset ( $_POST['type'] ) ) {
         $_SESSION['alert_message'] = "please specify a type when saving content from the editor";
