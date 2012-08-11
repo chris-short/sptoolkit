@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 39.0
+ * version: 40.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -307,6 +307,11 @@ if ( file_exists ( $includeContent ) ) {
                         <td><a href=\"delete_metric.php?m=" . $ra['field_name'] . "\"><img src=\"../images/table_delete_sm.png\" alt=\"delete\" /></a></td>
                     </tr>";
                     }
+                    ?>
+                    <?php
+                        if ( isset ( $_SESSION['alert_message'] ) ) {
+                            echo "<tr><td colspan=3 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
+                        }
                     ?>
                     <tr>
                         <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/accept.png" alt="accept" /></a></td>

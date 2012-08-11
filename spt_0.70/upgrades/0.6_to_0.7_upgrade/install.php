@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 25.0
+ * version: 26.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -226,11 +226,12 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     array_push($failures, checkVersion("modules/module_upload.php", "13.0"));    
     array_push($failures, checkVersion("quickstart/index.php", "13.0"));
     array_push($failures, checkVersion("quickstart/spt_quickstart.css", "4.0"));
-    array_push($failures, checkVersion("targets/index.php", "39.0"));
+    array_push($failures, checkVersion("targets/index.php", "40.0"));
     array_push($failures, checkVersion("targets/target_upload_batch.php", "23.0"));
     array_push($failures, checkVersion("targets/target_upload_single.php", "18.0"));
     array_push($failures, checkVersion("targets/update_metrics_name.php", "1.0"));
     array_push($failures, checkVersion("targets/update_metrics.php", "2.0"));
+    array_push($failures, checkVersion("targets/add_metric.php", "4.0"));    
     array_push($failures, checkVersion("templates/copy_template.php", "1.0"));
     array_push($failures, checkVersion("templates/delete_template.php", "9.0"));
     array_push($failures, checkVersion("templates/index.php", "39.0"));
