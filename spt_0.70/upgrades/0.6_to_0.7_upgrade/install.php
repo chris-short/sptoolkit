@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 26.0
+ * version: 27.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -179,7 +179,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     array_push($failures, checkVersion("index.php", "23.0"));
     array_push($failures, checkVersion("campaigns/campaigns_export.php", "8.0"));
     array_push($failures, checkVersion("campaigns/config_shorten.php", "2.0"));
-    array_push($failures, checkVersion("campaigns/index.php", "52.0"));
+    array_push($failures, checkVersion("campaigns/index.php", "53.0"));
     array_push($failures, checkVersion("campaigns/response.php", "7.0"));
     array_push($failures, checkVersion("campaigns/send_emails.php", "18.0"));
     array_push($failures, checkVersion("campaigns/spt_campaigns.css", "12.0"));
