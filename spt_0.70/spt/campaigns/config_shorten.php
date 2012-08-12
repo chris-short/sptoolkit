@@ -2,7 +2,7 @@
 
 /**
  * file:    config_shorten.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Campaign management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -28,6 +28,14 @@ if ( file_exists ( $includeContent ) ) {
     require_once $includeContent;
 } else {
     header ( 'location:../errors/404_is_authenticated.php' );
+}
+
+// verify user is an admin
+$includeContent = "../includes/is_admin.php";
+if ( file_exists ( $includeContent ) ) {
+    require_once $includeContent;
+} else {
+    header ( 'location:../errors/404_is_admin.php' );
 }
 
 //get posted api value for google and write to or update database

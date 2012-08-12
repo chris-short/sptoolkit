@@ -178,7 +178,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     //Check these files using the function above
     array_push($failures, checkVersion("index.php", "23.0"));
     array_push($failures, checkVersion("campaigns/campaigns_export.php", "8.0"));
-    array_push($failures, checkVersion("campaigns/config_shorten.php", "1.0"));
+    array_push($failures, checkVersion("campaigns/config_shorten.php", "2.0"));
     array_push($failures, checkVersion("campaigns/index.php", "52.0"));
     array_push($failures, checkVersion("campaigns/response.php", "7.0"));
     array_push($failures, checkVersion("campaigns/send_emails.php", "18.0"));
