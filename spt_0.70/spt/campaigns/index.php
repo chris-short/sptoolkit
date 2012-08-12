@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 52.0
+ * version: 53.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -469,15 +469,17 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
 
                     if ( isset ( $_REQUEST['c'] ) ) {
                         //get basic campaign data
-                        $r2 = mysql_query ( "SELECT date_sent, date_ended, campaign_name, domain_name, education_id, template_id, education_timing, shorten FROM campaigns WHERE id = '$campaign_id'" );
+                        $r2 = mysql_query ( "SELECT relay_host, relay_port, date_sent, date_ended, campaign_name, domain_name, education_id, template_id, education_timing, shorten FROM campaigns WHERE id = '$campaign_id'" );
                         while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
                             $date_sent = $ra2['date_sent'];
                             $date_ended = $ra2['date_ended'];
                             $campaign_name = $ra2['campaign_name'];
-                            $formulated_url = "http://" . $ra2['domain_name'] . "/campaigns/response.php?r=response_key";
+                            $phishing_domain = $ra2['domain_name'];
                             $shorten = $ra2['shorten'];
                             $education_id = $ra2['education_id'];
                             $template_id = $ra2['template_id'];
+                            $relay_host = $ra2['relay_host'];
+                            $relay_port = $ra2['relay_port'];
                             $education_timing = $ra2['education_timing'];
                             if ( $education_timing == 1 ) {
                                 $education = "On Link Click";
@@ -547,23 +549,15 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                 <tr>
                     <td>Template</td>
                     <td><a href=\"../templates/" . $template_id . "\" target=\"_blank\">" . $template_name . "</a></td>
-                </tr>
-                <tr>
-                    <td>Phishing URL</td>
-                    <td>" . $formulated_url . "</td>
-                </tr>
-                <tr>
-                    <td>Shortener Used</td>
-                    <td>" . $shorten . "</td>
                 </tr>";
+               
+            if ( $education_id != 0 ) {
+                $r3 = mysql_query ( "SELECT name FROM education WHERE id = '$education_id'" );
+                while ( $ra3 = mysql_fetch_assoc ( $r3 ) ) {
+                    $education_name = $ra3['name'];
+                }
 
-                        if ( $education_id != 0 ) {
-                            $r3 = mysql_query ( "SELECT name FROM education WHERE id = '$education_id'" );
-                            while ( $ra3 = mysql_fetch_assoc ( $r3 ) ) {
-                                $education_name = $ra3['name'];
-                            }
-
-                            echo "
+            echo "
                 <tr>
                     <td>Education Package</td>
                     <td><a href=\"../education/" . $education_id . "\" target=\"_blank\">" . $education_name . "</a></td>
@@ -576,10 +570,31 @@ if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                             echo "
                 <tr>
                     <td>Education</td>
-                    <td>None</td>
+                    <td>none</td>
                 </tr>";
                         }
-                        echo "
+            echo "
+                <tr>
+                    <td>Phishing Domain</td>
+                    <td>" . $phishing_domain . "</td>
+                </tr>
+                <tr>
+                    <td>Relay</td>";
+                    if ( strlen($relay_host) > 1 ) {
+                        echo "<td>".$relay_host;
+                        if(strlen($relay_port) > 1) {
+                            echo ":".$relay_port;
+                        }
+                        echo "</td>";
+                    }else{
+                        echo "<td>none</td>";
+                    }
+
+                echo "
+                <tr>
+                    <td>Shortener Used</td>
+                    <td>" . $shorten . "</td>
+                </tr>
             </table>
             <br />
             <table id=\"response_table\">

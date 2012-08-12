@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 26.0
+ * version: 30.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -75,8 +75,9 @@ if (!isset($_SESSION['install_status']) && !isset($_POST['step1'])) {
                 <ul>
                     <li><strong>Backup your database BEFORE continuing!</strong></li>
                     <li>Existing template email.php files will not work in this release due to changes in code structure.  Scrape your templates again or see article <a href=\"http://www.sptoolkit.com/documentation/204-the-email-php-file/\" target=\"_blank\">204: The email.php file</a> for more information.</li>
-                    <li>All existing education packaged and templates will be left installed, but will be replaced with new 0.70 versions.  You may want to delete your old education and templates once you have copied any customizations into the new education and templates.  Existing education packages will not have the ability to track training completion.</li>
+                    <li>All existing education packages and templates will be left installed, but will be replaced with new 0.70 versions.  You may want to delete your old education and templates once you have copied any customizations into the new education and templates.  Existing education packages will not have the ability to track training completion.</li>
                     <li>Inline education on the Quick Start templates (education that occured without selecting an education package at campaign start) has been eliminated so that education completion tracking can occur.</li>
+                    <li>If you had the Editor module installed previously, you can uninstall it after the upgrade.  There are now both graphical and text based editing methods available in the Templates and Education modules directly.
                 </ul>
                 <input type=\"hidden\" name=\"step1\" value=\"complete\" />
                 <input type=\"submit\" value=\"Begin!\" />
@@ -178,8 +179,8 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 2) {
     //Check these files using the function above
     array_push($failures, checkVersion("index.php", "23.0"));
     array_push($failures, checkVersion("campaigns/campaigns_export.php", "8.0"));
-    array_push($failures, checkVersion("campaigns/config_shorten.php", "1.0"));
-    array_push($failures, checkVersion("campaigns/index.php", "52.0"));
+    array_push($failures, checkVersion("campaigns/config_shorten.php", "2.0"));
+    array_push($failures, checkVersion("campaigns/index.php", "53.0"));
     array_push($failures, checkVersion("campaigns/response.php", "7.0"));
     array_push($failures, checkVersion("campaigns/send_emails.php", "18.0"));
     array_push($failures, checkVersion("campaigns/spt_campaigns.css", "12.0"));
@@ -453,7 +454,7 @@ if (isset($_SESSION['install_status']) && $_SESSION['install_status'] == 3) {
     mysql_query($sql) or die(mysql_error());
     $sql = "INSERT INTO templates (name, description) VALUES ('[QST12 v0.70] 419 scam','An email from a Scottish lawyer wanting help in moving millions of dollars...legally of course.  [Email template only, no web site]')";
     mysql_query($sql) or die(mysql_error());
-    $sql = "INSERT INTO templates (name, description) VALUES ('OWA 2010 login','A hand crafted copy of the Outlook Web App 2010 login page that uses no content from original OWA login page.  If you chose to not educate, this tempalte comes with different return.htm pages, just rename them to change the return page displayed to the target once they submit the form. ')";
+    $sql = "INSERT INTO templates (name, description) VALUES ('[QST13 v0.70] OWA 2010 login','A hand crafted copy of the Outlook Web App 2010 login page that uses no content from original OWA login page.  If you chose to not educate, this template comes with different return.htm pages, just rename them to change the return page displayed to the target once they submit the form. ')";
     mysql_query($sql) or die(mysql_error());
 
 
