@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -58,8 +58,8 @@ mysql_query ( $sql ) or die ( mysql_error () );
 $sql = "
     CREATE TABLE `settings` (
         `setting` varchar(255) NOT NULL,
-        `value` varchar(255) NOT NULL,
-        )";
+        `value` varchar(255) NOT NULL
+    )";
 
 mysql_query ( $sql ) or die ( mysql_error () );
 
