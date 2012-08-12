@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 29.0
+ * version: 30.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Upgrade (0.6 - 0.7)
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -77,6 +77,7 @@ if (!isset($_SESSION['install_status']) && !isset($_POST['step1'])) {
                     <li>Existing template email.php files will not work in this release due to changes in code structure.  Scrape your templates again or see article <a href=\"http://www.sptoolkit.com/documentation/204-the-email-php-file/\" target=\"_blank\">204: The email.php file</a> for more information.</li>
                     <li>All existing education packages and templates will be left installed, but will be replaced with new 0.70 versions.  You may want to delete your old education and templates once you have copied any customizations into the new education and templates.  Existing education packages will not have the ability to track training completion.</li>
                     <li>Inline education on the Quick Start templates (education that occured without selecting an education package at campaign start) has been eliminated so that education completion tracking can occur.</li>
+                    <li>If you had the Editor module installed previously, you can uninstall it after the upgrade.  There are now both graphical and text based editing methods available in the Templates and Education modules directly.
                 </ul>
                 <input type=\"hidden\" name=\"step1\" value=\"complete\" />
                 <input type=\"submit\" value=\"Begin!\" />
