@@ -2,9 +2,9 @@
 
 /**
  * file:    module_upload.php
- * version: 13.0
+ * version: 14.0
  * package: Simple Phishing Toolkit (spt)
- * component:	Module management
+ * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
@@ -109,7 +109,7 @@ $module_upgrade = ($matches[1]);
 
 //alert if there is a module with the same name or path and this is not specified as an upgrade
 if ( $module_upgrade != 1 ) {
-    $r = mysql_query ( "SELECT name, directory_name FROM modules WHERE name ='$module_name' OR directory_name = '$module_path'" ) or die ( mysql_error () );
+    $r = mysql_query ( "SELECT name, directory_name FROM settings_modules WHERE name ='$module_name' OR directory_name = '$module_path'" ) or die ( mysql_error () );
     if ( mysql_num_rows ( $r ) > 0 ) {
         $_SESSION['alert_message'] = "There is already a module with the same name or stored in the same directory as the module you are trying to upload.  If this is an upgrade, please specify it as such.";
         header ( 'location:./#add_module' );

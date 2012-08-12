@@ -2,9 +2,9 @@
 
 /**
  * file:    index.php
- * version: 14.0
+ * version: 15.0
  * package: Simple Phishing Toolkit (spt)
- * component:	Module management
+ * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
@@ -35,7 +35,7 @@ if ( file_exists ( $includeContent ) ) {
 <!DOCTYPE HTML> 
 <html>
     <head>
-        <title>spt - modules</title>
+        <title>spt - settings</title>
         <!--meta-->
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="description" content="welcome to spt - simple phishing toolkit.  spt is a super simple but powerful phishing toolkit." />
@@ -43,7 +43,7 @@ if ( file_exists ( $includeContent ) ) {
         <link rel="shortcut icon" href="../images/favicon.ico" />
         <!--css-->
         <link rel="stylesheet" href="../includes/spt.css" type="text/css" />
-        <link rel="stylesheet" href="spt_modules.css" type="text/css" />
+        <link rel="stylesheet" href="spt_settings.css" type="text/css" />
         <!--scripts-->
         <script type="text/javascript" src="../includes/escape.js"></script>
 
@@ -115,7 +115,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
 include "../spt_config/mysql_config.php";
 
 //pull in all installed modules from the modules table
-$r = mysql_query ( 'SELECT * FROM modules ORDER BY core, name' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+$r = mysql_query ( 'SELECT * FROM settings_modules ORDER BY core, name' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     echo "
                     <tr>\n
@@ -126,7 +126,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $t = $ra['name'];
 
     //query for module dependencies
-    $r2 = mysql_query ( "SELECT * FROM modules_dependencies WHERE module = '$t'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+    $r2 = mysql_query ( "SELECT * FROM settings_modules_dependencies WHERE module = '$t'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
     while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
         echo $ra2['depends_on'] . "<br />";
     }
@@ -136,7 +136,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         <td class=\"td_center\">";
 
     //check to see if the module is a core component or not and if there are any dependencies
-    $r3 = mysql_query ( "SELECT * FROM modules_dependencies WHERE depends_on = '$t'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+    $r3 = mysql_query ( "SELECT * FROM settings_modules_dependencies WHERE depends_on = '$t'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
     if ( mysql_num_rows ( $r3 ) > 0 || $ra['core'] == 1 ) {
         echo "--";
     } else {
