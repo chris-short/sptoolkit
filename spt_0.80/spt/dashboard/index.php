@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 25.0
+ * version: 26.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -33,8 +33,6 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
 } else {
     $request_protocol = "http";
 }
-//exclude Twitter feed ( 0 = display, 1 = exclude )
-$exclude_twitter = 0;
 ?>
 
 <!DOCTYPE HTML> 
@@ -725,57 +723,56 @@ echo "</div>";
                         <tr>
                             <td colspan="2"><h3>@sptookit on Twitter</h3></td>
                             <td style="text-align: right;">
-                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>You can disable the Twitter feed if you want to by editing the value of the <strong>$exclude_twitter</strong> variable in the <strong>/dashboard/index.php</strong> file.<br /><br />The default value is set to 0, which enables the feed.<br />Change value to 1 and save the file to disable the feed.<br /><br />This setting will be controlled via a "Settings" module in a future release of the spt.</span></a>
+                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>You can enable or disable the Twitter feed in the Settings module.</span></a>
                             </td>
                         </tr>                        
                         <tr>
                             <td colspan="3">
 <?php
-//EER twitter opt-out
-if ($exclude_twitter == 1) {
-    echo "Twitter feed has been disabled using the 'exclude_twitter' variable.";
-    echo "<!--";
+//connect to database
+include ('../spt_config/mysql_config.php');
+//determine if twitter is enabled or disabled
+$r = mysql_query("SELECT value FROM settings WHERE setting = 'twitter_enable'");
+while($ra = mysql_fetch_assoc($r)){
+    $twitter_enable = $ra['value'];
+}
+//echo twitter feed or not
+if ($twitter_enable == 1) {
+    echo "
+            <script charset=\"utf-8\" src=\"".$request_protocol."://widgets.twimg.com/j/2/widget.js\"></script>
+            <script>
+                new TWTR.Widget({
+                    version: 2,
+                    type: 'profile',
+                    rpp: 10,
+                    interval: 30000,
+                    width: 700,
+                    height: 100,
+                    theme: {
+                        shell: {
+                            background: '#ffffff',
+                            color: '#000000'
+                        },
+                        tweets: {
+                            background: '#ffffff',
+                            color: '#000000',
+                            links: '#a3a3a3'
+                        }
+                    },
+                    features: {
+                        scrollbar: true,
+                        loop: false,
+                        live: true,
+                        behavior: 'all'
+                    }
+                }).render().setUser('sptoolkit').start();
+            </script>    
+        </td>    
+    </tr>";
+}else{
+    echo "Twitter feed has been disabled. Enable in the Settings module.";
 }
 ?>
-
-                                <script charset="utf-8" src="<?php echo $request_protocol ?>://widgets.twimg.com/j/2/widget.js"></script>
-                                <script>
-                                    new TWTR.Widget({
-                                        version: 2,
-                                        type: 'profile',
-                                        rpp: 10,
-                                        interval: 30000,
-                                        width: 700,
-                                        height: 100,
-                                        theme: {
-                                            shell: {
-                                                background: '#ffffff',
-                                                color: '#000000'
-                                            },
-                                            tweets: {
-                                                background: '#ffffff',
-                                                color: '#000000',
-                                                links: '#a3a3a3'
-                                            }
-                                        },
-                                        features: {
-                                            scrollbar: true,
-                                            loop: false,
-                                            live: true,
-                                            behavior: 'all'
-                                        }
-                                    }).render().setUser('sptoolkit').start();
-                                </script>    
-                            </td>    
-                        </tr>
-
-<?php
-//EER twitter opt-out
-if ($exclude_twitter == 1) {
-    echo "-->";
-}
-?>
-
                     </table>
                 </div>
 

@@ -22,7 +22,7 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#add_module
+#add_module, #twitter
 {
     position: fixed;
     top: 0;
@@ -35,7 +35,7 @@
     z-index: 101;
 }
 
-#add_module div
+#add_module div, #twitter div
 {
     margin: auto;
     background-color: #fff;
@@ -48,7 +48,7 @@
     display: inline-block;
 }
 
-#add_module:target
+#add_module:target, #twitter:target
 {
     display: block;
 }

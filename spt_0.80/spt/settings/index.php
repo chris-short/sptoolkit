@@ -2,10 +2,10 @@
 
 /**
  * file:    index.php
- * version: 15.0
+ * version: 16.0
  * package: Simple Phishing Toolkit (spt)
- * component:	Settings
- * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
+ * component:   Settings
+ * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
@@ -52,7 +52,7 @@ if ( file_exists ( $includeContent ) ) {
         <div id="wrapper">
 
             <!--sidebar-->
-<?php include '../includes/sidebar.php'; ?>					
+<?php include '../includes/sidebar.php'; ?>                 
 
             <!--content-->
             <div id="content">
@@ -86,6 +86,46 @@ if ( file_exists ( $includeContent ) ) {
                         </form>
                     </div>
                 </div>
+                <div id="twitter">
+                    <div>
+                        <form action="update_twitter.php" method="post" enctype="multipart/form-data">
+                            <table id="update_twitter">
+                                <tr>
+                                    <td style="text-align: left;"><h3>Twitter Preference</h3></td>
+                                    <td style="text-align: right;">
+                                        <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Choose to disable or enable the twitter feed on the home page.</span></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Enable?</td>
+                                    <td>
+                                        <input type="checkbox" name="twitter_enable" value="yes" <?php 
+                                            include('../spt_config/mysql_config.php');
+                                            $r = mysql_query('SELECT value FROM settings WHERE setting = "twitter_enable"');
+                                            while($ra = mysql_fetch_assoc($r)){
+                                                if($ra['value'] == 1){
+                                                    echo "CHECKED";
+                                                }
+                                            }
+                                        ?> />
+                                    </td>
+                                </tr>
+                                <?php
+                                    if(isset($_SESSION['alert_message'])){
+                                        echo "
+                                            <tr>
+                                                <td colspan=2 class=\"popover_alert_message\" >".$_SESSION['alert_message']."</td>
+                                            </tr>";
+                                    }
+                                ?>
+                            <tr>
+                                <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                            </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+
 <?php
 //check to see if there are any alerts
 if ( isset ( $_SESSION['alert_message'] ) ) {
@@ -103,6 +143,8 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
 }
 ?>
                 <span class="button"><a href="#add_module"><img src="../images/package_add_sm.png" alt="add" /> Module</a></span>
+                <span class="button"><a href="#twitter"><img src="../images/twitter_sm.png" alt="add" /> witter</a></span>
+
                 <table id="installed_module_list" class="spt_table">
                     <tr>
                         <td><h3>Name</h3></td>
