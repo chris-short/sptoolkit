@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 16.0
+ * version: 17.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -97,8 +97,7 @@ if ( file_exists ( $includeContent ) ) {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Enable?</td>
-                                    <td>
+                                    <td>Enable?&nbsp;&nbsp;
                                         <input type="checkbox" name="twitter_enable" value="yes" <?php 
                                             include('../spt_config/mysql_config.php');
                                             $r = mysql_query('SELECT value FROM settings WHERE setting = "twitter_enable"');

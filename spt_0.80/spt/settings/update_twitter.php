@@ -2,7 +2,7 @@
 
 /**
  * file:    update_twitter.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,7 +41,7 @@ if ( file_exists ( $includeContent ) ) {
 //check to see if something was posted
 if($_POST){
     //if value is yes
-    if($_POST['twitter_enable'] == "yes" ){
+    if(isset($_POST['twitter_enable']) && $_POST['twitter_enable'] == "yes" ){
         $twitter_value = 1;
     }else{
         $twitter_value = 0;

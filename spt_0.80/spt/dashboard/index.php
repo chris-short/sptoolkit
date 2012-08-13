@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 26.0
+ * version: 27.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -722,9 +722,6 @@ echo "</div>";
                     <table id="twitter_feed">
                         <tr>
                             <td colspan="2"><h3>@sptookit on Twitter</h3></td>
-                            <td style="text-align: right;">
-                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>You can enable or disable the Twitter feed in the Settings module.</span></a>
-                            </td>
                         </tr>                        
                         <tr>
                             <td colspan="3">
