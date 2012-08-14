@@ -1,7 +1,7 @@
 /*css - modules*/
 /**
  * file:    spt_modules.css
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -61,5 +61,28 @@
 #module_description
 {
     width:250px;
+    text-align:left;
+}
+
+.spt_table_header{
+    margin:15px;
+    height:35px;
+    border-bottom: dashed;
+    border-width: 1px;
+    border-color: #bbb;
+}
+
+.spt_table_header h1 {
+    float: left;
+    margin-left:20px;
+}
+
+.spt_table_header img{
+    float: right;
+    display: block;
+    margin-right:20px;
+    margin-top:5px;
+}
+#general_table td{
     text-align:left;
 }

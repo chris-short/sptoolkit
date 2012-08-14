@@ -2,7 +2,7 @@
 
 /**
  * file:    update_twitter.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -50,10 +50,5 @@ if($_POST){
     include "../spt_config/mysql_config.php";
     //update value in database
     mysql_query("UPDATE settings SET value = '$twitter_value' WHERE setting = 'twitter_enable'");
-    //set alert message and send them back
-    $_SESSION['alert_message'] = "Your twitter preference has been updated!";
-    header ( 'location:./#alert' );
-    exit;
-
 }
 ?>

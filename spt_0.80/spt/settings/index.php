@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 17.0
+ * version: 18.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -46,7 +46,39 @@ if ( file_exists ( $includeContent ) ) {
         <link rel="stylesheet" href="spt_settings.css" type="text/css" />
         <!--scripts-->
         <script type="text/javascript" src="../includes/escape.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script>
+            $(function() {
+                $('.modules_toggle').click(function() {
+                    $('#installed_module_list').slideToggle('fast');
+                    return false;
+                });
+                $('.modules_toggle').click(function() {
+                    $('.modules_toggle_image').toggle('fast');
+                    return false;
+                });
+                $('.general_toggle').click(function() {
+                    $('#general_table').slideToggle('fast');
+                    return false;
+                });
+                $('.general_toggle').click(function() {
+                    $('.general_toggle_image').toggle('fast');
+                    return false;
+                });
+            });
+        </script>
+        <script language="Javascript" type="text/javascript">
+            function updateTwitter(value) 
+            { 
+                //begin new request
+                xmlhttp = new XMLHttpRequest();
 
+                //send update request
+                xmlhttp.open("POST","update_twitter.php",false);
+                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlhttp.send("twitter_enable="+value);                  
+            }
+        </script>
     </head>
     <body>
         <div id="wrapper">
@@ -86,45 +118,6 @@ if ( file_exists ( $includeContent ) ) {
                         </form>
                     </div>
                 </div>
-                <div id="twitter">
-                    <div>
-                        <form action="update_twitter.php" method="post" enctype="multipart/form-data">
-                            <table id="update_twitter">
-                                <tr>
-                                    <td style="text-align: left;"><h3>Twitter Preference</h3></td>
-                                    <td style="text-align: right;">
-                                        <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Choose to disable or enable the twitter feed on the home page.</span></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Enable?&nbsp;&nbsp;
-                                        <input type="checkbox" name="twitter_enable" value="yes" <?php 
-                                            include('../spt_config/mysql_config.php');
-                                            $r = mysql_query('SELECT value FROM settings WHERE setting = "twitter_enable"');
-                                            while($ra = mysql_fetch_assoc($r)){
-                                                if($ra['value'] == 1){
-                                                    echo "CHECKED";
-                                                }
-                                            }
-                                        ?> />
-                                    </td>
-                                </tr>
-                                <?php
-                                    if(isset($_SESSION['alert_message'])){
-                                        echo "
-                                            <tr>
-                                                <td colspan=2 class=\"popover_alert_message\" >".$_SESSION['alert_message']."</td>
-                                            </tr>";
-                                    }
-                                ?>
-                            <tr>
-                                <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
-                            </tr>
-                            </table>
-                        </form>
-                    </div>
-                </div>
-
 <?php
 //check to see if there are any alerts
 if ( isset ( $_SESSION['alert_message'] ) ) {
@@ -142,8 +135,42 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
 }
 ?>
                 <span class="button"><a href="#add_module"><img src="../images/package_add_sm.png" alt="add" /> Module</a></span>
-                <span class="button"><a href="#twitter"><img src="../images/twitter_sm.png" alt="add" /> witter</a></span>
+                <div class="spt_table_header">
+                    <h1>General</h1>
+                    <a href="#" class="general_toggle"><img class="general_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="general_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
+                </div>
+                <table id="general_table" class="spt_table">
+                    <tr>
+                        <td>Enable Twitter Feed</td>
+                        <td>
+                            
+                            <input type="checkbox" name="twitter_enable" style="text-align:left;" <?php 
+                                include('../spt_config/mysql_config.php');
+                                $r = mysql_query('SELECT value FROM settings WHERE setting = "twitter_enable"');
+                                while($ra = mysql_fetch_assoc($r)){
+                                    if($ra['value'] == 1){
+                                        echo "value=\"no\"";
+                                        echo "onchange=\"updateTwitter(this.value)\" ";
+                                        echo "CHECKED";
+                                    }else{
+                                        echo "value=\"yes\"";
+                                        echo "onchange=\"updateTwitter(this.value)\" ";
+                                    }
+                                }
+                            ?> />
+                        </td>
 
+                        <td style="text-align: right;">
+                            <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Choose to disable or enable the twitter feed on the home page.</span></a>
+                        </td>
+                    </tr>
+                    <tr>
+                    </tr>
+                </table>
+                <div class="spt_table_header">
+                    <h1>Modules</h1>
+                    <a href="#" class="modules_toggle"><img class="modules_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="modules_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
+                </div>
                 <table id="installed_module_list" class="spt_table">
                     <tr>
                         <td><h3>Name</h3></td>
