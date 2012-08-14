@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 18.0
+ * version: 19.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -134,7 +134,6 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
     echo "</div>";
 }
 ?>
-                <span class="button"><a href="#add_module"><img src="../images/package_add_sm.png" alt="add" /> Module</a></span>
                 <div class="spt_table_header">
                     <h1>General</h1>
                     <a href="#" class="general_toggle"><img class="general_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="general_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
@@ -171,6 +170,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                     <h1>Modules</h1>
                     <a href="#" class="modules_toggle"><img class="modules_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="modules_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
                 </div>
+                <span class="settings_button"><a href="#add_module"><img src="../images/package_add_sm.png" alt="add" /> Module</a></span>
                 <table id="installed_module_list" class="spt_table">
                     <tr>
                         <td><h3>Name</h3></td>
