@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 19.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -162,6 +162,9 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                         <td style="text-align: right;">
                             <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Choose to disable or enable the twitter feed on the home page.</span></a>
                         </td>
+                    </tr>
+                    <tr>
+                        <td><a href="../includes/backup_db.php">Backup Database</a></td>
                     </tr>
                     <tr>
                     </tr>
