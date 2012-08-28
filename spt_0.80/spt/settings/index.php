@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 20.0
+ * version: 21.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -74,11 +74,11 @@ if ( file_exists ( $includeContent ) ) {
                 xmlhttp = new XMLHttpRequest();
 
                 //send update request
-                xmlhttp.open("POST","update_twitter.php",false);
+                xmlhttp.open("POST","update_twitter.php",true);
                 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 xmlhttp.send("twitter_enable="+value);                  
             }
-        </script>
+        </script>        
     </head>
     <body>
         <div id="wrapper">
@@ -164,9 +164,17 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                         </td>
                     </tr>
                     <tr>
-                        <td><a href="../includes/backup_db.php">Backup Database</a></td>
+                        <td>Backup Database</td>
+                        <td><a href="backup_db.php">Download</a></td>
                     </tr>
                     <tr>
+                        <td>Restore Database</td>
+                        <td>
+                            <form action="restore_db.php" method="post" enctype="multipart/form-data" >
+                                <input type="file" name="file" />
+                                <input type="submit" value="Restore Now" />
+                            </form>
+                        </td>
                     </tr>
                 </table>
                 <div class="spt_table_header">
