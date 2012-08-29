@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 22.0
+ * version: 23.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -68,27 +68,15 @@ if ( file_exists ( $includeContent ) ) {
             });
         </script>
         <script language="Javascript" type="text/javascript">
-            function updateTwitter(value) 
+            function updateSetting(setting,value) 
             { 
                 //begin new request
                 xmlhttp = new XMLHttpRequest();
 
                 //send update request
-                xmlhttp.open("POST","update_twitter.php",true);
+                xmlhttp.open("POST","update_setting.php",true);
                 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                xmlhttp.send("twitter_enable="+value);                  
-            }
-        </script>        
-        <script language="Javascript" type="text/javascript">
-            function updateTimeZone(value) 
-            { 
-                //begin new request
-                xmlhttp = new XMLHttpRequest();
-
-                //send update request
-                xmlhttp.open("POST","update_time_zone.php",true);
-                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                xmlhttp.send("tz="+value);                  
+                xmlhttp.send("setting="+setting+"&value="+value); 
             }
         </script>        
     </head>
@@ -161,11 +149,11 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                                 while($ra = mysql_fetch_assoc($r)){
                                     if($ra['value'] == 1){
                                         echo "value=\"no\"";
-                                        echo "onchange=\"updateTwitter(this.value)\" ";
+                                        echo "onchange=\"updateSetting('twitter',this.value)\" ";
                                         echo "CHECKED";
                                     }else{
                                         echo "value=\"yes\"";
-                                        echo "onchange=\"updateTwitter(this.value)\" ";
+                                        echo "onchange=\"updateSetting('twitter',this.value)\" ";
                                     }
                                 }
                             ?> />
@@ -206,7 +194,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                                     $tz = $ra['value'];
                                 }
                             ?>
-                                <select name="timezones" onchange="updateTimeZone(this.value)">
+                                <select name="timezones" onchange="updateSetting('timezone',this.value)">
                                     <option value="-12.0" <?php if($tz == "-12.0"){echo "SELECTED";} ?>>(GMT -12:00) Eniwetok, Kwajalein</option>
                                     <option value="-11.0" <?php if($tz == "-11.0"){echo "SELECTED";} ?>>(GMT -11:00) Midway Island, Samoa</option>
                                     <option value="-10.0" <?php if($tz == "-10.0"){echo "SELECTED";} ?>>(GMT -10:00) Hawaii</option>
@@ -242,6 +230,25 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                         </td>
                     </tr>
                 </table>
+                <div class="spt_table_header">
+                    <h1>APIs</h1>
+                    <a href="#" class="api_toggle"><img class="api_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="api_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
+                </div>
+                <table id="api_table" class="spt_table">
+                    <tr>
+                        <td>Google API Key</td>
+                        <td><input type="text" name="google_api_key" <?php
+                            //connect to database
+                            include '../spt_config/mysql_config.php';
+                            //get current API value
+                            $r = mysql_query("SELECT value FROM settings WHERE setting = 'google_api'");
+                            while ($ra = mysql_fetch_assoc($r)){
+                                $api_key = $ra['value'];
+                                echo "value=\"".$api_key."\" ";
+                            }
+                        ?>size="80" onchange="updateSetting('google_api',this.value)"/></td>
+                    </tr>
+                </table>                
                 <div class="spt_table_header">
                     <h1>Modules</h1>
                     <a href="#" class="modules_toggle"><img class="modules_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="modules_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
