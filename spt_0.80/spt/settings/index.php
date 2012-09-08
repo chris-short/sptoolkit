@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 24.0
+ * version: 25.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -73,6 +73,14 @@ if ( file_exists ( $includeContent ) ) {
                     $('.smtp_toggle_image').toggle('fast');
                     return false;
                 });
+                $('.ldap_toggle').click(function() {
+                    $('#ldap_table').slideToggle('fast');
+                    return false;
+                });
+                $('.ldap_toggle').click(function() {
+                    $('.ldap_toggle_image').toggle('fast');
+                    return false;
+                });
                 $('.api_toggle').click(function() {
                     $('#api_table').slideToggle('fast');
                     return false;
@@ -94,18 +102,6 @@ if ( file_exists ( $includeContent ) ) {
                 xmlhttp.open("POST","update_setting.php",true);
                 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 xmlhttp.send("setting="+setting+"&value="+value); 
-            }
-        </script> 
-        <script language="Javascript" type="text/javascript">
-            function deleteSMTP(smtp) 
-            { 
-                //begin new request
-                xmlhttp = new XMLHttpRequest();
-
-                //send update request
-                xmlhttp.open("POST","delete_smtp.php",true);
-                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                xmlhttp.send("smtp="+smtp); 
             }
         </script> 
     </head>
@@ -307,6 +303,54 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                             }else{}
                             echo "</td>
                             <td><a href=\"delete_smtp.php?smtp=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a></td>
+                                </tr>
+                            ";
+                        }
+                    ?>
+                </table>  
+                <div class="spt_table_header">
+                    <h1>LDAP Servers</h1>
+                    <a href="#" class="ldap_toggle"><img class="ldap_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="ldap_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
+                </div>
+                <table id="ldap_table" class="spt_table">
+                    <tr>
+                        <td>Host</td>
+                        <td>Port</td>
+                        <td>SSL?</td>
+                        <td>Username</td>
+                        <td>Password</td>
+                        <td><a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Add new LDAP servers to be used in target management, spt users, etc.</span></a></td>
+                    </tr>
+                    <tr>
+                        <form method="POST" action="ldap_add.php" />
+                            <td><input type="text" name="host" size="20" /></td>
+                            <td><input type="text" name="port" size="6" /></td>
+                            <td><input type="checkbox" name="ssl" /></td>
+                            <td><input type="text" name="username" size="15" /></td>
+                            <td><input type="password" name="password" size="15" /></td>
+                            <td><input type="image" src="../images/add_sm.png" alt="add" class="invisible_input" /></td>
+                        </form>
+                    </tr>
+                    <tr><td><br /></td></tr>
+                    <?php
+                        //get all existing ldap Servers
+                        $r = mysql_query("SELECT value FROM settings WHERE setting = 'ldap'");
+                        while ($ra = mysql_fetch_assoc($r)){
+                            $ldap_setting = explode("|",$ra['value']);
+                            echo "
+                                <tr>
+                                    <td>".$ldap_setting[0]."</td>
+                                    <td>".$ldap_setting[1]."</td>
+                                    <td>".$ldap_setting[2]."</td>
+                                    <td>".$ldap_setting[3]."</td>
+                                    <td>";
+                            if(strlen($ldap_setting[4]) > 0){
+                                echo "********";
+                            }else{}
+                            echo "</td>
+                                    <td>";
+                            echo "</td>
+                            <td><a href=\"delete_ldap.php?ldap=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a></td>
                                 </tr>
                             ";
                         }

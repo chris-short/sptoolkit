@@ -1,7 +1,7 @@
 <?php
 
 /**
- * file:    delete_smtp.php
+ * file:    delete_ldap.php
  * version: 1.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
@@ -39,15 +39,15 @@ if ( file_exists ( $includeContent ) ) {
 }
 
 //check to see if something was posted
-if($_GET['smtp']){
+if($_GET['ldap']){
     //if value is yes
-    if(isset($_GET['smtp'])){
-        $smtp_setting = $_GET['smtp'];
-        //validate the smtp setting is constructed correctly
-        if(substr_count($smtp_setting, '|') == 5){
+    if(isset($_GET['ldap'])){
+        $ldap_setting = $_GET['ldap'];
+        //validate the ldap setting is constructed correctly
+        if(substr_count($ldap_setting, '|') == 4){
             //connect to database
             include "../spt_config/mysql_config.php";
-            mysql_query("DELETE FROM settings WHERE value='$smtp_setting'");
+            mysql_query("DELETE FROM settings WHERE value='$ldap_setting'");
         }
     }
 }
