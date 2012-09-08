@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 23.0
+ * version: 24.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -65,6 +65,23 @@ if ( file_exists ( $includeContent ) ) {
                     $('.general_toggle_image').toggle('fast');
                     return false;
                 });
+                $('.smtp_toggle').click(function() {
+                    $('#smtp_table').slideToggle('fast');
+                    return false;
+                });
+                $('.smtp_toggle').click(function() {
+                    $('.smtp_toggle_image').toggle('fast');
+                    return false;
+                });
+                $('.api_toggle').click(function() {
+                    $('#api_table').slideToggle('fast');
+                    return false;
+                });
+                $('.api_toggle').click(function() {
+                    $('.api_toggle_image').toggle('fast');
+                    return false;
+                });
+
             });
         </script>
         <script language="Javascript" type="text/javascript">
@@ -78,7 +95,19 @@ if ( file_exists ( $includeContent ) ) {
                 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 xmlhttp.send("setting="+setting+"&value="+value); 
             }
-        </script>        
+        </script> 
+        <script language="Javascript" type="text/javascript">
+            function deleteSMTP(smtp) 
+            { 
+                //begin new request
+                xmlhttp = new XMLHttpRequest();
+
+                //send update request
+                xmlhttp.open("POST","delete_smtp.php",true);
+                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlhttp.send("smtp="+smtp); 
+            }
+        </script> 
     </head>
     <body>
         <div id="wrapper">
@@ -230,6 +259,59 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                         </td>
                     </tr>
                 </table>
+                <div class="spt_table_header">
+                    <h1>SMTP Servers</h1>
+                    <a href="#" class="smtp_toggle"><img class="smtp_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="smtp_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
+                </div>
+                <table id="smtp_table" class="spt_table">
+                    <tr>
+                        <td>Host</td>
+                        <td>Port</td>
+                        <td>SSL?</td>
+                        <td>Username</td>
+                        <td>Password</td>
+                        <td>Default?</td>
+                        <td><a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Add new SMTP servers to be used in campaigns.  Check default next to the SMTP configuration you want the system to use for password resets and other emails sent to administrators by the system.</span></a></td>
+                    </tr>
+                    <tr>
+                        <form method="POST" action="smtp_add.php" />
+                            <td><input type="text" name="host" size="20" /></td>
+                            <td><input type="text" name="port" size="6" /></td>
+                            <td><input type="checkbox" name="ssl" /></td>
+                            <td><input type="text" name="username" size="15" /></td>
+                            <td><input type="password" name="password" size="15" /></td>
+                            <td><input type="checkbox" name="default" /></td>
+                            <td><input type="image" src="../images/add_sm.png" alt="add" class="invisible_input" /></td>
+                        </form>
+                    </tr>
+                    <tr><td><br /></td></tr>
+                    <?php
+                        //get all existing SMTP Servers
+                        $r = mysql_query("SELECT value FROM settings WHERE setting = 'SMTP'");
+                        while ($ra = mysql_fetch_assoc($r)){
+                            $smtp_setting = explode("|",$ra['value']);
+                            echo "
+                                <tr>
+                                    <td>".$smtp_setting[0]."</td>
+                                    <td>".$smtp_setting[1]."</td>
+                                    <td>".$smtp_setting[2]."</td>
+                                    <td>".$smtp_setting[3]."</td>
+                                    <td>";
+                            if(strlen($smtp_setting[4]) > 0){
+                                echo "********";
+                            }else{}
+                            echo "</td>
+                                    <td>";
+                            if($smtp_setting[5] == "default"){
+                                echo "<img src=\"../images/accept_sm.png\" alt=\"default\" />";
+                            }else{}
+                            echo "</td>
+                            <td><a href=\"delete_smtp.php?smtp=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a></td>
+                                </tr>
+                            ";
+                        }
+                    ?>
+                </table>                
                 <div class="spt_table_header">
                     <h1>APIs</h1>
                     <a href="#" class="api_toggle"><img class="api_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="api_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
