@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 25.0
+ * version: 26.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -319,6 +319,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                         <td>SSL?</td>
                         <td>Username</td>
                         <td>Password</td>
+                        <td>Base DN</td>
                         <td><a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Add new LDAP servers to be used in target management, spt users, etc.</span></a></td>
                     </tr>
                     <tr>
@@ -328,6 +329,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                             <td><input type="checkbox" name="ssl" /></td>
                             <td><input type="text" name="username" size="15" /></td>
                             <td><input type="password" name="password" size="15" /></td>
+                            <td><input type="text" name="basedn" size="20" /></td>
                             <td><input type="image" src="../images/add_sm.png" alt="add" class="invisible_input" /></td>
                         </form>
                     </tr>
@@ -348,8 +350,7 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                                 echo "********";
                             }else{}
                             echo "</td>
-                                    <td>";
-                            echo "</td>
+                                    <td>".$ldap_setting[5]."</td>
                             <td><a href=\"delete_ldap.php?ldap=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a></td>
                                 </tr>
                             ";

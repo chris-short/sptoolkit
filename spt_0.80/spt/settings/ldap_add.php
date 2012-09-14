@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_add.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -76,8 +76,14 @@ if($_POST){
     }else{
         $password = "";
     }
+    //get base DN
+    if(isset($_POST['basedn'])){
+        $basedn = filter_var($_POST['basedn'], FILTER_SANITIZE_STRING);
+    }else{
+        $basedn = "";
+    }
     //formulate ldap server entry
-    $value = $host."|".$port."|".$ssl."|".$username."|".$password;
+    $value = $host."|".$port."|".$ssl."|".$username."|".$password."|".$basedn;
     //add ldap server details to database
     include "../spt_config/mysql_config.php";
     mysql_query("INSERT INTO settings VALUES('ldap','$value')");
