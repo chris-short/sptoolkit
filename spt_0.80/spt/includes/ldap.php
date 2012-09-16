@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Includes
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -24,48 +24,74 @@
  * */
 
 //ldap connect function
-function ldap_connection($ldap_server,$ldap_port,$ldap_user,$ldap_pass){
+function ldap_connection($ldap_server,$ldap_port){
     //setup connection
-    $ldap_conn = ldap_connect ($ldap_server,$ldap_port) or die("Could not connect");
+    $ldap_conn = ldap_connect ($ldap_server,$ldap_port);
     //set options
     ldap_set_option($ldap_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ldap_conn, LDAP_OPT_REFERRALS, 0);
-    //if connected bind
-    if($ldap_conn){
-        $ldap_r = ldap_bind($ldap_conn, $ldap_user, $ldap_pass);
-    }
+    //return connection
     return $ldap_conn;
 }
-
-//ldap group dump
-function ldap_cn_dump($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn){
-    $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_user,$ldap_pass);
-    $ldap_cn_dump = ldap_search($ldap_conn, $ldap_basedn, "cn=*");    
-    $ldap_cn_dump = ldap_get_entries($ldap_conn, $ldap_cn_dump);
-    return $ldap_cn_dump;
+//ldap bind function
+function ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass){
+    //if connected attempt bind
+    if($ldap_conn){
+        $ldap_bind = ldap_bind($ldap_conn, $ldap_user, $ldap_pass);
+    }
+    //return bind
+    return $ldap_bind;
 }
-
 //ldap group user dump
 function ldap_group_dump($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn){
+    //call connect function
     $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_user,$ldap_pass);
+    //call bind function
+    $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass);
+    //setup search filter for the data you want
+    $search = "(|(objectCategory=group)(ObjectClass=posixGroup)(ObjectClass=groupOfNames))";
+    //setup filter for what you want from your data
     $filter=array("displayName","objectclass", "cn");
-    $ldap_group_dump = ldap_search($ldap_conn, $ldap_basedn, "(|(objectCategory=group)(ObjectClass=posixGroup)(ObjectClass=groupOfNames))", $filter);    
+    //search
+    $ldap_group_dump = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
+    //get data
     $ldap_group_dump = ldap_get_entries($ldap_conn, $ldap_group_dump);
+    //return dump
     return $ldap_group_dump;
 }
-//ldap group user dump
+//ldap user dump
 function ldap_user_dump($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn){
+    //call connect function
     $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_user,$ldap_pass);
+    //call bind function
+    $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass);
+    //setup search filter for the data you want
+    $search = "(|(objectCategory=user)(ObjectClass=person))";
+    //setup filter for what you want from your data
     $filter=array("displayName","objectclass", "cn");
-    $ldap_user_dump = ldap_search($ldap_conn, $ldap_basedn, "(|(objectCategory=user)(ObjectClass=person))", $filter);    
+    //search
+    $ldap_user_dump = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
+    //get data
     $ldap_user_dump = ldap_get_entries($ldap_conn, $ldap_user_dump);
+    //return dump
     return $ldap_user_dump;
 }
-
-
-//ldap user/group validate
-function ldap_user_group_validate($ldap_user,$ldap_group){
-
+//ldap user dump for specific group
+function ldap_user_of_group($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_user,$ldap_group){
+    //call connect function
+    $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_user,$ldap_pass);
+    //call bind function
+    $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass);
+    //setup search filter for the data you want
+    $search = "(&(memberof=CN=".$ldap_group.")(|(objectCategory=user)(ObjectClass=person)))";
+    //setup filter for what you want from your data
+    $filter=array("displayName","objectclass", "cn");
+    //search
+    $ldap_user_dump = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
+    //get data
+    $ldap_user_dump = ldap_get_entries($ldap_conn, $ldap_user_dump);
+    //return dump
+    return $ldap_user_dump;
 }
 
 ?>

@@ -6,12 +6,20 @@
 				if(!$_GET['host']){
 					//connect to db
 					include '../spt_config/mysql_config.php';
+					//get ldap functions
+					include 'ldap.php';
 					//get ldap servers
 					$r = mysql_query("SELECT value FROM settings WHERE setting = 'ldap'");
 					while ($ra = mysql_fetch_assoc($r)){
-						$ldap_settings = explode("|",$ra['value']);
+						$ldap_settings = explode("|",$ra['value']);						
+						//connect
+						$conn_status = ldap_connection($ldap_settings[0],$ldap_settings[1]);
+						//bind
+						$bind_status = ldap_bind_connection($ldap_settings[0],$ldap_settings[1],$ldap_settings[3],$ldap_settings[4]);
 						echo "<li>".$ldap_settings[0]."</li>";
 						echo "<ul>";
+						echo "<li>Connection Status:".$conn_status."</li>";
+						echo "<li>Bind Status:".$bind_status."</li>";
 						echo "<li><a href=\"?type=group_dump&host=".$ldap_settings[0]."&port=".$ldap_settings[1]."&ssl=".$ldap_settings[2]."&username=".$ldap_settings[3]."&password=".$ldap_settings[4]."&basedn=".$ldap_settings[5]."\" >group dump</a></li>";
 						echo "<li><a href=\"?type=user_dump&host=".$ldap_settings[0]."&port=".$ldap_settings[1]."&ssl=".$ldap_settings[2]."&username=".$ldap_settings[3]."&password=".$ldap_settings[4]."&basedn=".$ldap_settings[5]."\" >user dump</a></li>";
 						echo "</ul>";
