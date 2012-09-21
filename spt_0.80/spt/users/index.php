@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 16.0
+ * version: 17.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -260,7 +260,76 @@ if ( isset ( $_REQUEST['u'] ) ) {
 }
 ?>
             </div>	
+
         </div>
+        
+        <div id="add_ldap_user">
+            <div>
+                <form id="add_ldap_user_form" method="post" action="add_ldap_user.php" >
+                    <table id="add_ldap_user_table">
+                        <tr>
+                            <td>LDAP Username</td>
+                            <td><input type="text" name="ldap_username" /></td>
+                        </tr>
+                        <tr>
+                            <td>LDAP Server</td>
+                            <td>
+                                <select name="ldap_server">
+                                    <?php
+                                        //connect to database
+                                        include "../spt_config/mysql_config.php";
+                                        //get all ldap servers
+                                        $r = mysql_query("SELECT value FROM settings WHERE setting='ldap'");
+                                        while($ra = mysql_fetch_assoc($r)){
+                                            //explode the ldap server
+                                            $ldap_server = explode("|",$ra['value']);
+                                            echo "<option value=\"".$ldap_server[0]."\">".$ldap_server[0]."</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div id="add_ldap_group">
+            <div>
+                <form id="add_ldap_group_form" method="post" action="add_ldap_group.php" >
+                    <table id="add_ldap_group_table">
+                        <tr>
+                            <td>LDAP Group Name</td>
+                            <td><input type="text" name="ldap_group" /></td>
+                        </tr>
+                        <tr>
+                            <td>LDAP Server</td>
+                            <td>
+                                <select name="ldap_server">
+                                    <?php
+                                        //connect to database
+                                        include "../spt_config/mysql_config.php";
+                                        //get all ldap servers
+                                        $r = mysql_query("SELECT value FROM settings WHERE setting='ldap'");
+                                        while($ra = mysql_fetch_assoc($r)){
+                                            //explode the ldap server
+                                            $ldap_server = explode("|",$ra['value']);
+                                            echo "<option value=\"".$ldap_server[0]."\">".$ldap_server[0]."</option>";
+                                        }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+
                 <?php
                 //check for alerts or notifications
                 if ( isset ( $_SESSION['alert_message'] ) ) {
@@ -286,10 +355,13 @@ if ( isset ( $_REQUEST['u'] ) ) {
             <!--content-->
             <div id="content">
                 <span class="button"><a href="#edit_user"><img src="../images/cog_edit_sm.png" alt="edit" /> <?php echo $_SESSION['username']; ?></a></span>
+
         <?php
         //check to see if user is admin give them additional options
         if ( isset ( $_SESSION['admin'] ) == 1 ) {
-            echo "<span class=\"button\"><a href=\"#add_user\"><img src=\"../images/user_add_sm.png\" alt=\"add\" /> User</a></span>";
+                        echo "<span class=\"button\"><a href=\"#add_user\"><img src=\"../images/user_add_sm.png\" alt=\"add\" /> User</a></span>\n";
+            echo "<span class=\"button\"><a href=\"#add_ldap_user\"><img src=\"../images/user_add_sm.png\" alt=\"add ldap user\" /> LDAP User</a></span>\n";
+            echo "<span class=\"button\"><a href=\"#add_ldap_group\"><img src=\"../images/user_add_sm.png\" alt=\"add ldap group\" /> LDAP Group</a></span>\n";
         }
         ?>
                 <div>

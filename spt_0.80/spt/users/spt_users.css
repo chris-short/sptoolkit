@@ -1,7 +1,7 @@
 /*css - users*/
 /**
  * file:    spt_users.css
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,7 +22,7 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#add_user, #edit_user, #edit_other_user
+#add_user, #edit_user, #edit_other_user, #add_ldap_user, #add_ldap_group
 {
     position: fixed;
     top: 0;
@@ -35,7 +35,7 @@
     z-index: 101;
 }
 
-#add_user div, #edit_user div, #edit_other_user div
+#add_user div, #edit_user div, #edit_other_user div, #add_ldap_user div, #add_ldap_group div
 {
     margin: auto;
     background-color: #fff;
@@ -48,7 +48,7 @@
     display: inline-block;
 }
 
-#add_user:target, #edit_user:target, #edit_other_user:target
+#add_user:target, #edit_user:target, #edit_other_user:target, #add_ldap_user:target, #add_ldap_group:target
 {
     display: block;
 }
