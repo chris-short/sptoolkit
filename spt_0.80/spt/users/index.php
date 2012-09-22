@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 17.0
+ * version: 18.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -46,6 +46,36 @@ if ( file_exists ( $includeContent ) ) {
         <link rel="stylesheet" href="spt_users.css" type="text/css" />
         <!--scripts-->
         <script type="text/javascript" src="../includes/escape.js"></script>
+        <script src="../includes/jquery.min.js"></script>
+        <script>
+            $(function() {
+                $('.local_toggle').click(function() {
+                    $('#local_list').slideToggle('fast');
+                    return false;
+                });
+                $('.local_toggle').click(function() {
+                    $('.local_toggle_image').toggle('fast');
+                    return false;
+                });
+                $('.ldap_user_toggle').click(function() {
+                    $('#ldap_user_list').slideToggle('fast');
+                    return false;
+                });
+                $('.ldap_user_toggle').click(function() {
+                    $('.ldap_user_toggle_image').toggle('fast');
+                    return false;
+                });
+                $('.ldap_group_toggle').click(function() {
+                    $('#ldap_group_list').slideToggle('fast');
+                    return false;
+                });
+                $('.ldap_group_toggle').click(function() {
+                    $('.ldap_group_toggle_image').toggle('fast');
+                    return false;
+                });
+
+            });
+        </script>
     </head>
     <body>
         <div id="edit_user">
@@ -355,17 +385,19 @@ if ( isset ( $_REQUEST['u'] ) ) {
             <!--content-->
             <div id="content">
                 <span class="button"><a href="#edit_user"><img src="../images/cog_edit_sm.png" alt="edit" /> <?php echo $_SESSION['username']; ?></a></span>
+                <div class="spt_table_header">
+                    <h1>Local Users</h1>
+                    <a href="#" class="local_toggle"><img class="local_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="local_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
+                </div>
 
         <?php
         //check to see if user is admin give them additional options
         if ( isset ( $_SESSION['admin'] ) == 1 ) {
-                        echo "<span class=\"button\"><a href=\"#add_user\"><img src=\"../images/user_add_sm.png\" alt=\"add\" /> User</a></span>\n";
-            echo "<span class=\"button\"><a href=\"#add_ldap_user\"><img src=\"../images/user_add_sm.png\" alt=\"add ldap user\" /> LDAP User</a></span>\n";
-            echo "<span class=\"button\"><a href=\"#add_ldap_group\"><img src=\"../images/user_add_sm.png\" alt=\"add ldap group\" /> LDAP Group</a></span>\n";
+            echo "<span class=\"button\"><a href=\"#add_user\"><img src=\"../images/user_add_sm.png\" alt=\"add\" /> User</a></span>\n";
         }
         ?>
                 <div>
-                    <table class="spt_table">
+                    <table id="local_list" class="spt_table">
                         <tr>
                             <td><h3>Name</h3></td>
                             <td><h3>Email</h3></td>
@@ -429,7 +461,158 @@ if ( isset ( $_REQUEST['u'] ) ) {
                 ?> 
                     </table>
                 </div>
-            </div>
+                <div class="spt_table_header">
+                    <h1>LDAP Users</h1>
+                    <a href="#" class="ldap_user_toggle"><img class="ldap_user_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="ldap_user_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
+                </div>
+                <?php
+                //check to see if user is admin give them additional options
+                if ( isset ( $_SESSION['admin'] ) == 1 ) {
+                    echo "<span class=\"settings_button\"><a href=\"#add_ldap_user\"><img src=\"../images/user_add_sm.png\" alt=\"add ldap user\" /> LDAP User</a></span>\n";
+                }
+                ?>
+                <div>
+                    <table id="ldap_user_list" class="spt_table">
+                        <tr>
+                            <td><h3>Name</h3></td>
+                            <td><h3>Email</h3></td>
+                            <td><h3>Admin</h3></td>
+                            <td><h3>Disabled</h3></td>
+                            <td colspan="2"><h3>Actions</h3></td>
+                        </tr>
+                <?php
+                //connect to database                       
+                include '../spt_config/mysql_config.php';
+
+                //retrieve all user data to populate the user table
+                $r = mysql_query ( 'SELECT id, fname, lname, username, admin, disabled, admin FROM users' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                    echo "<tr>\n<td>";
+                    echo $ra['fname'] . " " . $ra['lname'];
+                    echo "</td>\n<td>";
+                    echo $ra['username'];
+                    echo "</td>\n<td>";
+
+                    //determine if the specific user is an admin
+                    if ( $ra['admin'] == 1 ) {
+                        $admin_status = 'yes';
+                    } else {
+                        $admin_status = 'no';
+                    }
+                    echo $admin_status;
+                    echo "</td>\n<td>";
+
+                    //determine if the user is disabled
+                    if ( $ra['disabled'] == 1 ) {
+                        $disabled = 'yes';
+                    } else {
+                        $disabled = 'no';
+                    }
+                    echo $disabled;
+                    echo "</td>\n";
+
+                    //if the user is an admin and this record is not their own allow them to edit the user
+                    if ( isset ( $_SESSION['admin'] ) == 1 && $_SESSION['username'] != $ra['username'] ) {
+                        echo "<td><a href=\"?u=";
+                        echo $ra['username'];
+                        echo "#edit_other_user\"><img src=\"../images/user_edit_sm.png\" alt=\"edit\" /></a>";
+                        echo "</td>\n";
+                    } else {
+                        echo "<td></td>";
+                    }
+
+                    //if the user is an admin and this record is not their own allow them to delete the user
+                    if ( isset ( $_SESSION['admin'] ) == 1 && $_SESSION['username'] != $ra['username'] ) {
+                        echo "<td><a href=\"delete_user.php?u=";
+                        echo $ra['username'];
+                        echo "\"><img src=\"../images/user_delete_sm.png\" alt=\"delete\" /></a>";
+                        echo "</td>\n";
+                    } else {
+                        echo "<td></td>";
+                    }
+
+                    echo "</tr>\n";
+                }
+                ?> 
+                    </table>
+                </div>
+                <div class="spt_table_header">
+                    <h1>LDAP Groups</h1>
+                    <a href="#" class="ldap_group_toggle"><img class="ldap_group_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="ldap_group_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
+                </div>
+
+        <?php
+        //check to see if user is admin give them additional options
+        if ( isset ( $_SESSION['admin'] ) == 1 ) {
+            echo "<span class=\"settings_button\"><a href=\"#add_ldap_group\"><img src=\"../images/user_add_sm.png\" alt=\"add ldap group\" /> LDAP Group</a></span>\n";
+        }
+        ?>
+                <div>
+                    <table id="ldap_group_list" class="spt_table">
+                        <tr>
+                            <td><h3>Name</h3></td>
+                            <td><h3>Email</h3></td>
+                            <td><h3>Admin</h3></td>
+                            <td><h3>Disabled</h3></td>
+                            <td colspan="2"><h3>Actions</h3></td>
+                        </tr>
+                <?php
+                //connect to database                       
+                include '../spt_config/mysql_config.php';
+
+                //retrieve all user data to populate the user table
+                $r = mysql_query ( 'SELECT id, fname, lname, username, admin, disabled, admin FROM users' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                    echo "<tr>\n<td>";
+                    echo $ra['fname'] . " " . $ra['lname'];
+                    echo "</td>\n<td>";
+                    echo $ra['username'];
+                    echo "</td>\n<td>";
+
+                    //determine if the specific user is an admin
+                    if ( $ra['admin'] == 1 ) {
+                        $admin_status = 'yes';
+                    } else {
+                        $admin_status = 'no';
+                    }
+                    echo $admin_status;
+                    echo "</td>\n<td>";
+
+                    //determine if the user is disabled
+                    if ( $ra['disabled'] == 1 ) {
+                        $disabled = 'yes';
+                    } else {
+                        $disabled = 'no';
+                    }
+                    echo $disabled;
+                    echo "</td>\n";
+
+                    //if the user is an admin and this record is not their own allow them to edit the user
+                    if ( isset ( $_SESSION['admin'] ) == 1 && $_SESSION['username'] != $ra['username'] ) {
+                        echo "<td><a href=\"?u=";
+                        echo $ra['username'];
+                        echo "#edit_other_user\"><img src=\"../images/user_edit_sm.png\" alt=\"edit\" /></a>";
+                        echo "</td>\n";
+                    } else {
+                        echo "<td></td>";
+                    }
+
+                    //if the user is an admin and this record is not their own allow them to delete the user
+                    if ( isset ( $_SESSION['admin'] ) == 1 && $_SESSION['username'] != $ra['username'] ) {
+                        echo "<td><a href=\"delete_user.php?u=";
+                        echo $ra['username'];
+                        echo "\"><img src=\"../images/user_delete_sm.png\" alt=\"delete\" /></a>";
+                        echo "</td>\n";
+                    } else {
+                        echo "<td></td>";
+                    }
+
+                    echo "</tr>\n";
+                }
+                ?> 
+                    </table>
+                </div>
+                </div>
         </div>
     </body>
 </html>
