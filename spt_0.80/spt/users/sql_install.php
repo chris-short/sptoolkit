@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -51,6 +51,7 @@ $sql = "
         `disabled` int(1) NOT NULL DEFAULT '0' COMMENT '0-enabled; 1-disabled',
         `admin` int(1) NOT NULL DEFAULT '0' COMMENT '0-standard; 1-admin',
         `type` int(2) NOT NULL DEFAULT '1',
+        `ldap_host` varchar(255) NOT NULL,
         PRIMARY KEY (`id`),
         UNIQUE KEY `cn` (`cn`)
     )";
