@@ -1,7 +1,7 @@
 /*css - modules*/
 /**
  * file:    spt_modules.css
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,7 +22,7 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#add_module, #twitter
+#add_module, #twitter, #add_smtp_server, #add_ldap_server
 {
     position: fixed;
     top: 0;
@@ -35,7 +35,7 @@
     z-index: 101;
 }
 
-#add_module div, #twitter div
+#add_module div, #twitter div, #add_smtp_server div, #add_ldap_server div
 {
     margin: auto;
     background-color: #fff;
@@ -48,7 +48,7 @@
     display: inline-block;
 }
 
-#add_module:target, #twitter:target
+#add_module:target, #twitter:target, #add_smtp_server:target, #add_ldap_server:target
 {
     display: block;
 }
@@ -64,33 +64,13 @@
     text-align:left;
 }
 
-.spt_table_header{
-    margin:15px;
-    margin-bottom:1px;
-    height:35px;
-    border-bottom: dashed;
-    border-width: 1px;
-    border-color: #bbb;
-}
-
-.spt_table_header h1 {
-    float: left;
-    margin-left:20px;
-    margin-bottom:1px;
-}
-
-.spt_table_header img{
-    float: right;
-    display: block;
-    margin-right:20px;
-    margin-top:5px;
-}
 #general_table td{
     text-align:left;
 }
-.settings_button {
-    background-color: #fff;
-    box-shadow: 4px 4px 5px #888;
-    border-radius: 0px 0px 5px 5px;
-    padding: 5px;
+#ldap_table {
+    table-layout:fixed;
+}
+#ldap_table td{
+    overflow: hidden; 
+    text-overflow: ellipsis;
 }

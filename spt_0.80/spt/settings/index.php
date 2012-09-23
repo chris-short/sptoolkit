@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 26.0
+ * version: 28.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -46,7 +46,7 @@ if ( file_exists ( $includeContent ) ) {
         <link rel="stylesheet" href="spt_settings.css" type="text/css" />
         <!--scripts-->
         <script type="text/javascript" src="../includes/escape.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script src="../includes/jquery.min.js"></script>
         <script>
             $(function() {
                 $('.modules_toggle').click(function() {
@@ -143,6 +143,92 @@ if ( file_exists ( $includeContent ) ) {
                         </form>
                     </div>
                 </div>
+                <div id="add_smtp_server">
+                    <div>
+                        <table id="add_smtp_server_table">
+                            <tr>
+                                <form method="POST" action="smtp_add.php" />
+                                    <tr>
+                                        <td colspan=2 style="text-align: left;"><h3>Add SMTP Server</h3></td>
+                                        <td style="text-align: right;">
+                                            <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Add the appropriate SMTP information for a new SMTP server to be used within campaigns and/or as the system's mail relay for system based email notification.</span></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Host</td>
+                                        <td style="text-align: left;"><input type="text" name="host" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Port</td>
+                                        <td style="text-align: left;"><input type="text" name="port" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>SSL</td>
+                                        <td style="text-align: left;"><input type="checkbox" name="ssl" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Username</td>
+                                        <td style="text-align: left;"><input type="text" name="username" /></td>    
+                                    </tr>
+                                    <tr>
+                                        <td>Password</td>
+                                        <td style="text-align: left;"><input type="password" name="password" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Default SMTP Server</td>
+                                        <td style="text-align: left;"><input type="checkbox" name="default" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                                    </tr>
+                                </form>
+                            </tr>
+                        </table>
+                     </div>
+                </div>
+                <div id="add_ldap_server">
+                    <div>
+                        <table id="add_ldap_server_table">
+                            <tr>
+                                <form method="POST" action="ldap_add.php" />
+                                    <tr>
+                                        <td colspan=2 style="text-align: left;"><h3>Add LDAP Server</h3></td>
+                                        <td style="text-align: right;">
+                                            <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Add the appropriate SMTP information for a new SMTP server to be used within campaigns and/or as the system's mail relay for system based email notification.</span></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Host</td>
+                                        <td style="text-align: left;"><input type="text" name="host" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Port</td>
+                                        <td style="text-align: left;"><input type="text" name="port" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>SSL</td>
+                                        <td style="text-align: left;"><input type="checkbox" name="ssl" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Username</td>
+                                        <td style="text-align: left;"><input type="text" name="username" /></td>    
+                                    </tr>
+                                    <tr>
+                                        <td>Password</td>
+                                        <td style="text-align: left;"><input type="password" name="password" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Base DN</td>
+                                        <td style="text-align: left;"><input type="text" name="basedn" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                                    </tr>
+                                </form>
+                            </tr>
+                        </table>
+                     </div>
+                </div>                
 <?php
 //check to see if there are any alerts
 if ( isset ( $_SESSION['alert_message'] ) ) {
@@ -259,28 +345,16 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                     <h1>SMTP Servers</h1>
                     <a href="#" class="smtp_toggle"><img class="smtp_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="smtp_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
                 </div>
+                <span class="settings_button"><a href="#add_smtp_server"><img src="../images/package_add_sm.png" alt="add" /> SMTP Server</a></span>                
                 <table id="smtp_table" class="spt_table">
                     <tr>
-                        <td>Host</td>
-                        <td>Port</td>
-                        <td>SSL?</td>
-                        <td>Username</td>
-                        <td>Password</td>
-                        <td>Default?</td>
-                        <td><a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Add new SMTP servers to be used in campaigns.  Check default next to the SMTP configuration you want the system to use for password resets and other emails sent to administrators by the system.</span></a></td>
+                        <td><h3>Host</h3></td>
+                        <td><h3>Port</h3></td>
+                        <td style="width:10px;" ><h3>SSL?</h3></td>
+                        <td><h3>Username</h3></td>
+                        <td><h3>Default?</h3></td>
+                        <td><h3>Actions</h3></td>
                     </tr>
-                    <tr>
-                        <form method="POST" action="smtp_add.php" />
-                            <td><input type="text" name="host" size="20" /></td>
-                            <td><input type="text" name="port" size="6" /></td>
-                            <td><input type="checkbox" name="ssl" /></td>
-                            <td><input type="text" name="username" size="15" /></td>
-                            <td><input type="password" name="password" size="15" /></td>
-                            <td><input type="checkbox" name="default" /></td>
-                            <td><input type="image" src="../images/add_sm.png" alt="add" class="invisible_input" /></td>
-                        </form>
-                    </tr>
-                    <tr><td><br /></td></tr>
                     <?php
                         //get all existing SMTP Servers
                         $r = mysql_query("SELECT value FROM settings WHERE setting = 'SMTP'");
@@ -292,11 +366,6 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                                     <td>".$smtp_setting[1]."</td>
                                     <td>".$smtp_setting[2]."</td>
                                     <td>".$smtp_setting[3]."</td>
-                                    <td>";
-                            if(strlen($smtp_setting[4]) > 0){
-                                echo "********";
-                            }else{}
-                            echo "</td>
                                     <td>";
                             if($smtp_setting[5] == "default"){
                                 echo "<img src=\"../images/accept_sm.png\" alt=\"default\" />";
@@ -312,28 +381,17 @@ if ( isset ( $_SESSION['alert_message'] ) ) {
                     <h1>LDAP Servers</h1>
                     <a href="#" class="ldap_toggle"><img class="ldap_toggle_image" src="../images/bullet_toggle_minus.png" alt="minus" /><img class="ldap_toggle_image" src="../images/bullet_toggle_plus.png" style="display:none;" alt="plus" /></a>
                 </div>
+                <span class="settings_button"><a href="#add_ldap_server"><img src="../images/package_add_sm.png" alt="add" /> LDAP Server</a></span>                
                 <table id="ldap_table" class="spt_table">
                     <tr>
-                        <td>Host</td>
-                        <td>Port</td>
-                        <td>SSL?</td>
-                        <td>Username</td>
-                        <td>Password</td>
-                        <td>Base DN</td>
-                        <td><a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Add new LDAP servers to be used in target management, spt users, etc.</span></a></td>
+                        <td><h3>Host</h3></td>
+                        <td><h3>Port</h3></td>
+                        <td><h3>SSL?</h3></td>
+                        <td><h3>Username</h3></td>
+                        <td><h3>Password</h3></td>
+                        <td><h3>Base DN</h3></td>
+                        <td><h3>Actions</h3></td>
                     </tr>
-                    <tr>
-                        <form method="POST" action="ldap_add.php" />
-                            <td><input type="text" name="host" size="20" /></td>
-                            <td><input type="text" name="port" size="6" /></td>
-                            <td><input type="checkbox" name="ssl" /></td>
-                            <td><input type="text" name="username" size="15" /></td>
-                            <td><input type="password" name="password" size="15" /></td>
-                            <td><input type="text" name="basedn" size="20" /></td>
-                            <td><input type="image" src="../images/add_sm.png" alt="add" class="invisible_input" /></td>
-                        </form>
-                    </tr>
-                    <tr><td><br /></td></tr>
                     <?php
                         //get all existing ldap Servers
                         $r = mysql_query("SELECT value FROM settings WHERE setting = 'ldap'");
