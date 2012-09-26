@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:    spt.css
- * version: 25.0
+ * version: 26.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -434,4 +434,31 @@ img
     width:1000px;
     height:450px;
     background-color: #ffffff;
+}
+.settings_button {
+    background-color: #fff;
+    box-shadow: 4px 4px 5px #888;
+    border-radius: 0px 0px 5px 5px;
+    padding: 5px;
+}
+.spt_table_header{
+    margin:15px;
+    margin-bottom:1px;
+    height:35px;
+    border-bottom: dashed;
+    border-width: 1px;
+    border-color: #bbb;
+}
+
+.spt_table_header h1 {
+    float: left;
+    margin-left:20px;
+    margin-bottom:1px;
+}
+
+.spt_table_header img{
+    float: right;
+    display: block;
+    margin-right:20px;
+    margin-top:5px;
 }
