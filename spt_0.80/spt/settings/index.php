@@ -42,8 +42,8 @@ if ( file_exists ( $includeContent ) ) {
         <!--favicon-->
         <link rel="shortcut icon" href="../images/favicon.ico" />
         <!--css-->
-        <link rel="stylesheet" href="../includes/spt.css" type="text/css" />
         <link rel="stylesheet" href="../includes/jquery-ui.css" type="text/css" />
+        <link rel="stylesheet" href="../includes/spt.css" type="text/css" />
         <link rel="stylesheet" href="spt_settings.css" type="text/css" />
         <!--scripts-->
         <script type="text/javascript" src="../includes/escape.js"></script>
