@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_add.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -82,9 +82,10 @@ if($_POST){
     }else{
         $default = "";
     }
+    //connect to database
+    include '../spt_config/mysql_config.php';
     //take away default value from any existing smtp servers that are set to default
-    if($default == 'default'){
-        include '../spt_config/mysql_config.php';
+    if($default == "default"){
         $r = mysql_query("SELECT value FROM settings WHERE setting='smtp'");
         while($ra=mysql_fetch_assoc($r)){
             $old_smtp_setting = $ra['value'];
@@ -103,7 +104,7 @@ if($_POST){
     mysql_query("INSERT INTO settings VALUES('smtp','$value')");
 }
 
-header('location:.');
+header('location:.#tabs-2');
 exit;
 
 ?>

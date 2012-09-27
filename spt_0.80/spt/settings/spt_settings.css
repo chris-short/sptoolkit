@@ -1,7 +1,7 @@
 /*css - modules*/
 /**
  * file:    spt_modules.css
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -62,15 +62,4 @@
 {
     width:250px;
     text-align:left;
-}
-
-#general_table td{
-    text-align:left;
-}
-#ldap_table {
-    table-layout:fixed;
-}
-#ldap_table td{
-    overflow: hidden; 
-    text-overflow: ellipsis;
 }
