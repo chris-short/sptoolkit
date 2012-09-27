@@ -473,3 +473,7 @@ img
 #tabs{
     border: none;
 }
+.ui-tabs-panel {
+    padding:0px;
+    padding-top:10px;
+}
