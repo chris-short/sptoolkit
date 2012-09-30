@@ -2,7 +2,7 @@
 
 /**
  * file:    delete_smtp.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -51,6 +51,6 @@ if($_GET['smtp']){
         }
     }
 }
-header('location:.');
+header('location:.#tabs-2');
 exit;
 ?>

@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_add.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -46,7 +46,7 @@ if($_POST){
     }
     else{
         $_SESSION['alert_message'] = 'host was either empty or not a valid hostname';
-        header ( 'location:./#alert' );
+        header ( 'location:.#tabs-3' );
         exit;
     }
     //validate and get port
@@ -55,7 +55,7 @@ if($_POST){
     }
     else{
         $_SESSION['alert_message'] = 'port is required and must be between 1 and 65535';
-        header ( 'location:./#alert' );
+        header ( 'location:.#tabs-3' );
         exit;
     }
     //get ssl status
@@ -89,7 +89,7 @@ if($_POST){
     mysql_query("INSERT INTO settings VALUES('ldap','$value')");
 }
 
-header('location:.');
+header('location:.#tabs-3');
 exit;
 
 ?>

@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,28 +41,28 @@ if ( file_exists ( $includeContent ) ) {
 //validate that a file was selected
 if ( $_FILES["file"]["error"] > 0 ) {
     $_SESSION['alert_message'] = "you either did not select a file or there was a problem with it";
-    header ( 'location:./#alert' );
+    header ( 'location:./#tabs-1' );
     exit;
 }
 
 //if file uploaded ensure its a sql file
 if (is_uploaded_file($_FILES['file']['tmp_name']) && !preg_match("/sql/i",end(explode('.', $_FILES['file']['name'])))) {
     $_SESSION['alert_message'] = 'please ensure you are uploading a .sql file';
-    header ( 'location:./#alert' );
+    header ( 'location:./#tabs-1' );
     exit;
 }
 
 //if file uploaded ensure that the file is under 20M
 if ( is_uploaded_file($_FILES['file']['tmp_name']) && $_FILES["file"]["size"] > 20000000 ) {
     $_SESSION['alert_message'] = 'max file size is 20MB';
-    header ( 'location:./#alert' );
+    header ( 'location:./#tabs-1' );
     exit;
 }
 
 //if file uploaded ensure there are no errors
 if ( is_uploaded_file($_FILES['file']['tmp_name']) && $_FILES["file"]["error"] > 0 ) {
     $_SESSION['alert_message'] = "there was a problem uploading your file";
-    header ( 'location:./#alert' );
+    header ( 'location:./#tabs-1' );
     exit;
 }
 //connect to database
@@ -76,7 +76,7 @@ $backup_file = $_FILES['file']['tmp_name'];
 exec('mysql --user='.$mysql_user.' --password='.$mysql_password.' --host='.$mysql_host.' '.$mysql_db_name.' < '.$backup_file.'');
 //send user back with success message
 $_SESSION['alert_message'] = "database restored";
-header('location:./#alert');
+header('location:./#tabs-1');
 exit;
 
 ?>

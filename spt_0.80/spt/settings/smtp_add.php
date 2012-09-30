@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_add.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -46,7 +46,7 @@ if($_POST){
     }
     else{
         $_SESSION['alert_message'] = 'host was either empty or not a valid hostname';
-        header ( 'location:./#alert' );
+        header ( 'location:./#tabs-2' );
         exit;
     }
     //validate and get port
@@ -55,7 +55,7 @@ if($_POST){
     }
     else{
         $_SESSION['alert_message'] = 'port is required and must be between 1 and 65535';
-        header ( 'location:./#alert' );
+        header ( 'location:./#tabs-2' );
         exit;
     }
     //get ssl status

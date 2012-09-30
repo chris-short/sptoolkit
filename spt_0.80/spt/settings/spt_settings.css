@@ -1,7 +1,7 @@
 /*css - modules*/
 /**
  * file:    spt_modules.css
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -29,7 +29,6 @@
     left: 0;		
     height: 100%;
     width: 100%;
-    display: none;
     background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
     z-index: 101;
@@ -46,11 +45,6 @@
     margin-top: 50px;
     padding-top:10px;
     display: inline-block;
-}
-
-#add_module:target, #twitter:target, #add_smtp_server:target, #add_ldap_server:target
-{
-    display: block;
 }
 
 #upload_module, #update_twitter

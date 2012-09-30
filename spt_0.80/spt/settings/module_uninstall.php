@@ -3,7 +3,7 @@
 
 /**
  * file:    module_uninstall.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -55,7 +55,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $r2 = mysql_query ( "SELECT * FROM settings_modules_dependencies WHERE depends_on = '$module'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
     if ( mysql_num_rows ( $r2 ) > 0 ) {
         $_SESSION['alert_message'] = 'This module is depended on.  You must uninstall the module that depends on this Module first.';
-        header ( 'location:./#alert' );
+        header ( 'location:./#tabs-5' );
         exit;
     }
 
@@ -109,12 +109,12 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
         //if the uninstall went well send them back
         $_SESSION['alert_message'] = 'uninstall successful';
-        header ( 'location:./#alert' );
+        header ( 'location:./#tabs-5' );
         exit;
     }
 }
 //if the uninstall did not happen, send them back with an alert
 $_SESSION['alert_message'] = "you must only uninstall valid, non-core modules";
-header ( 'location:./#alert' );
+header ( 'location:./#tabs-5' );
 exit;
 ?>

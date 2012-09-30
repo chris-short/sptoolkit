@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 29.0
+ * version: 30.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -51,51 +51,6 @@ if ( file_exists ( $includeContent ) ) {
         <script src="../includes/jquery-ui.min.js"></script>
         <script>
             $(function() {
-                $('.modules_toggle').click(function() {
-                    $('#installed_module_list').slideToggle('fast');
-                    return false;
-                });
-                $('.modules_toggle').click(function() {
-                    $('.modules_toggle_image').toggle('fast');
-                    return false;
-                });
-                $('.general_toggle').click(function() {
-                    $('#general_table').slideToggle('fast');
-                    return false;
-                });
-                $('.general_toggle').click(function() {
-                    $('.general_toggle_image').toggle('fast');
-                    return false;
-                });
-                $('.smtp_toggle').click(function() {
-                    $('#smtp_table').slideToggle('fast');
-                    return false;
-                });
-                $('.smtp_toggle').click(function() {
-                    $('.smtp_toggle_image').toggle('fast');
-                    return false;
-                });
-                $('.ldap_toggle').click(function() {
-                    $('#ldap_table').slideToggle('fast');
-                    return false;
-                });
-                $('.ldap_toggle').click(function() {
-                    $('.ldap_toggle_image').toggle('fast');
-                    return false;
-                });
-                $('.api_toggle').click(function() {
-                    $('#api_table').slideToggle('fast');
-                    return false;
-                });
-                $('.api_toggle').click(function() {
-                    $('.api_toggle_image').toggle('fast');
-                    return false;
-                });
-
-            });
-        </script>
-        <script>
-            $(function() {
                 $( "#tabs" ).tabs();
             });
         </script>
@@ -113,149 +68,146 @@ if ( file_exists ( $includeContent ) ) {
         </script> 
     </head>
     <body>
+        <!--alert-->
+        <?php include '../includes/alert.php'; ?>                 
         <div id="wrapper">
-
             <!--sidebar-->
             <?php include '../includes/sidebar.php'; ?>                 
-
             <!--popovers-->
-            <div id="add_module">
-                <div>
-                    <form action="module_upload.php" method="post" enctype="multipart/form-data">
-                        <table id="upload_module">
-                            <tr>
-                                <td style="text-align: left;"><h3>Add Module</h3></td>
-                                <td style="text-align: right;">
-                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the module file to be uploaded and click the add button.  You can only upload modules packaged using the ZIP file format.<br /><br />Be sure to see the documentation section of the spt website for full details on the required contents of a module.</span></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <input type="file"  name="file" />
-                                </td>
-                            </tr>
-                            <?php
-                                if(isset($_SESSION['alert_message'])){
-                                    echo "
-                                        <tr>
-                                            <td colspan=2 class=\"popover_alert_message\" >".$_SESSION['alert_message']."</td>
-                                        </tr>";
-                                }
-                            ?>
-                        <tr>
-                            <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
-                        </tr>
-                        </table>
-                    </form>
-                </div>
-            </div>
-            <div id="add_smtp_server">
-                <div>
-                    <table id="add_smtp_server_table">
-                        <tr>
-                            <form method="POST" action="smtp_add.php" />
-                                <tr>
-                                    <td colspan=2 style="text-align: left;"><h3>Add SMTP Server</h3></td>
-                                    <td style="text-align: right;">
-                                        <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Add the appropriate SMTP information for a new SMTP server to be used within campaigns and/or as the system's mail relay for system based email notification.</span></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Host</td>
-                                    <td style="text-align: left;"><input type="text" name="host" /></td>
-                                </tr>
-                                <tr>
-                                    <td>Port</td>
-                                    <td style="text-align: left;"><input type="text" name="port" /></td>
-                                </tr>
-                                <tr>
-                                    <td>SSL</td>
-                                    <td style="text-align: left;"><input type="checkbox" name="ssl" /></td>
-                                </tr>
-                                <tr>
-                                    <td>Username</td>
-                                    <td style="text-align: left;"><input type="text" name="username" /></td>    
-                                </tr>
-                                <tr>
-                                    <td>Password</td>
-                                    <td style="text-align: left;"><input type="password" name="password" /></td>
-                                </tr>
-                                <tr>
-                                    <td>Default SMTP Server</td>
-                                    <td style="text-align: left;"><input type="checkbox" name="default" /></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="text-align: center;"><br /><img id="add_smtp_server_cancel" src="../images/cancel.png" alt="cancel" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
-                                </tr>
-                            </form>
-                        </tr>
-                    </table>
-                 </div>
-            </div>
-            <div id="add_ldap_server">
-                <div>
-                    <table id="add_ldap_server_table">
-                        <tr>
-                            <form method="POST" action="ldap_add.php" />
-                                <tr>
-                                    <td colspan=2 style="text-align: left;"><h3>Add LDAP Server</h3></td>
-                                    <td style="text-align: right;">
-                                        <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Add the appropriate SMTP information for a new SMTP server to be used within campaigns and/or as the system's mail relay for system based email notification.</span></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Host</td>
-                                    <td style="text-align: left;"><input type="text" name="host" /></td>
-                                </tr>
-                                <tr>
-                                    <td>Port</td>
-                                    <td style="text-align: left;"><input type="text" name="port" /></td>
-                                </tr>
-                                <tr>
-                                    <td>SSL</td>
-                                    <td style="text-align: left;"><input type="checkbox" name="ssl" /></td>
-                                </tr>
-                                <tr>
-                                    <td>Username</td>
-                                    <td style="text-align: left;"><input type="text" name="username" /></td>    
-                                </tr>
-                                <tr>
-                                    <td>Password</td>
-                                    <td style="text-align: left;"><input type="password" name="password" /></td>
-                                </tr>
-                                <tr>
-                                    <td>Base DN</td>
-                                    <td style="text-align: left;"><input type="text" name="basedn" /></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
-                                </tr>
-                            </form>
-                        </tr>
-                    </table>
-                 </div>
-            </div>                
             <?php
-            //check to see if there are any alerts
-            if ( isset ( $_SESSION['alert_message'] ) ) {
-                //create alert popover
-                echo "<div id=\"alert\">";
-
-                //echo the alert message
-                echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"../images/accept.png\" alt=\"close\" /></a></div>";
-
-                //clear the alert session after it is written
-                unset ( $_SESSION['alert_message'] );
-
-                //close alert popover
-                echo "</div>";
-            }
+                if(isset($_GET['add_module']) && $_GET['add_module'] == "true"){
+                    echo '
+                        <div id="add_module">
+                            <div>
+                                <form action="module_upload.php" method="post" enctype="multipart/form-data">
+                                    <table id="upload_module">
+                                        <tr>
+                                            <td style="text-align: left;"><h3>Add Module</h3></td>
+                                            <td style="text-align: right;">
+                                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the module file to be uploaded and click the add button.  You can only upload modules packaged using the ZIP file format.<br /><br />Be sure to see the documentation section of the spt website for full details on the required contents of a module.</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <input type="file"  name="file" />
+                                            </td>
+                                        </tr>';
+                                        if(isset($_SESSION['alert_message'])){
+                                            echo "
+                                                <tr>
+                                                    <td colspan=2 class=\"popover_alert_message\" >".$_SESSION['alert_message']."</td>
+                                                </tr>";
+                                        }
+                    echo '
+                                    <tr>
+                                        <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-5"><img id="add_module_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                                    </tr>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                    ';                    
+                }
+                if(isset($_GET['add_smtp_server']) && $_GET['add_smtp_server'] == 'true' ){
+                    echo '
+                        <div id="add_smtp_server">
+                            <div>
+                                <table id="add_smtp_server_table">
+                                    <tr>
+                                        <form method="POST" action="smtp_add.php" />
+                                            <tr>
+                                                <td colspan=2 style="text-align: left;"><h3>Add SMTP Server</h3></td>
+                                                <td style="text-align: right;">
+                                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Add the appropriate SMTP information for a new SMTP server to be used within campaigns and/or as the system\'s mail relay for system based email notification.</span></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Host</td>
+                                                <td style="text-align: left;"><input type="text" name="host" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Port</td>
+                                                <td style="text-align: left;"><input type="text" name="port" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>SSL</td>
+                                                <td style="text-align: left;"><input type="checkbox" name="ssl" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Username</td>
+                                                <td style="text-align: left;"><input type="text" name="username" /></td>    
+                                            </tr>
+                                            <tr>
+                                                <td>Password</td>
+                                                <td style="text-align: left;"><input type="password" name="password" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Default SMTP Server</td>
+                                                <td style="text-align: left;"><input type="checkbox" name="default" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-2"><img id="add_smtp_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                                            </tr>
+                                        </form>
+                                    </tr>
+                                </table>
+                             </div>
+                        </div>
+                    ';
+                }
+                if(isset($_GET['add_ldap_server']) && $_GET['add_ldap_server'] == 'true'){
+                    echo '
+                        <div id="add_ldap_server">
+                            <div>
+                                <table id="add_ldap_server_table">
+                                    <tr>
+                                        <form method="POST" action="ldap_add.php" />
+                                            <tr>
+                                                <td colspan=2 style="text-align: left;"><h3>Add LDAP Server</h3></td>
+                                                <td style="text-align: right;">
+                                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Add the appropriate SMTP information for a new SMTP server to be used within campaigns and/or as the system\'s mail relay for system based email notification.</span></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Host</td>
+                                                <td style="text-align: left;"><input type="text" name="host" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Port</td>
+                                                <td style="text-align: left;"><input type="text" name="port" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>SSL</td>
+                                                <td style="text-align: left;"><input type="checkbox" name="ssl" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Username</td>
+                                                <td style="text-align: left;"><input type="text" name="username" /></td>    
+                                            </tr>
+                                            <tr>
+                                                <td>Password</td>
+                                                <td style="text-align: left;"><input type="password" name="password" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Base DN</td>
+                                                <td style="text-align: left;"><input type="text" name="basedn" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-3"><img id="add_ldap_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                                            </tr>
+                                        </form>
+                                    </tr>
+                                </table>
+                             </div>
+                        </div>                
+                    ';                
+                }
             ?>
-
             <!--content-->
             <div id="content">
                 <!--content-new-->
-                <br /><div id="tabs">
+                <br />
+                <div id="tabs">
                     <ul>
                         <li><a href="#tabs-1">General</a></li>
                         <li><a href="#tabs-2">SMTP</a></li>
@@ -358,7 +310,7 @@ if ( file_exists ( $includeContent ) ) {
                         </table>
                     </div>
                     <div id="tabs-2">
-                        <button id="add_smtp_server_button" ><img src="../images/package_add_sm.png" alt="add" /> SMTP Server</button>                
+                        <a href="?add_smtp_server=true#tabs-2" id="add_smtp_server_button" class="popover_button" ><img src="../images/package_add_sm.png" alt="add" /> SMTP Server</a>
                         <table class="standard_table" >
                             <tr>
                                 <td><h3>Host</h3></td>
@@ -392,7 +344,7 @@ if ( file_exists ( $includeContent ) ) {
                         </table>  
                     </div>
                     <div id="tabs-3">
-                        <span><a id="add_ldap_server_button"><img src="../images/package_add_sm.png" alt="add" /> LDAP Server</a></span>                
+                        <a href="?add_ldap_server=true#tabs-3" id="add_ldap_server_button" class="popover_button"><img src="../images/package_add_sm.png" alt="add" /> LDAP Server</a>                
                         <table class="standard_table" >
                             <tr>
                                 <td><h3>Host</h3></td>
@@ -445,7 +397,7 @@ if ( file_exists ( $includeContent ) ) {
                         </table>                
                     </div>
                     <div id="tabs-5">
-                        <span><a id="add_module_button"><img src="../images/package_add_sm.png" alt="add" /> Module</a></span>
+                        <a href="?add_module=true#tabs-5" id="add_module_button" class="popover_button" ><img src="../images/package_add_sm.png" alt="add" /> Module</a>
                         <table class="standard_table" >
                             <tr>
                                 <td><h3>Name</h3></td>
@@ -497,15 +449,4 @@ if ( file_exists ( $includeContent ) ) {
             </div>
         </div>        
     </body>
-    <!--scripts-->
-    <script>
-        $("#add_smtp_server_button").click(function () {
-          $("#add_smtp_server").show();
-          return false;
-        });
-        $("#add_smtp_server_cancel").click(function () {
-          $("#add_smtp_server").hide();
-          return false;
-        });
-    </script>
 </html>
