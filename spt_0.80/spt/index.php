@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 24.0
+ * version: 25.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -56,10 +56,15 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
         <link rel="stylesheet" href="includes/spt.css" type="text/css" />
         <!--scripts-->
         <script type="text/javascript" src="includes/escape.js"></script>
+        <script src="includes/jquery.min.js"></script>
+        <script src="includes/jquery-ui.min.js"></script>
     </head>
     <body onload='login_form.u.focus()'>
         
         <?php
+            //pull in alert
+            include "includes/alert.php";
+
             //pull in browser script
             include "includes/browser.php";
 
@@ -158,10 +163,8 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
         ?>
         <!--login wrapper -->
         <div id="login_wrapper">
-
             <!--logo-->
             <div id="login_logo"><img src="images/logo.png" alt="logo"/><br /><?php include "includes/version.txt"; ?></div>
-
             <!--login form-->
                 <form name="login_form" id="login_form" method="post" action="login/validator.php">
                     <table>

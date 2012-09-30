@@ -2,7 +2,7 @@
 
 /**
  * file:    validator.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Login management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -44,21 +44,21 @@ $temp_p = $_POST['p'];
 //validate the username/email address
 if ( ! filter_var ( $temp_u, FILTER_VALIDATE_EMAIL ) ) {
     $_SESSION['alert_message'] = "invalid login attempt";
-    header ( 'location:../#alert' );
+    header ( 'location:../' );
     exit;
 }
 
 //validate the username/email address length
 if ( strlen ( $temp_u ) > 50 ) {
     $_SESSION['alert_message'] = "invalid login attempt";
-    header ( 'location:../#alert' );
+    header ( 'location:../' );
     exit;
 }
 
 //validate the password length
 if ( strlen ( $temp_p ) > 15 || strlen ( $temp_p ) < 8 ) {
     $_SESSION['alert_message'] = "invalid login attempt";
-    header ( 'location:../#alert' );
+    header ( 'location:../' );
     exit;
 }
 
@@ -93,6 +93,6 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
 //if they make it this far with no match then send them back to the login page with an error
 $_SESSION['alert_message'] = "invalid login attempt";
-header ( 'location:../#alert' );
+header ( 'location:../' );
 exit;
 ?>
