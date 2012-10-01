@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_add.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -121,6 +121,26 @@ if($_POST){
     $value = $host."|".$port."|".$ssl."|".$username."|".$password."|".$default;
     //add smtp server details to database
     mysql_query("INSERT INTO settings VALUES('smtp','$value')");
+    //unset temp variables
+    if(isset($_SESSION['temp_host'])){
+        unset($_SESSION['temp_host']);
+    }
+    if(isset($_SESSION['temp_port'])){
+        unset($_SESSION['temp_port']);
+    }
+    if(isset($_SESSION['temp_ssl'])){
+        unset($_SESSION['temp_ssl']);
+    }
+    if(isset($_SESSION['temp_username'])){
+        unset($_SESSION['temp_username']);
+    }
+    if(isset($_SESSION['temp_password'])){
+        unset($_SESSION['temp_password']);
+    }
+    if(isset($_SESSION['temp_default'])){
+        unset($_SESSION['temp_default']);
+    }
+
 }
 
 header('location:.#tabs-2');
