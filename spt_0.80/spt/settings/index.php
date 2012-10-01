@@ -91,14 +91,7 @@ if ( file_exists ( $includeContent ) ) {
                                             <td colspan="2">
                                                 <input type="file"  name="file" />
                                             </td>
-                                        </tr>';
-                                        if(isset($_SESSION['alert_message'])){
-                                            echo "
-                                                <tr>
-                                                    <td colspan=2 class=\"popover_alert_message\" >".$_SESSION['alert_message']."</td>
-                                                </tr>";
-                                        }
-                    echo '
+                                        </tr>
                                     <tr>
                                         <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-5"><img id="add_module_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                                     </tr>
@@ -123,27 +116,57 @@ if ( file_exists ( $includeContent ) ) {
                                             </tr>
                                             <tr>
                                                 <td>Host</td>
-                                                <td style="text-align: left;"><input type="text" name="host" /></td>
+                                                <td style="text-align: left;"><input type="text" name="host" ';
+                                                if(isset($_SESSION['temp_host'])){
+                                                    echo 'value="'.$_SESSION['temp_host'].'"';
+                                                    unset($_SESSION['temp_host']);
+                                                }
+                                                echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td>Port</td>
-                                                <td style="text-align: left;"><input type="text" name="port" /></td>
+                                                <td style="text-align: left;"><input type="text" name="port" ';
+                                                if(isset($_SESSION['temp_port'])){
+                                                    echo 'value="'.$_SESSION['temp_port'].'"';
+                                                    unset($_SESSION['temp_port']);
+                                                }
+                                                echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td>SSL</td>
-                                                <td style="text-align: left;"><input type="checkbox" name="ssl" /></td>
+                                                <td style="text-align: left;"><input type="checkbox" name="ssl" ';
+                                                if(isset($_SESSION['temp_ssl'])){
+                                                    echo 'CHECKED';
+                                                    unset($_SESSION['temp_ssl']);
+                                                }
+                                                echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td>Username</td>
-                                                <td style="text-align: left;"><input type="text" name="username" /></td>    
+                                                <td style="text-align: left;"><input type="text" name="username" ';
+                                                if(isset($_SESSION['temp_username'])){
+                                                    echo 'value="'.$_SESSION['temp_username'].'"';
+                                                    unset($_SESSION['temp_username']);
+                                                }
+                                                echo '/></td>    
                                             </tr>
                                             <tr>
                                                 <td>Password</td>
-                                                <td style="text-align: left;"><input type="password" name="password" /></td>
+                                                <td style="text-align: left;"><input type="password" name="password" ';
+                                                if(isset($_SESSION['temp_password'])){
+                                                    echo 'value="'.$_SESSION['temp_password'].'"';
+                                                    unset($_SESSION['temp_password']);
+                                                }
+                                                echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td>Default SMTP Server</td>
-                                                <td style="text-align: left;"><input type="checkbox" name="default" /></td>
+                                                <td style="text-align: left;"><input type="checkbox" name="default" ';
+                                                if(isset($_SESSION['temp_default'])){
+                                                    echo 'CHECKED';
+                                                    unset($_SESSION['temp_default']);
+                                                }
+                                                echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-2"><img id="add_smtp_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
@@ -170,27 +193,57 @@ if ( file_exists ( $includeContent ) ) {
                                             </tr>
                                             <tr>
                                                 <td>Host</td>
-                                                <td style="text-align: left;"><input type="text" name="host" /></td>
+                                                <td style="text-align: left;"><input type="text" name="host" ';
+                                                if(isset($_SESSION['temp_host'])){
+                                                    echo 'value="'.$_SESSION['temp_host'].'"';
+                                                    unset($_SESSION['temp_host']);
+                                                }
+                                                echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td>Port</td>
-                                                <td style="text-align: left;"><input type="text" name="port" /></td>
+                                                <td style="text-align: left;"><input type="text" name="port" ';
+                                                if(isset($_SESSION['temp_port'])){
+                                                    echo 'value="'.$_SESSION['temp_port'].'"';
+                                                    unset($_SESSION['temp_port']);
+                                                }
+                                                echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td>SSL</td>
-                                                <td style="text-align: left;"><input type="checkbox" name="ssl" /></td>
+                                                <td style="text-align: left;"><input type="checkbox" name="ssl" ';
+                                                if(isset($_SESSION['temp_ssl'])){
+                                                    echo 'CHECKED';
+                                                    unset($_SESSION['temp_ssl']);
+                                                }
+                                                echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td>Username</td>
-                                                <td style="text-align: left;"><input type="text" name="username" /></td>    
+                                                <td style="text-align: left;"><input type="text" name="username" ';
+                                                if(isset($_SESSION['temp_username'])){
+                                                    echo 'value="'.$_SESSION['temp_username'].'"';
+                                                    unset($_SESSION['temp_username']);
+                                                }
+                                                echo '/></td>    
                                             </tr>
                                             <tr>
                                                 <td>Password</td>
-                                                <td style="text-align: left;"><input type="password" name="password" /></td>
+                                                <td style="text-align: left;"><input type="password" name="password" ';
+                                                if(isset($_SESSION['temp_password'])){
+                                                    echo 'value="'.$_SESSION['temp_password'].'"';
+                                                    unset($_SESSION['temp_password']);
+                                                }
+                                                echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td>Base DN</td>
-                                                <td style="text-align: left;"><input type="text" name="basedn" /></td>
+                                                <td style="text-align: left;"><input type="text" name="basedn" ';
+                                                if(isset($_SESSION['temp_basedn'])){
+                                                    echo 'value="'.$_SESSION['temp_basedn'].'"';
+                                                    unset($_SESSION['temp_basedn']);
+                                                }                                                
+                                                echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-3"><img id="add_ldap_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
@@ -221,7 +274,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <td>Enable Twitter Feed</td>
                                 <td>
                                     
-                                    <input type="checkbox" name="twitter_enable" style="text-align:left;" <?php 
+                                    <input type="checkbox" name="twitter_enable" <?php 
                                         include('../spt_config/mysql_config.php');
                                         $r = mysql_query('SELECT value FROM settings WHERE setting = "twitter_enable"');
                                         while($ra = mysql_fetch_assoc($r)){
@@ -236,7 +289,7 @@ if ( file_exists ( $includeContent ) ) {
                                         }
                                     ?> />
                                 </td>
-                                <td style="text-align: right;">
+                                <td>
                                     <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Choose to disable or enable the twitter feed on the home page.</span></a>
                                 </td>
                             </tr>
@@ -256,7 +309,7 @@ if ( file_exists ( $includeContent ) ) {
                             <tr>
                                 <td>System Time</td>
                                 <td>Current: <?php print strftime('%c'); ?></td>
-                                <td style="text-align: right;">
+                                <td>
                                     <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>If the date/time is wrong, have your system administrator update the system time on the server hosting this application.  A simple way to update the time would be to run a command such as this at the command line as root: <strong>ntpdate pool.ntp.org</strong>.</span></a>
                                 </td>
                             </tr>
@@ -273,37 +326,37 @@ if ( file_exists ( $includeContent ) ) {
                                         }
                                     ?>
                                         <select name="timezones" onchange="updateSetting('timezone',this.value)">
-                                            <option value="-12.0" <?php if($tz == "-12.0"){echo "SELECTED";} ?>>(GMT -12:00) Eniwetok, Kwajalein</option>
-                                            <option value="-11.0" <?php if($tz == "-11.0"){echo "SELECTED";} ?>>(GMT -11:00) Midway Island, Samoa</option>
-                                            <option value="-10.0" <?php if($tz == "-10.0"){echo "SELECTED";} ?>>(GMT -10:00) Hawaii</option>
-                                            <option value="-9.0" <?php if($tz == "-9.0"){echo "SELECTED";} ?>>(GMT -9:00) Alaska</option>
-                                            <option value="-8.0" <?php if($tz == "-8.0"){echo "SELECTED";} ?>>(GMT -8:00) Pacific Time (US &amp; Canada)</option>
-                                            <option value="-7.0" <?php if($tz == "-7.0"){echo "SELECTED";} ?>>(GMT -7:00) Mountain Time (US &amp; Canada)</option>
-                                            <option value="-6.0" <?php if($tz == "-6.0"){echo "SELECTED";} ?>>(GMT -6:00) Central Time (US &amp; Canada), Mexico City</option>
-                                            <option value="-5.0" <?php if($tz == "-5.0"){echo "SELECTED";} ?>>(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima</option>
-                                            <option value="-4.0" <?php if($tz == "-4.0"){echo "SELECTED";} ?>>(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz</option>
-                                            <option value="-3.5" <?php if($tz == "-3.5"){echo "SELECTED";} ?>>(GMT -3:30) Newfoundland</option>
-                                            <option value="-3.0" <?php if($tz == "-3.0"){echo "SELECTED";} ?>>(GMT -3:00) Brazil, Buenos Aires, Georgetown</option>
-                                            <option value="-2.0" <?php if($tz == "-2.0"){echo "SELECTED";} ?>>(GMT -2:00) Mid-Atlantic</option>
-                                            <option value="-1.0" <?php if($tz == "-1.0"){echo "SELECTED";} ?>>(GMT -1:00 hour) Azores, Cape Verde Islands</option>
-                                            <option value="0.0" <?php if($tz == "0.0"){echo "SELECTED";} ?>>(GMT) Western Europe Time, London, Lisbon, Casablanca</option>
-                                            <option value="1.0" <?php if($tz == "1.0"){echo "SELECTED";} ?>>(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris</option>
-                                            <option value="2.0" <?php if($tz == "2.0"){echo "SELECTED";} ?>>(GMT +2:00) Kaliningrad, South Africa</option>
-                                            <option value="3.0" <?php if($tz == "3.0"){echo "SELECTED";} ?>>(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg</option>
-                                            <option value="3.5" <?php if($tz == "3.5"){echo "SELECTED";} ?>>(GMT +3:30) Tehran</option>
-                                            <option value="4.0" <?php if($tz == "4.0"){echo "SELECTED";} ?>>(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi</option>
-                                            <option value="4.5" <?php if($tz == "4.5"){echo "SELECTED";} ?>>(GMT +4:30) Kabul</option>
-                                            <option value="5.0" <?php if($tz == "5.0"){echo "SELECTED";} ?>>(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
-                                            <option value="5.5" <?php if($tz == "5.5"){echo "SELECTED";} ?>>(GMT +5:30) Bombay, Calcutta, Madras, New Delhi</option>
-                                            <option value="5.75" <?php if($tz == "5.75"){echo "SELECTED";} ?>>(GMT +5:45) Kathmandu</option>
-                                            <option value="6.0" <?php if($tz == "6.0"){echo "SELECTED";} ?>>(GMT +6:00) Almaty, Dhaka, Colombo</option>
-                                            <option value="7.0" <?php if($tz == "7.0"){echo "SELECTED";} ?>>(GMT +7:00) Bangkok, Hanoi, Jakarta</option>
-                                            <option value="8.0" <?php if($tz == "8.0"){echo "SELECTED";} ?>>(GMT +8:00) Beijing, Perth, Singapore, Hong Kong</option>
-                                            <option value="9.0" <?php if($tz == "9.0"){echo "SELECTED";} ?>>(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
-                                            <option value="9.5" <?php if($tz == "9.5"){echo "SELECTED";} ?>>(GMT +9:30) Adelaide, Darwin</option>
-                                            <option value="10.0" <?php if($tz == "10.0"){echo "SELECTED";} ?>>(GMT +10:00) Eastern Australia, Guam, Vladivostok</option>
-                                            <option value="11.0" <?php if($tz == "11.0"){echo "SELECTED";} ?>>(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>
-                                            <option value="12.0" <?php if($tz == "12.0"){echo "SELECTED";} ?>>(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option>                                </select>
+                                            <option value="-12.0" <?php if(isset($tz) && $tz == "-12.0"){echo "SELECTED";} ?>>(GMT -12:00) Eniwetok, Kwajalein</option>
+                                            <option value="-11.0" <?php if(isset($tz) && $tz == "-11.0"){echo "SELECTED";} ?>>(GMT -11:00) Midway Island, Samoa</option>
+                                            <option value="-10.0" <?php if(isset($tz) && $tz == "-10.0"){echo "SELECTED";} ?>>(GMT -10:00) Hawaii</option>
+                                            <option value="-9.0" <?php if(isset($tz) && $tz == "-9.0"){echo "SELECTED";} ?>>(GMT -9:00) Alaska</option>
+                                            <option value="-8.0" <?php if(isset($tz) && $tz == "-8.0"){echo "SELECTED";} ?>>(GMT -8:00) Pacific Time (US &amp; Canada)</option>
+                                            <option value="-7.0" <?php if(isset($tz) && $tz == "-7.0"){echo "SELECTED";} ?>>(GMT -7:00) Mountain Time (US &amp; Canada)</option>
+                                            <option value="-6.0" <?php if(isset($tz) && $tz == "-6.0"){echo "SELECTED";} ?>>(GMT -6:00) Central Time (US &amp; Canada), Mexico City</option>
+                                            <option value="-5.0" <?php if(isset($tz) && $tz == "-5.0"){echo "SELECTED";} ?>>(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima</option>
+                                            <option value="-4.0" <?php if(isset($tz) && $tz == "-4.0"){echo "SELECTED";} ?>>(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz</option>
+                                            <option value="-3.5" <?php if(isset($tz) && $tz == "-3.5"){echo "SELECTED";} ?>>(GMT -3:30) Newfoundland</option>
+                                            <option value="-3.0" <?php if(isset($tz) && $tz == "-3.0"){echo "SELECTED";} ?>>(GMT -3:00) Brazil, Buenos Aires, Georgetown</option>
+                                            <option value="-2.0" <?php if(isset($tz) && $tz == "-2.0"){echo "SELECTED";} ?>>(GMT -2:00) Mid-Atlantic</option>
+                                            <option value="-1.0" <?php if(isset($tz) && $tz == "-1.0"){echo "SELECTED";} ?>>(GMT -1:00 hour) Azores, Cape Verde Islands</option>
+                                            <option value="0.0" <?php if(isset($tz) && $tz == "0.0"){echo "SELECTED";} ?>>(GMT) Western Europe Time, London, Lisbon, Casablanca</option>
+                                            <option value="1.0" <?php if(isset($tz) && $tz == "1.0"){echo "SELECTED";} ?>>(GMT +1:00 hour) Brussels, Copenhagen, Madrid, Paris</option>
+                                            <option value="2.0" <?php if(isset($tz) && $tz == "2.0"){echo "SELECTED";} ?>>(GMT +2:00) Kaliningrad, South Africa</option>
+                                            <option value="3.0" <?php if(isset($tz) && $tz == "3.0"){echo "SELECTED";} ?>>(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg</option>
+                                            <option value="3.5" <?php if(isset($tz) && $tz == "3.5"){echo "SELECTED";} ?>>(GMT +3:30) Tehran</option>
+                                            <option value="4.0" <?php if(isset($tz) && $tz == "4.0"){echo "SELECTED";} ?>>(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi</option>
+                                            <option value="4.5" <?php if(isset($tz) && $tz == "4.5"){echo "SELECTED";} ?>>(GMT +4:30) Kabul</option>
+                                            <option value="5.0" <?php if(isset($tz) && $tz == "5.0"){echo "SELECTED";} ?>>(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+                                            <option value="5.5" <?php if(isset($tz) && $tz == "5.5"){echo "SELECTED";} ?>>(GMT +5:30) Bombay, Calcutta, Madras, New Delhi</option>
+                                            <option value="5.75" <?php if(isset($tz) && $tz == "5.75"){echo "SELECTED";} ?>>(GMT +5:45) Kathmandu</option>
+                                            <option value="6.0" <?php if(isset($tz) && $tz == "6.0"){echo "SELECTED";} ?>>(GMT +6:00) Almaty, Dhaka, Colombo</option>
+                                            <option value="7.0" <?php if(isset($tz) && $tz == "7.0"){echo "SELECTED";} ?>>(GMT +7:00) Bangkok, Hanoi, Jakarta</option>
+                                            <option value="8.0" <?php if(isset($tz) && $tz == "8.0"){echo "SELECTED";} ?>>(GMT +8:00) Beijing, Perth, Singapore, Hong Kong</option>
+                                            <option value="9.0" <?php if(isset($tz) && $tz == "9.0"){echo "SELECTED";} ?>>(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
+                                            <option value="9.5" <?php if(isset($tz) && $tz == "9.5"){echo "SELECTED";} ?>>(GMT +9:30) Adelaide, Darwin</option>
+                                            <option value="10.0" <?php if(isset($tz) && $tz == "10.0"){echo "SELECTED";} ?>>(GMT +10:00) Eastern Australia, Guam, Vladivostok</option>
+                                            <option value="11.0" <?php if(isset($tz) && $tz == "11.0"){echo "SELECTED";} ?>>(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>
+                                            <option value="12.0" <?php if(isset($tz) && $tz == "12.0"){echo "SELECTED";} ?>>(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option>                                </select>
                                         </select>
                                 </td>
                             </tr>
@@ -403,7 +456,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <td><h3>Name</h3></td>
                                 <td><h3>Dependencies</h3></td>
                                 <td><h3>Description</h3></td>
-                                <td><h3>Uninstall</h3></td>
+                                <td class="td_center"><h3>Uninstall</h3></td>
                             </tr>
                             <?php
                             //connect to database
@@ -415,7 +468,7 @@ if ( file_exists ( $includeContent ) ) {
                                 echo "
                                                 <tr>\n
                                                     <td>" . $ra['name'] . "</td>\n
-                                                    <td class=\"td_center\">";
+                                                    <td>";
 
                                 //set the current module name to a temp variable
                                 $t = $ra['name'];

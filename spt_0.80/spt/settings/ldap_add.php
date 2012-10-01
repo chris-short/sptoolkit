@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_add.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -40,13 +40,32 @@ if ( file_exists ( $includeContent ) ) {
 
 //check to see if something was posted
 if($_POST){
+    //get values
+    if(isset($_POST['host'])){
+        $_SESSION['temp_host'] = $_POST['host'];
+    }
+    if(isset($_POST['port'])){
+        $_SESSION['temp_port'] = $_POST['port'];
+    }
+    if(isset($_POST['ssl'])){
+        $_SESSION['temp_ssl'] = $_POST['ssl'];
+    }
+    if(isset($_POST['username'])){
+        $_SESSION['temp_username'] = $_POST['username'];
+    }
+    if(isset($_POST['password'])){
+        $_SESSION['temp_password'] = $_POST['password'];
+    }
+    if(isset($_POST['basedn'])){
+        $_SESSION['basedn'] = $_POST['basedn'];
+    }    
     //validate and get host
     if(isset($_POST['host']) && preg_match( '/^[a-zA-Z0-9\-\_\.]/' , $_POST['host']) ){
         $host = $_POST['host'];
     }
     else{
         $_SESSION['alert_message'] = 'host was either empty or not a valid hostname';
-        header ( 'location:.#tabs-3' );
+        header ( 'location:.?add_ldap_server=true#tabs-3' );
         exit;
     }
     //validate and get port
@@ -55,7 +74,7 @@ if($_POST){
     }
     else{
         $_SESSION['alert_message'] = 'port is required and must be between 1 and 65535';
-        header ( 'location:.#tabs-3' );
+        header ( 'location:.?add_ldap_server=true#tabs-3' );
         exit;
     }
     //get ssl status
