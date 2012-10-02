@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 30.0
+ * version: 31.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -178,6 +178,81 @@ if ( file_exists ( $includeContent ) ) {
                         </div>
                     ';
                 }
+                if(isset($_GET['edit_smtp_server'])){
+                    //get smtp server
+                    $smtp_server = $_GET['edit_smtp_server'];
+                    $r = mysql_query("SELECT value FROM settings WHERE setting = 'smtp'");
+                    while ($ra = mysql_fetch_assoc($r)){
+                        $current_smtp_server = explode("|", $ra['value']);
+                        if($current_smtp_server[0] == $smtp_server){
+                            $smtp_server_host = $current_smtp_server[0]; 
+                            $smtp_server_port = $current_smtp_server[1];
+                            $smtp_server_ssl = $current_smtp_server[2];
+                            $smtp_server_username = $current_smtp_server[3];
+                            $smtp_server_password = $current_smtp_server[4];
+                            $smtp_server_default = $current_smtp_server[5];
+                        }
+                    }
+                    if(!isset($smtp_server_host)){
+                        $_SESSION['alert_message'] = "please select an existing smtp server";
+                        header('location:.#tabs-2');
+                        exit;
+                    }
+                    echo '
+                        <div id="edit_smtp_server">
+                            <div>
+                                <table id="edit_smtp_server_table">
+                                    <tr>
+                                        <form method="POST" action="smtp_edit.php" />
+                                            <tr>
+                                                <td colspan=2 style="text-align: left;"><h3>Edit SMTP Server</h3></td>
+                                                <td style="text-align: right;">
+                                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Edit the smtp server information.  Don\'t worry about entering the password unless you want to change it.</span></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Host</td>
+                                                <td style="text-align: left;"><input type="text" name="host" value="'.$smtp_server_host.'"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Port</td>
+                                                <td style="text-align: left;"><input type="text" name="port" value="'.$smtp_server_port.'"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>SSL</td>
+                                                <td style="text-align: left;"><input type="checkbox" name="ssl" ';
+                                                if($smtp_server_ssl == 1){
+                                                    echo 'CHECKED';
+                                                }
+                                                echo '/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Username</td>
+                                                <td style="text-align: left;"><input type="text" name="username" value="'.$smtp_server_username.'"/></td>    
+                                            </tr>
+                                            <tr>
+                                                <td>Password</td>
+                                                <td style="text-align: left;"><input type="password" name="password" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Default SMTP Server</td>
+                                                <td style="text-align: left;"><input type="checkbox" name="default" ';
+                                                if($smtp_server_default == 'default'){
+                                                    echo 'CHECKED';
+                                                }
+                                                echo '/></td>
+                                            </tr>
+                                            <input type="hidden" name="current_host" value="'.$smtp_server_host.'"
+                                            <tr>
+                                                <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-2"><img id="add_smtp_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                                            </tr>
+                                        </form>
+                                    </tr>
+                                </table>
+                             </div>
+                        </div>
+                    ';
+                }
                 if(isset($_GET['add_ldap_server']) && $_GET['add_ldap_server'] == 'true'){
                     echo '
                         <div id="add_ldap_server">
@@ -255,6 +330,82 @@ if ( file_exists ( $includeContent ) ) {
                         </div>                
                     ';                
                 }
+                if(isset($_GET['edit_ldap_server'])){
+                    //get ldap server
+                    $ldap_server = $_GET['edit_ldap_server'];
+                    $r = mysql_query("SELECT value FROM settings WHERE setting = 'ldap'");
+                    while ($ra = mysql_fetch_assoc($r)){
+                        $current_ldap_server = explode("|", $ra['value']);
+                        if($current_ldap_server[0] == $ldap_server){
+                            $ldap_server_host = $current_ldap_server[0]; 
+                            $ldap_server_port = $current_ldap_server[1];
+                            $ldap_server_ssl = $current_ldap_server[2];
+                            $ldap_server_username = $current_ldap_server[3];
+                            $ldap_server_password = $current_ldap_server[4];
+                            $ldap_basedn = $current_ldap_server[5];
+                        }
+                    }
+                    if(!isset($ldap_server_host)){
+                        $_SESSION['alert_message'] = "please select an existing ldap server";
+                        header('location:.#tabs-3');
+                        exit;
+                    }
+                    echo '
+                        <div id="edit_ldap_server">
+                            <div>
+                                <table id="edit_ldap_server_table">
+                                    <tr>
+                                        <form method="POST" action="ldap_edit.php" />
+                                            <tr>
+                                                <td colspan=2 style="text-align: left;"><h3>Edit LDAP Server</h3></td>
+                                                <td style="text-align: right;">
+                                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Edit the ldap server information.  Don\'t worry about entering the password unless you want to change it.</span></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Host</td>
+                                                <td style="text-align: left;"><input type="text" name="host" value="'.$ldap_server_host.'"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Port</td>
+                                                <td style="text-align: left;"><input type="text" name="port" value="'.$ldap_server_port.'"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>SSL</td>
+                                                <td style="text-align: left;"><input type="checkbox" name="ssl" ';
+                                                if($ldap_server_ssl == 1){
+                                                    echo 'CHECKED';
+                                                }
+                                                echo '/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Username</td>
+                                                <td style="text-align: left;"><input type="text" name="username" value="'.$ldap_server_username.'"/></td>    
+                                            </tr>
+                                            <tr>
+                                                <td>Password</td>
+                                                <td style="text-align: left;"><input type="password" name="password" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Base DN</td>
+                                                <td style="text-align: left;"><input type="text" name="basedn" ';
+                                                if($ldap_basedn == 'default'){
+                                                    echo 'CHECKED';
+                                                }
+                                                echo '/></td>
+                                            </tr>
+                                            <input type="hidden" name="current_host" value="'.$ldap_server_host.'"
+                                            <tr>
+                                                <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-3"><img id="add_ldap_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                                            </tr>
+                                        </form>
+                                    </tr>
+                                </table>
+                             </div>
+                        </div>
+                    ';
+                }
+
             ?>
             <!--content-->
             <div id="content">
@@ -380,16 +531,27 @@ if ( file_exists ( $includeContent ) ) {
                                     $smtp_setting = explode("|",$ra['value']);
                                     echo "
                                         <tr>
-                                            <td>".$smtp_setting[0]."</td>
+                                            <td><a href=\"?edit_smtp_server=".$smtp_setting[0]."#tabs-2\">".$smtp_setting[0]."</a></td>
                                             <td>".$smtp_setting[1]."</td>
-                                            <td>".$smtp_setting[2]."</td>
+                                            <td>";
+                                    if($smtp_setting[2] == 1){
+                                        echo "Y";
+                                    }else{
+                                        echo "N";
+                                    }
+                                    echo "
+                                            </td>
                                             <td>".$smtp_setting[3]."</td>
                                             <td>";
                                     if($smtp_setting[5] == "default"){
                                         echo "<img src=\"../images/accept_sm.png\" alt=\"default\" />";
                                     }else{}
-                                    echo "</td>
-                                    <td><a href=\"delete_smtp.php?smtp=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a></td>
+                                    echo "
+                                            </td>
+                                            <td>
+                                                <a href=\"?edit_smtp_server=".$smtp_setting[0]."#tabs-2\"><img src=\"../images/pencil_sm.png\" alt=\"edit\" /></a>
+                                                <a href=\"delete_smtp.php?smtp=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a>
+                                            </td>
                                         </tr>
                                     ";
                                 }
@@ -404,7 +566,6 @@ if ( file_exists ( $includeContent ) ) {
                                 <td><h3>Port</h3></td>
                                 <td><h3>SSL?</h3></td>
                                 <td><h3>Username</h3></td>
-                                <td><h3>Password</h3></td>
                                 <td><h3>Base DN</h3></td>
                                 <td><h3>Actions</h3></td>
                             </tr>
@@ -415,17 +576,22 @@ if ( file_exists ( $includeContent ) ) {
                                     $ldap_setting = explode("|",$ra['value']);
                                     echo "
                                         <tr>
-                                            <td>".$ldap_setting[0]."</td>
+                                            <td><a href=\"?edit_ldap_server=".$ldap_setting[0]."#tabs-3\">".$ldap_setting[0]."</a></td>
                                             <td>".$ldap_setting[1]."</td>
-                                            <td>".$ldap_setting[2]."</td>
-                                            <td>".$ldap_setting[3]."</td>
                                             <td>";
-                                    if(strlen($ldap_setting[4]) > 0){
-                                        echo "********";
-                                    }else{}
-                                    echo "</td>
+                                    if($ldap_setting[2] == 1){
+                                        echo "Y";
+                                    }else{
+                                        echo "N";
+                                    }
+                                    echo "
+                                            </td>
+                                            <td>".$ldap_setting[3]."</td>
                                             <td>".$ldap_setting[5]."</td>
-                                    <td><a href=\"delete_ldap.php?ldap=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a></td>
+                                            <td>
+                                                <a href=\"ldap_edit.php?ldap=".$ra['value']."\"><img src=\"../images/pencil_sm.png\" alt=\"edit\" /></a>
+                                                <a href=\"delete_ldap.php?ldap=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a>
+                                            </td>
                                         </tr>
                                     ";
                                 }
