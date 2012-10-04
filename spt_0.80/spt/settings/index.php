@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 31.0
+ * version: 32.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -242,9 +242,55 @@ if ( file_exists ( $includeContent ) ) {
                                                 }
                                                 echo '/></td>
                                             </tr>
-                                            <input type="hidden" name="current_host" value="'.$smtp_server_host.'"
+                                            <input type="hidden" name="current_host" value="'.$smtp_server_host.'" />
                                             <tr>
                                                 <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-2"><img id="add_smtp_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                                            </tr>
+                                        </form>
+                                    </tr>
+                                </table>
+                             </div>
+                        </div>
+                    ';
+                }
+                if(isset($_GET['test_smtp_server'])){
+                    //get smtp server
+                    $smtp_server = $_GET['test_smtp_server'];
+                    $r = mysql_query("SELECT value FROM settings WHERE setting = 'smtp'");
+                    while ($ra = mysql_fetch_assoc($r)){
+                        $test_smtp_server = explode("|", $ra['value']);
+                        if($test_smtp_server[0] == $smtp_server){
+                            $test_smtp_server_host = $test_smtp_server[0]; 
+                            $test_smtp_server_port = $test_smtp_server[1];
+                            $test_smtp_server_ssl = $test_smtp_server[2];
+                            $test_smtp_server_username = $test_smtp_server[3];
+                            $test_smtp_server_default = $test_smtp_server[5];
+                        }
+                    }
+                    if(!isset($test_smtp_server_host)){
+                        $_SESSION['alert_message'] = "please select an existing smtp server";
+                        header('location:.#tabs-2');
+                        exit;
+                    }
+                    echo '
+                        <div id="test_smtp_server">
+                            <div>
+                                <table id="test_smtp_server_table">
+                                    <tr>
+                                        <form method="POST" action="smtp_test.php" />
+                                            <tr>
+                                                <td colspan=2 style="text-align: left;"><h3>Test '.$test_smtp_server_host.'</h3></td>
+                                                <td style="text-align: right;">
+                                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter an email address you\'d like to send a test message to and hit "Send It."  Check that email addresses mailbox and ensure you receive the email.  If the email is not there, then check your SMTP settings and try again.</span></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Test Email</td>
+                                                <td style="text-align: left;"><input type="text" name="test_email" /></td>
+                                            </tr>
+                                            <input type="hidden" name="current_host" value="'.$test_smtp_server_host.'"/>
+                                            <tr>
+                                                <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-2"><img id="test_smtp_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                                             </tr>
                                         </form>
                                     </tr>
@@ -394,7 +440,7 @@ if ( file_exists ( $includeContent ) ) {
                                                 }
                                                 echo '/></td>
                                             </tr>
-                                            <input type="hidden" name="current_host" value="'.$ldap_server_host.'"
+                                            <input type="hidden" name="current_host" value="'.$ldap_server_host.'"/>
                                             <tr>
                                                 <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-3"><img id="add_ldap_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                                             </tr>
@@ -550,6 +596,7 @@ if ( file_exists ( $includeContent ) ) {
                                             </td>
                                             <td>
                                                 <a href=\"?edit_smtp_server=".$smtp_setting[0]."#tabs-2\"><img src=\"../images/pencil_sm.png\" alt=\"edit\" /></a>
+                                                <a href=\"?test_smtp_server=".$smtp_setting[0]."#tabs-2\"><img src=\"../images/email_to_friend_sm.png\" alt=\"edit\" /></a>                                                
                                                 <a href=\"delete_smtp.php?smtp=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a>
                                             </td>
                                         </tr>
