@@ -434,11 +434,7 @@ if ( file_exists ( $includeContent ) ) {
                                             </tr>
                                             <tr>
                                                 <td>Base DN</td>
-                                                <td style="text-align: left;"><input type="text" name="basedn" ';
-                                                if($ldap_basedn == 'default'){
-                                                    echo 'CHECKED';
-                                                }
-                                                echo '/></td>
+                                                <td style="text-align: left;"><input type="text" name="basedn" value="'.$ldap_basedn.'"/></td>
                                             </tr>
                                             <input type="hidden" name="current_host" value="'.$ldap_server_host.'"/>
                                             <tr>
