@@ -636,7 +636,7 @@ if ( file_exists ( $includeContent ) ) {
                                             <td>".$ldap_setting[3]."</td>
                                             <td>".$ldap_setting[5]."</td>
                                             <td>
-                                                <a href=\"ldap_edit.php?ldap=".$ra['value']."\"><img src=\"../images/pencil_sm.png\" alt=\"edit\" /></a>
+                                                <a href=\"?edit_ldap_server=".$ldap_setting[0]."\"><img src=\"../images/pencil_sm.png\" alt=\"edit\" /></a>
                                                 <a href=\"delete_ldap.php?ldap=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a>
                                             </td>
                                         </tr>
