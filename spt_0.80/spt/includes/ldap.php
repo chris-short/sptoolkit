@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Includes
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -60,6 +60,8 @@ function ldap_group_dump($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_bas
     $ldap_group_dump = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
     //get data
     $ldap_group_dump = ldap_get_entries($ldap_conn, $ldap_group_dump);
+    //close the connection
+    ldap_close($ldap_conn);
     //return dump
     return $ldap_group_dump;
 }
@@ -77,6 +79,8 @@ function ldap_user_dump($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_base
     $ldap_user_dump = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
     //get data
     $ldap_user_dump = ldap_get_entries($ldap_conn, $ldap_user_dump);
+    //close the connection
+    ldap_close($ldap_conn);
     //return dump
     return $ldap_user_dump;
 }
@@ -94,11 +98,13 @@ function ldap_user_query($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_bas
     $ldap_user_query = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
     //get data
     $ldap_user_query = ldap_get_entries($ldap_conn, $ldap_user_query);
+    //close the connection
+    ldap_close($ldap_conn);
     //return dump
     return $ldap_user_query;
 }
 //ldap group query
-function ldap_user_query($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_group){
+function ldap_group_query($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_group){
     //call connect function
     $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_user,$ldap_pass);
     //call bind function
@@ -111,6 +117,8 @@ function ldap_user_query($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_bas
     $ldap_group_query = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
     //get data
     $ldap_group_query = ldap_get_entries($ldap_conn, $ldap_group_query);
+    //close the connection
+    ldap_close($ldap_conn);
     //return dump
     return $ldap_group_query;
 }
@@ -142,6 +150,8 @@ function ldap_user_of_group($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_
     $ldap_user_of_group = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
     //get data
     $ldap_user_of_group = ldap_get_entries($ldap_conn, $ldap_user_of_group);
+    //close the connection
+    ldap_close($ldap_conn);
     //return dump
     return $ldap_user_of_group;
 }
