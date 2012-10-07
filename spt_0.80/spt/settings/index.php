@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 32.0
+ * version: 33.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -447,6 +447,55 @@ if ( file_exists ( $includeContent ) ) {
                         </div>
                     ';
                 }
+                if(isset($_GET['test_ldap_server'])){
+                    //get ldap server
+                    $test_ldap_server = $_GET['test_ldap_server'];
+                    $r = mysql_query("SELECT value FROM settings WHERE setting = 'ldap'");
+                    while ($ra = mysql_fetch_assoc($r)){
+                        $current_test_ldap_server = explode("|", $ra['value']);
+                        if($current_test_ldap_server[0] == $test_ldap_server){
+                            $test_ldap_server_host = $current_test_ldap_server[0]; 
+                            $test_ldap_server_port = $current_test_ldap_server[1];
+                            $test_ldap_server_ssl = $current_test_ldap_server[2];
+                            $test_ldap_server_username = $current_test_ldap_server[3];
+                            $test_ldap_server_password = $current_test_ldap_server[4];
+                            $test_ldap_basedn = $current_test_ldap_server[5];
+                        }
+                    }
+                    if(!isset($test_ldap_server_host)){
+                        $_SESSION['alert_message'] = "please select an existing ldap server";
+                        header('location:.#tabs-3');
+                        exit;
+                    }
+                    echo '
+                        <div id="test_ldap_server">
+                            <div>
+                                <table id="test_ldap_server_table">
+                                    <tr>
+                                        <form method="POST" action="ldap_test.php" />
+                                            <tr>
+                                                <td colspan=2 style="text-align: left;"><h3>Test LDAP Server</h3></td>
+                                                <td></td>
+                                                <td style="text-align: right;">
+                                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Test the ldap server information.</span></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan=2>Bind Test</td>
+                                                <input type="hidden" name="type" value="bind" />
+                                                <input type="hidden" name="host" value="'.$test_ldap_server_host.'" />
+                                                <td style="text-align: left;"><input type="submit" value="Bind"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;"><br /><a href=".#tabs-3"><img id="add_ldap_server_cancel" src="../images/accept.png" alt="accept" /></a></td>
+                                            </tr>
+                                        </form>
+                                    </tr>
+                                </table>
+                             </div>
+                        </div>
+                    ';
+                }
 
             ?>
             <!--content-->
@@ -633,6 +682,7 @@ if ( file_exists ( $includeContent ) ) {
                                             <td>".$ldap_setting[5]."</td>
                                             <td>
                                                 <a href=\"?edit_ldap_server=".$ldap_setting[0]."\"><img src=\"../images/pencil_sm.png\" alt=\"edit\" /></a>
+                                                <a href=\"?test_ldap_server=".$ldap_setting[0]."\"><img src=\"../images/directory_listing_sm.png\" alt=\"edit\" /></a>                                                
                                                 <a href=\"delete_ldap.php?ldap=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a>
                                             </td>
                                         </tr>

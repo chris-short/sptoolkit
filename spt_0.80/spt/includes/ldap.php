@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Includes
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -26,11 +26,11 @@
 //ldap connect function
 function ldap_connection($ldap_server,$ldap_port){
     //setup connection
-    $ldap_conn = ldap_connect ($ldap_server,$ldap_port);
+    $ldap_conn = ldap_connect($ldap_server,$ldap_port);
     //set options
     ldap_set_option($ldap_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ldap_conn, LDAP_OPT_REFERRALS, 0);
-    //return connection
+    //return ldap connection
     return $ldap_conn;
 }
 //ldap bind function
@@ -40,11 +40,7 @@ function ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass){
         $ldap_bind = ldap_bind($ldap_conn, $ldap_user, $ldap_pass);
     }
     //return bind
-    if($ldap_bind){
-        return true;
-    }else{
-        return false;
-    }
+    return $ldap_bind;
 }
 //ldap group user dump
 function ldap_group_dump($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn){
