@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 33.0
+ * version: 34.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -448,11 +448,19 @@ if ( file_exists ( $includeContent ) ) {
                     ';
                 }
                 if(isset($_GET['test_ldap_server'])){
-                    //get ldap server
-                    $test_ldap_server = $_GET['test_ldap_server'];
+                    //validate and get host
+                    if(isset($_GET['test_ldap_server']) && preg_match( '/^[a-zA-Z0-9\-\_\.]/' , $_GET['test_ldap_server']) ){
+                        $test_ldap_server = $_GET['test_ldap_server'];
+                    }
+                    else{
+                        $_SESSION['alert_message'] = 'host was either empty or not a valid hostname';
+                        header ( 'location:.#tabs-3' );
+                        exit;
+                    }
                     $r = mysql_query("SELECT value FROM settings WHERE setting = 'ldap'");
                     while ($ra = mysql_fetch_assoc($r)){
                         $current_test_ldap_server = explode("|", $ra['value']);
+                        //if the ldap server matches get all the other details about that ldap server
                         if($current_test_ldap_server[0] == $test_ldap_server){
                             $test_ldap_server_host = $current_test_ldap_server[0]; 
                             $test_ldap_server_port = $current_test_ldap_server[1];
@@ -462,6 +470,7 @@ if ( file_exists ( $includeContent ) ) {
                             $test_ldap_basedn = $current_test_ldap_server[5];
                         }
                     }
+                    //throw error if no match found
                     if(!isset($test_ldap_server_host)){
                         $_SESSION['alert_message'] = "please select an existing ldap server";
                         header('location:.#tabs-3');
@@ -471,25 +480,45 @@ if ( file_exists ( $includeContent ) ) {
                         <div id="test_ldap_server">
                             <div>
                                 <table id="test_ldap_server_table">
+                                <form method="POST" action="ldap_test.php">
                                     <tr>
-                                        <form method="POST" action="ldap_test.php" />
-                                            <tr>
-                                                <td colspan=2 style="text-align: left;"><h3>Test LDAP Server</h3></td>
-                                                <td></td>
-                                                <td style="text-align: right;">
-                                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Test the ldap server information.</span></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan=2>Bind Test</td>
-                                                <input type="hidden" name="type" value="bind" />
-                                                <input type="hidden" name="host" value="'.$test_ldap_server_host.'" />
-                                                <td style="text-align: left;"><input type="submit" value="Bind"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3" style="text-align: center;"><br /><a href=".#tabs-3"><img id="add_ldap_server_cancel" src="../images/accept.png" alt="accept" /></a></td>
-                                            </tr>
-                                        </form>
+                                        <td colspan=2 style="text-align: left;"><h3>Test LDAP Server</h3></td>
+                                        <td></td>
+                                        <td style="text-align: right;">
+                                            <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Test the ldap server information.</span></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan=2>Bind Test</td>
+                                        <input type="hidden" name="type" value="bind" />
+                                        <input type="hidden" name="host" value="'.$test_ldap_server_host.'" />
+                                        <td style="text-align: left;"><input type="submit" value="Bind"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><br /><br /></td>
+                                    </tr>
+                                </form>
+                                <form method="POST" action="ldap_test.php">
+                                    <tr>
+                                        <td colspan=3>Test Authentication</td>
+                                    </tr>
+                                        <td colspan=2>Username</td>
+                                        <td><input type="text" name="username" /></td>
+                                    <tr>
+                                    </tr>
+                                        <td colspan=2>Password</td>
+                                        <td><input type="password" name="password" /></td>
+                                    <tr>
+                                    </tr>
+                                        <input type="hidden" name="type" value="auth" />
+                                        <input type="hidden" name="host" value="'.$test_ldap_server_host.'" />
+                                        <td colspan=2></td>
+                                        <td style="text-align: left;"><input type="submit" value="Test Auth"/></td>
+                                    <tr>
+                                    </tr>
+                                </form>
+                                    <tr>
+                                        <td colspan="3" style="text-align: center;"><br /><a href=".#tabs-3"><img id="add_ldap_server_cancel" src="../images/accept.png" alt="accept" /></a></td>
                                     </tr>
                                 </table>
                              </div>
@@ -681,8 +710,8 @@ if ( file_exists ( $includeContent ) ) {
                                             <td>".$ldap_setting[3]."</td>
                                             <td>".$ldap_setting[5]."</td>
                                             <td>
-                                                <a href=\"?edit_ldap_server=".$ldap_setting[0]."\"><img src=\"../images/pencil_sm.png\" alt=\"edit\" /></a>
-                                                <a href=\"?test_ldap_server=".$ldap_setting[0]."\"><img src=\"../images/directory_listing_sm.png\" alt=\"edit\" /></a>                                                
+                                                <a href=\"?edit_ldap_server=".$ldap_setting[0]."#tabs-3\"><img src=\"../images/pencil_sm.png\" alt=\"edit\" /></a>
+                                                <a href=\"?test_ldap_server=".$ldap_setting[0]."#tabs-3\"><img src=\"../images/directory_listing_sm.png\" alt=\"edit\" /></a>                                                
                                                 <a href=\"delete_ldap.php?ldap=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a>
                                             </td>
                                         </tr>

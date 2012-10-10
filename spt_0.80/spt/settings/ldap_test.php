@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_test.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -66,7 +66,7 @@ if($_POST){
         exit;
     }
     //check to see if valid type is posted
-    if(isset($_POST['type']) && ($_POST['type'] == "connectivity" OR $_POST['type'] == "bind")){
+    if(isset($_POST['type']) && ($_POST['type'] == "auth" OR $_POST['type'] == "bind")){
     }else{
         $_SESSION['alert_message'] = "please attempt a valid LDAP test";
         header('location:./?test_ldap_server='.$host."#tabs-3");
@@ -89,14 +89,16 @@ if($_POST){
             }
         }
         //get connected
-        $ldap_conn = ldap_connection($ldap_server,$ldap_port);
+        $ldap_conn = ldap_connection($current_ldap_server[0],$current_ldap_server_port);
         if(!$ldap_conn){
             $_SESSION['alert_message'] = "could not connect to server";
             header('location:./?test_ldap_server='.$host.'#tabs-3');
             exit;
         }
         //call bind function
-        $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass);
+        $ldap_bind = ldap_bind_connection($ldap_conn,$current_ldap_server_username,$current_ldap_server_password);
+        //close connection
+        ldap_close($ldap_conn);
         if($ldap_bind){
             $_SESSION['alert_message'] = "bind successful :)";
             header('location:./?test_ldap_server='.$host.'#tabs-3');
@@ -107,8 +109,44 @@ if($_POST){
             exit;
         }
     }
+    if(isset($_POST['type']) && $_POST['type'] == "auth"){
+        //get ldap server details
+        $r = mysql_query("SELECT value FROM settings WHERE setting = 'ldap'");
+        while ($ra = mysql_fetch_assoc($r)){
+            $current_ldap_server = explode("|", $ra['value']);
+            if($current_ldap_server[0] == $host){
+                $current_ldap_server_port = $current_ldap_server[1];
+                $current_ldap_server_ssl = $current_ldap_server[2];
+                $current_ldap_server_username = $current_ldap_server[3];
+                $current_ldap_server_password = $current_ldap_server[4];
+                $current_ldap_server_basedn = $current_ldap_server[5];
+            }
+        }
+        //get connected
+        $ldap_conn = ldap_connection($current_ldap_server[0],$current_ldap_server_port);
+        if(!$ldap_conn){
+            $_SESSION['alert_message'] = "could not connect to server";
+            header('location:./?test_ldap_server='.$host.'#tabs-3');
+            exit;
+        }
+        //get username and password from submission
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        //attempt bind with provided username and password
+        $ldap_bind = ldap_bind_connection($ldap_conn,$username,$password);
+        //close connection
+        ldap_close($ldap_conn);
+        if($ldap_bind){
+            $_SESSION['alert_message'] = "authentication successful :)";
+            header('location:./?test_ldap_server='.$host.'#tabs-3');
+            exit;
+        }else{
+            $_SESSION['alert_message'] = "authentication unsuccessful :(";
+            header('location:./?test_ldap_server='.$host.'#tabs-3');
+            exit;
+        }
+    }
 }
-
 $_SESSION['alert_message'] = "gotta send me something";
 header('location:./#tabs-3');
 exit;

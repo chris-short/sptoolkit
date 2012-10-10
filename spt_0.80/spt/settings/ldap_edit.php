@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_edit.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -75,7 +75,7 @@ if($_POST){
         $username = "";
     }
     //get password if provided
-    if(isset($_POST['password'])){
+    if(isset($_POST['password']) && strlen($_POST['password']) > 0){
         $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
     }
     //get basedn
@@ -90,6 +90,10 @@ if($_POST){
         $current_ldap_server = explode("|",$ra['value']);
         if($current_ldap_server[0] == $current_host){
             $delete_this_ldap_entry = $ra['value'];
+            //get password
+            if(!isset($password)){
+                $password = $current_ldap_server[4];
+            }
             //delete existing entry
             mysql_query("DELETE FROM settings WHERE setting = 'ldap' AND value = '$delete_this_ldap_entry'");
         }
