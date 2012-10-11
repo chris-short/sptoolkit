@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 34.0
+ * version: 35.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -529,7 +529,6 @@ if ( file_exists ( $includeContent ) ) {
             ?>
             <!--content-->
             <div id="content">
-                <!--content-new-->
                 <br />
                 <div id="tabs">
                     <ul>
