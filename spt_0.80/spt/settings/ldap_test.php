@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_test.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -89,7 +89,7 @@ if($_POST){
             }
         }
         //get connected
-        $ldap_conn = ldap_connection($current_ldap_server[0],$current_ldap_server_port);
+        $ldap_conn = ldap_connection($host,$current_ldap_server_port);
         if(!$ldap_conn){
             $_SESSION['alert_message'] = "could not connect to server";
             header('location:./?test_ldap_server='.$host.'#tabs-3');
@@ -97,8 +97,6 @@ if($_POST){
         }
         //call bind function
         $ldap_bind = ldap_bind_connection($ldap_conn,$current_ldap_server_username,$current_ldap_server_password);
-        //close connection
-        ldap_close($ldap_conn);
         if($ldap_bind){
             $_SESSION['alert_message'] = "bind successful :)";
             header('location:./?test_ldap_server='.$host.'#tabs-3');
@@ -123,7 +121,7 @@ if($_POST){
             }
         }
         //get connected
-        $ldap_conn = ldap_connection($current_ldap_server[0],$current_ldap_server_port);
+        $ldap_conn = ldap_connection($host,$current_ldap_server_port);
         if(!$ldap_conn){
             $_SESSION['alert_message'] = "could not connect to server";
             header('location:./?test_ldap_server='.$host.'#tabs-3');

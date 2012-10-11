@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Includes
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -36,11 +36,26 @@ function ldap_connection($ldap_server,$ldap_port){
 //ldap bind function
 function ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass){
     //if connected attempt bind
-    if($ldap_conn){
-        $ldap_bind = ldap_bind($ldap_conn,$ldap_user,$ldap_pass);
-    }
+    $ldap_bind = ldap_bind($ldap_conn,$ldap_user,$ldap_pass);
     //return bind
     return $ldap_bind;
+}
+//get dn for username
+function ldap_username_to_dn($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_username){
+    //call connect function
+    $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_user,$ldap_pass);
+    //call bind function
+    $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass);
+    //setup search filter for the data you want
+    $search = "(uid=".$ldap_username.")";
+    //setup filter for what you want from your data
+    $filter=array("dn", "uid");
+    //search
+    $ldap_username_to_dn_query = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
+    //get data
+    $ldap_username_to_dn_query = ldap_get_entries($ldap_conn, $ldap_user_query);
+    //return dump
+    return $ldap_username_to_dn_query;
 }
 //ldap group user dump
 function ldap_group_dump($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn){
