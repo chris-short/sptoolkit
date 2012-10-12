@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -52,7 +52,7 @@ $sql = "INSERT INTO `education` (name, description) VALUES ('[QSE02 v0.70] Infec
 mysql_query($sql) or die(mysql_error());
 $sql = "INSERT INTO `education` (name, description) VALUES ('[QSE03 v0.70] APWG Phishing Education','Provides a link to open in a new window APWG phishing education page.  [Requires Internet access to antiphishing.org]')";
 mysql_query($sql) or die(mysql_error());
-$sql = "INSERT INTO `education` (name, description) VALUES ('[QSE04 v0.70] Phising Game','Displays content about being phished including an embedded Shockwave Flash game from OnGuardOnline.gov about phishing.  [Requires Internet access to OnGuardOnline.gov]')";
+$sql = "INSERT INTO `education` (name, description) VALUES ('[QSE04 v0.70] Phishing Game','Displays content about being phished including an embedded Shockwave Flash game from OnGuardOnline.gov about phishing.  [Requires Internet access to OnGuardOnline.gov]')";
 mysql_query($sql) or die(mysql_error());
 $sql = "INSERT INTO `education` (name, description) VALUES ('[QSE05 v0.70] Phishing Image 1','Displays local content about being phished.  [No Internet access required].')";
 mysql_query($sql) or die(mysql_error());
