@@ -2,7 +2,7 @@
 
 /**
  * file:    add_metric.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,7 +41,7 @@ if ( file_exists ( $includeContent ) ) {
 //ensure new metric is set
 if ( strlen ( $_POST['metric'] ) < 1 ) {
     $_SESSION['alert_message'] = "You must enter something";
-    header ( 'location:./#metrics' );
+    header ( 'location:./?metrics=true#tabs-1' );
     exit;
 }
 
@@ -54,7 +54,7 @@ include "../spt_config/mysql_config.php";
 //validate the column headings are only letters and underscores
 if ( preg_match ( '#[^0-9a-zA-Z_]#', $new_metric ) ) {
     $_SESSION['alert_message'] = "Metrics can only have letters, numbers and underscores";
-    header ( 'location:./#metrics' );
+    header ( 'location:./?metrics=true#tabs-1' );
     exit;
 }
 
@@ -63,7 +63,7 @@ $r = mysql_query ( "SHOW COLUMNS FROM targets" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( $ra['Field'] == $new_metric ) {
         $_SESSION['alert_message'] = "a metric or column name already exists with this name";
-        header ( 'location:./#metrics' );
+        header ( 'location:./?metrics=true#tabs-1' );
         exit;
     }
 }
@@ -75,6 +75,7 @@ mysql_query ( "ALTER TABLE `targets` ADD $new_metric VARCHAR(255)" ) or die ( '<
 mysql_query ( "INSERT INTO targets_metrics VALUES ('$new_metric',0)" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
 //send them back
-header ( 'location:./#metrics' );
+$_SESSION['alert_message'] = "metric added successfully";
+header ( 'location:./?metrics=true#tabs-1' );
 exit;
 ?>

@@ -2,7 +2,7 @@
 
 /**
  * file:    target_delete.php
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -49,7 +49,7 @@ include "../spt_config/mysql_config.php";
 $r = mysql_query ( "SELECT target_id FROM campaigns_responses WHERE target_id = '$target_to_delete'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 if ( mysql_num_rows ( $r ) ) {
     $_SESSION['alert_message'] = "you cannot delete a target that is part of an active campaign";
-    header ( 'location:./#alert' );
+    header ( 'location:.#tabs-1' );
     exit;
 }
 
@@ -65,6 +65,6 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
 //send user back to targets page with success message
 $_SESSION['alert_message'] = "target deleted successfully";
-header ( 'location:./#alert' );
+header ( 'location:.#tabs-1' );
 exit;
 ?>
