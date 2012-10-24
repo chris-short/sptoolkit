@@ -2,7 +2,7 @@
 
 /**
  * file:    add_user.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -73,14 +73,14 @@ if ( isset ( $_REQUEST['disabled'] ) ) {
 //validate that the newly entered username is a valid email address
 if ( ! filter_var ( $new_username, FILTER_VALIDATE_EMAIL ) ) {
     $_SESSION['alert_message'] = "you must enter a valid email address";
-    header ( 'location:./#add_user' );
+    header ( 'location:./?add_user=true#tabs-1' );
     exit;
 }
 
 //validate that the username is not too long
 if ( strlen ( $new_username ) > 50 ) {
     $_SESSION['alert_message'] = "the username is too long";
-    header ( 'location:../#add_user' );
+    header ( 'location:../?add_user=true#tabs-1' );
     exit;
 }
 
@@ -89,7 +89,7 @@ $r = mysql_query ( 'SELECT username FROM users' ) or die ( '<div id="die_error">
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( $ra['username'] == $new_username ) {
         $_SESSION['alert_message'] = "this email address is already taken";
-        header ( 'location:./#add_user' );
+        header ( 'location:./?add_user=true#tabs-1' );
         exit;
     }
 }
@@ -97,28 +97,28 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 //make sure its under 50 characters
 if ( strlen ( $new_fname ) > 50 ) {
     $_SESSION['alert_message'] = "your first name is too long, please shorten below 50 characters";
-    header ( 'location:./#add_user' );
+    header ( 'location:./?add_user=true#tabs-1' );
     exit;
 }
 
 //make sure its over 1 character
 if ( strlen ( $new_fname ) < 1 ) {
     $_SESSION['alert_message'] = "your first name must be at least 1 character long";
-    header ( 'location:./#add_user' );
+    header ( 'location:./?add_user=true#tabs-1' );
     exit;
 }
 
 //make sure its under 50 characters
 if ( strlen ( $new_lname ) > 50 ) {
     $_SESSION['alert_message'] = "your last name is too long, please shorten below 50 characters";
-    header ( 'location:./#add_user' );
+    header ( 'location:./?add_user=true#tabs-1' );
     exit;
 }
 
 //make sure its at least 1 character in length
 if ( strlen ( $new_lname ) < 1 ) {
     $_SESSION['alert_message'] = "your last name must be at least 1 character long";
-    header ( 'location:./#add_user' );
+    header ( 'location:./?add_user=true#tabs-1' );
     exit;
 }
 
@@ -130,7 +130,7 @@ if ( isset ( $_POST['password'] ) ) {
     //validate that the password is an acceptable length
     if ( strlen ( $temp_p ) > 15 || strlen ( $temp_p ) < 8 ) {
         $_SESSION['alert_message'] = "you must enter a valid password length";
-        header ( 'location:./#add_user' );
+        header ( 'location:./?add_user=true#tabs-1' );
         exit;
     }
 
@@ -138,7 +138,7 @@ if ( isset ( $_POST['password'] ) ) {
     $p = sha1 ( $_SESSION['salt'] . $temp_p . $_SESSION['salt'] );
 } else {
     $_SESSION['alert_message'] = "you must enter a password";
-    header ( 'location"./#add_user' );
+    header ( 'location"./?add_user=true#tabs-1' );
     exit;
 }
 
@@ -146,18 +146,18 @@ if ( isset ( $_POST['password'] ) ) {
 if ( isset ( $_POST['password'] ) && isset ( $_POST['password_check'] ) ) {
     if ( $_POST['password'] != $_POST['password_check'] ) {
         $_SESSION['alert_message'] = "your password values must match";
-        header ( 'location:./#add_user' );
+        header ( 'location:./?add_user=true#tabs-1' );
         exit;
     }
 } else {
     $_SESSION['alert_message'] = "you must enter something in both password fields";
-    header ( 'location"./#add_user' );
+    header ( 'location"./?add_user=true#tabs-1' );
     exit;
 }
 
 mysql_query ( "INSERT INTO users(fname, lname, username, password, admin, disabled) VALUES ('$new_fname','$new_lname','$new_username','$p','$a','$disabled')" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
 $_SESSION['alert_message'] = "user added successfully";
-header ( 'location:./#alert' );
+header ( 'location:./#tabs-1' );
 exit;
 ?>

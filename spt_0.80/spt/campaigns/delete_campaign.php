@@ -2,7 +2,7 @@
 
 /**
  * file:    delete_campaign.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -51,7 +51,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 if ( ! isset ( $match ) ) {
     $_SESSION['alert_message'] = "you can only delete real campaign ids";
-    header ( 'location:./#alert' );
+    header ( 'location:.' );
     exit;
 }
 
@@ -62,6 +62,6 @@ mysql_query ( "DELETE FROM campaigns_responses WHERE campaign_id = '$campaign_id
 
 //send them back to the campaigns home page
 $_SESSION['alert_message'] = "campaign deleted successfully";
-header ( 'location:./#alert' );
+header ( 'location:.' );
 exit;
 ?>

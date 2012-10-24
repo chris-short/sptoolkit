@@ -2,7 +2,7 @@
 
 /**
  * file:    delete_template.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -52,7 +52,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 if ( ! isset ( $match ) ) {
     $_SESSION['alert_message'] = "you specified an invalid template";
-    header ( 'location:./#alert' );
+    header ( 'location:./#tabs-1' );
     exit;
 }
 
@@ -65,7 +65,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 if ( isset ( $match2 ) ) {
     $_SESSION['alert_message'] = "you cannot delete a template that is currently used by a campaign";
-    header ( 'location:./#alert' );
+    header ( 'location:./#tabs-1' );
     exit;
 }
 
@@ -90,6 +90,6 @@ mysql_query ( "DELETE FROM templates WHERE id = '$template_id'" ) or die ( '<div
 
 //send them back to the template home page
 $_SESSION['alert_message'] = "template deleted successfully";
-header ( 'location:./#alert' );
+header ( 'location:./#tabs-1' );
 exit;
 ?>

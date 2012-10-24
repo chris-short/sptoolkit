@@ -1,9 +1,11 @@
-<!--
- * file:    dashboard_module.php
- * version: 4.0
+<?php
+
+/**
+ * file:    alert.php
+ * version: 1.0
  * package: Simple Phishing Toolkit (spt)
- * component:	Education
- * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
+ * component:   Core Files
+ * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
@@ -19,14 +21,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
--->
+ * */
+//alert pop-over for all modules
+//check to see if there are any alerts
+if ( isset ( $_SESSION['alert_message'] ) ) {
+    //echo alert pop-over
+    echo "<div id=\"alert\"><div>".$_SESSION['alert_message']."</div></div>";
+    //clear the alert session after it is written
+    unset ( $_SESSION['alert_message'] );
+    //script to hide the alert div after a few seconds
+    echo "
+        <script>
+            setTimeout(function() {
+                $('#alert').fadeOut('slow');
+            }, 5000);   
+        </script>
+    ";
+}
+?>
 
-<tr>
-    <td>Education Package Count</td>
-    <?php
-    //determine how many campaigns there are
-    $r = mysql_query ( "SELECT * FROM education" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-    echo "<td>" . mysql_num_rows ( $r ) . "</td>";
-    ?>
-</tr>
-    

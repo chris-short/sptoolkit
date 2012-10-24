@@ -1,10 +1,11 @@
+
 <?php
 
 /**
  * file:    module_uninstall.php
- * version: 7.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
- * component:	Module management
+ * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
@@ -47,14 +48,14 @@ include "../spt_config/mysql_config.php";
 
 
 //pull in all module names and their path
-$r = mysql_query ( "SELECT name, directory_name FROM modules WHERE core = 0" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+$r = mysql_query ( "SELECT name, directory_name FROM settings_modules WHERE core = 0" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
     //validate that the module is not depended on
-    $r2 = mysql_query ( "SELECT * FROM modules_dependencies WHERE depends_on = '$module'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+    $r2 = mysql_query ( "SELECT * FROM settings_modules_dependencies WHERE depends_on = '$module'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
     if ( mysql_num_rows ( $r2 ) > 0 ) {
         $_SESSION['alert_message'] = 'This module is depended on.  You must uninstall the module that depends on this Module first.';
-        header ( 'location:./#alert' );
+        header ( 'location:./#tabs-5' );
         exit;
     }
 
@@ -101,19 +102,19 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         }
 
         //delete all dependency data
-        mysql_query ( "DELETE FROM modules_dependencies WHERE module = '$module'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+        mysql_query ( "DELETE FROM settings_modules_dependencies WHERE module = '$module'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
         //delete module entry in modules table
-        mysql_query ( "DELETE FROM modules WHERE name = '$module'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+        mysql_query ( "DELETE FROM settings_modules WHERE name = '$module'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
         //if the uninstall went well send them back
         $_SESSION['alert_message'] = 'uninstall successful';
-        header ( 'location:./#alert' );
+        header ( 'location:./#tabs-5' );
         exit;
     }
 }
 //if the uninstall did not happen, send them back with an alert
 $_SESSION['alert_message'] = "you must only uninstall valid, non-core modules";
-header ( 'location:./#alert' );
+header ( 'location:./#tabs-5' );
 exit;
 ?>

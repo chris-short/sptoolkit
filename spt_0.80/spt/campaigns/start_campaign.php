@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 30.0
+ * version: 31.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -98,26 +98,26 @@ if ( isset ( $_POST['shorten_radio'] ) ) {
 //ensure the campaign name is set
 if ( strlen ( $campaign_name ) < 1 ) {
     $_SESSION['alert_message'] = "you must give the campaign a name";
-    header ( 'location:./#add_campaign' );
+    header ( 'location:./?add_campaign=true#tabs-1' );
     exit;
 }
 //ensure a target group was selected
 if ( ! isset ( $target_groups ) ) {
     $_SESSION['alert_message'] = "please select at least one target group";
-    header ( 'location:./#add_campaign' );
+    header ( 'location:./?add_campaign=true#tabs-1' );
     exit;
 }
 //ensure a template is selected
 if ( ! isset ( $template_id ) ) {
     $_SESSION['alert_message'] = "please select a template";
-    header ( 'location:./#add_campaign' );
+    header ( 'location:./?add_campaign=true#tabs-1' );
     exit;
 }
 
 //ensure that a message delay is set
 if ( ! isset ( $message_delay ) ) {
     $_SESSION['alert_message'] = "please enter a value for message delay";
-    header ( 'location:./#add_campaign' );
+    header ( 'location:./?add_campaign=true#tabs-1' );
     exit;
 }
 
@@ -129,7 +129,7 @@ $r = mysql_query ( "SELECT status FROM campaigns" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( $ra['status'] == 1 ) {
         $_SESSION['alert_message'] = "there is already an active campaign, pause it, cancel it or let it finish before starting a new one";
-        header ( 'location:./#add_campaign' );
+        header ( 'location:./?add_campaign=true#tabs-1' );
         exit;
     }
 }
@@ -144,7 +144,7 @@ foreach ( $target_groups as $group ) {
     }
     if ( ! isset ( $match ) ) {
         $_SESSION['alert_message'] = "invalid group";
-        header ( 'location:./#add_campaign' );
+        header ( 'location:./?add_campaign=true#tabs-1' );
         exit;
     }
 }
@@ -158,7 +158,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 if ( ! isset ( $match0 ) ) {
     $_SESSION['alert_message'] = "please select a valid template";
-    header ( 'location:./#add_campaign' );
+    header ( 'location:./?add_campaign=true#tabs-1' );
     exit;
 }
 
@@ -171,7 +171,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 if ( ! isset ( $match1 ) ) {
     $_SESSION['alert_message'] = "please select a valid education package";
-    header ( 'location:./#add_campaign' );
+    header ( 'location:./?add_campaign=true#tabs-1' );
     exit;
 }
 
@@ -186,7 +186,7 @@ if ( isset ( $education_timing ) ) {
 }
 if ( $match2 != 1 ) {
     $_SESSION['alert_message'] = "please select a valid education timing option";
-    header ( 'location:./#add_campaign' );
+    header ( 'location:./?add_campaign=true#tabs-1' );
     exit;
 }
 
@@ -196,7 +196,7 @@ if(isset($shorten) && $shorten == "Google"){
     $r = mysql_query("SELECT service, api_key FROM campaigns_shorten WHERE service = 'Google'");
     if(mysql_num_rows($r) != 1){
         $_SESSION['alert_message'] = "you must enter your Google API key before trying to use the Google Shortener";
-        header('location:./#add_campaign');
+        header('location:./?add_campaign=true#tabs-1');
         exit;
     }
 }
@@ -206,19 +206,19 @@ if ( isset ( $message_delay ) ) {
     //ensure the message delay is greater than 100 ms
     if ( $message_delay < 100 ) {
         $_SESSION['alert_message'] = "the message delay factor must be greater than 100ms";
-        header ( 'location:./#add_campaign' );
+        header ( 'location:./?add_campaign=true#tabs-1' );
         exit;
     }
     //ensure the message delay is in incrmeents of 100
     if ( substr ( $message_delay, -2 ) != "00" ) {
         $_SESSION['alert_message'] = "the message delay factor should be in increments of 100ms";
-        header ( 'location:./#add_campaign' );
+        header ( 'location:./?add_campaign=true#tabs-1' );
         exit;
     }
     //ensure the message delay is not greater than 1 minute
     if ( $message_delay > 60000 ) {
         $_SESSION['alert_message'] = "the message delay factor cannot be more than 1 minute";
-        header ( 'location:./#add_campaign' );
+        header ( 'location:./?add_campaign=true#tabs-1' );
         exit;
     }
 } else {
@@ -288,5 +288,5 @@ foreach ( $target_groups as $group ) {
 }
 
 //send to the response page for their campaign
-header ( 'location:./?c=' . $campaign_id . '#responses' );
+header ( 'location:./?c=' . $campaign_id . '?responses=true#tabs-3' );
 ?>

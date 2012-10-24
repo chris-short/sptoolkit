@@ -1,9 +1,9 @@
 /*css - modules*/
 /**
  * file:    spt_modules.css
- * version: 3.0
+ * version: 13.0
  * package: Simple Phishing Toolkit (spt)
- * component:	Module management
+ * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
@@ -22,20 +22,19 @@
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-#add_module
+#add_module, #twitter, #add_smtp_server, #add_ldap_server, #edit_smtp_server, #edit_ldap_server, #test_smtp_server, #test_ldap_server
 {
     position: fixed;
     top: 0;
     left: 0;		
     height: 100%;
     width: 100%;
-    display: none;
     background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
     z-index: 101;
 }
 
-#add_module div
+#add_module div, #twitter div, #add_smtp_server div, #add_ldap_server div, #edit_smtp_server div, #edit_ldap_server div, #test_smtp_server div, #test_ldap_server div
 {
     margin: auto;
     background-color: #fff;
@@ -48,12 +47,7 @@
     display: inline-block;
 }
 
-#add_module:target
-{
-    display: block;
-}
-
-#upload_module
+#upload_module, #update_twitter
 {
     width:400px;
 }

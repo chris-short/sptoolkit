@@ -1,7 +1,7 @@
 /*css - templates*/
 /**
  * file:    spt_templates.css
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -29,7 +29,6 @@
     left: 0;		
     height: 100%;
     width: 100%;
-    display: none;
     background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
     z-index: 101;
@@ -49,10 +48,6 @@
     display: inline-block;
 }
 
-#add_template:target, #add_scrape:target, #update_template:target
-{
-    display: block;
-}
 
 #add_template_zip
 {

@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 21.0
+ * version: 22.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -331,6 +331,13 @@ session_start ();
 
                     //set the install status to move along to step 3
                     $_SESSION['install_status'] = 4;
+
+                    //unset temp sessions for database
+                    unset($_SESSION['temp_host']);
+                    unset($_SESSION['temp_port']);
+                    unset($_SESSION['temp_username']);
+                    unset($_SESSION['temp_password']);
+                    unset($_SESSION['temp_database']);
 
                     //provide the button to move along
                     echo "

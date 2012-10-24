@@ -2,9 +2,9 @@
 
 /**
  * file:    module_upload.php
- * version: 13.0
+ * version: 16.0
  * package: Simple Phishing Toolkit (spt)
- * component:	Module management
+ * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
@@ -41,7 +41,7 @@ if ( file_exists ( $includeContent ) ) {
 //validate a file was uploaded
 if ( ! is_uploaded_file ( $_FILES['file']['tmp_name'] ) ) {
     $_SESSION['alert_message'] = 'you must upload a file';
-    header ( 'location:./#add_module' );
+    header ( 'location:./?add_module=true#tabs-5' );
     exit;
 }
 
@@ -52,21 +52,21 @@ $finfo = finfo_file($finfo, $_FILES["file"]["tmp_name"]);
 //if file uploaded ensure its a zip file
 if (is_uploaded_file($_FILES['file']['tmp_name']) && (!preg_match("/zip/i", $finfo) OR $_FILES["file"]["type"] != "application/zip")) {
     $_SESSION['alert_message'] = 'you must only upload zip files';
-    header ( 'location:./#add_module' );
+    header ( 'location:./?add_module=true#tabs-5' );
     exit;
 } else
 
 //ensure that the file is under 20M
 if ( $_FILES["file"]["size"] > 20000000 ) {
     $_SESSION['alert_message'] = 'max file size is 20MB';
-    header ( 'location:./#add_module' );
+    header ( 'location:./?add_module=true#tabs-5' );
     exit;
 }
 
 //ensure there are no errors
 if ( $_FILES["file"]["error"] > 0 ) {
     $_SESSION['alert_message'] = "there was a problem uploading your file";
-    header ( 'location:./#add_module' );
+    header ( 'location:./?add_module=true#tabs-5' );
     exit;
 }
 
@@ -84,7 +84,7 @@ if ( $res === TRUE ) {
     $zip -> close ();
 } else {
     $_SESSION['alert_message'] = 'unzipping the file failed';
-    header ( 'location:./#add_module' );
+    header ( 'location:./?add_module=true#tabs-5' );
     exit;
 }
 
@@ -94,7 +94,7 @@ include "../spt_config/mysql_config.php";
 //check to see if the install file exists and is in the right spot
 if ( ! file_exists ( "upload/install.php" ) ) {
     $_SESSION['alert_message'] = "please check your module, there is no install.php file in the root of the zipped directory";
-    header ( "location:./#add_module" );
+    header ( "location:./?add_module=true#tabs-5" );
     exit;
 }
 
@@ -109,10 +109,10 @@ $module_upgrade = ($matches[1]);
 
 //alert if there is a module with the same name or path and this is not specified as an upgrade
 if ( $module_upgrade != 1 ) {
-    $r = mysql_query ( "SELECT name, directory_name FROM modules WHERE name ='$module_name' OR directory_name = '$module_path'" ) or die ( mysql_error () );
+    $r = mysql_query ( "SELECT name, directory_name FROM settings_modules WHERE name ='$module_name' OR directory_name = '$module_path'" ) or die ( mysql_error () );
     if ( mysql_num_rows ( $r ) > 0 ) {
         $_SESSION['alert_message'] = "There is already a module with the same name or stored in the same directory as the module you are trying to upload.  If this is an upgrade, please specify it as such.";
-        header ( 'location:./#add_module' );
+        header ( 'location:./?add_module=true#tabs-5' );
         exit;
     }
 }
@@ -166,6 +166,6 @@ unlink ( "../" . $module_path . "/install.php" );
 
 //set alert message and send them back
 $_SESSION['alert_message'] = "The " . $module_name . " module has been successfully installed.  Look over to the left for a link to your new module!";
-header ( 'location:./#alert' );
+header ( 'location:./#tabs-5' );
 exit;
 ?>

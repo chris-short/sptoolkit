@@ -2,7 +2,7 @@
 
 /**
  * file:   update_metrics.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -70,7 +70,6 @@ if ( $shown_value != "true" AND $shown_value != "false" ) {
 //modify the status of the metric
 if ( $shown_value == "false" ) {
     mysql_query ( "UPDATE targets_metrics SET shown = 0 WHERE field_name = '$metric'" ) or die ( mysql_error () );
-
     echo "set";
 }
 
@@ -86,7 +85,6 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 //modify the status of the metric
 if ( $shown_value == "true" ) {
     mysql_query ( "UPDATE targets_metrics SET shown = 1 WHERE field_name = '$metric'" ) or die ( mysql_error () );
-
     echo "set";
 }
 ?>

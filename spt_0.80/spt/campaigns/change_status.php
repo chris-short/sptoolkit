@@ -2,7 +2,7 @@
 
 /**
  * file:    change_status.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -43,7 +43,7 @@ $campaign_id = filter_var ( $_REQUEST['c'], FILTER_SANITIZE_NUMBER_INT );
 
 //validate the campaign id
 include "../spt_config/mysql_config.php";
-$r = mysql_query ( "SELECT id FROM campaigns" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+$r = mysql_query ( "SELECT id, status FROM campaigns" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( $ra['id'] == $campaign_id ) {
         $match = 1;
@@ -51,18 +51,28 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 if ( ! isset ( $match ) ) {
     $_SESSION['alert_message'] = "you can only change the status of valid campaigns";
-    header ( 'location:./#alert' );
+    header ( 'location:.' );
     exit;
 }
 
 //validate the status is set and accurate
 if(isset($_REQUEST['s']) AND $_REQUEST['s'] > 0 AND $_REQUEST['s'] < 4 ){
     $status = $_REQUEST['s'];
+    if($status == 0){
+        $tab_return = "#tabs-2";
+    }
+    if($status == 1 OR $campaign_status == 2){
+        $tab_return = "#tabs-3";
+    }
+    if($status == 3){
+        $tab_return = "#tabs-4";
+    }
+
     mysql_query("UPDATE campaigns SET status = '$status' WHERE id = '$campaign_id'");
-    header('location:./?c='.$campaign_id.'#responses');
+    header('location:./?c='.$campaign_id.'&responses=true'.$tab_return);
     exit;
 }else{
     $_SESSION['alert_message'] = "please specify a valid status";
-    header('location:./#alert');
+    header('location:.');
 }
 ?>

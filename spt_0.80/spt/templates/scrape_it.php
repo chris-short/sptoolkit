@@ -2,7 +2,7 @@
 
 /**
  * file:    scrape_it.php
- * version: 21.0
+ * version: 22.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -71,14 +71,14 @@ if(!empty($_POST['email_fake_link'])){
 if ( ! isset ( $_POST['url'] ) ) {
     //set error message and send them back to template page
     $_SESSION['alert_message'] = "please enter a URL";
-    header ( 'location:./#add_scrape' );
+    header ( 'location:./?add_scrape=true#tabs-1' );
     exit;
 }
 
 //validate url
 if ( ! filter_var ( $_POST['url'], FILTER_SANITIZE_URL ) ) {
     $_SESSION['alert_message'] = "please enter a valid URL";
-    header ( 'location:./#add_scrape' );
+    header ( 'location:./?add_scrape=true#tabs-1' );
     exit;
 } else {
     $url = filter_var ( $_POST['url'], FILTER_SANITIZE_URL );
@@ -90,7 +90,7 @@ if ( strlen ( $_POST['name'] ) > 0 ) {
 } else {
     //set error message and send them back to template page
     $_SESSION['alert_message'] = "please enter a name";
-    header ( 'location:./#add_scrape' );
+    header ( 'location:./?add_scrape=true#tabs-1' );
     exit;
 }
 
@@ -100,7 +100,7 @@ if ( isset ( $_POST['description'] ) ) {
 } else {
     //set error message and send them back to template page
     $_SESSION['alert_message'] = "please enter a description";
-    header ( 'location:./#add_scrape' );
+    header ( 'location:./?add_scrape=true#tabs-1' );
     exit;
 }
 
@@ -118,7 +118,7 @@ function get_url_contents ( $url, $timeout = 10, $userAgent = 'Mozilla/5.0 (Maci
     curl_close ( $rawhtml );
     if ( ! $output ) {
         $_SESSION['alert_message'] = "no output was returned from this URL";
-        header ( 'location:./#add_scrape' );
+        header ( 'location:./?add_scrape=true#tabs-1' );
         exit;
     }
     return $output;
@@ -248,6 +248,6 @@ if ( isset ( $_POST['email_fake_link'] ) ) {
 
 //send them back to template page with a success message
 $_SESSION['alert_message'] = "Template installed successfully!";
-header ( 'location:./#alert' );
+header ( 'location:./#tabs-1' );
 exit;
 ?>

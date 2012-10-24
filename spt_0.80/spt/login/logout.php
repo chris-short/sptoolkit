@@ -2,7 +2,7 @@
 
 /**
  * file:    logout.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Login management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -38,5 +38,5 @@ session_start ();
 $_SESSION['alert_message'] = "you have successfully been logged out";
 
 //send to the login screen
-header ( 'location:../#alert' );
+header ( 'location:../' );
 ?>

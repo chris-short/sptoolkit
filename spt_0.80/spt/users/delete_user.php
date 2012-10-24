@@ -2,7 +2,7 @@
 
 /**
  * file:    delete_user.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -48,14 +48,14 @@ $username = $_REQUEST['u'];
 //validate that the passed username is a valid email address
 if ( ! filter_var ( $username, FILTER_VALIDATE_EMAIL ) ) {
     $_SESSION['alert_message'] = "you can only delete a user if you pass a valid email address";
-    header ( 'location:./#alert' );
+    header ( 'location:./#tabs-1' );
     exit;
 }
 
 //ensure the user is not attempting to delete themselves
 if ( $_SESSION['username'] == $username ) {
     $_SESSION['alert_message'] = "you cannot delete yourself";
-    header ( 'location:./#alert' );
+    header ( 'location:./#tabs-1' );
     exit;
 }
 
@@ -68,7 +68,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 if ( $count != 1 ) {
     $_SESSION['alert_message'] = "you are attempting to delete a user that does not exist";
-    header ( 'location:./#alert' );
+    header ( 'location:./#tabs-1' );
     exit;
 }
 
@@ -77,6 +77,6 @@ mysql_query ( "DELETE FROM users WHERE username = '$username'" ) or die ( '<div 
 
 //send the user back to the users page with a success message
 $_SESSION['alert_message'] = "user deleted successfully";
-header ( 'location:./#alert' );
+header ( 'location:./#tabs-1' );
 exit;
 ?>

@@ -2,7 +2,7 @@
 
 /**
  * file:    update_package.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -43,7 +43,7 @@ $name = filter_var ( $_POST['name'], FILTER_SANITIZE_STRING );
 $description = filter_var ( $_POST['description'], FILTER_SANITIZE_STRING );
 if(!filter_var($_POST['packageid'], FILTER_VALIDATE_INT)){
     $_SESSION['alert_message'] = 'please provide a valid package id';
-    header('location:./#alert');
+    header('location:./#tabs-1');
     exit;
 }
 $package_id = $_POST['packageid'];
@@ -63,7 +63,7 @@ while($ra = mysql_fetch_assoc($r)){
 //if package id provided doesn't match existing id, throw alert
 if($match == 0){
     $_SESSION['alert_message'] = 'this education package does not exist';
-    header ( 'location:./#alert' );
+    header ( 'location:./#tabs-1' );
     exit;
 }
 
@@ -77,14 +77,14 @@ if ( ! empty ( $description ) ) {
 //validate that a name is provided
 if ( strlen ( $_POST['name'] ) < 1 ) {
     $_SESSION['alert_message'] = 'you must enter a name';
-    header ( 'location:./?id='.$package_id.'#update_package' );
+    header ( 'location:./?id='.$package_id.'&update_package=true#tabs-1' );
     exit;
 }
 
 //validate that a description is provided
 if ( ! isset ( $_POST['description'] ) ) {
     $_SESSION['alert_message'] = 'you must enter a description';
-    header ( 'location:./?id='.$package_id.'#update_package' );
+    header ( 'location:./?id='.$package_id.'&update_package=true#tabs-1' );
     exit;
 }
 
@@ -93,6 +93,6 @@ include "../spt_config/mysql_config.php";
 mysql_query ( "UPDATE education SET name = '$name', description = '$description' WHERE id = '$package_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
 $_SESSION['alert_message'] = 'package updated successfully';
-header ( 'location:./#alert' );
+header ( 'location:./#tabs-1' );
 exit;
 ?>
