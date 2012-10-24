@@ -2,7 +2,7 @@
 <?php
 /**
  * file:    index.php
- * version: 28.0
+ * version: 29.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -846,60 +846,6 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
                         </div>
                         <div id="browser_stats_container"></div>
                     </div>
-                </div>
-                <div>
-                    <table id="twitter_feed">
-                        <tr>
-                            <td colspan="2"><h3>@sptookit on Twitter</h3></td>
-                        </tr>                        
-                        <tr>
-                            <td colspan="3">
-                            <?php
-                            //connect to database
-                            include ('../spt_config/mysql_config.php');
-                            //determine if twitter is enabled or disabled
-                            $r = mysql_query("SELECT value FROM settings WHERE setting = 'twitter_enable'");
-                            while($ra = mysql_fetch_assoc($r)){
-                                $twitter_enable = $ra['value'];
-                            }
-                            //echo twitter feed or not
-                            if ($twitter_enable == 1) {
-                                echo "
-                                        <script charset=\"utf-8\" src=\"".$request_protocol."://widgets.twimg.com/j/2/widget.js\"></script>
-                                        <script>
-                                            new TWTR.Widget({
-                                                version: 2,
-                                                type: 'profile',
-                                                rpp: 10,
-                                                interval: 30000,
-                                                width: 700,
-                                                height: 100,
-                                                theme: {
-                                                    shell: {
-                                                        background: '#ffffff',
-                                                        color: '#000000'
-                                                    },
-                                                    tweets: {
-                                                        background: '#ffffff',
-                                                        color: '#000000',
-                                                        links: '#a3a3a3'
-                                                    }
-                                                },
-                                                features: {
-                                                    scrollbar: true,
-                                                    loop: false,
-                                                    live: true,
-                                                    behavior: 'all'
-                                                }
-                                            }).render().setUser('sptoolkit').start();
-                                        </script>    
-                                    </td>    
-                                </tr>";
-                            }else{
-                                echo "Twitter feed has been disabled. Enable in the Settings module.";
-                            }
-                            ?>
-                    </table>
                 </div>
             </div>
         </div>

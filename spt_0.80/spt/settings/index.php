@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 35.0
+ * version: 36.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -540,29 +540,6 @@ if ( file_exists ( $includeContent ) ) {
                     </ul>
                     <div id="tabs-1">
                         <table class="standard_table" >
-                            <tr>
-                                <td>Enable Twitter Feed</td>
-                                <td>
-                                    
-                                    <input type="checkbox" name="twitter_enable" <?php 
-                                        include('../spt_config/mysql_config.php');
-                                        $r = mysql_query('SELECT value FROM settings WHERE setting = "twitter_enable"');
-                                        while($ra = mysql_fetch_assoc($r)){
-                                            if($ra['value'] == 1){
-                                                echo "value=\"no\"";
-                                                echo "onchange=\"updateSetting('twitter',this.value)\" ";
-                                                echo "CHECKED";
-                                            }else{
-                                                echo "value=\"yes\"";
-                                                echo "onchange=\"updateSetting('twitter',this.value)\" ";
-                                            }
-                                        }
-                                    ?> />
-                                </td>
-                                <td>
-                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Choose to disable or enable the twitter feed on the home page.</span></a>
-                                </td>
-                            </tr>
                             <tr>
                                 <td>Backup Database</td>
                                 <td><a href="backup_db.php">Download</a></td>
