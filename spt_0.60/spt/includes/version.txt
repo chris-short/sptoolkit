@@ -1,1 +1,0 @@
-<span id="spt"><a href="http://www.sptoolkit.com/download/" target="_blank">v0.60 (Flying Fish)</a></span>
