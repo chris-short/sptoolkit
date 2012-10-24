@@ -1,4 +1,0 @@
-# German language default education package #
-
--- Author:   Dr. Hubert Feyrer
--- Author site:  http://www.feyrer.de/
