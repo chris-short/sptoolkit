@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 13.0
+ * version: 14.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -74,7 +74,7 @@ $sql = "
         `id` int(6) NOT NULL AUTO_INCREMENT,
         `host` varchar(255) NOT NULL,
         `port` varchar(255) NOT NULL,
-        `ssl` varchar(1) NOT NULL,
+        `ssl_enc` varchar(1) NOT NULL,
         `username` varchar(255) NOT NULL,
         `password` varchar(255) NOT NULL,
         `basedn` varchar(255) NOT NULL,
@@ -89,7 +89,7 @@ $sql = "
         `id` int(6) NOT NULL AUTO_INCREMENT,
         `host` varchar(255) NOT NULL,
         `port` varchar(255) NOT NULL,
-        `ssl` varchar(1) NOT NULL,
+        `ssl_enc` varchar(1) NOT NULL,
         `username` varchar(255) NOT NULL,
         `password` varchar(255) NOT NULL,
         `default` varchar(1) NOT NULL,
