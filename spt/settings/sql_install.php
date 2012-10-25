@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 12.0
+ * version: 13.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -77,7 +77,8 @@ $sql = "
         `ssl` varchar(1) NOT NULL,
         `username` varchar(255) NOT NULL,
         `password` varchar(255) NOT NULL,
-        `basedn` varchar(255) NOT NULL
+        `basedn` varchar(255) NOT NULL,
+        PRIMARY KEY (`id`)
     )";
 
 mysql_query ( $sql ) or die ( mysql_error () );
@@ -91,7 +92,8 @@ $sql = "
         `ssl` varchar(1) NOT NULL,
         `username` varchar(255) NOT NULL,
         `password` varchar(255) NOT NULL,
-        `default` varchar(1) NOT NULL
+        `default` varchar(1) NOT NULL,
+        PRIMARY KEY (`id`)
     )";
 
 mysql_query ( $sql ) or die ( mysql_error () );
