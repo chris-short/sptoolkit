@@ -77,7 +77,7 @@ $sql = "
         `ssl` varchar(1) NOT NULL,
         `username` varchar(255) NOT NULL,
         `password` varchar(255) NOT NULL,
-        `basedn` varchar(255) NOT NULL,
+        `basedn` varchar(255) NOT NULL
     )";
 
 mysql_query ( $sql ) or die ( mysql_error () );
@@ -91,7 +91,7 @@ $sql = "
         `ssl` varchar(1) NOT NULL,
         `username` varchar(255) NOT NULL,
         `password` varchar(255) NOT NULL,
-        `default` varchar(1) NOT NULL,
+        `default` varchar(1) NOT NULL
     )";
 
 mysql_query ( $sql ) or die ( mysql_error () );
