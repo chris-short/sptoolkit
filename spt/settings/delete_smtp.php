@@ -2,7 +2,7 @@
 
 /**
  * file:    delete_smtp.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -44,10 +44,10 @@ if($_GET['smtp']){
     if(isset($_GET['smtp'])){
         $smtp_setting = $_GET['smtp'];
         //validate the smtp setting is constructed correctly
-        if(substr_count($smtp_setting, '|') == 5){
+        if(is_int($smtp_setting)){
             //connect to database
             include "../spt_config/mysql_config.php";
-            mysql_query("DELETE FROM settings WHERE value='$smtp_setting'");
+            mysql_query("DELETE FROM settings_smtp WHERE id='$smtp_setting'");
         }
     }
 }

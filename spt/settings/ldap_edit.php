@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_edit.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,7 +41,7 @@ if ( file_exists ( $includeContent ) ) {
 //check to see if something was posted
 if($_POST){
     //get previous hostname
-    if(isset($_POST['current_host']) && preg_match( '/^[a-zA-Z0-9\-\_\.]/' , $_POST['current_host']) ){
+    if(isset($_POST['current_host']) && is_int($_POST['current_host'])){
         $current_host = $_POST['current_host'];
     }
     //validate and get host
@@ -84,28 +84,11 @@ if($_POST){
     }
     //connect to database
     include '../spt_config/mysql_config.php';
-    //get previous values
-    $r = mysql_query("SELECT value FROM settings WHERE setting = 'ldap'");
-    while ($ra = mysql_fetch_assoc($r)){
-        $current_ldap_server = explode("|",$ra['value']);
-        if($current_ldap_server[0] == $current_host){
-            $delete_this_ldap_entry = $ra['value'];
-            //get password
-            if(!isset($password)){
-                $password = $current_ldap_server[4];
-            }
-            //delete existing entry
-            mysql_query("DELETE FROM settings WHERE setting = 'ldap' AND value = '$delete_this_ldap_entry'");
-        }
-    }
-
-    //formulate ldap server entry
-    $value = $host."|".$port."|".$ssl."|".$username."|".$password."|".$basedn;
+    //delete existing entry
+    mysql_query("DELETE FROM settings_ldap WHERE id = '$current_host'");
     //add ldap server details to database
-    mysql_query("INSERT INTO settings VALUES('ldap','$value')");
-
+    mysql_query("INSERT INTO settings_ldap(host, port, ssl, username, password, basedn) VALUES('$host','$port', '$ssl', '$username', '$password', '$basedn')");
 }
-
 $_SESSION['alert_message'] = "ldap server updated";
 header('location:.#tabs-3');
 exit;

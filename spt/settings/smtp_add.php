@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_add.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -105,22 +105,10 @@ if($_POST){
     include '../spt_config/mysql_config.php';
     //take away default value from any existing smtp servers that are set to default
     if($default == "default"){
-        $r = mysql_query("SELECT value FROM settings WHERE setting='smtp'");
-        while($ra=mysql_fetch_assoc($r)){
-            $old_smtp_setting = $ra['value'];
-            $smtp_setting = explode("|",$ra['value']);
-            if($smtp_setting[5] == "default"){
-                //reconstruct smtp setting
-                $new_smtp_setting = $smtp_setting[0]."|".$smtp_setting[1]."|".$smtp_setting[2]."|".$smtp_setting[3]."|".$smtp_setting[4]."|"; 
-                //update smtp setting without default set
-                mysql_query("UPDATE settings SET value='$new_smtp_setting' WHERE setting = 'smtp' AND value='$old_smtp_setting'");
-            }
-        }
+        mysql_query("UPDATE settings_smtp SET default = 0 WHERE default=1");
     }
-    //formulate smtp server entry
-    $value = $host."|".$port."|".$ssl."|".$username."|".$password."|".$default;
     //add smtp server details to database
-    mysql_query("INSERT INTO settings VALUES('smtp','$value')");
+    mysql_query("INSERT INTO settings_smtp(host, port, ssl, username, password, default) VALUES('$host','$port', '$ssl', '$username', '$password', '$default')");
     //unset temp variables
     if(isset($_SESSION['temp_host'])){
         unset($_SESSION['temp_host']);

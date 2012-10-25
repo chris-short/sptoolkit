@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -64,8 +64,37 @@ $sql = "
 mysql_query ( $sql ) or die ( mysql_error () );
 
 //Upload Settings Data
-$sql = "INSERT INTO `settings` VALUES ('twitter_enable','1'),('smtp_relay',''),('smtp_relay_port',''),('stat_upload','0')";
+$sql = "INSERT INTO `settings` VALUES ('stat_upload','0')";
 
 mysql_query ( $sql ) or die ( mysql_error () );
+
+//Settings LDAP Table
+$sql = "
+    CREATE TABLE `settings_ldap` (
+        `id` int(6) NOT NULL AUTO_INCREMENT,
+        `host` varchar(255) NOT NULL,
+        `port` varchar(255) NOT NULL,
+        `ssl` varchar(1) NOT NULL,
+        `username` varchar(255) NOT NULL,
+        `password` varchar(255) NOT NULL,
+        `basedn` varchar(255) NOT NULL,
+    )";
+
+mysql_query ( $sql ) or die ( mysql_error () );
+
+//Settings SMTP Table
+$sql = "
+    CREATE TABLE `settings_smtp` (
+        `id` int(6) NOT NULL AUTO_INCREMENT,
+        `host` varchar(255) NOT NULL,
+        `port` varchar(255) NOT NULL,
+        `ssl` varchar(1) NOT NULL,
+        `username` varchar(255) NOT NULL,
+        `password` varchar(255) NOT NULL,
+        `default` varchar(1) NOT NULL,
+    )";
+
+mysql_query ( $sql ) or die ( mysql_error () );
+
 
 ?>

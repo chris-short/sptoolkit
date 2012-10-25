@@ -2,7 +2,7 @@
 
 /**
  * file:    delete_ldap.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -42,12 +42,12 @@ if ( file_exists ( $includeContent ) ) {
 if($_GET['ldap']){
     //if value is yes
     if(isset($_GET['ldap'])){
-        $ldap_setting = $_GET['ldap'];
+        $ldap_id = $_GET['ldap'];
         //validate the ldap setting is constructed correctly
-        if(substr_count($ldap_setting, '|') == 5){
+        if(is_int($ldap_id)){
             //connect to database
             include "../spt_config/mysql_config.php";
-            mysql_query("DELETE FROM settings WHERE value='$ldap_setting'");
+            mysql_query("DELETE FROM settings_ldap WHERE id='$ldap_id'");
         }else{
             $_SESSION['alert_message'] = "please only attempt to delete a valid ldap configuration.";
             header('location:.#tabs-3');

@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_edit.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,7 +41,7 @@ if ( file_exists ( $includeContent ) ) {
 //check to see if something was posted
 if($_POST){
     //get previous hostname
-    if(isset($_POST['current_host']) && preg_match( '/^[a-zA-Z0-9\-\_\.]/' , $_POST['current_host']) ){
+    if(isset($_POST['current_host']) && is_int($_POST['current_host'])){
         $current_host = $_POST['current_host'];
     }
     //validate and get host
@@ -86,35 +86,16 @@ if($_POST){
     }
     //connect to database
     include '../spt_config/mysql_config.php';
-    //get previous values
-    $r = mysql_query("SELECT value FROM settings WHERE setting = 'smtp'");
-    while ($ra = mysql_fetch_assoc($r)){
-        $current_smtp_server = explode("|",$ra['value']);
-        if($current_smtp_server[0] == $current_host){
-            $delete_this_smtp_entry = $ra['value'];
-            //delete existing entry
-            mysql_query("DELETE FROM settings WHERE setting = 'smtp' AND value = '$delete_this_smtp_entry'");
-        }
-    }
-
+    //delete smtp server that is being edited
+    mysql_query("DELETE FROM settings_smtp WHERE id = '$current_host'");
     //take away default value from any existing smtp servers that are set to default
     if($default == "default"){
-        $r = mysql_query("SELECT value FROM settings WHERE setting='smtp'");
-        while($ra=mysql_fetch_assoc($r)){
-            $old_smtp_setting = $ra['value'];
-            $smtp_setting = explode("|",$ra['value']);
-            if($smtp_setting[5] == "default"){
-                //reconstruct smtp setting
-                $new_smtp_setting = $smtp_setting[0]."|".$smtp_setting[1]."|".$smtp_setting[2]."|".$smtp_setting[3]."|".$smtp_setting[4]."|"; 
-                //update smtp setting without default set
-                mysql_query("UPDATE settings SET value='$new_smtp_setting' WHERE setting = 'smtp' AND value='$old_smtp_setting'");
-            }
-        }
+        mysql_query("UPDATE settings_smtp SET default = 0 WHERE default = 1");
     }
     //formulate smtp server entry
     $value = $host."|".$port."|".$ssl."|".$username."|".$password."|".$default;
     //add smtp server details to database
-    mysql_query("INSERT INTO settings VALUES('smtp','$value')");
+    mysql_query("INSERT INTO settings_smtp(host, port, ssl, username, password, default) VALUES('$host','$port', '$ssl', '$username', '$password', '$default')");
 
 }
 

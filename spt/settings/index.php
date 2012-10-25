@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 36.0
+ * version: 37.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -180,20 +180,24 @@ if ( file_exists ( $includeContent ) ) {
                 }
                 if(isset($_GET['edit_smtp_server'])){
                     //get smtp server
-                    $smtp_server = $_GET['edit_smtp_server'];
-                    $r = mysql_query("SELECT value FROM settings WHERE setting = 'smtp'");
-                    while ($ra = mysql_fetch_assoc($r)){
-                        $current_smtp_server = explode("|", $ra['value']);
-                        if($current_smtp_server[0] == $smtp_server){
-                            $smtp_server_host = $current_smtp_server[0]; 
-                            $smtp_server_port = $current_smtp_server[1];
-                            $smtp_server_ssl = $current_smtp_server[2];
-                            $smtp_server_username = $current_smtp_server[3];
-                            $smtp_server_password = $current_smtp_server[4];
-                            $smtp_server_default = $current_smtp_server[5];
-                        }
+                    if(is_int($_GET['edit_smtp_server'])){
+                        $smtp_server = $_GET['edit_smtp_server'];
+                    }else{
+                        $_SESSION['alert_message'] = 'please select a valid smtp server';
+                        header('location:.#tabs-2');
+                        exit;
                     }
-                    if(!isset($smtp_server_host)){
+                    $r = mysql_query("SELECT * FROM settings_smtp WHERE id = '$smtp_server'");
+                    while ($ra = mysql_fetch_assoc($r)){
+                        $smtp_server_id = $ra[0];
+                        $smtp_server_host = $ra[1]; 
+                        $smtp_server_port = $ra[2];
+                        $smtp_server_ssl = $ra[3];
+                        $smtp_server_username = $ra[4];
+                        $smtp_server_password = $ra[5];
+                        $smtp_server_default = $ra[6];
+                    }
+                    if(!isset($smtp_server_id)){
                         $_SESSION['alert_message'] = "please select an existing smtp server";
                         header('location:.#tabs-2');
                         exit;
@@ -242,7 +246,7 @@ if ( file_exists ( $includeContent ) ) {
                                                 }
                                                 echo '/></td>
                                             </tr>
-                                            <input type="hidden" name="current_host" value="'.$smtp_server_host.'" />
+                                            <input type="hidden" name="current_host" value="'.$smtp_server_id.'" />
                                             <tr>
                                                 <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-2"><img id="add_smtp_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                                             </tr>
@@ -255,19 +259,14 @@ if ( file_exists ( $includeContent ) ) {
                 }
                 if(isset($_GET['test_smtp_server'])){
                     //get smtp server
-                    $smtp_server = $_GET['test_smtp_server'];
-                    $r = mysql_query("SELECT value FROM settings WHERE setting = 'smtp'");
-                    while ($ra = mysql_fetch_assoc($r)){
-                        $test_smtp_server = explode("|", $ra['value']);
-                        if($test_smtp_server[0] == $smtp_server){
-                            $test_smtp_server_host = $test_smtp_server[0]; 
-                            $test_smtp_server_port = $test_smtp_server[1];
-                            $test_smtp_server_ssl = $test_smtp_server[2];
-                            $test_smtp_server_username = $test_smtp_server[3];
-                            $test_smtp_server_default = $test_smtp_server[5];
-                        }
+                    if(is_int($_GET['test_smtp_server'])){
+                        $smtp_server = $_GET['test_smtp_server'];
                     }
-                    if(!isset($test_smtp_server_host)){
+                    $r = mysql_query("SELECT id FROM settings_smtp WHERE id = '$smtp_server'");
+                while ($ra = mysql_fetch_assoc($r)){
+                    $test_smtp_server_id = $ra['id']; 
+                    }
+                    if(!isset($test_smtp_server_id)){
                         $_SESSION['alert_message'] = "please select an existing smtp server";
                         header('location:.#tabs-2');
                         exit;
@@ -279,7 +278,7 @@ if ( file_exists ( $includeContent ) ) {
                                     <tr>
                                         <form method="POST" action="smtp_test.php" />
                                             <tr>
-                                                <td colspan=2 style="text-align: left;"><h3>Test '.$test_smtp_server_host.'</h3></td>
+                                                <td colspan=2 style="text-align: left;"><h3>Test '.$test_smtp_server_id.'</h3></td>
                                                 <td style="text-align: right;">
                                                     <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter an email address you\'d like to send a test message to and hit "Send It."  Check that email addresses mailbox and ensure you receive the email.  If the email is not there, then check your SMTP settings and try again.</span></a>
                                                 </td>
@@ -288,7 +287,7 @@ if ( file_exists ( $includeContent ) ) {
                                                 <td>Test Email</td>
                                                 <td style="text-align: left;"><input type="text" name="test_email" /></td>
                                             </tr>
-                                            <input type="hidden" name="current_host" value="'.$test_smtp_server_host.'"/>
+                                            <input type="hidden" name="current_host" value="'.$test_smtp_server_id.'"/>
                                             <tr>
                                                 <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-2"><img id="test_smtp_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                                             </tr>
@@ -378,18 +377,18 @@ if ( file_exists ( $includeContent ) ) {
                 }
                 if(isset($_GET['edit_ldap_server'])){
                     //get ldap server
-                    $ldap_server = $_GET['edit_ldap_server'];
-                    $r = mysql_query("SELECT value FROM settings WHERE setting = 'ldap'");
+                    if(is_int($_GET['edit_ldap_server'])){
+                        $ldap_server = $_GET['edit_ldap_server'];    
+                    }
+                    $r = mysql_query("SELECT * FROM settings_ldap WHERE id = '$ldap_server'");
                     while ($ra = mysql_fetch_assoc($r)){
-                        $current_ldap_server = explode("|", $ra['value']);
-                        if($current_ldap_server[0] == $ldap_server){
-                            $ldap_server_host = $current_ldap_server[0]; 
-                            $ldap_server_port = $current_ldap_server[1];
-                            $ldap_server_ssl = $current_ldap_server[2];
-                            $ldap_server_username = $current_ldap_server[3];
-                            $ldap_server_password = $current_ldap_server[4];
-                            $ldap_basedn = $current_ldap_server[5];
-                        }
+                        $ldap_server_id = $ra[0];
+                        $ldap_server_host = $ra[1]; 
+                        $ldap_server_port = $ra[2];
+                        $ldap_server_ssl = $ra[3];
+                        $ldap_server_username = $ra[4];
+                        $ldap_server_password = $ra[5];
+                        $ldap_basedn = $ra[6];
                     }
                     if(!isset($ldap_server_host)){
                         $_SESSION['alert_message'] = "please select an existing ldap server";
@@ -436,7 +435,7 @@ if ( file_exists ( $includeContent ) ) {
                                                 <td>Base DN</td>
                                                 <td style="text-align: left;"><input type="text" name="basedn" value="'.$ldap_basedn.'"/></td>
                                             </tr>
-                                            <input type="hidden" name="current_host" value="'.$ldap_server_host.'"/>
+                                            <input type="hidden" name="current_host" value="'.$ldap_server_id.'"/>
                                             <tr>
                                                 <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-3"><img id="add_ldap_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                                             </tr>
@@ -449,7 +448,7 @@ if ( file_exists ( $includeContent ) ) {
                 }
                 if(isset($_GET['test_ldap_server'])){
                     //validate and get host
-                    if(isset($_GET['test_ldap_server']) && preg_match( '/^[a-zA-Z0-9\-\_\.]/' , $_GET['test_ldap_server']) ){
+                    if(isset($_GET['test_ldap_server']) && is_int($_GET['test_ldap_server'])){
                         $test_ldap_server = $_GET['test_ldap_server'];
                     }
                     else{
@@ -457,21 +456,12 @@ if ( file_exists ( $includeContent ) ) {
                         header ( 'location:.#tabs-3' );
                         exit;
                     }
-                    $r = mysql_query("SELECT value FROM settings WHERE setting = 'ldap'");
+                    $r = mysql_query("SELECT id FROM settings_ldap WHERE id = '$test_ldap_server'");
                     while ($ra = mysql_fetch_assoc($r)){
-                        $current_test_ldap_server = explode("|", $ra['value']);
-                        //if the ldap server matches get all the other details about that ldap server
-                        if($current_test_ldap_server[0] == $test_ldap_server){
-                            $test_ldap_server_host = $current_test_ldap_server[0]; 
-                            $test_ldap_server_port = $current_test_ldap_server[1];
-                            $test_ldap_server_ssl = $current_test_ldap_server[2];
-                            $test_ldap_server_username = $current_test_ldap_server[3];
-                            $test_ldap_server_password = $current_test_ldap_server[4];
-                            $test_ldap_basedn = $current_test_ldap_server[5];
-                        }
+                        $test_ldap_server_id = $ra['id']; 
                     }
                     //throw error if no match found
-                    if(!isset($test_ldap_server_host)){
+                    if(!isset($test_ldap_server_id)){
                         $_SESSION['alert_message'] = "please select an existing ldap server";
                         header('location:.#tabs-3');
                         exit;
@@ -491,7 +481,7 @@ if ( file_exists ( $includeContent ) ) {
                                     <tr>
                                         <td colspan=2>Bind Test</td>
                                         <input type="hidden" name="type" value="bind" />
-                                        <input type="hidden" name="host" value="'.$test_ldap_server_host.'" />
+                                        <input type="hidden" name="host" value="'.$test_ldap_server_id.'" />
                                         <td style="text-align: left;"><input type="submit" value="Bind"/></td>
                                     </tr>
                                     <tr>
@@ -511,7 +501,7 @@ if ( file_exists ( $includeContent ) ) {
                                     <tr>
                                     </tr>
                                         <input type="hidden" name="type" value="auth" />
-                                        <input type="hidden" name="host" value="'.$test_ldap_server_host.'" />
+                                        <input type="hidden" name="host" value="'.$test_ldap_server_id.'" />
                                         <td colspan=2></td>
                                         <td style="text-align: left;"><input type="submit" value="Test Auth"/></td>
                                     <tr>
@@ -622,24 +612,23 @@ if ( file_exists ( $includeContent ) ) {
                             </tr>
                             <?php
                                 //get all existing SMTP Servers
-                                $r = mysql_query("SELECT value FROM settings WHERE setting = 'SMTP'");
-                                while ($ra = mysql_fetch_assoc($r)){
-                                    $smtp_setting = explode("|",$ra['value']);
+                                $r = mysql_query("SELECT * FROM settings_smtp");
+                                while ($smtp_setting = mysql_fetch_assoc($r)){
                                     echo "
                                         <tr>
-                                            <td><a href=\"?edit_smtp_server=".$smtp_setting[0]."#tabs-2\">".$smtp_setting[0]."</a></td>
-                                            <td>".$smtp_setting[1]."</td>
+                                            <td><a href=\"?edit_smtp_server=".$smtp_setting[0]."#tabs-2\">".$smtp_setting[1]."</a></td>
+                                            <td>".$smtp_setting[2]."</td>
                                             <td>";
-                                    if($smtp_setting[2] == 1){
+                                    if($smtp_setting[3] == 1){
                                         echo "Y";
                                     }else{
                                         echo "N";
                                     }
                                     echo "
                                             </td>
-                                            <td>".$smtp_setting[3]."</td>
+                                            <td>".$smtp_setting[4]."</td>
                                             <td>";
-                                    if($smtp_setting[5] == "default"){
+                                    if($smtp_setting[6] == "default"){
                                         echo "<img src=\"../images/accept_sm.png\" alt=\"default\" />";
                                     }else{}
                                     echo "
@@ -647,7 +636,7 @@ if ( file_exists ( $includeContent ) ) {
                                             <td>
                                                 <a href=\"?edit_smtp_server=".$smtp_setting[0]."#tabs-2\"><img src=\"../images/pencil_sm.png\" alt=\"edit\" /></a>
                                                 <a href=\"?test_smtp_server=".$smtp_setting[0]."#tabs-2\"><img src=\"../images/email_to_friend_sm.png\" alt=\"edit\" /></a>                                                
-                                                <a href=\"delete_smtp.php?smtp=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a>
+                                                <a href=\"delete_smtp.php?smtp=".$smtp_setting[0]."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a>
                                             </td>
                                         </tr>
                                     ";
@@ -668,27 +657,26 @@ if ( file_exists ( $includeContent ) ) {
                             </tr>
                             <?php
                                 //get all existing ldap Servers
-                                $r = mysql_query("SELECT value FROM settings WHERE setting = 'ldap'");
-                                while ($ra = mysql_fetch_assoc($r)){
-                                    $ldap_setting = explode("|",$ra['value']);
+                                $r = mysql_query("SELECT * FROM settings_ldap");
+                                while ($ldap_setting = mysql_fetch_assoc($r)){
                                     echo "
                                         <tr>
-                                            <td><a href=\"?edit_ldap_server=".$ldap_setting[0]."#tabs-3\">".$ldap_setting[0]."</a></td>
-                                            <td>".$ldap_setting[1]."</td>
+                                            <td><a href=\"?edit_ldap_server=".$ldap_setting[0]."#tabs-3\">".$ldap_setting[1]."</a></td>
+                                            <td>".$ldap_setting[2]."</td>
                                             <td>";
-                                    if($ldap_setting[2] == 1){
+                                    if($ldap_setting[3] == 1){
                                         echo "Y";
                                     }else{
                                         echo "N";
                                     }
                                     echo "
                                             </td>
-                                            <td>".$ldap_setting[3]."</td>
-                                            <td>".$ldap_setting[5]."</td>
+                                            <td>".$ldap_setting[4]."</td>
+                                            <td>".$ldap_setting[6]."</td>
                                             <td>
                                                 <a href=\"?edit_ldap_server=".$ldap_setting[0]."#tabs-3\"><img src=\"../images/pencil_sm.png\" alt=\"edit\" /></a>
                                                 <a href=\"?test_ldap_server=".$ldap_setting[0]."#tabs-3\"><img src=\"../images/directory_listing_sm.png\" alt=\"edit\" /></a>                                                
-                                                <a href=\"delete_ldap.php?ldap=".$ra['value']."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a>
+                                                <a href=\"delete_ldap.php?ldap=".$ldap_setting[0]."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a>
                                             </td>
                                         </tr>
                                     ";

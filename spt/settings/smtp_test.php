@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_test.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,12 +41,12 @@ if ( file_exists ( $includeContent ) ) {
 //check to see if something was posted
 if($_POST){
     //validate and get host
-    if(isset($_POST['current_host']) && preg_match( '/^[a-zA-Z0-9\-\_\.]/' , $_POST['current_host']) ){
+    if(isset($_POST['current_host']) && is_int($_POST['current_host'])){
         $host = $_POST['current_host'];
     }
     else{
         $_SESSION['alert_message'] = 'host was either empty or not a valid hostname';
-        header ( 'location:./?test_smtp_server=true#tabs-2' );
+        header ( 'location:.#tabs-2' );
         exit;
     }
     //get test email
@@ -55,63 +55,53 @@ if($_POST){
     }
     else{
         $_SESSION['alert_message'] = 'please enter a valid email address';
-        header ( 'location:./?test_smtp_server=true#tabs-2' );
+        header ( 'location:./?test_smtp_server='.$host.'#tabs-2' );
         exit;
     }
     //connect to database
     include '../spt_config/mysql_config.php';
     //get smtp settings for host
-    $r = mysql_query("SELECT value FROM settings WHERE setting='smtp'");
+    $r = mysql_query("SELECT * FROM settings_smtp WHERE id='$host'");
     while($ra=mysql_fetch_assoc($r)){
-        $smtp_setting = explode("|",$ra['value']);
-        if($smtp_setting[0] == $host){
-            //store match
-            $test_smtp_setting = $smtp_setting; 
+        //prep email settings
+        if(strlen($ra[1])){
+            $relay_host = $ra[1];
+        }
+        if(strlen($ra[2])){
+            $relay_port = $ra[2];
+        }
+        if(isset($ra[3]) && $ra[3] == 1){
+            $ssl = 'yes';
+        }else{
+            $ssl = 'no';
+        }
+        if(strlen($ra[4])){
+            $relay_username = $ra[4];
+        }
+        if(strlen($ra[5])){
+            $relay_password = $ra[5];
         }
     }
-
-    //prep email settings
-    if(strlen($smtp_setting[0])){
-        $relay_host = $smtp_setting[0];
-    }
-    if(strlen($smtp_setting[1])){
-        $relay_port = $smtp_setting[1];
-    }
-    if(isset($smtp_setting[2]) && $smtp_setting[2] == 1){
-        $ssl = 'yes';
-    }else{
-        $ssl = 'no';
-    }
-    if(strlen($smtp_setting[3])){
-        $relay_username = $smtp_setting[1];
-    }
-    if(strlen($smtp_setting[4])){
-        $relay_password = $smtp_setting[1];
-    }
-
     //send the email
     require_once '../includes/swiftmailer/lib/swift_required.php';
-
     if ( isset ( $relay_host ) AND isset ( $relay_username ) AND isset ( $relay_password ) ) {
         //Set relay port if set
         if ( ! isset ( $relay_port ) ) {
             $relay_port = 25;
         }
-
         if($ssl == "no"){
             //Create the Transport
             $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port )
                 -> setUsername ( $relay_username )
                 -> setPassword ( $relay_password )
-        ;    
+            ;    
         }else{
             //Create the Transport
             $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' )
                 -> setUsername ( $relay_username )
                 -> setPassword ( $relay_password )
-        ;    
+            ;    
         }
-        
     }
     if ( isset ( $relay_host ) AND ! isset ( $relay_username ) AND ! isset ( $relay_password ) ) {
         if($ssl == "no"){
@@ -121,16 +111,12 @@ if($_POST){
             //Create the Transport
             $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' );    
         }
-        
     }
-
     //Create the Mailer using your created Transport
     $mailer = Swift_Mailer::newInstance ( $transport );
-
     //To use the ArrayLogger
     $logger = new Swift_Plugins_Loggers_ArrayLogger();
     $mailer -> registerPlugin ( new Swift_Plugins_LoggerPlugin ( $logger ) );
-
     //Prep message
     $subject = "Simple Phishing Toolkit Test Message";
     $sender_email = "noreply@sptoolkit.com";
@@ -139,7 +125,6 @@ if($_POST){
     $fname = "Test";
     $lname = "Recipient";
     $message = "This is a test email.  Yay! It worked!";
-
     //Create a message
     $message = Swift_Message::newInstance ( $subject )
             -> setSubject ( $subject )
@@ -148,16 +133,12 @@ if($_POST){
             -> setTo ( array ( $test_email => $fname . ' ' . $lname ) )
             -> setContentType ( $content_type )
             -> setBody ( $message )
-    ;
-
+        ;
     //Send the message
     $mailer -> send ( $message, $failures );
-
     //Set alert message
     $_SESSION['alert_message'] = "your test message has been sent";
 }
-
 header('location:.#tabs-2');
 exit;
-
 ?>
