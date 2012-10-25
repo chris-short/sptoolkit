@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_edit.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -87,7 +87,7 @@ if($_POST){
     //delete existing entry
     mysql_query("DELETE FROM settings_ldap WHERE id = '$current_host'");
     //add ldap server details to database
-    mysql_query("INSERT INTO settings_ldap(host, port, ssl, username, password, basedn) VALUES('$host','$port', '$ssl', '$username', '$password', '$basedn')");
+    mysql_query("INSERT INTO settings_ldap(host, port, ssl_enc, username, password, basedn) VALUES('$host','$port', '$ssl', '$username', '$password', '$basedn')");
 }
 $_SESSION['alert_message'] = "ldap server updated";
 header('location:.#tabs-3');

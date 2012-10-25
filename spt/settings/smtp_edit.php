@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_edit.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -92,10 +92,8 @@ if($_POST){
     if($default == "default"){
         mysql_query("UPDATE settings_smtp SET default = 0 WHERE default = 1");
     }
-    //formulate smtp server entry
-    $value = $host."|".$port."|".$ssl."|".$username."|".$password."|".$default;
     //add smtp server details to database
-    mysql_query("INSERT INTO settings_smtp(host, port, ssl, username, password, default) VALUES('$host','$port', '$ssl', '$username', '$password', '$default')");
+    mysql_query("INSERT INTO settings_smtp(host, port, ssl_enc, username, password, default) VALUES('$host','$port', '$ssl', '$username', '$password', '$default')");
 
 }
 
