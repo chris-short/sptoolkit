@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 14.0
+ * version: 15.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -92,7 +92,7 @@ $sql = "
         `ssl_enc` varchar(1) NOT NULL,
         `username` varchar(255) NOT NULL,
         `password` varchar(255) NOT NULL,
-        `default` varchar(1) NOT NULL,
+        `sys_default` varchar(1) NOT NULL,
         PRIMARY KEY (`id`)
     )";
 
