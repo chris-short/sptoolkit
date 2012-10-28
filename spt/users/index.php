@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 20.0
+ * version: 21.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -282,7 +282,7 @@ if ( file_exists ( $includeContent ) ) {
                         </div>';
                 }
                 //see if there are any ldap servers configured
-                $r = mysql_query("SELECT setting FROM settings WHERE setting = 'ldap'");
+                $r = mysql_query("SELECT id FROM settings_ldap");
                 $row_count = mysql_num_rows($r);
                 if($row_count < 1){
                     $ldap_server_flag = 1;
@@ -313,17 +313,17 @@ if ( file_exists ( $includeContent ) ) {
                     //connect to database
                     include "../spt_config/mysql_config.php";
                     //get all ldap servers
-                    $r = mysql_query("SELECT value FROM settings WHERE setting='ldap'");
+                    $r = mysql_query("SELECT id, host FROM settings_ldap");
                     while($ra = mysql_fetch_assoc($r)){
-                        //explode the ldap server
-                        $ldap_server = explode("|",$ra['value']);
+                        $ldap_id = $ra['id'];
+                        $ldap_host = $ra['host'];
                         echo '
-                                                    <option value="'.$ldap_server[0].'>'.$ldap_server[0].'</option>
+                                                    <option value="'.$ldap_id.'">'.$ldap_host.'</option>
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                                            <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-2"><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                                         </tr>
                         ';
                     }
@@ -341,7 +341,7 @@ if ( file_exists ( $includeContent ) ) {
                         </div>
                     ';
                 }
-                if(isset($_GET['add_ldap_group']) && $_GET['add_ldap_gropu'] == 'true'){
+                if(isset($_GET['add_ldap_group']) && $_GET['add_ldap_group'] == 'true'){
                     echo '
                         <div id="add_ldap_group">
                             <div>
@@ -368,12 +368,12 @@ if ( file_exists ( $includeContent ) ) {
                     //connect to database
                     include "../spt_config/mysql_config.php";
                     //get all ldap servers
-                    $r = mysql_query("SELECT value FROM settings WHERE setting='ldap'");
+                    $r = mysql_query("SELECT id, host FROM settings_ldap");
                     while($ra = mysql_fetch_assoc($r)){
-                        //explode the ldap server
-                        $ldap_server = explode("|",$ra['value']);
+                        $ldap_id = $ra['id'];
+                        $ldap_host = $ra['host'];
                         echo "
-                                                    <option value=\"".$ldap_server[0]."\">".$ldap_server[0]."</option>
+                                                    <option value=\"".$ldap_id."\">".$ldap_host."</option>
                         ";
                     }
                     echo '
@@ -381,7 +381,7 @@ if ( file_exists ( $includeContent ) ) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
+                                            <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-3"><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                                         </tr>
                     ';
                     if($ldap_server_flag == 1){
