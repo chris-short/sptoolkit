@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_edit.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,7 +41,7 @@ if ( file_exists ( $includeContent ) ) {
 //check to see if something was posted
 if($_POST){
     //get previous hostname
-    if(isset($_POST['current_host']) && is_int($_POST['current_host'])){
+    if(isset($_POST['current_host']) && preg_match('/[0-9]/',$_POST['current_host'])){
         $current_host = $_POST['current_host'];
     }
     //validate and get host
@@ -64,9 +64,9 @@ if($_POST){
     }
     //get ssl status
     if(isset($_POST['ssl'])){
-        $ssl = 1;
+        $ssl = '1';
     }else{
-        $ssl = 0;
+        $ssl = '0';
     }
     //get username if provided
     if(isset($_POST['username'])){
@@ -80,17 +80,17 @@ if($_POST){
     }
     //get default status
     if(isset($_POST['default'])){
-        $default = "default";
+        $default = '1';
     }else{
-        $default = "";
+        $default = '0';
     }
     //connect to database
     include '../spt_config/mysql_config.php';
     //delete smtp server that is being edited
     mysql_query("DELETE FROM settings_smtp WHERE id = '$current_host'");
     //take away default value from any existing smtp servers that are set to default
-    if($default == "default"){
-        mysql_query("UPDATE settings_smtp SET default = 0 WHERE default = 1");
+    if($default == '1'){
+        mysql_query("UPDATE settings_smtp SET sys_default = '0' WHERE sys_default = '1'");
     }
     //add smtp server details to database
     mysql_query("INSERT INTO settings_smtp(host, port, ssl_enc, username, password, sys_default) VALUES('$host','$port', '$ssl', '$username', '$password', '$default')");

@@ -3,7 +3,7 @@
 
 /**
  * file:    ldap_add.php
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -80,9 +80,9 @@ if($_POST){
     }
     //get ssl status
     if(isset($_POST['ssl'])){
-        $ssl = 1;
+        $ssl = '1';
     }else{
-        $ssl = 0;
+        $ssl = '0';
     }
     //get username if provided
     if(isset($_POST['username'])){

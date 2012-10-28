@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_test.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,7 +41,7 @@ if ( file_exists ( $includeContent ) ) {
 //check to see if something was posted
 if($_POST){
     //validate and get host
-    if(isset($_POST['host']) && is_int($_POST['host']) ){
+    if(isset($_POST['host']) && preg_match('/[0-9]/',$_POST['host']) ){
         $host = $_POST['host'];
     }
     else{
@@ -69,8 +69,8 @@ if($_POST){
     //bind test
     if(isset($_POST['type']) && $_POST['type'] == "bind"){
         //get ldap server details
-        while ($ra = mysql_fetch_assoc($r)){
-            $current_ldap_server_host = $ra[1]
+        while ($ra = mysql_fetch_array($r)){
+            $current_ldap_server_host = $ra[1];
             $current_ldap_server_port = $ra[2];
             $current_ldap_server_ssl = $ra[3];
             $current_ldap_server_username = $ra[4];
@@ -98,8 +98,8 @@ if($_POST){
     }
     if(isset($_POST['type']) && $_POST['type'] == "auth"){
         //get ldap server details
-        while ($ra = mysql_fetch_assoc($r)){
-            $current_ldap_server_host = $ra[1]
+        while ($ra = mysql_fetch_array($r)){
+            $current_ldap_server_host = $ra[1];
             $current_ldap_server_port = $ra[2];
             $current_ldap_server_ssl = $ra[3];
             $current_ldap_server_username = $ra[4];
@@ -117,12 +117,10 @@ if($_POST){
         $username = $_POST['username'];
         $password = $_POST['password'];
         //get user dn
-        $ldap_test_user = $ldap_user_query($current_ldap_server_host, $current_ldap_server_port, $current_ldap_server_username, $current_ldap_server_password, $current_ldap_server_basedn, $username);
+        $ldap_test_user = ldap_user_query($current_ldap_server_host, $current_ldap_server_port, $current_ldap_server_username, $current_ldap_server_password, $current_ldap_server_basedn, $username);
         $ldap_test_user_dn = $ldap_test_user[0][dn];
         //attempt bind with provided username and password
         $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_test_user_dn,$password);
-        //close connection
-        ldap_close($ldap_conn);
         if($ldap_bind){
             $_SESSION['alert_message'] = "authentication successful :)";
             header('location:./?test_ldap_server='.$host.'#tabs-3');

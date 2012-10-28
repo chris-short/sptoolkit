@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_add.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -42,22 +42,22 @@ if ( file_exists ( $includeContent ) ) {
 if($_POST){
     //get values
     if(isset($_POST['host'])){
-        $_SESSION['temp_host'] = $_POST['host'];
+        $_SESSION['temp_smtp_host'] = $_POST['host'];
     }
     if(isset($_POST['port'])){
-        $_SESSION['temp_port'] = $_POST['port'];
+        $_SESSION['temp_smtp_port'] = $_POST['port'];
     }
     if(isset($_POST['ssl'])){
-        $_SESSION['temp_ssl'] = $_POST['ssl'];
+        $_SESSION['temp_smtp_ssl'] = $_POST['ssl'];
     }
     if(isset($_POST['username'])){
-        $_SESSION['temp_username'] = $_POST['username'];
+        $_SESSION['temp_smtp_username'] = $_POST['username'];
     }
     if(isset($_POST['password'])){
-        $_SESSION['temp_password'] = $_POST['password'];
+        $_SESSION['temp_smtp_password'] = $_POST['password'];
     }
     if(isset($_POST['default'])){
-        $_SESSION['temp_default'] = $_POST['default'];
+        $_SESSION['temp_smtp_default'] = $_POST['default'];
     }
     //validate and get host
     if(isset($_POST['host']) && preg_match( '/^[a-zA-Z0-9\-\_\.]/' , $_POST['host']) ){
@@ -97,41 +97,41 @@ if($_POST){
     }
     //get default status
     if(isset($_POST['default'])){
-        $default = 1;
+        $default = '1';
     }else{
-        $default = 0;
+        $default = '    0';
     }
     //connect to database
     include '../spt_config/mysql_config.php';
     //take away default value from any existing smtp servers that are set to default
-    if($default == "default"){
-        mysql_query("UPDATE settings_smtp SET default = 0 WHERE default=1");
+    if($default == "1"){
+        mysql_query("UPDATE settings_smtp SET sys_default = '0' WHERE sys_default='1'");
     }
     //add smtp server details to database
     mysql_query("INSERT INTO settings_smtp(host,port,ssl_enc,username,password,sys_default) VALUES('$host','$port', '$ssl', '$username', '$password', '$default')");
     if(mysql_error()){
-        $_SESSION['alert_message'] = mysql_error();
+        $_SESSION['alert_message'] = "there was a problem adding the smtp server";
         header('location:.#tabs-2');
         exit;
     }
     //unset temp variables
-    if(isset($_SESSION['temp_host'])){
-        unset($_SESSION['temp_host']);
+    if(isset($_SESSION['temp_smtp_host'])){
+        unset($_SESSION['temp_smtp_host']);
     }
-    if(isset($_SESSION['temp_port'])){
-        unset($_SESSION['temp_port']);
+    if(isset($_SESSION['temp_smtp_port'])){
+        unset($_SESSION['temp_smtp_port']);
     }
-    if(isset($_SESSION['temp_ssl'])){
-        unset($_SESSION['temp_ssl']);
+    if(isset($_SESSION['temp_smtp_ssl'])){
+        unset($_SESSION['temp_smtp_ssl']);
     }
-    if(isset($_SESSION['temp_username'])){
-        unset($_SESSION['temp_username']);
+    if(isset($_SESSION['temp_smtp_username'])){
+        unset($_SESSION['temp_smtp_username']);
     }
-    if(isset($_SESSION['temp_password'])){
-        unset($_SESSION['temp_password']);
+    if(isset($_SESSION['temp_smtp_password'])){
+        unset($_SESSION['temp_smtp_password']);
     }
-    if(isset($_SESSION['temp_default'])){
-        unset($_SESSION['temp_default']);
+    if(isset($_SESSION['temp_smtp_default'])){
+        unset($_SESSION['temp_smtp_default']);
     }
 
 }

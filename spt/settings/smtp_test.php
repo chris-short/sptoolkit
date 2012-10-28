@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_test.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,7 +41,7 @@ if ( file_exists ( $includeContent ) ) {
 //check to see if something was posted
 if($_POST){
     //validate and get host
-    if(isset($_POST['current_host']) && is_int($_POST['current_host'])){
+    if(isset($_POST['current_host']) && preg_match('/[0-9]/',$_POST['current_host'])){
         $host = $_POST['current_host'];
     }
     else{
@@ -62,7 +62,7 @@ if($_POST){
     include '../spt_config/mysql_config.php';
     //get smtp settings for host
     $r = mysql_query("SELECT * FROM settings_smtp WHERE id='$host'");
-    while($ra=mysql_fetch_assoc($r)){
+    while($ra=mysql_fetch_array($r)){
         //prep email settings
         if(strlen($ra[1])){
             $relay_host = $ra[1];
@@ -135,9 +135,12 @@ if($_POST){
             -> setBody ( $message )
         ;
     //Send the message
-    $mailer -> send ( $message, $failures );
+    $test = $mailer -> send ( $message, $failures );
+    //store logs in database
+    $mail_log = $logger -> dump ();
+    $mail_log = nl2br ( htmlentities ( $mail_log ) );
     //Set alert message
-    $_SESSION['alert_message'] = "your test message has been sent";
+    $_SESSION['alert_message'] = $mail_log;
 }
 header('location:.#tabs-2');
 exit;

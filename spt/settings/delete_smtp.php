@@ -2,7 +2,7 @@
 
 /**
  * file:    delete_smtp.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -44,13 +44,18 @@ if($_GET['smtp']){
     if(isset($_GET['smtp'])){
         $smtp_setting = $_GET['smtp'];
         //validate the smtp setting is constructed correctly
-        if(is_int($smtp_setting)){
+        if(preg_match('/[0-9]/', $smtp_setting)){
             //connect to database
             include "../spt_config/mysql_config.php";
             mysql_query("DELETE FROM settings_smtp WHERE id='$smtp_setting'");
+        }else{
+            $_SESSION['alert_message'] = "nothing was deleted";
+            header('location:.#tabs-2');
+            exit;
         }
     }
 }
+$_SESSION['alert_message'] = "smtp server deleted";
 header('location:.#tabs-2');
 exit;
 ?>

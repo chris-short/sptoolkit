@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 37.0
+ * version: 38.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -117,54 +117,54 @@ if ( file_exists ( $includeContent ) ) {
                                             <tr>
                                                 <td>Host</td>
                                                 <td style="text-align: left;"><input type="text" name="host" ';
-                                                if(isset($_SESSION['temp_host'])){
-                                                    echo 'value="'.$_SESSION['temp_host'].'"';
-                                                    unset($_SESSION['temp_host']);
+                                                if(isset($_SESSION['temp_smtp_host'])){
+                                                    echo 'value="'.$_SESSION['temp_smtp_host'].'"';
+                                                    unset($_SESSION['temp_smtp_host']);
                                                 }
                                                 echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td>Port</td>
                                                 <td style="text-align: left;"><input type="text" name="port" ';
-                                                if(isset($_SESSION['temp_port'])){
-                                                    echo 'value="'.$_SESSION['temp_port'].'"';
-                                                    unset($_SESSION['temp_port']);
+                                                if(isset($_SESSION['temp_smtp_port'])){
+                                                    echo 'value="'.$_SESSION['temp_smtp_port'].'"';
+                                                    unset($_SESSION['temp_smtp_port']);
                                                 }
                                                 echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td>SSL</td>
                                                 <td style="text-align: left;"><input type="checkbox" name="ssl" ';
-                                                if(isset($_SESSION['temp_ssl'])){
+                                                if(isset($_SESSION['temp_smtp_ssl'])){
                                                     echo 'CHECKED';
-                                                    unset($_SESSION['temp_ssl']);
+                                                    unset($_SESSION['temp_smtp_ssl']);
                                                 }
                                                 echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td>Username</td>
                                                 <td style="text-align: left;"><input type="text" name="username" ';
-                                                if(isset($_SESSION['temp_username'])){
-                                                    echo 'value="'.$_SESSION['temp_username'].'"';
-                                                    unset($_SESSION['temp_username']);
+                                                if(isset($_SESSION['temp_smtp_username'])){
+                                                    echo 'value="'.$_SESSION['temp_smtp_username'].'"';
+                                                    unset($_SESSION['temp_smtp_username']);
                                                 }
                                                 echo '/></td>    
                                             </tr>
                                             <tr>
                                                 <td>Password</td>
                                                 <td style="text-align: left;"><input type="password" name="password" ';
-                                                if(isset($_SESSION['temp_password'])){
-                                                    echo 'value="'.$_SESSION['temp_password'].'"';
-                                                    unset($_SESSION['temp_password']);
+                                                if(isset($_SESSION['temp_smtp_password'])){
+                                                    echo 'value="'.$_SESSION['temp_smtp_password'].'"';
+                                                    unset($_SESSION['temp_smtp_password']);
                                                 }
                                                 echo '/></td>
                                             </tr>
                                             <tr>
                                                 <td>Default SMTP Server</td>
                                                 <td style="text-align: left;"><input type="checkbox" name="default" ';
-                                                if(isset($_SESSION['temp_default'])){
+                                                if(isset($_SESSION['temp_smtp_default'])){
                                                     echo 'CHECKED';
-                                                    unset($_SESSION['temp_default']);
+                                                    unset($_SESSION['temp_smtp_default']);
                                                 }
                                                 echo '/></td>
                                             </tr>
@@ -180,7 +180,7 @@ if ( file_exists ( $includeContent ) ) {
                 }
                 if(isset($_GET['edit_smtp_server'])){
                     //get smtp server
-                    if(is_int($_GET['edit_smtp_server'])){
+                    if(preg_match('/[0-9]/', $_GET['edit_smtp_server'])){
                         $smtp_server = $_GET['edit_smtp_server'];
                     }else{
                         $_SESSION['alert_message'] = 'please select a valid smtp server';
@@ -188,7 +188,7 @@ if ( file_exists ( $includeContent ) ) {
                         exit;
                     }
                     $r = mysql_query("SELECT * FROM settings_smtp WHERE id = '$smtp_server'");
-                    while ($ra = mysql_fetch_assoc($r)){
+                    while ($ra = mysql_fetch_array($r)){
                         $smtp_server_id = $ra[0];
                         $smtp_server_host = $ra[1]; 
                         $smtp_server_port = $ra[2];
@@ -225,7 +225,7 @@ if ( file_exists ( $includeContent ) ) {
                                             <tr>
                                                 <td>SSL</td>
                                                 <td style="text-align: left;"><input type="checkbox" name="ssl" ';
-                                                if($smtp_server_ssl == 1){
+                                                if($smtp_server_ssl == '1'){
                                                     echo 'CHECKED';
                                                 }
                                                 echo '/></td>
@@ -241,7 +241,7 @@ if ( file_exists ( $includeContent ) ) {
                                             <tr>
                                                 <td>Default SMTP Server</td>
                                                 <td style="text-align: left;"><input type="checkbox" name="default" ';
-                                                if($smtp_server_default == 'default'){
+                                                if($smtp_server_default == '1'){
                                                     echo 'CHECKED';
                                                 }
                                                 echo '/></td>
@@ -259,12 +259,13 @@ if ( file_exists ( $includeContent ) ) {
                 }
                 if(isset($_GET['test_smtp_server'])){
                     //get smtp server
-                    if(is_int($_GET['test_smtp_server'])){
+                    if(preg_match('/[0-9]/',$_GET['test_smtp_server'])){
                         $smtp_server = $_GET['test_smtp_server'];
                     }
-                    $r = mysql_query("SELECT id FROM settings_smtp WHERE id = '$smtp_server'");
-                while ($ra = mysql_fetch_assoc($r)){
+                    $r = mysql_query("SELECT id, host FROM settings_smtp WHERE id = '$smtp_server'");
+                while ($ra = mysql_fetch_array($r)){
                     $test_smtp_server_id = $ra['id']; 
+                    $test_smtp_server_host = $ra['host'];
                     }
                     if(!isset($test_smtp_server_id)){
                         $_SESSION['alert_message'] = "please select an existing smtp server";
@@ -278,7 +279,7 @@ if ( file_exists ( $includeContent ) ) {
                                     <tr>
                                         <form method="POST" action="smtp_test.php" />
                                             <tr>
-                                                <td colspan=2 style="text-align: left;"><h3>Test '.$test_smtp_server_id.'</h3></td>
+                                                <td colspan=2 style="text-align: left;"><h3>Test '.$test_smtp_server_host.'</h3></td>
                                                 <td style="text-align: right;">
                                                     <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter an email address you\'d like to send a test message to and hit "Send It."  Check that email addresses mailbox and ensure you receive the email.  If the email is not there, then check your SMTP settings and try again.</span></a>
                                                 </td>
@@ -339,7 +340,7 @@ if ( file_exists ( $includeContent ) ) {
                                                 echo '/></td>
                                             </tr>
                                             <tr>
-                                                <td>Username</td>
+                                                <td>Bind DN</td>
                                                 <td style="text-align: left;"><input type="text" name="username" ';
                                                 if(isset($_SESSION['temp_username'])){
                                                     echo 'value="'.$_SESSION['temp_username'].'"';
@@ -377,11 +378,11 @@ if ( file_exists ( $includeContent ) ) {
                 }
                 if(isset($_GET['edit_ldap_server'])){
                     //get ldap server
-                    if(is_int($_GET['edit_ldap_server'])){
+                    if(preg_match('/[0-9]/',$_GET['edit_ldap_server'])){
                         $ldap_server = $_GET['edit_ldap_server'];    
                     }
                     $r = mysql_query("SELECT * FROM settings_ldap WHERE id = '$ldap_server'");
-                    while ($ra = mysql_fetch_assoc($r)){
+                    while ($ra = mysql_fetch_array($r)){
                         $ldap_server_id = $ra[0];
                         $ldap_server_host = $ra[1]; 
                         $ldap_server_port = $ra[2];
@@ -424,7 +425,7 @@ if ( file_exists ( $includeContent ) ) {
                                                 echo '/></td>
                                             </tr>
                                             <tr>
-                                                <td>Username</td>
+                                                <td>Bind DN</td>
                                                 <td style="text-align: left;"><input type="text" name="username" value="'.$ldap_server_username.'"/></td>    
                                             </tr>
                                             <tr>
@@ -448,7 +449,7 @@ if ( file_exists ( $includeContent ) ) {
                 }
                 if(isset($_GET['test_ldap_server'])){
                     //validate and get host
-                    if(isset($_GET['test_ldap_server']) && is_int($_GET['test_ldap_server'])){
+                    if(isset($_GET['test_ldap_server']) && preg_match('/[0-9]/',$_GET['test_ldap_server'])){
                         $test_ldap_server = $_GET['test_ldap_server'];
                     }
                     else{
@@ -613,7 +614,7 @@ if ( file_exists ( $includeContent ) ) {
                             <?php
                                 //get all existing SMTP Servers
                                 $r = mysql_query("SELECT * FROM settings_smtp");
-                                while ($smtp_setting = mysql_fetch_assoc($r)){
+                                while ($smtp_setting = mysql_fetch_array($r)){
                                     echo "
                                         <tr>
                                             <td><a href=\"?edit_smtp_server=".$smtp_setting[0]."#tabs-2\">".$smtp_setting[1]."</a></td>
@@ -628,7 +629,7 @@ if ( file_exists ( $includeContent ) ) {
                                             </td>
                                             <td>".$smtp_setting[4]."</td>
                                             <td>";
-                                    if($smtp_setting[6] == "default"){
+                                    if($smtp_setting[6] == 1){
                                         echo "<img src=\"../images/accept_sm.png\" alt=\"default\" />";
                                     }else{}
                                     echo "
@@ -651,14 +652,14 @@ if ( file_exists ( $includeContent ) ) {
                                 <td><h3>Host</h3></td>
                                 <td><h3>Port</h3></td>
                                 <td><h3>SSL?</h3></td>
-                                <td><h3>Username</h3></td>
+                                <td><h3>Bind DN</h3></td>
                                 <td><h3>Base DN</h3></td>
                                 <td><h3>Actions</h3></td>
                             </tr>
                             <?php
                                 //get all existing ldap Servers
                                 $r = mysql_query("SELECT * FROM settings_ldap");
-                                while ($ldap_setting = mysql_fetch_assoc($r)){
+                                while ($ldap_setting = mysql_fetch_array($r)){
                                     echo "
                                         <tr>
                                             <td><a href=\"?edit_ldap_server=".$ldap_setting[0]."#tabs-3\">".$ldap_setting[1]."</a></td>

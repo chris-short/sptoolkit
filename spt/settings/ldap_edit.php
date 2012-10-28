@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_edit.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,7 +41,7 @@ if ( file_exists ( $includeContent ) ) {
 //check to see if something was posted
 if($_POST){
     //get previous hostname
-    if(isset($_POST['current_host']) && is_int($_POST['current_host'])){
+    if(isset($_POST['current_host']) && preg_match('/[0-9]/',$_POST['current_host'])){
         $current_host = $_POST['current_host'];
     }
     //validate and get host
@@ -64,9 +64,9 @@ if($_POST){
     }
     //get ssl status
     if(isset($_POST['ssl'])){
-        $ssl = 1;
+        $ssl = '1';
     }else{
-        $ssl = 0;
+        $ssl = '0';
     }
     //get username if provided
     if(isset($_POST['username'])){
