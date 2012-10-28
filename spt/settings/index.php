@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 38.0
+ * version: 39.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -558,7 +558,7 @@ if ( file_exists ( $includeContent ) ) {
                                         //connect to database
                                         include '../spt_config/mysql_config.php';
                                         //get current timezone
-                                        $r = mysql_query("SELECT value FROM settings WHERE setting = 'time_zone'");
+                                        $r = mysql_query("SELECT value FROM settings WHERE setting = 'timezone'");
                                         while($ra = mysql_fetch_assoc($r)){
                                             $tz = $ra['value'];
                                         }

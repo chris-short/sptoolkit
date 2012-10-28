@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 15.0
+ * version: 16.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -64,7 +64,7 @@ $sql = "
 mysql_query ( $sql ) or die ( mysql_error () );
 
 //Upload Settings Data
-$sql = "INSERT INTO `settings` VALUES ('stat_upload','0'), ('timezone', '0.0')";
+$sql = "INSERT INTO `settings` VALUES ('stat_upload','0'), ('timezone', '0.0'), ('google_api', '')";
 
 mysql_query ( $sql ) or die ( mysql_error () );
 

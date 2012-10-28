@@ -2,7 +2,7 @@
 
 /**
  * file:    update_setting.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -62,7 +62,7 @@ if($_POST){
             //connect to database
             include "../spt_config/mysql_config.php";
             //update value in database
-            mysql_query("UPDATE settings SET value = '$tz' WHERE setting = 'time_zone'");
+            mysql_query("UPDATE settings SET value = '$tz' WHERE setting = 'timezone'");
         }
     }
     //google api
