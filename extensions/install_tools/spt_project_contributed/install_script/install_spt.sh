@@ -3,7 +3,7 @@
 
 #
 # file:    install_spt_0-70.sh
-# version: 1.0
+# version: 3.0
 # package: Simple Phishing Toolkit (spt)
 # component:	Installation
 # copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -45,6 +45,7 @@ cleanup_apt()
 #Get the required configuration items
 wwwroot="/var/www"
 echo && echo
+echo -e "\E[1;31m** This instllation script does NOT validate your input as right or wrong, so be careful to enter everything correctly! **\E[0;37m" && echo
 read -s -p "Please enter the password for the MySQL 'root' account:  " rootpass && echo
 
 if [ "$(ls -A $wwwroot)" ]
@@ -65,8 +66,51 @@ echo && echo
 read -p "Please enter the first name of the first spt admin account:  "  adminfirstname
 read -p "Please enter the last name of the first spt admin account:  "  adminlastname
 read -p "Please enter the email address of the first spt admin account:  "  adminemail
-read -s -p "Please enter the password for the first spt admin account:  " adminpasstemp
+read -s -p "Please enter the password for the first spt admin account (8 - 14 characters!):  " adminpasstemp
 echo && echo
+
+
+echo -e "\E[1;31mThis instllation script, and the spt application, will require Intenret access.\E[0;37m"
+read -p "Do you need to configure this server with HTTP proxy information to reach the Internet? [ y / n ]  "  proxyrequired
+proxyrequired="$(echo ${proxyrequired^^})"
+if [ "$proxyrequired" == "Y" ]
+    then
+        proxyat="@"
+        proxycolon=":"
+        proxyserver="http_proxy=http://"
+        read -p "Please enter the HTTP proxy server IP address:  "  proxyip
+        read -p "Please enter the HTTP proxy server port (typically 80 or 8080):  "  proxyport
+        read -p "Do you need to provide a username and password for this HTTP proxy server? [ y / n ]  "  proxycredentialsrequired
+        proxycredentialsrequired="$(echo ${proxycredentialsrequired^^})"
+        if [ "$proxycredentialsrequired" == "Y" ]
+            then
+                read -p "Please enter the username for the HTTP proxy server:  "  proxyuser
+                read -s -p "Please enter the password for the HTTP proxy server:  "  proxypassword
+                echo && echo -e "\E[1;31mNote:  the provided credentials are stored in cleartext in '/etc/environment'.\E[0;37m"
+                proxyserver=$proxyserver$proxyuser$proxycolon$proxypassword$proxyat$proxyip$proxycolon$proxyport
+                echo $proxyserver >> /etc/environment
+            else
+                proxyserver=$proxyserver$proxyip$proxycolon$proxyport
+                echo $proxyserver >> /etc/environment
+        fi
+    else
+        echo
+fi
+unset proxyip
+unset proxyport
+unset proxyuser
+unset proxypassword
+
+read -p "Do you need to configure this server as an SMTP relay (not typically needed)? [ y / n ]  "  relayrequired
+proxyrequired="$(echo ${proxyrequired^^})"
+if [ "$proxyrequired" == "Y" ]
+    then
+        phpfile="/etc/php5/apache2/php.ini"
+        phpinsertstring="sendmail_path = /usr/sbin/sendmail -t -i"
+        sed -i "/sendmail_path/a$phpinsertstring" $phpfile
+    else
+        echo
+fi
 
 
 #Create database and user, assign permissions
