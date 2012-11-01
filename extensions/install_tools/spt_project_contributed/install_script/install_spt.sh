@@ -3,7 +3,7 @@
 
 #
 # file:    install_spt_0-70.sh
-# version: 2.0
+# version: 3.0
 # package: Simple Phishing Toolkit (spt)
 # component:	Installation
 # copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -66,18 +66,7 @@ echo && echo
 read -p "Please enter the first name of the first spt admin account:  "  adminfirstname
 read -p "Please enter the last name of the first spt admin account:  "  adminlastname
 read -p "Please enter the email address of the first spt admin account:  "  adminemail
-#read -s -p "Please enter the password for the first spt admin account (8 or more characters):  " adminpasstemp
-echo -n "Please enter the password for the first spt admin account (8 or more characters):  " && echo
-while read -s adminpasstemp; do
-adminpasstemplength="$(expr length "$adminpasstemp")"
-if [ $adminpasstemplength -lt 8 ]
-   then
-       echo "Password too short ($adminpasstemplength), try again." && echo
-   else
-       echo "Passowrd OK ($adminpasstemplength), moving on." && echo
-       break
-fi
-done
+read -s -p "Please enter the password for the first spt admin account (8 - 14 characters!):  " adminpasstemp
 echo && echo
 
 
@@ -97,7 +86,7 @@ if [ "$proxyrequired" == "Y" ]
             then
                 read -p "Please enter the username for the HTTP proxy server:  "  proxyuser
                 read -s -p "Please enter the password for the HTTP proxy server:  "  proxypassword
-                echo -e "\E[1;31mNote:  the provided credentials are stored in cleartext in '/etc/environment'.\E[0;37m"
+                echo && echo -e "\E[1;31mNote:  the provided credentials are stored in cleartext in '/etc/environment'.\E[0;37m"
                 proxyserver=$proxyserver$proxyuser$proxycolon$proxypassword$proxyat$proxyip$proxycolon$proxyport
                 echo $proxyserver >> /etc/environment
             else
@@ -111,6 +100,17 @@ unset proxyip
 unset proxyport
 unset proxyuser
 unset proxypassword
+
+read -p "Do you need to configure this server as an SMTP relay (not typically needed)? [ y / n ]  "  relayrequired
+proxyrequired="$(echo ${proxyrequired^^})"
+if [ "$proxyrequired" == "Y" ]
+    then
+        phpfile="/etc/php5/apache2/php.ini"
+        phpinsertstring="sendmail_path = /usr/sbin/sendmail -t -i"
+        sed -i "/sendmail_path/a$phpinsertstring" $phpfile
+    else
+        echo
+fi
 
 
 #Create database and user, assign permissions
