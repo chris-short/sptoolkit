@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 31.0
+ * version: 32.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -37,7 +37,6 @@ if ( file_exists ( $includeContent ) ) {
 } else {
     header ( 'location:../errors/404_is_admin.php' );
 }
-
 //pull in all posted values
 $campaign_name = $_POST['campaign_name'];
 if ( ! empty ( $campaign_name ) ) {
@@ -95,6 +94,30 @@ if ( isset ( $_POST['shorten_radio'] ) ) {
     $shorten = filter_var ( $_POST['shorten_radio'], FILTER_SANITIZE_STRING );
     $_SESSION['temp_shorten'] = $shorten;
 }
+if(isset($_POST['start_month'])){
+    $start_month = $_POST['start_month'];
+    $_SESSION['temp_start_month'] = $start_month; 
+}
+if(isset($_POST['start_day'])){
+    $start_date_day = $_POST['start_day'];
+    $_SESSION['temp_start_day'] = $start_day; 
+}
+if(isset($_POST['start_year'])){
+    $start_year = $_POST['start_year'];
+    $_SESSION['temp_start_year'] = $start_year; 
+}
+if(isset($_POST['start_hour'])){
+    $start_hour = $_POST['start_hour'];
+    $_SESSION['temp_start_hour'] = $start_hour; 
+}
+if(isset($_POST['start_minute'])){
+    $start_minute = $_POST['start_minute'];
+    $_SESSION['temp_start_minute'] = $start_minute; 
+}
+if(isset($_POST['background'])){
+    $background = $_POST['background'];
+    $_SESSION['temp_background'] = $background;
+}
 //ensure the campaign name is set
 if ( strlen ( $campaign_name ) < 1 ) {
     $_SESSION['alert_message'] = "you must give the campaign a name";
@@ -113,26 +136,60 @@ if ( ! isset ( $template_id ) ) {
     header ( 'location:./?add_campaign=true#tabs-1' );
     exit;
 }
-
 //ensure that a message delay is set
 if ( ! isset ( $message_delay ) ) {
     $_SESSION['alert_message'] = "please enter a value for message delay";
     header ( 'location:./?add_campaign=true#tabs-1' );
     exit;
 }
-
+//validate date and time if set
+if((isset($start_month) OR isset($start_day) OR isset($start_year) OR isset($start_hour) OR isset($start_minute)) AND (!isset($start_month) OR !isset($start_day) OR !isset($start_year) OR !isset($start_hour) OR !isset($start_minute))){
+    $_SESSION['alert_message'] = "if you are going to schedule this campaign, please complete all date/time fields";
+    header('location:.?add_campaign=true#tabs-1');
+    exit;
+}
+if(isset($start_month) && ($start_month < 1 OR $start_month > 12)){
+    $_SESSION['alert_message'] = "please select a valid month";
+    header('location:.?add_campaign=true#tabs-1');
+    exit;
+}
+if(isset($start_day) && ($start_day < 1 OR $start_day > 31)){
+    $_SESSION['alert_message'] = "please select a valid day of the month";
+    header('location:.?add_campaign=true#tabs-1');
+    exit;
+}
+if(isset($start_day) && isset($start_month) && ($start_month == 2 OR $start_month == 4 OR $start_month == 6 OR $start_month == 9 OR $start_month == 11) && $start_day >30){
+    $_SESSION['alert_message'] = "the month you selected does not have this many days in it";
+    header('location:.?add_campaign=true#tabs-1');
+    exit;
+}
+if(isset($start_year) && $start_year < (int)date('Y')){
+    $_SESSION['alert_message'] = "the year selected has already passed...please select a year in the future";
+    header('location:.?add_campaign=true#tabs-1');
+    exit;
+}
+if(isset($start_year) && $start_year > ((int)date('Y')+100)){
+    $_SESSION['alert_message'] = "do you really think you'll be around long enough to watch this campaign start?";
+    header('location:.?add_campaign=true#tabs-1');
+    exit;
+}
+if(isset($start_hour) && ($start_hour < 0 OR $start_hour > 23)){
+    $_SESSION['alert_message'] = "please enter a valid hour 0-23";
+    header('location:.?add_campaign=true#tabs-1');
+    exit;
+}
+if(isset($start_minute) && ($start_minute < 0 OR $start_minute > 59)){
+    $_SESSION['alert_message'] = "please enter a valid minute 0-59";
+    header('location:.?add_campaign=true#tabs-1');
+    exit;
+}
+if(isset($backgound) && $background != 'Yes'){
+    $background = 'Y';
+}else{
+    $background = 'N';
+}
 //connect to database
 include "../spt_config/mysql_config.php";
-
-//ensure there is not already an active campaign
-$r = mysql_query ( "SELECT status FROM campaigns" );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    if ( $ra['status'] == 1 ) {
-        $_SESSION['alert_message'] = "there is already an active campaign, pause it, cancel it or let it finish before starting a new one";
-        header ( 'location:./?add_campaign=true#tabs-1' );
-        exit;
-    }
-}
 
 //take each value in the array and validate that it is a valid group name
 foreach ( $target_groups as $group ) {
@@ -226,48 +283,70 @@ if ( isset ( $message_delay ) ) {
     $message_delay = 1000;
 }
 
-//create the campaign
-mysql_query ( "INSERT INTO campaigns (campaign_name, template_id, domain_name, education_id, education_timing, date_sent, message_delay, status, spt_path) VALUES ('$campaign_name', '$template_id', '$spt_path', '$education_id', '$education_timing', '$date_sent', '$message_delay', 1, '$spt_path')" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+//check to see if the campaign has been scheduled and if so schedule a cron job to start it otherwise start it immediately
+if (isset($start_month)){
+    //formulate cron date and time
+    $cron_start_date = $start_minute.'\t'.$start_hour.'\t'.$start_day.'\t'.$start_month.'\t*\t'.$start_year;
+    //create random cron_id value and store it in the database
+    $cron_id = mt_rand(10000000,99999999);
+    //get protocol
+    if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
+        $request_protocol = "https";
+    } else {
+        $request_protocol = "http";
+    }
+    //get path
+    $path = '127.0.0.1' . $_SERVER['REQUEST_URI'];
+    //create the campaign
+    mysql_query ( "INSERT INTO campaigns (campaign_name, template_id, domain_name, education_id, education_timing, date_sent, message_delay, status, spt_path, cron_id) VALUES ('$campaign_name', '$template_id', '$spt_path', '$education_id', '$education_timing', '$date_sent', '$message_delay', 0, '$spt_path', '$cron_id')" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+    //get the id of this campaign
+    $r = mysql_query ( "SELECT MAX(id) as campaign_id FROM campaigns" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+        $campaign_id = $ra['campaign_id'];
+    }
+    //construct url that needs to be hit based on cronjob
+    $cron_url = $request_protocol."://".$path."?c=".$campaign_id."&cron_id=".$cron_id;
+    //create a cronjob to come back and start the campaign
+    $output = shell_exec('crontab -l');
+    file_put_contents('/tmp/crontab.txt', $output.$cron_start_date.'wget '.$cron_url.PHP_EOL);
+    echo exec('crontab /tmp/crontab.txt');
+    echo exec('rm /tmp/crontab.txt');
+}else{
+    //create the campaign
+    mysql_query ( "INSERT INTO campaigns (campaign_name, template_id, domain_name, education_id, education_timing, date_sent, message_delay, status, spt_path) VALUES ('$campaign_name', '$template_id', '$spt_path', '$education_id', '$education_timing', '$date_sent', '$message_delay', 1, '$spt_path')" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
 
-//get the id of this campaign
-$r = mysql_query ( "SELECT MAX(id) as campaign_id FROM campaigns" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    $campaign_id = $ra['campaign_id'];
+    //get the id of this campaign
+    $r = mysql_query ( "SELECT MAX(id) as campaign_id FROM campaigns" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+        $campaign_id = $ra['campaign_id'];
+    }
 }
-
 //update relay host if its set
 if ( isset ( $relay_host ) ) {
     mysql_query ( "UPDATE campaigns SET relay_host = '$relay_host' WHERE id = '$campaign_id'" );
 }
-
 //update relay usnername if its set
 if ( isset ( $relay_username ) ) {
     mysql_query ( "UPDATE campaigns SET relay_username = '$relay_username' WHERE id = '$campaign_id'" );
 }
-
 //update relay host if its set
 if ( isset ( $relay_password ) ) {
     mysql_query ( "UPDATE campaigns SET relay_password = '$relay_password' WHERE id = '$campaign_id'" );
 }
-
 //update relay port if it is set
 if ( isset ( $relay_port ) ) {
     mysql_query ( "UPDATE campaigns SET relay_port = '$relay_port' WHERE id = '$campaign_id'" );
 }
-
 //update ssl status if ssl is checked
 if ( isset ( $ssl ) ) {
     mysql_query ( "UPDATE campaigns SET encrypt = 1 WHERE id = '$campaign_id'" );
 }
-
 //update shorten if it is set
 if ( isset ( $shorten ) ) {
     mysql_query ( "UPDATE campaigns SET shorten = '$shorten' WHERE id='$campaign_id'" );
 }else{
     mysql_query("UPDATE campaigns SET shorten = 'none' WHERE id = '$campaign_id'");
 }
-
-
 //link the campaign id and group name while retrieving all applicable targets
 foreach ( $target_groups as $group ) {
     //link campaign id and group names
@@ -286,7 +365,24 @@ foreach ( $target_groups as $group ) {
         mysql_query ( "INSERT INTO campaigns_responses (target_id, campaign_id, response_id, sent) VALUES ('$target_id', '$campaign_id', '$response_id', 0)" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
     }
 }
-
-//send to the response page for their campaign
+//if scheduled send back to campaign page
+if(isset($start_month)){
+    $_SESSION['alert_message'] = "your campaign has been scheduled";
+    header('location:.#tabs-2');
+}
+//check to see if its a background job and if so send it back through to be run in the background
+if($background == 'Y'){
+    //create random cron_id value and store it in the database
+    $cron_id = mt_rand(10000000,99999999);
+    mysql_query ( "UPDATE campaigns SET (cron_id = '$cron_id') WHERE campaign_id = '$campaign_id'" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+    //get protocol
+    if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
+        $request_protocol = "https";
+    } else {
+        $request_protocol = "http";
+    }
+    header('location:faux_user.php?c='.$campaign_id.'&cron_id='.$cron_id);
+}
+//send non background campaigns to the response page for their campaign to begin
 header ( 'location:./?c=' . $campaign_id . '?responses=true#tabs-3' );
 ?>
