@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 54.0
+ * version: 55.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -49,7 +49,7 @@ if ( file_exists ( $includeContent ) ) {
         <script src="../includes/jquery-ui.min.js"></script>
         <script>
             $(function() {
-                $( "#tabs" ).tabs();
+                $( "#tabs, #wizard" ).tabs();
             });
         </script>
         <script type="text/javascript">
@@ -112,11 +112,21 @@ if ( file_exists ( $includeContent ) ) {
                 if(isset($_GET['add_campaign']) && $_GET['add_campaign'] == "true"){
                     echo '
                         <div id="add_campaign">
-                            <div>
                                 <form method="post" action="start_campaign.php">
-                                    <table id="new_campaign">
+                                    <div id="wizard">
+                                    <ul>
+                                        <li><a href="#wizard-1">Name & Path</a></li>
+                                        <li><a href="#wizard-2">Targets</a></li>
+                                        <li><a href="#wizard-3">Template</a></li>
+                                        <li><a href="#wizard-4">Education</a></li>
+                                        <li><a href="#wizard-5">SMTP Relay</a></li>
+                                        <li><a href="#wizard-6">Throttling</a></li>
+                                        <li><a href="#wizard-7">Shortener</a></li>
+                                    </ul>
+                                    <div id="wizard-1">
+                                    <table>
                                         <tr>
-                                            <td colspan="2"><h3>Add Campaign</h3></td>
+                                            <td colspan="2"></td>
                                             <td style="text-align: right;">
                                                 <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Specify a name for this campaign that will be displayed in the campaign list on the previous screen.  Use a descriptive name that will help you identify this campaign later.<br /><br />The Path  has been pre-populated for you with the hostname you are currently connecting to spt with.  You can create alternate DNS records that correspond with your campaigns and enter them here.  Whatever you specify in the path field is what will be used to formulate the unique link for each target.</span></a>
                                             </td>
@@ -150,6 +160,10 @@ if ( file_exists ( $includeContent ) ) {
                                             " size="45"/>
                                             </td>
                                         </tr>
+                                    </table>
+                                    </div>
+                                    <div id="wizard-2">
+                                    <table>
                                         <tr>
                                             <td colspan="2"><h3>Targets</h3></td>
                                             <td style="text-align: right;">
@@ -176,6 +190,10 @@ if ( file_exists ( $includeContent ) ) {
                                                 </select>
                                             </td>
                                         </tr>
+                                    </table>
+                                    </div>
+                                    <div id="wizard-3">
+                                    <table>
                                         <tr>
                                             <td colspan="2"><h3>Template</h3></td>
                                             <td style="text-align: right;">
@@ -206,6 +224,10 @@ if ( file_exists ( $includeContent ) ) {
                                             <td>Email</td>
                                             <td colspan="2">View/Edit Email link coming soon...</td>
                                         </tr>-->
+                                    </table>
+                                    </div>
+                                    <div id="wizard-4">
+                                    <table>
                                         <tr>
                                             <td colspan="3"><br /></td>
                                         </tr>
@@ -252,6 +274,10 @@ if ( file_exists ( $includeContent ) ) {
                     echo '            
                                             /> Educate on form submission</td>
                                         </tr>
+                                    </table>
+                                    </div>
+                                    <div id="wizard-5">
+                                    <table>
                                         <tr>
                                             <td colspan="2"><h3>SMTP Relay</h3></td>
                                             <td style="text-align: right;">
@@ -310,6 +336,10 @@ if ( file_exists ( $includeContent ) ) {
                                             <td>Password</td>
                                             <td colspan="2"><input type="password" name="relay_password" /></td>
                                         </tr>
+                                    </table>
+                                    </div>
+                                    <div id="wizard-6">
+                                    <table>
                                         <tr>
                                             <td colspan="2"><h3>Throttling</h3></td>
                                             <td style="text-align: right;">
@@ -329,6 +359,10 @@ if ( file_exists ( $includeContent ) ) {
                                             />&nbsp;<i>ms</i> (100-60000)</td>
 
                                         </tr>
+                                    </table>
+                                    </div>
+                                    <div id="wizard-7">
+                                    <table>
                                         <tr>
                                             <td colspan="2"><h3>Shorten</h3></td>
                                             <td style="text-align: right;">
@@ -366,8 +400,9 @@ if ( file_exists ( $includeContent ) ) {
                                             <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/accept.png" alt="accept" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
                                         </tr>
                                     </table>
+                                    </div>
+                                    </div>
                                 </form>
-                            </div>
                         </div>';
                 }
                 if(isset($_GET['responses']) && $_GET['responses'] == "true"){

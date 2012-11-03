@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:    spt.css
- * version: 29.0
+ * version: 30.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -491,7 +491,7 @@ img
     padding:5px;
     border-bottom: 1px dotted #eee;
 }
-#tabs{
+#tabs, #wizard{
     border: none;
 }
 .ui-tabs-panel {
