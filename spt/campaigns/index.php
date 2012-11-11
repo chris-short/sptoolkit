@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 55.0
+ * version: 56.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -124,22 +124,23 @@ if ( file_exists ( $includeContent ) ) {
                                         <li><a href="#wizard-7">Shortener</a></li>
                                     </ul>
                                     <div id="wizard-1">
-                                    <table>
+                                    <table class="new_campaign_table">
+                                        <tr><td><br /></td></tr>
                                         <tr>
-                                            <td colspan="2"></td>
+                                            <td></td>
                                             <td style="text-align: right;">
                                                 <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Specify a name for this campaign that will be displayed in the campaign list on the previous screen.  Use a descriptive name that will help you identify this campaign later.<br /><br />The Path  has been pre-populated for you with the hostname you are currently connecting to spt with.  You can create alternate DNS records that correspond with your campaigns and enter them here.  Whatever you specify in the path field is what will be used to formulate the unique link for each target.</span></a>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Name</td>
-                                            <td colspan="2"><input name="campaign_name"';
+                                            <td colspan="2"><input type="text" name="campaign_name"';
                     if ( isset ( $_SESSION['temp_campaign_name'] ) ) {
                         echo "value=\"" . $_SESSION['temp_campaign_name'] . "\"";
                         unset ( $_SESSION['temp_campaign_name'] );
                     }
                     echo '
-                                            /></td>
+                                            size="45" /></td>
                                         </tr>
                                         <tr>
                                             <td>Path</td>
@@ -164,8 +165,9 @@ if ( file_exists ( $includeContent ) ) {
                                     </div>
                                     <div id="wizard-2">
                                     <table>
+                                        <tr><td><br /></td></tr>
                                         <tr>
-                                            <td colspan="2"><h3>Targets</h3></td>
+                                            <td></td>
                                             <td style="text-align: right;">
                                                 <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select one or more groups of targets (hold CTRL or COMMAND to multi-select) that will be included in this campaign</span></a>
                                             </td>
@@ -173,7 +175,7 @@ if ( file_exists ( $includeContent ) ) {
                                         <tr>
                                             <td>Group(s)</td>
                                             <td colspan="2">
-                                                <select name = "target_groups[]" multiple="multiple" size="5" style="width: 80%;">';
+                                                <select name = "target_groups[]" multiple="multiple" size="5">';
                     //connect to database
                     include('../spt_config/mysql_config.php');
                     //query for all groups
@@ -194,8 +196,9 @@ if ( file_exists ( $includeContent ) ) {
                                     </div>
                                     <div id="wizard-3">
                                     <table>
+                                        <tr><td><br /></td></tr>
                                         <tr>
-                                            <td colspan="2"><h3>Template</h3></td>
+                                            <td></td>
                                             <td style="text-align: right;">
                                                 <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the template that will be used for this campaign.  You can view/edit the email by going to the editor module and editing the respective email.php file.  Be careful, as editing this file will edit the email for all future campaigns that use this template.</span></a>
                                             </td>
@@ -228,14 +231,9 @@ if ( file_exists ( $includeContent ) ) {
                                     </div>
                                     <div id="wizard-4">
                                     <table>
+                                        <tr><td><br /></td></tr>
                                         <tr>
-                                            <td colspan="3"><br /></td>
-                                        </tr>
-                                        <tr class="solid_border">
-                                            <td colspan="3"><h3><i>Optional Settings</i></h3></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2"><h3>Education</h3></td>
+                                            <td></td>
                                             <td style="text-align: right;">
                                                 <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the education package that the target will be directed to.  Select "Education on link click" if you would like the targets to bypass the template\'s webpage and go directly to training.  Select "Educate on form submission" if you would like the target to be directed to training after they have submitted a form on your template\'s webpage.</span></a>
                                             </td>
@@ -278,8 +276,9 @@ if ( file_exists ( $includeContent ) ) {
                                     </div>
                                     <div id="wizard-5">
                                     <table>
+                                        <tr><td><br /></td></tr>
                                         <tr>
-                                            <td colspan="2"><h3>SMTP Relay</h3></td>
+                                            <td></td>
                                             <td style="text-align: right;">
                                                 <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter your SMTP relay\'s details if necessary.  You may also enter credentials if your SMTP requires authentication.  If you leave these fields blank, spt will act as an SMTP server and send emails directly to the destination\'s mail gateway based on the MX records published by your target\'s domain.</span></a>
                                             </td>
@@ -340,8 +339,9 @@ if ( file_exists ( $includeContent ) ) {
                                     </div>
                                     <div id="wizard-6">
                                     <table>
+                                        <tr><td><br /></td></tr>
                                         <tr>
-                                            <td colspan="2"><h3>Throttling</h3></td>
+                                            <td></td>
                                             <td style="text-align: right;">
                                                 <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>By default spt will send an email every second (or 1000 ms).  You can change the default message delay to 100 ms and batches of 10 emails will be sent each second.  Or you can create as high as a 1 minute delay between each message by specifying 60000 ms between each message.</span></a>
                                             </td>
@@ -363,8 +363,9 @@ if ( file_exists ( $includeContent ) ) {
                                     </div>
                                     <div id="wizard-7">
                                     <table>
+                                        <tr><td><br /></td></tr>
                                         <tr>
-                                            <td colspan="2"><h3>Shorten</h3></td>
+                                            <td></td>
                                             <td style="text-align: right;">
                                                 <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>If you want to further mask the phishing link in your emails using a popular URL shortening service, select the service below you\'d like to shorten with.<br /><br />You may have to provide an API key for some services by opening the Shorten button at the top of this page.</span></a>
                                             </td>

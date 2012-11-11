@@ -1,7 +1,7 @@
 /*css - campaigns*/
 /**
  * file:    spt_campaigns.css
- * version: 14.0
+ * version: 15.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -109,4 +109,8 @@
 .inline
 {
     display: inline;
+}
+#wizard table{
+    margin: auto;
+    text-align:left;
 }
