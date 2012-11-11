@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 32.0
+ * version: 33.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -365,6 +365,27 @@ foreach ( $target_groups as $group ) {
         mysql_query ( "INSERT INTO campaigns_responses (target_id, campaign_id, response_id, sent) VALUES ('$target_id', '$campaign_id', '$response_id', 0)" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
     }
 }
+//unset temp variables
+unset($_SESSION['temp_campaign_name']);
+unset($_SESSION['temp_target_groups']);
+unset($_SESSION['temp_template_id']);
+unset($_SESSION['temp_message_delay']);
+unset($_SESSION['temp_spt_path']);
+unset($_SESSION['temp_education_id']);
+unset($_SESSION['temp_date_sent']);
+unset($_SESSION['temp_education_timing']);
+unset($_SESSION['temp_relay_host']);
+unset($_SESSION['temp_relay_port']);
+unset($_SESSION['temp_ssl']);
+unset($_SESSION['temp_relay_username']);
+unset($_SESSION['temp_relay_password']);
+unset($_SESSION['temp_shorten']);
+unset($_SESSION['temp_start_month']);
+unset($_SESSION['temp_start_day']);
+unset($_SESSION['temp_start_year']);
+unset($_SESSION['temp_start_hour']);
+unset($_SESSION['temp_start_minute']);
+unset($_SESSION['temp_background']);
 //if scheduled send back to campaign page
 if(isset($start_month)){
     $_SESSION['alert_message'] = "your campaign has been scheduled";

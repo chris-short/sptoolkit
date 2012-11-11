@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 56.0
+ * version: 57.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -117,11 +117,12 @@ if ( file_exists ( $includeContent ) ) {
                                     <ul>
                                         <li><a href="#wizard-1">Name & Path</a></li>
                                         <li><a href="#wizard-2">Targets</a></li>
-                                        <li><a href="#wizard-3">Template</a></li>
-                                        <li><a href="#wizard-4">Education</a></li>
-                                        <li><a href="#wizard-5">SMTP Relay</a></li>
-                                        <li><a href="#wizard-6">Throttling</a></li>
-                                        <li><a href="#wizard-7">Shortener</a></li>
+                                        <li><a href="#wizard-3">Schedule</a></li>
+                                        <li><a href="#wizard-4">Template</a></li>
+                                        <li><a href="#wizard-5">Education</a></li>
+                                        <li><a href="#wizard-6">SMTP Relay</a></li>
+                                        <li><a href="#wizard-7">Throttling</a></li>
+                                        <li><a href="#wizard-8">Shortener</a></li>
                                     </ul>
                                     <div id="wizard-1">
                                     <table class="new_campaign_table">
@@ -195,6 +196,180 @@ if ( file_exists ( $includeContent ) ) {
                                     </table>
                                     </div>
                                     <div id="wizard-3">
+                                        <table>
+                                            <tr><td><br /></td></tr>
+                                            <tr>
+                                                <td></td>
+                                                <td style="text-align: right;">
+                                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Uncheck the background checkbox if you would like for the campaign to only be run while you watch the response popover.  This will be required if your server does not support cron jobs.<br /><br />Select a Month, Day, Year, Hour and Minute if you would like for the campaign to start at the selected time in the future.</span></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Background</td>
+                                                <td><input type="checkbox" name="background" CHECKED /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Start Date</td>
+                                                <td>
+                                                    <select name="month">
+                                                        <option value="0">Month...</option>
+                                                        <option value="1">January</option>
+                                                        <option value="2">February</option>
+                                                        <option value="3">March</option>
+                                                        <option value="4">April</option>
+                                                        <option value="5">May</option>
+                                                        <option value="6">June</option>
+                                                        <option value="7">July</option>
+                                                        <option value="8">August</option>
+                                                        <option value="9">September</option>
+                                                        <option value="10">October</option>
+                                                        <option value="11">November</option>
+                                                        <option value="12">December</option>
+                                                    </select>
+                                                    <select name="day">
+                                                        <option value="0">Day...</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                        <option value="13">13</option>
+                                                        <option value="14">14</option>
+                                                        <option value="15">15</option>
+                                                        <option value="16">16</option>
+                                                        <option value="17">17</option>
+                                                        <option value="18">18</option>
+                                                        <option value="19">19</option>
+                                                        <option value="20">20</option>
+                                                        <option value="21">21</option>
+                                                        <option value="22">22</option>
+                                                        <option value="23">23</option>
+                                                        <option value="24">24</option>
+                                                        <option value="25">25</option>
+                                                        <option value="26">26</option>
+                                                        <option value="27">27</option>
+                                                        <option value="28">28</option>
+                                                        <option value="29">29</option>
+                                                        <option value="30">30</option>
+                                                        <option value="31">31</option>
+                                                    </select>';
+                    //get current and next 2 years
+                    $year1 = date("Y");
+                    $year2 = $year1 + 1;
+                    $year3 = $year2 + 1;
+                    echo '
+                                                    <select name="year">
+                                                        <option value="0">Year...</option>
+                                                        <option value="'.$year1.'">'.$year1.'</option>
+                                                        <option value="'.$year2.'">'.$year2.'</option>
+                                                        <option value="'.$year3.'">'.$year3.'</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Set Time</td>
+                                                <td>
+                                                    <select name="hour">
+                                                        <option value="-">Hour...</option>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                        <option value="13">13</option>
+                                                        <option value="14">14</option>
+                                                        <option value="15">15</option>
+                                                        <option value="16">16</option>
+                                                        <option value="17">17</option>
+                                                        <option value="18">18</option>
+                                                        <option value="19">19</option>
+                                                        <option value="20">20</option>
+                                                        <option value="21">21</option>
+                                                        <option value="22">22</option>
+                                                        <option value="23">23</option>
+                                                    </select>
+                                                    <select name="minute">
+                                                        <option value="-">Minute...</option>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                        <option value="13">13</option>
+                                                        <option value="14">14</option>
+                                                        <option value="15">15</option>
+                                                        <option value="16">16</option>
+                                                        <option value="17">17</option>
+                                                        <option value="18">18</option>
+                                                        <option value="19">19</option>
+                                                        <option value="20">20</option>
+                                                        <option value="21">21</option>
+                                                        <option value="22">22</option>
+                                                        <option value="23">23</option>
+                                                        <option value="25">25</option>
+                                                        <option value="26">26</option>
+                                                        <option value="27">27</option>
+                                                        <option value="28">28</option>
+                                                        <option value="29">29</option>
+                                                        <option value="30">30</option>
+                                                        <option value="31">31</option>
+                                                        <option value="32">32</option>
+                                                        <option value="33">33</option>
+                                                        <option value="34">34</option>
+                                                        <option value="35">35</option>
+                                                        <option value="36">36</option>
+                                                        <option value="37">37</option>
+                                                        <option value="38">38</option>
+                                                        <option value="39">39</option>
+                                                        <option value="40">40</option>
+                                                        <option value="41">41</option>
+                                                        <option value="42">42</option>
+                                                        <option value="43">43</option>
+                                                        <option value="44">44</option>
+                                                        <option value="45">45</option>
+                                                        <option value="46">46</option>
+                                                        <option value="47">47</option>
+                                                        <option value="48">48</option>
+                                                        <option value="49">49</option>
+                                                        <option value="50">50</option>
+                                                        <option value="51">51</option>
+                                                        <option value="52">52</option>
+                                                        <option value="53">53</option>
+                                                        <option value="54">54</option>
+                                                        <option value="55">55</option>
+                                                        <option value="56">56</option>
+                                                        <option value="57">57</option>
+                                                        <option value="58">58</option>
+                                                        <option value="59">59</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div id="wizard-4">
                                     <table>
                                         <tr><td><br /></td></tr>
                                         <tr>
@@ -229,7 +404,7 @@ if ( file_exists ( $includeContent ) ) {
                                         </tr>-->
                                     </table>
                                     </div>
-                                    <div id="wizard-4">
+                                    <div id="wizard-5">
                                     <table>
                                         <tr><td><br /></td></tr>
                                         <tr>
@@ -274,7 +449,7 @@ if ( file_exists ( $includeContent ) ) {
                                         </tr>
                                     </table>
                                     </div>
-                                    <div id="wizard-5">
+                                    <div id="wizard-6">
                                     <table>
                                         <tr><td><br /></td></tr>
                                         <tr>
@@ -337,7 +512,7 @@ if ( file_exists ( $includeContent ) ) {
                                         </tr>
                                     </table>
                                     </div>
-                                    <div id="wizard-6">
+                                    <div id="wizard-7">
                                     <table>
                                         <tr><td><br /></td></tr>
                                         <tr>
@@ -361,7 +536,7 @@ if ( file_exists ( $includeContent ) ) {
                                         </tr>
                                     </table>
                                     </div>
-                                    <div id="wizard-7">
+                                    <div id="wizard-8">
                                     <table>
                                         <tr><td><br /></td></tr>
                                         <tr>
@@ -397,13 +572,15 @@ if ( file_exists ( $includeContent ) ) {
                         echo "<tr><td colspan=3 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
                     }
                     echo '
+                                    </table>
+                                    </div>
+                                    <table>
                                         <tr>
                                             <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/accept.png" alt="accept" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
                                         </tr>
                                     </table>
-                                    </div>
-                                    </div>
-                                </form>
+                                </div>
+                            </form>
                         </div>';
                 }
                 if(isset($_GET['responses']) && $_GET['responses'] == "true"){
@@ -738,7 +915,7 @@ if ( file_exists ( $includeContent ) ) {
                                 //connect to database
                                 include "../spt_config/mysql_config.php";
                                 //pull in list of all campaigns
-                                $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id ORDER BY campaigns.id DESC" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id WHERE campaigns.status = 0 ORDER BY campaigns.id DESC" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                                 while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                     echo "
                                             <tr>
@@ -789,7 +966,7 @@ if ( file_exists ( $includeContent ) ) {
                                 //connect to database
                                 include "../spt_config/mysql_config.php";
                                 //pull in list of all campaigns
-                                $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id ORDER BY campaigns.id DESC" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id WHERE campaigns.status = 1 ORDER BY campaigns.id DESC" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                                 while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                     echo "
                                             <tr>
@@ -840,7 +1017,7 @@ if ( file_exists ( $includeContent ) ) {
                                 //connect to database
                                 include "../spt_config/mysql_config.php";
                                 //pull in list of all campaigns
-                                $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id ORDER BY campaigns.id DESC" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id WHERE campaigns.status = 2 OR campaigns.status = 3 ORDER BY campaigns.id DESC" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                                 while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                     echo "
                                             <tr>
