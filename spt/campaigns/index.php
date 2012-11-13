@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 57.0
+ * version: 58.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -115,8 +115,8 @@ if ( file_exists ( $includeContent ) ) {
                                 <form method="post" action="start_campaign.php">
                                     <div id="wizard">
                                     <ul>
-                                        <li><a href="#wizard-1">Name & Path</a></li>
-                                        <li><a href="#wizard-2">Targets</a></li>
+                                        <li><a href="#wizard-1">Name & Path*</a></li>
+                                        <li><a href="#wizard-2">Targets*</a></li>
                                         <li><a href="#wizard-3">Schedule</a></li>
                                         <li><a href="#wizard-4">Template</a></li>
                                         <li><a href="#wizard-5">Education</a></li>
@@ -206,7 +206,7 @@ if ( file_exists ( $includeContent ) ) {
                                             </tr>
                                             <tr>
                                                 <td>Background</td>
-                                                <td><input type="checkbox" name="background" CHECKED /></td>
+                                                <td><input type="checkbox" name="background" value="Yes" CHECKED /></td>
                                             </tr>
                                             <tr>
                                                 <td>Start Date</td>
@@ -416,8 +416,7 @@ if ( file_exists ( $includeContent ) ) {
                                         <tr>
                                             <td>Package</td>
                                             <td colspan="2">
-                                                <select name = "education_id">
-                                                    <option value="0">None</option>';
+                                                <select name = "education_id">';
                     //connect to database
                     include('../spt_config/mysql_config.php');
                     //query for all groups
@@ -436,7 +435,7 @@ if ( file_exists ( $includeContent ) ) {
                                         <tr>
                                             <td></td>
                                             <td colspan="2"><input type="radio" name="education_timing" value="1"';
-                    if ( isset ( $_SESSION['temp_education_timing'] ) && $_SESSION['temp_education_timing'] == 1 ) {
+                    if ( !isset ( $_SESSION['temp_education_timing'] ) OR $_SESSION['temp_education_timing'] != 2 ) {
                         echo "CHECKED";
                     }
                     echo '/> Educate on link click<br /><input type="radio" name="education_timing" value="2"';
@@ -576,7 +575,7 @@ if ( file_exists ( $includeContent ) ) {
                                     </div>
                                     <table>
                                         <tr>
-                                            <td colspan="3" style="text-align: center;"><br /><a href=""><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/accept.png" alt="accept" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
+                                            <td colspan="3" style="text-align: center;"><br /><a href=".#tabs-1"><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/accept.png" alt="accept" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -600,11 +599,14 @@ if ( file_exists ( $includeContent ) ) {
                             if($campaign_status == 0){
                                 $tab_return = "#tabs-2";
                             }
-                            if($campaign_status == 1 OR $campaign_status == 2){
+                            if($campaign_status == 1){
                                 $tab_return = "#tabs-3";
                             }
-                            if($campaign_status == 3){
+                            if($campaign_status == 2){
                                 $tab_return = "#tabs-4";
+                            }
+                            if($campaign_status == 3){
+                                $tab_return = "#tabs-5";
                             }
                         }
                         //go ahead and perform validation
@@ -893,7 +895,8 @@ if ( file_exists ( $includeContent ) ) {
                         <li><a href="#tabs-1">Overview</a></li>
                         <li><a href="#tabs-2">Scheduled</a></li>
                         <li><a href="#tabs-3">Active</a></li>
-                        <li><a href="#tabs-4">Retired</a></li>
+                        <li><a href="#tabs-4">Inactive</a></li>
+                        <li><a href="#tabs-5">Finished</a></li>
                     </ul>
                     <div id="tabs-1">
                         <a href="?add_campaign=true#tabs-1" id="add_campaign_button" class="popover_button" ><img src="../images/email_to_friend_sm.png" alt="add" /> Campaign</a>
@@ -1017,7 +1020,58 @@ if ( file_exists ( $includeContent ) ) {
                                 //connect to database
                                 include "../spt_config/mysql_config.php";
                                 //pull in list of all campaigns
-                                $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id WHERE campaigns.status = 2 OR campaigns.status = 3 ORDER BY campaigns.id DESC" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id WHERE campaigns.status = 2 ORDER BY campaigns.id DESC" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                                    echo "
+                                            <tr>
+                                                <td><a href=\"?c=" . $ra['id'] . "&responses=true#tabs-4\">" . $ra['campaign_name'] . "</a></td>\n
+                                                <td>";
+                                    $campaign_id = $ra['id'];
+                                    //pull in groups
+                                    $r3 = mysql_query ( "SELECT group_name FROM campaigns_and_groups WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                    while ( $ra3 = mysql_fetch_assoc ( $r3 ) ) {
+                                        echo "<a href=\"?c=" . $ra['id'] . "&amp;g=" . $ra3['group_name'] . "&responses=true#tabs-4\">" . $ra3['group_name'] . "</a><br />\n";
+                                    }
+                                    echo "</td>";
+                                    echo "<td><a href=\"../templates/" . $ra['template_id'] . "/\" target=\"_blank\">" . $ra['name'] . "</a></td>\n";
+                                    echo "<td><a href=\"../education/" . $ra['education_id'] . "/\" target=\"_blank\">" . $ra['education_name'] . "</a></td>\n";
+                                    $r2 = mysql_query ( "SELECT count(target_id) as count, sum(link) as link, sum(if(length(post) > 0, 1, 0)) as post FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                    while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
+                                        $link = $ra2['link'];
+                                        $post = $ra2['post'];
+                                    }
+                                    echo "<td><a href=\"?c=" . $ra['id'] . "&amp;f=link&responses=true#tabs-4\">" . $link . "</a></td><td><a href=\"?c=" . $ra['id'] . "&amp;f=post&responses=true#tabs-4\">" . $post . "</a></td>";
+                                    echo "<td>";
+                                    $r5 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent != 0" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                    $r6 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                    $sent = mysql_num_rows ( $r5 );
+                                    $total = mysql_num_rows ( $r6 );
+                                    $percentage = ceil ( ($sent / $total) * 100 );
+                                    echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
+                                    echo "</td>";
+                                    echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "\"><img src=\"../images/report_delete_sm.png\" alt=\"delete\" /></a></td>";
+                                    echo "</tr>";
+                                }
+                            ?>
+                        </table>
+                    </div>
+                    <div id="tabs-5">
+                        <table class="standard_table" >
+                            <tr>
+                                <td><h3>Name</h3></td>
+                                <td><h3>Target Groups</h3></td>
+                                <td><h3>Template</h3></td>
+                                <td><h3>Education</h3></td>
+                                <td><h3>Links</h3></td>
+                                <td><h3>Posts</h3></td>
+                                <td><h3>Progress</h3></td>
+                                <td><h3>Delete</h3></td>
+                            </tr>
+                            <?php
+                                //connect to database
+                                include "../spt_config/mysql_config.php";
+                                //pull in list of all campaigns
+                                $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id WHERE campaigns.status = 3 ORDER BY campaigns.id DESC" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                                 while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                     echo "
                                             <tr>

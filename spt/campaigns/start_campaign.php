@@ -183,14 +183,13 @@ if(isset($start_minute) && ($start_minute < 0 OR $start_minute > 59)){
     header('location:.?add_campaign=true#tabs-1');
     exit;
 }
-if(isset($backgound) && $background != 'Yes'){
+if(isset($background) && $background == 'Yes'){
     $background = 'Y';
 }else{
     $background = 'N';
 }
 //connect to database
 include "../spt_config/mysql_config.php";
-
 //take each value in the array and validate that it is a valid group name
 foreach ( $target_groups as $group ) {
     $r = mysql_query ( "SELECT DISTINCT group_name FROM targets" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
@@ -395,7 +394,12 @@ if(isset($start_month)){
 if($background == 'Y'){
     //create random cron_id value and store it in the database
     $cron_id = mt_rand(10000000,99999999);
-    mysql_query ( "UPDATE campaigns SET (cron_id = '$cron_id') WHERE campaign_id = '$campaign_id'" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+    mysql_query ( "UPDATE campaigns SET (cron_id = '$cron_id') WHERE campaign_id = '$campaign_id'" );
+    if(mysql_error()){
+        $_SESSION['alert_message'] = mysql_error();
+        header('location:.#tabs-1');
+        exit;
+    }
     //get protocol
     if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
         $request_protocol = "https";
@@ -405,5 +409,5 @@ if($background == 'Y'){
     header('location:faux_user.php?c='.$campaign_id.'&cron_id='.$cron_id);
 }
 //send non background campaigns to the response page for their campaign to begin
-header ( 'location:./?c=' . $campaign_id . '?responses=true#tabs-3' );
+header ( 'location:./?c=' . $campaign_id . '&responses=true#tabs-3' );
 ?>
