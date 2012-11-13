@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 33.0
+ * version: 34.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -394,7 +394,7 @@ if(isset($start_month)){
 if($background == 'Y'){
     //create random cron_id value and store it in the database
     $cron_id = mt_rand(10000000,99999999);
-    mysql_query ( "UPDATE campaigns SET (cron_id = '$cron_id') WHERE campaign_id = '$campaign_id'" );
+    mysql_query ( "UPDATE campaigns SET cron_id = '$cron_id' WHERE id = '$campaign_id'" );
     if(mysql_error()){
         $_SESSION['alert_message'] = mysql_error();
         header('location:.#tabs-1');
@@ -406,7 +406,24 @@ if($background == 'Y'){
     } else {
         $request_protocol = "http";
     }
+    //get current date and time
+    $start_minute = date('i') + 1;
+    $start_hour = date('G');
+    $start_day = date('j');
+    $start_month = date('n');
+    $start_year = date('Y');
+    //formulate cron date and time
+    $cron_start_date = $start_minute.'    '.$start_hour.'    '.$start_day.'    '.$start_month.'    *    '.$start_year;
+    //get path
+    $path = '127.0.0.1' . $_SERVER['REQUEST_URI'];
+    //construct url that needs to be hit based on cronjob
+    $cron_url = $request_protocol."://".$path."?c=".$campaign_id."&cron_id=".$cron_id;
+    //create a cronjob to come back and start the campaign
+    $output = shell_exec('crontab -l');
+    file_put_contents('/tmp/crontab.txt', $output.$cron_start_date.'    wget '.$cron_url.PHP_EOL);
+    echo exec('crontab /tmp/crontab.txt');
     header('location:faux_user.php?c='.$campaign_id.'&cron_id='.$cron_id);
+    exit;
 }
 //send non background campaigns to the response page for their campaign to begin
 header ( 'location:./?c=' . $campaign_id . '&responses=true#tabs-3' );

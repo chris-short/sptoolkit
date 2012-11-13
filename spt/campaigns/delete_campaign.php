@@ -2,7 +2,7 @@
 
 /**
  * file:    delete_campaign.php
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -62,6 +62,14 @@ mysql_query ( "DELETE FROM campaigns_responses WHERE campaign_id = '$campaign_id
 
 //send them back to the campaigns home page
 $_SESSION['alert_message'] = "campaign deleted successfully";
-header ( 'location:.' );
-exit;
+
+//get the tab return
+if(isset($_GET['tab_return']) && $_GET['tab_return'] > 0 && $_GET['tab_return'] < 10){
+    $tab_return = $_GET['tab_return'];
+    header('location:.#tabs-'.$tab_return);
+    exit;
+}else{
+    header ( 'location:.' );
+    exit;    
+}
 ?>

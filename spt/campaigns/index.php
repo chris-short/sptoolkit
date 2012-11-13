@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 58.0
+ * version: 59.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -947,7 +947,7 @@ if ( file_exists ( $includeContent ) ) {
                                     $percentage = ceil ( ($sent / $total) * 100 );
                                     echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
                                     echo "</td>";
-                                    echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "\"><img src=\"../images/report_delete_sm.png\" alt=\"delete\" /></a></td>";
+                                    echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "&tab_return=2\"><img src=\"../images/report_delete_sm.png\" alt=\"delete\" /></a></td>";
                                     echo "</tr>";
                                 }
                             ?>
@@ -998,7 +998,7 @@ if ( file_exists ( $includeContent ) ) {
                                     $percentage = ceil ( ($sent / $total) * 100 );
                                     echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
                                     echo "</td>";
-                                    echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "\"><img src=\"../images/report_delete_sm.png\" alt=\"delete\" /></a></td>";
+                                    echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "&tab_return=3\"><img src=\"../images/report_delete_sm.png\" alt=\"delete\" /></a></td>";
                                     echo "</tr>";
                                 }
                             ?>
@@ -1049,7 +1049,7 @@ if ( file_exists ( $includeContent ) ) {
                                     $percentage = ceil ( ($sent / $total) * 100 );
                                     echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
                                     echo "</td>";
-                                    echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "\"><img src=\"../images/report_delete_sm.png\" alt=\"delete\" /></a></td>";
+                                    echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "&tab_return=4\"><img src=\"../images/report_delete_sm.png\" alt=\"delete\" /></a></td>";
                                     echo "</tr>";
                                 }
                             ?>
@@ -1100,7 +1100,7 @@ if ( file_exists ( $includeContent ) ) {
                                     $percentage = ceil ( ($sent / $total) * 100 );
                                     echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
                                     echo "</td>";
-                                    echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "\"><img src=\"../images/report_delete_sm.png\" alt=\"delete\" /></a></td>";
+                                    echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "&tab_return=5\"><img src=\"../images/report_delete_sm.png\" alt=\"delete\" /></a></td>";
                                     echo "</tr>";
                                 }
                             ?>
