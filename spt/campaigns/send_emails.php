@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 18.0
+ * version: 19.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,29 +22,49 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
-// verify session is authenticated and not hijacked
-$includeContent = "../includes/is_authenticated.php";
-if ( file_exists ( $includeContent ) ) {
-    require_once $includeContent;
-} else {
-    echo "stop";
-    exit;
+//check to see if this is a background task
+if(isset($_GET['cron_id']) && isset($_GET['c'])){
+    //validate the campaign and cron id
+    $campaign_id = $_GET['c'];
+    if(!preg_match('/[0-9]/',$campaign_id)){
+        exit;
+    }
+    include '../spt_config/mysql_config.php';
+    $cron_id = $_GET['cron_id'];
+    $r = mysql_query("SELECT cron_id FROM campaigns WHERE id = '$campaign_id'");
+    while ($ra = mysql_fetch_assoc($r)){
+        if($ra['cron_id'] == $cron_id){
+            $match = 1;
+        }
+    }
 }
-
-// verify user is an admin
-$includeContent = "../includes/is_admin.php";
-if ( file_exists ( $includeContent ) ) {
-    require_once $includeContent;
-} else {
-    echo "stop";
-    exit;
+//if there is a match continue
+if(!isset($match)){
+    error_log('no match! will try to auth');
+    // verify session is authenticated and not hijacked
+    $includeContent = "../includes/is_authenticated.php";
+    if ( file_exists ( $includeContent ) ) {
+        require_once $includeContent;
+    } else {
+        echo "stop";
+        exit;
+    }
+    // verify user is an admin
+    $includeContent = "../includes/is_admin.php";
+    if ( file_exists ( $includeContent ) ) {
+        require_once $includeContent;
+    } else {
+        echo "stop";
+        exit;
+    }
 }
-
+//unset match
+unset($match);
 //validate a campaign is specified
-if ( ! isset ( $_POST["c"] ) ) {
+if ( ! isset ( $_POST["c"] ) && !isset($campaign_id)) {
     echo "stop";
     exit;
-} else {
+} else if(!isset($campaign_id)){
     $campaign_id = $_POST['c'];
 }
 

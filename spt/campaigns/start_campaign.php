@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 34.0
+ * version: 35.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -102,10 +102,6 @@ if(isset($_POST['start_day'])){
     $start_date_day = $_POST['start_day'];
     $_SESSION['temp_start_day'] = $start_day; 
 }
-if(isset($_POST['start_year'])){
-    $start_year = $_POST['start_year'];
-    $_SESSION['temp_start_year'] = $start_year; 
-}
 if(isset($_POST['start_hour'])){
     $start_hour = $_POST['start_hour'];
     $_SESSION['temp_start_hour'] = $start_hour; 
@@ -143,7 +139,7 @@ if ( ! isset ( $message_delay ) ) {
     exit;
 }
 //validate date and time if set
-if((isset($start_month) OR isset($start_day) OR isset($start_year) OR isset($start_hour) OR isset($start_minute)) AND (!isset($start_month) OR !isset($start_day) OR !isset($start_year) OR !isset($start_hour) OR !isset($start_minute))){
+if((isset($start_month) OR isset($start_day) OR isset($start_hour) OR isset($start_minute)) AND (!isset($start_month) OR !isset($start_day) OR !isset($start_hour) OR !isset($start_minute))){
     $_SESSION['alert_message'] = "if you are going to schedule this campaign, please complete all date/time fields";
     header('location:.?add_campaign=true#tabs-1');
     exit;
@@ -160,16 +156,6 @@ if(isset($start_day) && ($start_day < 1 OR $start_day > 31)){
 }
 if(isset($start_day) && isset($start_month) && ($start_month == 2 OR $start_month == 4 OR $start_month == 6 OR $start_month == 9 OR $start_month == 11) && $start_day >30){
     $_SESSION['alert_message'] = "the month you selected does not have this many days in it";
-    header('location:.?add_campaign=true#tabs-1');
-    exit;
-}
-if(isset($start_year) && $start_year < (int)date('Y')){
-    $_SESSION['alert_message'] = "the year selected has already passed...please select a year in the future";
-    header('location:.?add_campaign=true#tabs-1');
-    exit;
-}
-if(isset($start_year) && $start_year > ((int)date('Y')+100)){
-    $_SESSION['alert_message'] = "do you really think you'll be around long enough to watch this campaign start?";
     header('location:.?add_campaign=true#tabs-1');
     exit;
 }
@@ -285,7 +271,7 @@ if ( isset ( $message_delay ) ) {
 //check to see if the campaign has been scheduled and if so schedule a cron job to start it otherwise start it immediately
 if (isset($start_month)){
     //formulate cron date and time
-    $cron_start_date = $start_minute.'\t'.$start_hour.'\t'.$start_day.'\t'.$start_month.'\t*\t'.$start_year;
+    $cron_start_date = $start_minute.'    '.$start_hour.'   '.$start_day.'    '.$start_month.'    *    ';
     //create random cron_id value and store it in the database
     $cron_id = mt_rand(10000000,99999999);
     //get protocol
@@ -381,7 +367,6 @@ unset($_SESSION['temp_relay_password']);
 unset($_SESSION['temp_shorten']);
 unset($_SESSION['temp_start_month']);
 unset($_SESSION['temp_start_day']);
-unset($_SESSION['temp_start_year']);
 unset($_SESSION['temp_start_hour']);
 unset($_SESSION['temp_start_minute']);
 unset($_SESSION['temp_background']);
@@ -411,18 +396,20 @@ if($background == 'Y'){
     $start_hour = date('G');
     $start_day = date('j');
     $start_month = date('n');
-    $start_year = date('Y');
     //formulate cron date and time
-    $cron_start_date = $start_minute.'    '.$start_hour.'    '.$start_day.'    '.$start_month.'    *    '.$start_year;
+    $cron_start_date = $start_minute.'    '.$start_hour.'    '.$start_day.'    '.$start_month.'    *    ';
     //get path
     $path = '127.0.0.1' . $_SERVER['REQUEST_URI'];
+    //replace start_campaignn with faux_user
+    $path = preg_replace('/start_campaign/', 'faux_user', $path);
     //construct url that needs to be hit based on cronjob
-    $cron_url = $request_protocol."://".$path."?c=".$campaign_id."&cron_id=".$cron_id;
+    $cron_url = "'".$request_protocol."://".$path."?c=".$campaign_id."&cron_id=".$cron_id."'";
     //create a cronjob to come back and start the campaign
     $output = shell_exec('crontab -l');
-    file_put_contents('/tmp/crontab.txt', $output.$cron_start_date.'    wget '.$cron_url.PHP_EOL);
+    file_put_contents('/tmp/crontab.txt', $output.$cron_start_date.'curl '.$cron_url.PHP_EOL);
     echo exec('crontab /tmp/crontab.txt');
-    header('location:faux_user.php?c='.$campaign_id.'&cron_id='.$cron_id);
+    $_SESSION['alert_message'] = 'your campaign has been sent to the scheduler and should start in 60 seconds';
+    header('location:.#tabs-3');
     exit;
 }
 //send non background campaigns to the response page for their campaign to begin

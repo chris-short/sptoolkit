@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 59.0
+ * version: 60.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -201,7 +201,7 @@ if ( file_exists ( $includeContent ) ) {
                                             <tr>
                                                 <td></td>
                                                 <td style="text-align: right;">
-                                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Uncheck the background checkbox if you would like for the campaign to only be run while you watch the response popover.  This will be required if your server does not support cron jobs.<br /><br />Select a Month, Day, Year, Hour and Minute if you would like for the campaign to start at the selected time in the future.</span></a>
+                                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Uncheck the background checkbox if you would like for the campaign to only be run while you watch the response popover.  This will be required if your server does not support cron jobs.<br /><br />Select a Month, Day, Hour and Minute if you would like for the campaign to start at the selected time in the future.</span></a>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -259,17 +259,6 @@ if ( file_exists ( $includeContent ) ) {
                                                         <option value="29">29</option>
                                                         <option value="30">30</option>
                                                         <option value="31">31</option>
-                                                    </select>';
-                    //get current and next 2 years
-                    $year1 = date("Y");
-                    $year2 = $year1 + 1;
-                    $year3 = $year2 + 1;
-                    echo '
-                                                    <select name="year">
-                                                        <option value="0">Year...</option>
-                                                        <option value="'.$year1.'">'.$year1.'</option>
-                                                        <option value="'.$year2.'">'.$year2.'</option>
-                                                        <option value="'.$year3.'">'.$year3.'</option>
                                                     </select>
                                                 </td>
                                             </tr>
