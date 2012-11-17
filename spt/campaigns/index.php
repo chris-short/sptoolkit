@@ -158,8 +158,7 @@ if ( file_exists ( $includeContent ) ) {
                     } else {
                         echo $path;
                     }
-                    echo '
-                                            " size="45"/>
+                    echo '" size="45"/>
                                             </td>
                                         </tr>
                                     </table>
