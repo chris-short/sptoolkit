@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Includes
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -92,7 +92,7 @@ function ldap_user_dump($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_base
     return $ldap_user_dump;
 }
 //ldap user query
-function ldap_user_query($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_user){
+function ldap_user_query($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_user,$ldap_type){
     //call connect function
     $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_user,$ldap_pass);
     //call bind function
@@ -100,7 +100,11 @@ function ldap_user_query($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_bas
     //setup search filter for the data you want
     $search = "(uid=".$ldap_user.")";
     //setup filter for what you want from your data
-    $filter=array("dn", "uid");
+    if($ldap_type == "Active Directory"){
+        $filter=array("dn", "sAMAccountName");    
+    }else{
+        $filter=array("dn", "uid");
+    }
     //search
     $ldap_user_query = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
     //get data
