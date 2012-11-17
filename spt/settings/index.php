@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 39.0
+ * version: 40.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -340,11 +340,28 @@ if ( file_exists ( $includeContent ) ) {
                                                 echo '/></td>
                                             </tr>
                                             <tr>
-                                                <td>Bind DN</td>
-                                                <td style="text-align: left;"><input type="text" name="username" ';
-                                                if(isset($_SESSION['temp_username'])){
-                                                    echo 'value="'.$_SESSION['temp_username'].'"';
-                                                    unset($_SESSION['temp_username']);
+                                                <td>Type</td>
+                                                <td style="text-align: left;">
+                                                    <input type="radio" name="ldaptype_radio" value="sAMAccountName"';
+                                                    if ( isset ( $_SESSION['temp_ldaptype'] ) && $_SESSION['temp_ldaptype'] == "sAMAccountName" ) {
+                                                        echo "checked";
+                                                        unset ( $_SESSION['temp_ldaptype'] );
+                                                    }
+                                                    echo '/>&nbsp;Active Directory&nbsp;&nbsp;
+                                                    <input type="radio" name="ldaptype_radio" value="uid"';
+                                                    if ( isset ( $_SESSION['temp_ldaptype'] ) && $_SESSION['temp_ldaptype'] == "uid" ) {
+                                                        echo "checked";
+                                                        unset ( $_SESSION['temp_ldaptype'] );
+                                                    }
+                                                    echo '/>&nbsp;UNIX / Linux&nbsp;&nbsp;
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Bind Account DN</td>
+                                                <td style="text-align: left;"><input type="text" name="bindaccount" ';
+                                                if(isset($_SESSION['temp_bindaccount'])){
+                                                    echo 'value="'.$_SESSION['temp_bindaccount'].'"';
+                                                    unset($_SESSION['temp_bindaccount']);
                                                 }
                                                 echo '/></td>    
                                             </tr>
@@ -387,9 +404,10 @@ if ( file_exists ( $includeContent ) ) {
                         $ldap_server_host = $ra[1]; 
                         $ldap_server_port = $ra[2];
                         $ldap_server_ssl = $ra[3];
-                        $ldap_server_username = $ra[4];
-                        $ldap_server_password = $ra[5];
-                        $ldap_basedn = $ra[6];
+                        $ldap_server_type = $ra[4];
+                        $ldap_server_bindaccount = $ra[5];
+                        $ldap_server_password = $ra[6];
+                        $ldap_basedn = $ra[7];
                     }
                     if(!isset($ldap_server_host)){
                         $_SESSION['alert_message'] = "please select an existing ldap server";
@@ -425,8 +443,12 @@ if ( file_exists ( $includeContent ) ) {
                                                 echo '/></td>
                                             </tr>
                                             <tr>
-                                                <td>Bind DN</td>
-                                                <td style="text-align: left;"><input type="text" name="username" value="'.$ldap_server_username.'"/></td>    
+                                                <td>Type</td>
+                                                <td style="text-align: left;"><input type="text" name="bindaccount" value="'.$ldap_server_type.'"/></td>    
+                                            </tr>                                            
+                                            <tr>
+                                                <td>Bind Account DN</td>
+                                                <td style="text-align: left;"><input type="text" name="bindaccount" value="'.$ldap_server_bindaccount.'"/></td>    
                                             </tr>
                                             <tr>
                                                 <td>Password</td>
@@ -652,7 +674,8 @@ if ( file_exists ( $includeContent ) ) {
                                 <td><h3>Host</h3></td>
                                 <td><h3>Port</h3></td>
                                 <td><h3>SSL?</h3></td>
-                                <td><h3>Bind DN</h3></td>
+                                <td><h3>Bind Account DN</h3></td>
+                                <td><h3>Type</h3></td>
                                 <td><h3>Base DN</h3></td>
                                 <td><h3>Actions</h3></td>
                             </tr>
@@ -673,11 +696,12 @@ if ( file_exists ( $includeContent ) ) {
                                     echo "
                                             </td>
                                             <td>".$ldap_setting[4]."</td>
-                                            <td>".$ldap_setting[6]."</td>
+                                            <td>".$ldap_setting[5]."</td>
+                                            <td>".$ldap_setting[7]."</td>
                                             <td>
                                                 <a href=\"?edit_ldap_server=".$ldap_setting[0]."#tabs-3\"><img src=\"../images/pencil_sm.png\" alt=\"edit\" /></a>
                                                 <a href=\"?test_ldap_server=".$ldap_setting[0]."#tabs-3\"><img src=\"../images/directory_listing_sm.png\" alt=\"edit\" /></a>                                                
-                                                <a href=\"delete_ldap.php?ldap=".$ldap_setting[0]."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a>
+                                                <a href=\"ldap_delete.php?ldap=".$ldap_setting[0]."\"><img src=\"../images/cancel_sm.png\" alt=\"delete\" /></a>
                                             </td>
                                         </tr>
                                     ";

@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_edit.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -68,11 +68,17 @@ if($_POST){
     }else{
         $ssl = '0';
     }
-    //get username if provided
-    if(isset($_POST['username'])){
-        $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+    //get ldaptype if provided
+    if(isset($_POST['ldaptype'])){
+        $ldaptype = filter_var($_POST['ldaptype'], FILTER_SANITIZE_STRING);
     }else{
-        $username = "";
+        $ldaptype = "";
+    }
+    //get bindaccount if provided
+    if(isset($_POST['bindaccount'])){
+        $bindaccount = filter_var($_POST['bindaccount'], FILTER_SANITIZE_STRING);
+    }else{
+        $bindaccount = "";
     }
     //get password if provided
     if(isset($_POST['password']) && strlen($_POST['password']) > 0){
@@ -87,7 +93,7 @@ if($_POST){
     //delete existing entry
     mysql_query("DELETE FROM settings_ldap WHERE id = '$current_host'");
     //add ldap server details to database
-    mysql_query("INSERT INTO settings_ldap(host, port, ssl_enc, username, password, basedn) VALUES('$host','$port', '$ssl', '$username', '$password', '$basedn')");
+    mysql_query("INSERT INTO settings_ldap(host, port, ssl_enc, ldaptype, bindaccount, password, basedn) VALUES('$host','$port', '$ssl', '$ldaptype', $username', '$password', '$basedn')");
 }
 $_SESSION['alert_message'] = "ldap server updated";
 header('location:.#tabs-3');

@@ -1,8 +1,8 @@
 <?php
 
 /**
- * file:    delete_ldap.php
- * version: 5.0
+ * file:    ldap_delete.php
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.

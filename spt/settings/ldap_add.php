@@ -3,7 +3,7 @@
 
 /**
  * file:    ldap_add.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -51,8 +51,11 @@ if($_POST){
     if(isset($_POST['ssl'])){
         $_SESSION['temp_ssl'] = $_POST['ssl'];
     }
-    if(isset($_POST['username'])){
-        $_SESSION['temp_username'] = $_POST['username'];
+    if(isset($_POST['ldaptype'])){
+        $_SESSION['temp_ldaptype'] = $_POST['ldaptype'];
+    }
+    if(isset($_POST['bindaccount'])){
+        $_SESSION['temp_bindaccount'] = $_POST['bindaccount'];
     }
     if(isset($_POST['password'])){
         $_SESSION['temp_password'] = $_POST['password'];
@@ -84,11 +87,17 @@ if($_POST){
     }else{
         $ssl = '0';
     }
-    //get username if provided
-    if(isset($_POST['username'])){
-        $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+    //get ldaptype if provided
+    if(isset($_POST['ldaptype'])){
+        $ldaptype = filter_var($_POST['ldaptype'], FILTER_SANITIZE_STRING);
     }else{
-        $username = "";
+        $ldaptype = "";
+    }
+    //get bindaccount if provided
+    if(isset($_POST['bindaccount'])){
+        $bindaccount = filter_var($_POST['bindaccount'], FILTER_SANITIZE_STRING);
+    }else{
+        $bindaccount = "";
     }
     //get password if provided
     if(isset($_POST['password'])){
@@ -104,7 +113,7 @@ if($_POST){
     }
     //add ldap server details to database
     include "../spt_config/mysql_config.php";
-    mysql_query("INSERT INTO settings_ldap (host, port, ssl_enc, username, password, basedn) VALUES ('$host', '$port', '$ssl', '$username', '$password', '$basedn')");
+    mysql_query("INSERT INTO settings_ldap (host, port, ssl_enc, ldaptype, bindaccount, password, basedn) VALUES ('$host', '$port', '$ssl', '$ldaptype', '$bindaccount', '$password', '$basedn')");
     //unset temp variables
     if(isset($_SESSION['temp_host'])){
         unset($_SESSION['temp_host']);
@@ -115,8 +124,11 @@ if($_POST){
     if(isset($_SESSION['temp_ssl'])){
         unset($_SESSION['temp_ssl']);
     }
-    if(isset($_SESSION['temp_username'])){
-        unset($_SESSION['temp_username']);
+    if(isset($_SESSION['temp_ldaptype'])){
+        unset($_SESSION['temp_ldaptype']);
+    }
+    if(isset($_SESSION['temp_bindaccount'])){
+        unset($_SESSION['temp_bindaccount']);
     }
     if(isset($_SESSION['temp_password'])){
         unset($_SESSION['temp_password']);
