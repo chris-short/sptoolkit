@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_edit.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -68,11 +68,14 @@ if($_POST){
     }else{
         $ssl = '0';
     }
-    //get ldaptype if provided
-    if(isset($_POST['ldaptype'])){
-        $ldaptype = filter_var($_POST['ldaptype'], FILTER_SANITIZE_STRING);
-    }else{
-        $ldaptype = "";
+    //get ldaptype and ensure its valid
+    if(isset($_POST['ldaptype_radio'])){
+        $ldaptype = $_POST['ldaptype_radio'];
+        if($ldaptype != "Active Directory" && $ldaptype != "Unix/Linux"){
+            $_SESSION['alert_message'] = "please select a valid LDAP type";
+            header('location:.#tabs-3');
+            exit;
+        }
     }
     //get bindaccount if provided
     if(isset($_POST['bindaccount'])){
@@ -83,17 +86,26 @@ if($_POST){
     //get password if provided
     if(isset($_POST['password']) && strlen($_POST['password']) > 0){
         $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+    }else{
+        $password = "";
     }
     //get basedn
     if(isset($_POST['basedn'])){
-        $basedn = $_POST['basedn'];
+        $basedn = filter_var($_POST['basedn'], FILTER_SANITIZE_STRING);
+    }else{
+        $basedn = "";
     }
     //connect to database
     include '../spt_config/mysql_config.php';
     //delete existing entry
     mysql_query("DELETE FROM settings_ldap WHERE id = '$current_host'");
     //add ldap server details to database
-    mysql_query("INSERT INTO settings_ldap(host, port, ssl_enc, ldaptype, bindaccount, password, basedn) VALUES('$host','$port', '$ssl', '$ldaptype', $username', '$password', '$basedn')");
+    mysql_query("INSERT INTO settings_ldap(host, port, ssl_enc, ldaptype, bindaccount, password, basedn) VALUES('$host','$port', '$ssl', '$ldaptype', '$bindaccount', '$password', '$basedn')");
+    if(mysql_error()){
+        $_SESSION['alert_message'] = mysql_error();
+        header('location:.#tabs-3');
+        exit;
+    }
 }
 $_SESSION['alert_message'] = "ldap server updated";
 header('location:.#tabs-3');

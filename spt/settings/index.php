@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 40.0
+ * version: 41.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -342,14 +342,14 @@ if ( file_exists ( $includeContent ) ) {
                                             <tr>
                                                 <td>Type</td>
                                                 <td style="text-align: left;">
-                                                    <input type="radio" name="ldaptype_radio" value="sAMAccountName"';
-                                                    if ( isset ( $_SESSION['temp_ldaptype'] ) && $_SESSION['temp_ldaptype'] == "sAMAccountName" ) {
+                                                    <input type="radio" name="ldaptype_radio" value="Active Directory"';
+                                                    if ( isset ( $_SESSION['temp_ldaptype'] ) && $_SESSION['temp_ldaptype'] == "Active Directory" ) {
                                                         echo "checked";
                                                         unset ( $_SESSION['temp_ldaptype'] );
                                                     }
                                                     echo '/>&nbsp;Active Directory&nbsp;&nbsp;
-                                                    <input type="radio" name="ldaptype_radio" value="uid"';
-                                                    if ( isset ( $_SESSION['temp_ldaptype'] ) && $_SESSION['temp_ldaptype'] == "uid" ) {
+                                                    <input type="radio" name="ldaptype_radio" value="Unix/Linux"';
+                                                    if ( isset ( $_SESSION['temp_ldaptype'] ) && $_SESSION['temp_ldaptype'] == "Unix/Linux" ) {
                                                         echo "checked";
                                                         unset ( $_SESSION['temp_ldaptype'] );
                                                     }
@@ -444,7 +444,18 @@ if ( file_exists ( $includeContent ) ) {
                                             </tr>
                                             <tr>
                                                 <td>Type</td>
-                                                <td style="text-align: left;"><input type="text" name="bindaccount" value="'.$ldap_server_type.'"/></td>    
+                                                <td style="text-align: left;">
+                                                    <input type="radio" name="ldaptype_radio" value="Active Directory"';
+                                                    if ( $ldap_server_type == "Active Directory" ) {
+                                                        echo "checked";
+                                                    }
+                                                    echo '/>&nbsp;Active Directory&nbsp;&nbsp;
+                                                    <input type="radio" name="ldaptype_radio" value="Unix/Linux"';
+                                                    if ( $ldap_server_type == "Unix/Linux" ) {
+                                                        echo "checked";
+                                                    }
+                                                    echo '/>&nbsp;UNIX/Linux&nbsp;&nbsp;
+                                                </td>
                                             </tr>                                            
                                             <tr>
                                                 <td>Bind Account DN</td>
@@ -695,8 +706,8 @@ if ( file_exists ( $includeContent ) ) {
                                     }
                                     echo "
                                             </td>
-                                            <td>".$ldap_setting[4]."</td>
                                             <td>".$ldap_setting[5]."</td>
+                                            <td>".$ldap_setting[4]."</td>
                                             <td>".$ldap_setting[7]."</td>
                                             <td>
                                                 <a href=\"?edit_ldap_server=".$ldap_setting[0]."#tabs-3\"><img src=\"../images/pencil_sm.png\" alt=\"edit\" /></a>

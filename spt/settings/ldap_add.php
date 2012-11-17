@@ -3,7 +3,7 @@
 
 /**
  * file:    ldap_add.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -51,8 +51,8 @@ if($_POST){
     if(isset($_POST['ssl'])){
         $_SESSION['temp_ssl'] = $_POST['ssl'];
     }
-    if(isset($_POST['ldaptype'])){
-        $_SESSION['temp_ldaptype'] = $_POST['ldaptype'];
+    if(isset($_POST['ldaptype_radio'])){
+        $_SESSION['temp_ldaptype'] = $_POST['ldaptype_radio'];
     }
     if(isset($_POST['bindaccount'])){
         $_SESSION['temp_bindaccount'] = $_POST['bindaccount'];
@@ -87,11 +87,14 @@ if($_POST){
     }else{
         $ssl = '0';
     }
-    //get ldaptype if provided
-    if(isset($_POST['ldaptype'])){
-        $ldaptype = filter_var($_POST['ldaptype'], FILTER_SANITIZE_STRING);
-    }else{
-        $ldaptype = "";
+    //get ldaptype and ensure its valid
+    if(isset($_POST['ldaptype_radio'])){
+        $ldaptype = $_POST['ldaptype_radio'];
+        if($ldaptype != "Active Directory" && $ldaptype != "Unix/Linux"){
+            $_SESSION['alert_message'] = "please select a valid LDAP type";
+            header('location:.#tabs-3');
+            exit;
+        }
     }
     //get bindaccount if provided
     if(isset($_POST['bindaccount'])){
