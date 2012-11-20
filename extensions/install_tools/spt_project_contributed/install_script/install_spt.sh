@@ -2,8 +2,8 @@
 
 
 #
-# file:    install_spt_0-70.sh
-# version: 3.0
+# file:    install_spt.sh
+# version: 4.0
 # package: Simple Phishing Toolkit (spt)
 # component:	Installation
 # copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -123,7 +123,7 @@ unset rootpass
 
 
 #Install required packages
-install php5-curl php5-cli
+install php5-curl php5-cli php5-ldap
 
 
 #Restart Apache after package installation
@@ -142,10 +142,10 @@ if [ -z "$sptfolder" ]
       CDPATH=/var/www:.
 fi
 #Pull down current source
-wget -O sptoolkit_0.70.zip "http://www.sptoolkit.com/?aid=2755&sa=1"
+wget -O sptoolkit.zip "http://www.sptoolkit.com/?aid=####&sa=1"
 #Extract master into new directory
-unzip -q sptoolkit_0.70.zip -d spt_extracted
-#Move files into place (NEED TO CHANGE STRUCTURE SO THAT CURRENT VERSION IS JUST IN "CURRENT" OR SOMETHING SUCH)
+unzip -q sptoolkit.zip -d spt_extracted
+#Move files into place
 mv spt_extracted/spt/* $sptpath
 #Get rid of master and extracts
 rm -r spt_extracted
