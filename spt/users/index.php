@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 22.0
+ * version: 23.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -523,7 +523,7 @@ if ( file_exists ( $includeContent ) ) {
                                 //connect to database                       
                                 include '../spt_config/mysql_config.php';
                                 //retrieve all user data to populate the user table
-                                $r = mysql_query ( 'SELECT id, cn, disabled, admin, ldap_host FROM users_ldap WHERE type=1' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                $r = mysql_query ( 'SELECT id, username, disabled, admin, ldap_host FROM users_ldap' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                                 while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                     //get ldap servers
                                     $r1 = mysql_query('SELECT value FROM settings WHERE setting = ldap');
@@ -588,7 +588,7 @@ if ( file_exists ( $includeContent ) ) {
                                 //connect to database                       
                                 include '../spt_config/mysql_config.php';
                                 //retrieve all user data to populate the user table
-                                $r = mysql_query ( 'SELECT id, cn, admin, disabled, admin, ldap_host FROM users_ldap WHERE type=2' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                $r = mysql_query ( 'SELECT id, admin, disabled, admin, ldap_host FROM users_ldap_groups' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                                 while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                     echo "<tr>\n<td>";
                                     echo $ra['fname'] . " " . $ra['lname'];
