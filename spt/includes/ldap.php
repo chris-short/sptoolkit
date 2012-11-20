@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Includes
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -40,22 +40,26 @@ function ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass){
     //return bind
     return $ldap_bind;
 }
-//get dn for username
-function ldap_username_to_dn($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_username){
+//ldap user query
+function ldap_user_query($ldap_server,$ldap_port,$ldap_bind_user,$ldap_pass,$ldap_basedn,$ldap_user,$ldap_type){
     //call connect function
-    $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_user,$ldap_pass);
+    $ldap_conn = ldap_connection($ldap_server,$ldap_port);
     //call bind function
-    $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass);
-    //setup search filter for the data you want
-    $search = "(uid=".$ldap_username.")";
-    //setup filter for what you want from your data
-    $filter=array("dn", "uid");
+    $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_bind_user,$ldap_pass);
+    //setup search and filter depending on the authentication directory type
+    if($ldap_type == "Active Directory"){
+        $search = "(sAMAccountName=".$ldap_user.")";
+        $filter=array("dn", "sAMAccountName");    
+    }else{
+        $search = "(uid=".$ldap_user.")";
+        $filter=array("dn", "uid");
+    }
     //search
-    $ldap_username_to_dn_query = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
+    $ldap_user_query = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
     //get data
-    $ldap_username_to_dn_query = ldap_get_entries($ldap_conn, $ldap_user_query);
+    $ldap_user_query = ldap_get_entries($ldap_conn, $ldap_user_query);
     //return dump
-    return $ldap_username_to_dn_query;
+    return $ldap_user_query;
 }
 //ldap group user dump
 function ldap_group_dump($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn){
@@ -90,27 +94,6 @@ function ldap_user_dump($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_base
     $ldap_user_dump = ldap_get_entries($ldap_conn, $ldap_user_dump);
     //return dump
     return $ldap_user_dump;
-}
-//ldap user query
-function ldap_user_query($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_user,$ldap_type){
-    //call connect function
-    $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_user,$ldap_pass);
-    //call bind function
-    $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass);
-    //setup search filter for the data you want
-    $search = "(uid=".$ldap_user.")";
-    //setup filter for what you want from your data
-    if($ldap_type == "Active Directory"){
-        $filter=array("dn", "sAMAccountName");    
-    }else{
-        $filter=array("dn", "uid");
-    }
-    //search
-    $ldap_user_query = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
-    //get data
-    $ldap_user_query = ldap_get_entries($ldap_conn, $ldap_user_query);
-    //return dump
-    return $ldap_user_query;
 }
 //ldap group query
 function ldap_group_query($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_group){

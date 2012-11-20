@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_test.php
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -119,7 +119,7 @@ if($_POST){
         $password = $_POST['password'];
         //get user dn
         $ldap_test_user = ldap_user_query($current_ldap_server_host, $current_ldap_server_port, $current_ldap_server_bindaccount, $current_ldap_server_password, $current_ldap_server_basedn, $username, $current_ldap_server_ldaptype);
-        $ldap_test_user_dn = $ldap_test_user[0][dn];
+        $ldap_test_user_dn = $ldap_test_user[0]['dn'];
         //attempt bind with provided username and password
         $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_test_user_dn,$password);
         if($ldap_bind){
