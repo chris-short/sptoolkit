@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap.php
- * version: 11.0
+ * version: 12.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Includes
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -24,9 +24,17 @@
  * */
 
 //ldap connect function
-function ldap_connection($ldap_server,$ldap_port){
-    //setup connection
-    $ldap_conn = ldap_connect($ldap_server,$ldap_port);
+function ldap_connection($ldap_server,$ldap_port, $ssl_enc){
+    if($ssl_enc == 1){
+        if($ldap_port!=443){
+            $ldap_conn = ldap_connect("https://".$ldap_server.":".$ldap_port."/");
+        }else{
+            $ldap_conn = ldap_connect("https://".$ldap_server."/");    
+        }
+    }else{
+        //setup connection
+        $ldap_conn = ldap_connect($ldap_server,$ldap_port);    
+    }
     //set options
     ldap_set_option($ldap_conn, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ldap_conn, LDAP_OPT_REFERRALS, 0);
@@ -41,9 +49,9 @@ function ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass){
     return $ldap_bind;
 }
 //ldap user query
-function ldap_user_query($ldap_server,$ldap_port,$ldap_bind_user,$ldap_pass,$ldap_basedn,$ldap_user,$ldap_type){
+function ldap_user_query($ldap_server,$ldap_port,$ldap_bind_user,$ldap_pass,$ldap_basedn,$ldap_user,$ldap_type, $ssl_enc){
     //call connect function
-    $ldap_conn = ldap_connection($ldap_server,$ldap_port);
+    $ldap_conn = ldap_connection($ldap_server,$ldap_port, $ssl_enc);
     //call bind function
     $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_bind_user,$ldap_pass);
     //setup search and filter depending on the authentication directory type
@@ -52,6 +60,27 @@ function ldap_user_query($ldap_server,$ldap_port,$ldap_bind_user,$ldap_pass,$lda
         $filter=array("dn", "sAMAccountName");    
     }else{
         $search = "(uid=".$ldap_user.")";
+        $filter=array("dn", "uid");
+    }
+    //search
+    $ldap_user_query = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
+    //get data
+    $ldap_user_query = ldap_get_entries($ldap_conn, $ldap_user_query);
+    //return dump
+    return $ldap_user_query;
+}
+//ldap email to user query
+function ldap_user_email_query($ldap_server,$ldap_port,$ldap_bind_user,$ldap_pass,$ldap_basedn, $ldap_ssl_enc, $ldap_type, $ldap_email){
+    //call connect function
+    $ldap_conn = ldap_connection($ldap_server,$ldap_port, $ssl_enc);
+    //call bind function
+    $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_bind_user,$ldap_pass);
+    //setup search and filter depending on the authentication directory type
+    if($ldap_type == "Active Directory"){
+        $search = "(mail=".$ldap_email.")";
+        $filter=array("dn", "sAMAccountName");    
+    }else{
+        $search = "(mail=".$ldap_email.")";
         $filter=array("dn", "uid");
     }
     //search

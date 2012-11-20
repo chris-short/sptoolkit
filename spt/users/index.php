@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 21.0
+ * version: 22.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -302,8 +302,34 @@ if ( file_exists ( $includeContent ) ) {
                     }
                     echo '
                                         <tr>
-                                            <td>LDAP Username</td>
-                                            <td><input type="text" name="ldap_username" /></td>
+                                            <td>LDAP Email Address</td>
+                                            <td><input type="text" name="ldap_username" ';
+                    if(isset($_SESSION['temp_ldap_username'])){
+                        echo '
+                                            value="'.$_SESSION['temp_ldap_username'].'"';
+                    }
+                    echo '
+                                            /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Admin</td>
+                                            <td><input type="checkbox" name="ldap_admin"';
+                    if(isset($_SESSION['temp_ldap_admin'])){
+                        echo '
+                                            " '.$_SESSION['temp_ldap_admin'].'"';
+                    }
+                    echo '
+                                            /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Disabled</td>
+                                            <td><input type="checkbox" name="ldap_disabled" ';
+                    if(isset($_SESSION['temp_ldap_disabled'])){
+                        echo '
+                                            " '.$_SESSION['temp_ldap_disabled'].'"';
+                    }
+                    echo '
+                                            /></td>
                                         </tr>
                                         <tr>
                                             <td>LDAP Server</td>
@@ -318,7 +344,14 @@ if ( file_exists ( $includeContent ) ) {
                         $ldap_id = $ra['id'];
                         $ldap_host = $ra['host'];
                         echo '
-                                                    <option value="'.$ldap_id.'">'.$ldap_host.'</option>
+                                                    <option value="'.$ldap_id.'"';
+                        if(isset($_SESSION['temp_ldap_server'])){
+                            if($ldap_host == $_SESSION['temp_ldap_server']){
+                                echo "SELECTED";
+                            }
+                        }                            
+                        echo '
+                                                    >'.$ldap_host.'</option>
                                                 </select>
                                             </td>
                                         </tr>

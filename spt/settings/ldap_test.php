@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_test.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -78,7 +78,7 @@ if($_POST){
             $current_ldap_server_basedn = $ra[7];
         }
         //get connected
-        $ldap_conn = ldap_connection($current_ldap_server_host,$current_ldap_server_port);
+        $ldap_conn = ldap_connection($current_ldap_server_host,$current_ldap_server_port, $current_ldap_server_ssl);
         if(!$ldap_conn){
             $_SESSION['alert_message'] = "could not connect to server";
             header('location:./?test_ldap_server='.$host.'#tabs-3');
@@ -108,7 +108,7 @@ if($_POST){
             $current_ldap_server_basedn = $ra[7];
         }
         //get connected
-        $ldap_conn = ldap_connection($current_ldap_server_host,$current_ldap_server_port);
+        $ldap_conn = ldap_connection($current_ldap_server_host,$current_ldap_server_port, $current_ldap_server_ssl);
         if(!$ldap_conn){
             $_SESSION['alert_message'] = "could not connect to server";
             header('location:./?test_ldap_server='.$host.'#tabs-3');
@@ -118,7 +118,7 @@ if($_POST){
         $username = $_POST['username'];
         $password = $_POST['password'];
         //get user dn
-        $ldap_test_user = ldap_user_query($current_ldap_server_host, $current_ldap_server_port, $current_ldap_server_bindaccount, $current_ldap_server_password, $current_ldap_server_basedn, $username, $current_ldap_server_ldaptype);
+        $ldap_test_user = ldap_user_query($current_ldap_server_host, $current_ldap_server_port, $current_ldap_server_bindaccount, $current_ldap_server_password, $current_ldap_server_basedn, $username, $current_ldap_server_ldaptype, $current_ldap_server_ssl);
         $ldap_test_user_dn = $ldap_test_user[0]['dn'];
         //attempt bind with provided username and password
         $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_test_user_dn,$password);
