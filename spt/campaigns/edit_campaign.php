@@ -2,7 +2,7 @@
 
 /**
  * file:    edit_campaign.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -29,13 +29,15 @@ if ( file_exists ( $includeContent ) ) {
 } else {
     header ( 'location:../errors/404_is_authenticated.php' );
 }
-
 // verify user is an admin
 $includeContent = "../includes/is_admin.php";
 if ( file_exists ( $includeContent ) ) {
     require_once $includeContent;
 } else {
     header ( 'location:../errors/404_is_admin.php' );
+}
+if(isset($_POST['campaign_id'])){
+    $campaign_id = $_POST['campaign_id'];
 }
 //pull in all posted values
 $campaign_name = $_POST['campaign_name'];
@@ -113,59 +115,56 @@ if(isset($_POST['background'])){
 //ensure the campaign name is set
 if ( strlen ( $campaign_name ) < 1 ) {
     $_SESSION['alert_message'] = "you must give the campaign a name";
-    header ( 'location:./?add_campaign=true#tabs-1' );
+    header ( 'location:./?c='.$campaign_id.'&edit_campaign=true#tabs-2' );
     exit;
 }
 //ensure a template is selected
 if ( ! isset ( $template_id ) ) {
     $_SESSION['alert_message'] = "please select a template";
-    header ( 'location:./?add_campaign=true#tabs-1' );
+    header ( 'location:./?c='.$campaign_id.'&edit_campaign=true#tabs-2' );
     exit;
 }
 //ensure that a message delay is set
 if ( ! isset ( $message_delay ) ) {
     $_SESSION['alert_message'] = "please enter a value for message delay";
-    header ( 'location:./?add_campaign=true#tabs-1' );
+    header ( 'location:./?c='.$campaign_id.'&edit_campaign=true#tabs-2' );
     exit;
 }
 //validate date and time if set
 if((isset($start_month) OR isset($start_day) OR isset($start_hour) OR isset($start_minute)) AND (!isset($start_month) OR !isset($start_day) OR !isset($start_hour) OR !isset($start_minute))){
     $_SESSION['alert_message'] = "if you are going to schedule this campaign, please complete all date/time fields";
-    header('location:.?add_campaign=true#tabs-1');
+    header('location:.?c='.$campaign_id.'&edit_campaign=true#tabs-2');
     exit;
 }
 if(isset($start_month) && ($start_month < 1 OR $start_month > 12)){
     $_SESSION['alert_message'] = "please select a valid month";
-    header('location:.?add_campaign=true#tabs-1');
+    header('location:.?c='.$campaign_id.'&edit_campaign=true#tabs-2');
     exit;
 }
 if(isset($start_day) && ($start_day < 1 OR $start_day > 31)){
     $_SESSION['alert_message'] = "please select a valid day of the month";
-    header('location:.?add_campaign=true#tabs-1');
+    header('location:.?c='.$campaign_id.'&edit_campaign=true#tabs-2');
     exit;
 }
 if(isset($start_day) && isset($start_month) && ($start_month == 2 OR $start_month == 4 OR $start_month == 6 OR $start_month == 9 OR $start_month == 11) && $start_day >30){
     $_SESSION['alert_message'] = "the month you selected does not have this many days in it";
-    header('location:.?add_campaign=true#tabs-1');
+    header('location:.?c='.$campaign_id.'&edit_campaign=true#tabs-2');
     exit;
 }
 if(isset($start_hour) && ($start_hour < 0 OR $start_hour > 23)){
     $_SESSION['alert_message'] = "please enter a valid hour 0-23";
-    header('location:.?add_campaign=true#tabs-1');
+    header('location:.?c='.$campaign_id.'&edit_campaign=true#tabs-2');
     exit;
 }
 if(isset($start_minute) && ($start_minute < 0 OR $start_minute > 59)){
     $_SESSION['alert_message'] = "please enter a valid minute 0-59";
-    header('location:.?add_campaign=true#tabs-1');
+    header('location:.?c='.$campaign_id.'&edit_campaign=true#tabs-2');
     exit;
 }
 if(isset($background) && $background == 'Yes'){
     $background = 'Y';
 }else{
     $background = 'N';
-}
-if(isset($_POST['campaign_id'])){
-    $campaign_id = $_POST['campaign_id'];
 }
 //connect to database
 include "../spt_config/mysql_config.php";
@@ -178,7 +177,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 if ( ! isset ( $match0 ) ) {
     $_SESSION['alert_message'] = "please select a valid template";
-    header ( 'location:./?add_campaign=true#tabs-1' );
+    header ( 'location:./?c='.$campaign_id.'edit_campaign=true#tabs-2' );
     exit;
 }
 //validate the education package exists
@@ -190,7 +189,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 if ( ! isset ( $match1 ) ) {
     $_SESSION['alert_message'] = "please select a valid education package";
-    header ( 'location:./?add_campaign=true#tabs-1' );
+    header ( 'location:./?c='.$campaign_id.'edit_campaign=true#tabs-2' );
     exit;
 }
 //validate the education timing if set
@@ -204,7 +203,7 @@ if ( isset ( $education_timing ) ) {
 }
 if ( $match2 != 1 ) {
     $_SESSION['alert_message'] = "please select a valid education timing option";
-    header ( 'location:./?add_campaign=true#tabs-1' );
+    header ( 'location:./?c='.$campaign_id.'edit_campaign=true#tabs-2' );
     exit;
 }
 //if Google shortener is selected validate that their is an API stored in the database
@@ -213,7 +212,7 @@ if(isset($shorten) && $shorten == "Google"){
     $r = mysql_query("SELECT service, api_key FROM campaigns_shorten WHERE service = 'Google'");
     if(mysql_num_rows($r) != 1){
         $_SESSION['alert_message'] = "you must enter your Google API key before trying to use the Google Shortener";
-        header('location:./?add_campaign=true#tabs-1');
+        header('location:./?c='.$campaign_id.'edit_campaign=true#tabs-2');
         exit;
     }
 }
@@ -222,19 +221,19 @@ if ( isset ( $message_delay ) ) {
     //ensure the message delay is greater than 100 ms
     if ( $message_delay < 100 ) {
         $_SESSION['alert_message'] = "the message delay factor must be greater than 100ms";
-        header ( 'location:./?add_campaign=true#tabs-1' );
+        header ( 'location:./?c='.$campaign_id.'edit_campaign=true#tabs-2' );
         exit;
     }
     //ensure the message delay is in incrmeents of 100
     if ( substr ( $message_delay, -2 ) != "00" ) {
         $_SESSION['alert_message'] = "the message delay factor should be in increments of 100ms";
-        header ( 'location:./?add_campaign=true#tabs-1' );
+        header ( 'location:./?c='.$campaign_id.'edit_campaign=true#tabs-2' );
         exit;
     }
     //ensure the message delay is not greater than 1 minute
     if ( $message_delay > 60000 ) {
         $_SESSION['alert_message'] = "the message delay factor cannot be more than 1 minute";
-        header ( 'location:./?add_campaign=true#tabs-1' );
+        header ( 'location:./?c='.$campaign_id.'edit_campaign=true#tabs-2' );
         exit;
     }
 } else {
@@ -263,7 +262,7 @@ if (isset($start_month)){
         $request_protocol = "http";
     }
     //update the campaign
-    mysql_query ( "UPDATE campaigns SET campaign_name = '$campaign_name', template_id = '$template_id', domain_name = '$domain_name', education_id = '$education_id', education_timing = '$education_timing', message_delay = '$message_delay', status = 0, cron_id = '$cron_id' WHERE id = '$campaign_id'" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+    mysql_query ( "UPDATE campaigns SET campaign_name = '$campaign_name', template_id = '$template_id', spt_path = '$spt_path', domain_name = '$domain_name', education_id = '$education_id', education_timing = '$education_timing', message_delay = '$message_delay', status = 0, cron_id = '$cron_id' WHERE id = '$campaign_id'" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
     //get path
     $path = '127.0.0.1' . $_SERVER['REQUEST_URI'];
     //replace start_campaignn with faux_user
@@ -328,7 +327,7 @@ unset($_SESSION['temp_start_minute']);
 unset($_SESSION['temp_background']);
 //if scheduled send back to campaign page
 if(isset($scheduled) && $scheduled == "Y"){
-    $_SESSION['alert_message'] = "your campaign has been scheduled";
+    $_SESSION['alert_message'] = "your campaign has been updated";
     header('location:.#tabs-2');
     exit;
 }
@@ -365,7 +364,7 @@ if($background == 'Y'){
     $output = shell_exec('crontab -l');
     file_put_contents('/tmp/crontab.txt', $output.$cron_start_date.'curl '.$cron_url.PHP_EOL);
     echo exec('crontab /tmp/crontab.txt');
-    $_SESSION['alert_message'] = 'your campaign has been sent to the scheduler and should start in 60 seconds';
+    $_SESSION['alert_message'] = 'your campaign has been updated and sent to the scheduler and should start in 60 seconds';
     header('location:.#tabs-3');
     exit;
 }

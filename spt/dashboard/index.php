@@ -2,7 +2,7 @@
 <?php
 /**
  * file:    index.php
- * version: 29.0
+ * version: 30.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -51,7 +51,7 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
         <link rel="stylesheet" href="spt_dashboard.css" type="text/css" />
         <!--scripts-->
         <script type="text/javascript" src="../includes/escape.js"></script>
-        <script src="../includes/jquery.min.js"></script>
+        <script src="../includes/jquery-1.7.min.js"></script>
         <script src="../includes/jquery-ui.min.js"></script>
         <script type="text/javascript" src="../includes/highcharts/js/highcharts.js"></script>
         <script type="text/javascript" src="../includes/highcharts/js/modules/exporting.js"></script>

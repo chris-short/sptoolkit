@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 61.0
+ * version: 62.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -620,7 +620,7 @@ if ( file_exists ( $includeContent ) ) {
                                         <tr>
                                             <td>Path</td>
                                             <td colspan="2">
-                                                <input type="text" name="spt_path" value="'.$domain_name.'" size="45"/>
+                                                <input type="text" name="spt_path" value="'.$spt_path.'" size="45"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -1324,9 +1324,13 @@ if ( file_exists ( $includeContent ) ) {
                     $r = mysql_query ( 'SELECT id, name FROM templates' );
                     while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         if ( isset ( $_SESSION['temp_template_id'] ) && $_SESSION['temp_template_id'] == $ra['id'] ) {
-                            echo "<option value=" . $ra['id'] . " selected=\"selected\">" . $ra['name'] . "</option>";
+                            echo "<option value=" . $ra['id'] . "\" selected=\"selected\">" . $ra['name'] . "</option>";
                         } else {
-                            echo "<option value=" . $ra['id'] . ">" . $ra['name'] . "</option>";
+                            echo "<option value=\"" . $ra['id'] . "\" ";
+                            if(isset($template_id) && $template_id == $ra['id']){
+                                echo "selected=\"selected\" ";
+                            }
+                            echo ">" . $ra['name'] . "</option>";
                         }
                     }
                     unset ( $_SESSION['temp_template_id'] );
@@ -1360,8 +1364,13 @@ if ( file_exists ( $includeContent ) ) {
                     while ( $ra = mysql_fetch_assoc ( $r ) ) {
                         if ( isset ( $_SESSION['temp_education_id'] ) && $_SESSION['temp_education_id'] == $ra['id'] ) {
                             echo "<option value=" . $ra['id'] . " selected=\"selected\" >" . $ra['name'] . "</option>";
+                        }else{
+                            echo "<option value=" . $ra['id'] . "\" ";
+                            if(isset($education_id) && $education_id == $ra['id']){
+                                echo "selected=\"selected\"";
+                            }
+                            echo ">" . $ra['name'] . "</option>";    
                         }
-                        echo "<option value=" . $ra['id'] . ">" . $ra['name'] . "</option>";
                     }
                     unset ( $_SESSION['temp_education_id'] );
                     echo '
@@ -1373,11 +1382,15 @@ if ( file_exists ( $includeContent ) ) {
                                             <td colspan="2"><input type="radio" name="education_timing" value="1"';
                     if ( !isset ( $_SESSION['temp_education_timing'] ) OR $_SESSION['temp_education_timing'] != 2 ) {
                         echo "CHECKED";
+                    }else if(isset($education_timing) && $education_timing == 1){
+                        echo "CHECKED";
                     }
                     echo '/> Educate on link click<br /><input type="radio" name="education_timing" value="2"';
                     if ( isset ( $_SESSION['temp_education_timing'] ) && $_SESSION['temp_education_timing'] == 2 ) {
                         echo "CHECKED";
                         unset ( $_SESSION['temp_education_timing'] );
+                    }else if(isset($education_timing) && $education_timing == 2){
+                        echo "CHECKED";
                     }
                     echo '            
                                             /> Educate on form submission</td>
@@ -1399,6 +1412,8 @@ if ( file_exists ( $includeContent ) ) {
                     if ( isset ( $_SESSION['temp_relay_host'] ) ) {
                         echo "value=\"" . $_SESSION['temp_relay_host'] . "\"";
                         unset ( $_SESSION['temp_relay_host'] );
+                    }else if(isset($relay_host)){
+                        echo "value=\"".$relay_host."\"";
                     }
                     echo '                   /></td>
                                         </tr>
@@ -1408,7 +1423,9 @@ if ( file_exists ( $includeContent ) ) {
                     if ( isset ( $_SESSION['temp_relay_port'] ) ) {
                         echo "value=\"" . $_SESSION['temp_relay_port'] . "\"";
                         unset ( $_SESSION['temp_relay_port'] );
-                    } else {
+                    } else if(isset($relay_port)){
+                        echo "value=\"".$relay_port."\"";
+                    }else{
                         echo "value=\"25\"";
                     }
                     echo '                                            
@@ -1423,6 +1440,8 @@ if ( file_exists ( $includeContent ) ) {
                         if ( isset ( $_SESSION['temp_ssl'] ) ) {
                             echo "CHECKED";
                             unset ( $_SESSION['temp_ssl'] );
+                        } else if (isset($encrypt) && $encrypt == 1){
+                            echo "CHECKED";
                         }
                         echo "/><br />";
                     } else {
@@ -1437,13 +1456,20 @@ if ( file_exists ( $includeContent ) ) {
                     if ( isset ( $_SESSION['temp_relay_username'] ) ) {
                         echo "value=\"" . $_SESSION['temp_relay_username'] . "\"";
                         unset ( $_SESSION['temp_relay_username'] );
+                    } else if(isset($relay_username)){
+                        echo "value=\"".$relay_username."\"";
                     }
                     echo '                        
                                             /></td>
                                         </tr>
                                         <tr>
                                             <td>Password</td>
-                                            <td colspan="2"><input type="password" name="relay_password" /></td>
+                                            <td colspan="2"><input type="password" name="relay_password" ';
+                    if(isset($relay_password)){
+                        echo "value=\"".$relay_password."\"";
+                    }
+                    echo
+                                             '/></td>
                                         </tr>
                                     </table>
                                     </div>
@@ -1462,6 +1488,8 @@ if ( file_exists ( $includeContent ) ) {
                     if ( isset ( $_SESSION['temp_message_delay'] ) ) {
                         echo "value=\"" . $_SESSION['temp_message_delay'] . "\"";
                         unset ( $_SESSION['temp_message_delay'] );
+                    } else if (isset($message_delay)){
+                        echo "value=\"" . $message_delay . "\"";
                     } else {
                         echo "value=\"1000\"";
                     }
@@ -1482,21 +1510,25 @@ if ( file_exists ( $includeContent ) ) {
                                         </tr>
                                         <tr>
                                             <td colspan="4"><input type="radio" name="shorten_radio" value="Google"';
-                    if ( isset ( $_SESSION['temp_shorten'] ) && $_SESSION['temp_shorten'] == "google" ) {
+                    if ( isset ( $_SESSION['temp_shorten'] ) && $_SESSION['temp_shorten'] == "Google" ) {
                         echo "checked";
                         unset ( $_SESSION['temp_shorten'] );
+                    } else if (isset($shorten) && $shorten == "Google"){
+                        echo "checked";
                     }
                     echo '                    
                                                     />&nbsp;Google&nbsp;&nbsp;
                                                 <input type="radio" name="shorten_radio" value="TinyURL"';
-                   if ( isset ( $_SESSION['temp_shorten'] ) && $_SESSION['temp_shorten'] == "tinyurl" ) {
+                   if ( isset ( $_SESSION['temp_shorten'] ) && $_SESSION['temp_shorten'] == "TinyURL" ) {
                        echo "checked";
                        unset ( $_SESSION['temp_shorten'] );
+                   } else if (isset($shorten) && $shorten == "TinyURL"){
+                     echo "checked";
                    }
                    echo '
                                                     />&nbsp;TinyURL&nbsp;&nbsp;
                                                 <input type="radio" name="shorten_radio" value="None"';
-                   if ( isset ( $_SESSION['temp_shorten'] ) && $_SESSION['temp_shorten'] == "none" ) {
+                   if ( isset ( $_SESSION['temp_shorten'] ) && $_SESSION['temp_shorten'] == "None" ) {
                        echo "checked";
                        unset ( $_SESSION['temp_shorten'] );
                    }
