@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 60.0
+ * version: 61.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -210,8 +210,8 @@ if ( file_exists ( $includeContent ) ) {
                                             <tr>
                                                 <td>Start Date</td>
                                                 <td>
-                                                    <select name="month">
-                                                        <option value="0">Month...</option>
+                                                    <select name="start_month">
+                                                        <option value="-">Month...</option>
                                                         <option value="1">January</option>
                                                         <option value="2">February</option>
                                                         <option value="3">March</option>
@@ -225,8 +225,8 @@ if ( file_exists ( $includeContent ) ) {
                                                         <option value="11">November</option>
                                                         <option value="12">December</option>
                                                     </select>
-                                                    <select name="day">
-                                                        <option value="0">Day...</option>
+                                                    <select name="start_day">
+                                                        <option value="-">Day...</option>
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
@@ -264,7 +264,7 @@ if ( file_exists ( $includeContent ) ) {
                                             <tr>
                                                 <td>Set Time</td>
                                                 <td>
-                                                    <select name="hour">
+                                                    <select name="start_hour">
                                                         <option value="-">Hour...</option>
                                                         <option value="0">0</option>
                                                         <option value="1">1</option>
@@ -291,7 +291,7 @@ if ( file_exists ( $includeContent ) ) {
                                                         <option value="22">22</option>
                                                         <option value="23">23</option>
                                                     </select>
-                                                    <select name="minute">
+                                                    <select name="start_minute">
                                                         <option value="-">Minute...</option>
                                                         <option value="0">0</option>
                                                         <option value="1">1</option>
@@ -567,6 +567,955 @@ if ( file_exists ( $includeContent ) ) {
                                         </tr>
                                     </table>
                                 </div>
+                            </form>
+                        </div>';
+                }
+                if(isset($_GET['edit_campaign']) && $_GET['edit_campaign'] == "true"){
+                    //get campaign id
+                    $campaign_id = $_GET['c'];
+                    //get details regarding this campaign
+                    $r = mysql_query("SELECT * FROM campaigns WHERE id = '$campaign_id'");
+                    while($ra = mysql_fetch_assoc($r)){
+                        $template_id = $ra['template_id'];
+                        $campaign_name = $ra['campaign_name'];
+                        $domain_name = $ra['domain_name'];
+                        $education_id = $ra['education_id'];
+                        $education_timing = $ra['education_timing'];
+                        $message_delay = $ra['message_delay'];
+                        $spt_path = $ra['spt_path'];
+                        $relay_host = $ra['relay_host'];
+                        $relay_username = $ra['relay_username'];
+                        $relay_password = $ra['relay_password'];
+                        $relay_port = $ra['relay_port'];
+                        $encrypt = $ra['encrypt'];
+                        $shorten = $ra['shorten'];
+                        $cron_id = $ra['cron_id'];
+                    }
+                    echo '
+                        <div id="edit_campaign">
+                                <form method="post" action="edit_campaign.php">
+                                    <div id="wizard">
+                                    <ul>
+                                        <li><a href="#wizard-1">Name & Path*</a></li>
+                                        <li><a href="#wizard-2">Schedule</a></li>
+                                        <li><a href="#wizard-3">Template</a></li>
+                                        <li><a href="#wizard-4">Education</a></li>
+                                        <li><a href="#wizard-5">SMTP Relay</a></li>
+                                        <li><a href="#wizard-6">Throttling</a></li>
+                                        <li><a href="#wizard-7">Shortener</a></li>
+                                    </ul>
+                                    <div id="wizard-1">
+                                    <table class="edit_campaign_table">
+                                        <tr><td><br /></td></tr>
+                                        <tr>
+                                            <td></td>
+                                            <td style="text-align: right;">
+                                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Specify a name for this campaign that will be displayed in the campaign list on the previous screen.  Use a descriptive name that will help you identify this campaign later.<br /><br />The Path  has been pre-populated for you with the hostname you are currently connecting to spt with.  You can create alternate DNS records that correspond with your campaigns and enter them here.  Whatever you specify in the path field is what will be used to formulate the unique link for each target.</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td colspan="2"><input type="text" name="campaign_name" value="'.$campaign_name.'" size="45" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Path</td>
+                                            <td colspan="2">
+                                                <input type="text" name="spt_path" value="'.$domain_name.'" size="45"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    </div>
+                                    <div id="wizard-2">
+                                        <table>
+                                            <tr><td><br /></td></tr>
+                                            <tr>
+                                                <td></td>
+                                                <td style="text-align: right;">
+                                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Uncheck the background checkbox if you would like for the campaign to only be run while you watch the response popover.  This will be required if your server does not support cron jobs.<br /><br />Select a Month, Day, Hour and Minute if you would like for the campaign to start at the selected time in the future.</span></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Background</td>
+                                                <td><input type="checkbox" name="background" value="Yes" CHECKED /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Start Date</td>
+                                                <td>';
+                    $crontab_output = shell_exec('crontab -l|sed -n \'/'.$cron_id.'/p\'');
+                    preg_match_all('/(\d\d|\d)/',$crontab_output,$matches);
+                    $minute = $matches[0][0];
+                    $hour = $matches[0][1];
+                    $day = $matches[0][2];
+                    $month = $matches[0][3];
+                    echo '
+                                                    <select name="start_month">
+                                                        <option value="-">Month...</option>
+                                                        <option value="1"';
+                    if($month == 1){
+                        echo "SELECTED";
+                    }
+                    echo '>January</option>
+                                                        <option value="2"';
+                    if($month == 2){
+                        echo "SELECTED";
+                    }
+                    echo '>February</option>
+                                                        <option value="3"';
+                    if($month == 3){
+                        echo "SELECTED";
+                    }
+                    echo '>March</option>
+                                                        <option value="4"';
+                    if($month == 4){
+                        echo "SELECTED";
+                    }
+                    echo '>April</option>
+                                                        <option value="5"';
+                    if($month == 5){
+                        echo "SELECTED";
+                    }
+                    echo '>May</option>
+                                                        <option value="6"';
+                    if($month == 6){
+                        echo "SELECTED";
+                    }
+                    echo '>June</option>
+                                                        <option value="7"';
+                    if($month == 7){
+                        echo "SELECTED";
+                    }
+                    echo '>July</option>
+                                                        <option value="8"';
+                    if($month == 8){
+                        echo "SELECTED";
+                    }
+                    echo '>August</option>
+                                                        <option value="9"';
+                    if($month == 9){
+                        echo "SELECTED";
+                    }
+                    echo '>September</option>
+                                                        <option value="10"';
+                    if($month == 10){
+                        echo "SELECTED";
+                    }
+                    echo '>October</option>
+                                                        <option value="11"';
+                    if($month == 11){
+                        echo "SELECTED";
+                    }
+                    echo '>November</option>
+                                                        <option value="12"';
+                    if($month == 12){
+                        echo "SELECTED";
+                    }
+                    echo '>December</option>
+                                                    </select>
+                                                    <select name="start_day">
+                                                        <option value="-">Day...</option>
+                                                        <option value="1"';
+                    if($day == 1){
+                        echo "SELECTED";
+                    }
+                    echo '>1</option>
+                                                        <option value="2"';
+                    if($day == 2){
+                        echo "SELECTED";
+                    }
+                    echo '>2</option>
+                                                        <option value="3"';
+                    if($day == 3){
+                        echo "SELECTED";
+                    }
+                    echo '>3</option>
+                                                        <option value="4"';
+                    if($day == 4){
+                        echo "SELECTED";
+                    }
+                    echo '>4</option>
+                                                        <option value="5"';
+                    if($day == 5){
+                        echo "SELECTED";
+                    }
+                    echo '>5</option>
+                                                        <option value="6"';
+                    if($day == 6){
+                        echo "SELECTED";
+                    }
+                    echo '>6</option>
+                                                        <option value="7"';
+                    if($day == 7){
+                        echo "SELECTED";
+                    }
+                    echo '>7</option>
+                                                        <option value="8"';
+                    if($day == 8){
+                        echo "SELECTED";
+                    }
+                    echo '>8</option>
+                                                        <option value="9"';
+                    if($day == 9){
+                        echo "SELECTED";
+                    }
+                    echo '>9</option>
+                                                        <option value="10"';
+                    if($day == 10){
+                        echo "SELECTED";
+                    }
+                    echo '>10</option>
+                                                        <option value="11"';
+                    if($day == 11){
+                        echo "SELECTED";
+                    }
+                    echo '>11</option>
+                                                        <option value="12"';
+                    if($day == 12){
+                        echo "SELECTED";
+                    }
+                    echo '>12</option>
+                                                        <option value="13"';
+                    if($day == 13){
+                        echo "SELECTED";
+                    }
+                    echo '>13</option>
+                                                        <option value="14"';
+                    if($day == 14){
+                        echo "SELECTED";
+                    }
+                    echo '>14</option>
+                                                        <option value="15"';
+                    if($day == 15){
+                        echo "SELECTED";
+                    }
+                    echo '>15</option>
+                                                        <option value="16"';
+                    if($day == 16){
+                        echo "SELECTED";
+                    }
+                    echo '>16</option>
+                                                        <option value="17"';
+                    if($day == 17){
+                        echo "SELECTED";
+                    }
+                    echo '>17</option>
+                                                        <option value="18"';
+                    if($day == 18){
+                        echo "SELECTED";
+                    }
+                    echo '>18</option>
+                                                        <option value="19"';
+                    if($day == 19){
+                        echo "SELECTED";
+                    }
+                    echo '>19</option>
+                                                        <option value="20"';
+                    if($day == 20){
+                        echo "SELECTED";
+                    }
+                    echo '>20</option>
+                                                        <option value="21"';
+                    if($day == 21){
+                        echo "SELECTED";
+                    }
+                    echo '>21</option>
+                                                        <option value="22"';
+                    if($day == 22){
+                        echo "SELECTED";
+                    }
+                    echo '>22</option>
+                                                        <option value="23"';
+                    if($day == 23){
+                        echo "SELECTED";
+                    }
+                    echo '>23</option>
+                                                        <option value="24"';
+                    if($day == 24){
+                        echo "SELECTED";
+                    }
+                    echo '>24</option>
+                                                        <option value="25"';
+                    if($day == 25){
+                        echo "SELECTED";
+                    }
+                    echo '>25</option>
+                                                        <option value="26"';
+                    if($day == 26){
+                        echo "SELECTED";
+                    }
+                    echo '>26</option>
+                                                        <option value="27"';
+                    if($day == 27){
+                        echo "SELECTED";
+                    }
+                    echo '>27</option>
+                                                        <option value="28"';
+                    if($day == 28){
+                        echo "SELECTED";
+                    }
+                    echo '>28</option>
+                                                        <option value="29"';
+                    if($day == 29){
+                        echo "SELECTED";
+                    }
+                    echo '>29</option>
+                                                        <option value="30"';
+                    if($day == 30){
+                        echo "SELECTED";
+                    }
+                    echo '>30</option>
+                                                        <option value="31"';
+                    if($day == 31){
+                        echo "SELECTED";
+                    }
+                    echo '>31</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Set Time</td>
+                                                <td>
+                                                    <select name="start_hour">
+                                                        <option value="-">Hour...</option>
+                                                        <option value="0"';
+                    if($hour == 0){
+                        echo "SELECTED";
+                    }
+                    echo '>0</option>
+                                                        <option value="1"';
+                    if($hour == 1){
+                        echo "SELECTED";
+                    }
+                    echo '>1</option>
+                                                        <option value="2"';
+                    if($hour == 2){
+                        echo "SELECTED";
+                    }
+                    echo '>2</option>
+                                                        <option value="3"';
+                    if($hour == 3){
+                        echo "SELECTED";
+                    }
+                    echo '>3</option>
+                                                        <option value="4"';
+                    if($hour == 4){
+                        echo "SELECTED";
+                    }
+                    echo '>4</option>
+                                                        <option value="5"';
+                    if($hour == 5){
+                        echo "SELECTED";
+                    }
+                    echo '>5</option>
+                                                        <option value="6"';
+                    if($hour == 6){
+                        echo "SELECTED";
+                    }
+                    echo '>6</option>
+                                                        <option value="7"';
+                    if($hour == 7){
+                        echo "SELECTED";
+                    }
+                    echo '>7</option>
+                                                        <option value="8"';
+                    if($hour == 8){
+                        echo "SELECTED";
+                    }
+                    echo '>8</option>
+                                                        <option value="9"';
+                    if($hour == 9){
+                        echo "SELECTED";
+                    }
+                    echo '>9</option>
+                                                        <option value="10"';
+                    if($hour == 10){
+                        echo "SELECTED";
+                    }
+                    echo '>10</option>
+                                                        <option value="11"';
+                    if($hour == 11){
+                        echo "SELECTED";
+                    }
+                    echo '>11</option>
+                                                        <option value="12"';
+                    if($hour == 12){
+                        echo "SELECTED";
+                    }
+                    echo '>12</option>
+                                                        <option value="13"';
+                    if($hour == 13){
+                        echo "SELECTED";
+                    }
+                    echo '>13</option>
+                                                        <option value="14"';
+                    if($hour == 14){
+                        echo "SELECTED";
+                    }
+                    echo '>14</option>
+                                                        <option value="15"';
+                    if($hour == 15){
+                        echo "SELECTED";
+                    }
+                    echo '>15</option>
+                                                        <option value="16"';
+                    if($hour == 16){
+                        echo "SELECTED";
+                    }
+                    echo '>16</option>
+                                                        <option value="17"';
+                    if($hour == 17){
+                        echo "SELECTED";
+                    }
+                    echo '>17</option>
+                                                        <option value="18"';
+                    if($hour == 18){
+                        echo "SELECTED";
+                    }
+                    echo '>18</option>
+                                                        <option value="19"';
+                    if($hour == 19){
+                        echo "SELECTED";
+                    }
+                    echo '>19</option>
+                                                        <option value="20"';
+                    if($hour == 20){
+                        echo "SELECTED";
+                    }
+                    echo '>20</option>
+                                                        <option value="21"';
+                    if($hour == 21){
+                        echo "SELECTED";
+                    }
+                    echo '>21</option>
+                                                        <option value="22"';
+                    if($hour == 22){
+                        echo "SELECTED";
+                    }
+                    echo '>22</option>
+                                                        <option value="23"';
+                    if($hour == 23){
+                        echo "SELECTED";
+                    }
+                    echo '>23</option>
+                                                        
+                                                    </select>
+                                                    <select name="start_minute">
+                                                        <option value="-">Minute...</option>
+                                                        <option value="0"';
+                    if($minute == 0){
+                        echo "SELECTED";
+                    }
+                    echo '>0</option>
+                                                        <option value="1"';
+                    if($minute == 1){
+                        echo "SELECTED";
+                    }
+                    echo '>1</option>
+                                                        <option value="2"';
+                    if($minute == 2){
+                        echo "SELECTED";
+                    }
+                    echo '>2</option>
+                                                        <option value="3"';
+                    if($minute == 3){
+                        echo "SELECTED";
+                    }
+                    echo '>3</option>
+                                                        <option value="4"';
+                    if($minute == 4){
+                        echo "SELECTED";
+                    }
+                    echo '>4</option>
+                                                        <option value="5"';
+                    if($minute == 5){
+                        echo "SELECTED";
+                    }
+                    echo '>5</option>
+                                                        <option value="6"';
+                    if($minute == 6){
+                        echo "SELECTED";
+                    }
+                    echo '>6</option>
+                                                        <option value="7"';
+                    if($minute == 7){
+                        echo "SELECTED";
+                    }
+                    echo '>7</option>
+                                                        <option value="8"';
+                    if($minute == 8){
+                        echo "SELECTED";
+                    }
+                    echo '>8</option>
+                                                        <option value="9"';
+                    if($minute == 9){
+                        echo "SELECTED";
+                    }
+                    echo '>9</option>
+                                                        <option value="10"';
+                    if($minute == 10){
+                        echo "SELECTED";
+                    }
+                    echo '>10</option>
+                                                        <option value="11"';
+                    if($minute == 11){
+                        echo "SELECTED";
+                    }
+                    echo '>11</option>
+                                                        <option value="12"';
+                    if($minute == 12){
+                        echo "SELECTED";
+                    }
+                    echo '>12</option>
+                                                        <option value="13"';
+                    if($minute == 13){
+                        echo "SELECTED";
+                    }
+                    echo '>13</option>
+                                                        <option value="14"';
+                    if($minute == 14){
+                        echo "SELECTED";
+                    }
+                    echo '>14</option>
+                                                        <option value="15"';
+                    if($minute == 15){
+                        echo "SELECTED";
+                    }
+                    echo '>15</option>
+                                                        <option value="16"';
+                    if($minute == 16){
+                        echo "SELECTED";
+                    }
+                    echo '>16</option>
+                                                        <option value="17"';
+                    if($minute == 17){
+                        echo "SELECTED";
+                    }
+                    echo '>17</option>
+                                                        <option value="18"';
+                    if($minute == 18){
+                        echo "SELECTED";
+                    }
+                    echo '>18</option>
+                                                        <option value="19"';
+                    if($minute == 19){
+                        echo "SELECTED";
+                    }
+                    echo '>19</option>
+                                                        <option value="20"';
+                    if($minute == 20){
+                        echo "SELECTED";
+                    }
+                    echo '>20</option>
+                                                        <option value="21"';
+                    if($minute == 21){
+                        echo "SELECTED";
+                    }
+                    echo '>21</option>
+                                                        <option value="22"';
+                    if($minute == 22){
+                        echo "SELECTED";
+                    }
+                    echo '>22</option>
+                                                        <option value="23"';
+                    if($minute == 23){
+                        echo "SELECTED";
+                    }
+                    echo '>23</option>
+                                                        <option value="24"';
+                    if($minute == 24){
+                        echo "SELECTED";
+                    }
+                    echo '>24</option>
+                                                        <option value="25"';
+                    if($minute == 25){
+                        echo "SELECTED";
+                    }
+                    echo '>25</option>
+                                                        <option value="26"';
+                    if($minute == 26){
+                        echo "SELECTED";
+                    }
+                    echo '>26</option>
+                                                        <option value="27"';
+                    if($minute == 27){
+                        echo "SELECTED";
+                    }
+                    echo '>27</option>
+                                                        <option value="28"';
+                    if($minute == 28){
+                        echo "SELECTED";
+                    }
+                    echo '>28</option>
+                                                        <option value="29"';
+                    if($minute == 29){
+                        echo "SELECTED";
+                    }
+                    echo '>29</option>
+                                                        <option value="30"';
+                    if($minute == 30){
+                        echo "SELECTED";
+                    }
+                    echo '>30</option>
+                                                        <option value="31"';
+                    if($minute == 31){
+                        echo "SELECTED";
+                    }
+                    echo '>31</option>
+                                                        <option value="32"';
+                    if($minute == 32){
+                        echo "SELECTED";
+                    }
+                    echo '>32</option>
+                                                        <option value="33"';
+                    if($minute == 33){
+                        echo "SELECTED";
+                    }
+                    echo '>33</option>
+                                                        <option value="34"';
+                    if($minute == 34){
+                        echo "SELECTED";
+                    }
+                    echo '>34</option>
+                                                        <option value="35"';
+                    if($minute == 35){
+                        echo "SELECTED";
+                    }
+                    echo '>35</option>
+                                                        <option value="36"';
+                    if($minute == 36){
+                        echo "SELECTED";
+                    }
+                    echo '>36</option>
+                                                        <option value="37"';
+                    if($minute == 37){
+                        echo "SELECTED";
+                    }
+                    echo '>37</option>
+                                                        <option value="38"';
+                    if($minute == 38){
+                        echo "SELECTED";
+                    }
+                    echo '>38</option>
+                                                        <option value="39"';
+                    if($minute == 39){
+                        echo "SELECTED";
+                    }
+                    echo '>39</option>
+                                                        <option value="40"';
+                    if($minute == 40){
+                        echo "SELECTED";
+                    }
+                    echo '>40</option>
+                                                        <option value="41"';
+                    if($minute == 41){
+                        echo "SELECTED";
+                    }
+                    echo '>41</option>
+                                                        <option value="42"';
+                    if($minute == 42){
+                        echo "SELECTED";
+                    }
+                    echo '>42</option>
+                                                        <option value="43"';
+                    if($minute == 43){
+                        echo "SELECTED";
+                    }
+                    echo '>43</option>
+                                                        <option value="44"';
+                    if($minute == 44){
+                        echo "SELECTED";
+                    }
+                    echo '>44</option>
+                                                        <option value="45"';
+                    if($minute == 45){
+                        echo "SELECTED";
+                    }
+                    echo '>45</option>
+                                                        <option value="46"';
+                    if($minute == 46){
+                        echo "SELECTED";
+                    }
+                    echo '>46</option>
+                                                        <option value="47"';
+                    if($minute == 47){
+                        echo "SELECTED";
+                    }
+                    echo '>47</option>
+                                                        <option value="48"';
+                    if($minute == 48){
+                        echo "SELECTED";
+                    }
+                    echo '>48</option>
+                                                        <option value="49"';
+                    if($minute == 49){
+                        echo "SELECTED";
+                    }
+                    echo '>49</option>
+                                                        <option value="50"';
+                    if($minute == 50){
+                        echo "SELECTED";
+                    }
+                    echo '>50</option>
+                                                        <option value="51"';
+                    if($minute == 51){
+                        echo "SELECTED";
+                    }
+                    echo '>51</option>
+                                                        <option value="52"';
+                    if($minute == 52){
+                        echo "SELECTED";
+                    }
+                    echo '>52</option>
+                                                        <option value="53"';
+                    if($minute == 53){
+                        echo "SELECTED";
+                    }
+                    echo '>53</option>
+                                                        <option value="54"';
+                    if($minute == 54){
+                        echo "SELECTED";
+                    }
+                    echo '>54</option>
+                                                        <option value="55"';
+                    if($minute == 55){
+                        echo "SELECTED";
+                    }
+                    echo '>55</option>
+                                                        <option value="56"';
+                    if($minute == 56){
+                        echo "SELECTED";
+                    }
+                    echo '>56</option>
+                                                        <option value="57"';
+                    if($minute == 57){
+                        echo "SELECTED";
+                    }
+                    echo '>57</option>
+                                                        <option value="58"';
+                    if($minute == 58){
+                        echo "SELECTED";
+                    }
+                    echo '>58</option>
+                                                        <option value="59"';
+                    if($minute == 59){
+                        echo "SELECTED";
+                    }
+                    echo '>59</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div id="wizard-3">
+                                    <table>
+                                        <tr><td><br /></td></tr>
+                                        <tr>
+                                            <td></td>
+                                            <td style="text-align: right;">
+                                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the template that will be used for this campaign.  You can view/edit the email by going to the editor module and editing the respective email.php file.  Be careful, as editing this file will edit the email for all future campaigns that use this template.</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email/Webpage</td>
+                                            <td colspan="2">
+                                                <select name = "template_id">';
+                    //connect to database
+                    include('../spt_config/mysql_config.php');
+                    //query for all groups
+                    $r = mysql_query ( 'SELECT id, name FROM templates' );
+                    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                        if ( isset ( $_SESSION['temp_template_id'] ) && $_SESSION['temp_template_id'] == $ra['id'] ) {
+                            echo "<option value=" . $ra['id'] . " selected=\"selected\">" . $ra['name'] . "</option>";
+                        } else {
+                            echo "<option value=" . $ra['id'] . ">" . $ra['name'] . "</option>";
+                        }
+                    }
+                    unset ( $_SESSION['temp_template_id'] );
+                    echo '
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <!--<tr>
+                                            <td>Email</td>
+                                            <td colspan="2">View/Edit Email link coming soon...</td>
+                                        </tr>-->
+                                    </table>
+                                    </div>
+                                    <div id="wizard-4">
+                                    <table>
+                                        <tr><td><br /></td></tr>
+                                        <tr>
+                                            <td></td>
+                                            <td style="text-align: right;">
+                                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the education package that the target will be directed to.  Select "Education on link click" if you would like the targets to bypass the template\'s webpage and go directly to training.  Select "Educate on form submission" if you would like the target to be directed to training after they have submitted a form on your template\'s webpage.</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Package</td>
+                                            <td colspan="2">
+                                                <select name = "education_id">';
+                    //connect to database
+                    include('../spt_config/mysql_config.php');
+                    //query for all groups
+                    $r = mysql_query ( 'SELECT id, name FROM education' );
+                    while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                        if ( isset ( $_SESSION['temp_education_id'] ) && $_SESSION['temp_education_id'] == $ra['id'] ) {
+                            echo "<option value=" . $ra['id'] . " selected=\"selected\" >" . $ra['name'] . "</option>";
+                        }
+                        echo "<option value=" . $ra['id'] . ">" . $ra['name'] . "</option>";
+                    }
+                    unset ( $_SESSION['temp_education_id'] );
+                    echo '
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td colspan="2"><input type="radio" name="education_timing" value="1"';
+                    if ( !isset ( $_SESSION['temp_education_timing'] ) OR $_SESSION['temp_education_timing'] != 2 ) {
+                        echo "CHECKED";
+                    }
+                    echo '/> Educate on link click<br /><input type="radio" name="education_timing" value="2"';
+                    if ( isset ( $_SESSION['temp_education_timing'] ) && $_SESSION['temp_education_timing'] == 2 ) {
+                        echo "CHECKED";
+                        unset ( $_SESSION['temp_education_timing'] );
+                    }
+                    echo '            
+                                            /> Educate on form submission</td>
+                                        </tr>
+                                    </table>
+                                    </div>
+                                    <div id="wizard-5">
+                                    <table>
+                                        <tr><td><br /></td></tr>
+                                        <tr>
+                                            <td></td>
+                                            <td style="text-align: right;">
+                                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter your SMTP relay\'s details if necessary.  You may also enter credentials if your SMTP requires authentication.  If you leave these fields blank, spt will act as an SMTP server and send emails directly to the destination\'s mail gateway based on the MX records published by your target\'s domain.</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Host</td>
+                                            <td colspan="2"><input type="text" name="relay_host" size="30"';
+                    if ( isset ( $_SESSION['temp_relay_host'] ) ) {
+                        echo "value=\"" . $_SESSION['temp_relay_host'] . "\"";
+                        unset ( $_SESSION['temp_relay_host'] );
+                    }
+                    echo '                   /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Port</td>
+                                            <td colspan="2"><input type="text" name="relay_port" size="6"';
+                    if ( isset ( $_SESSION['temp_relay_port'] ) ) {
+                        echo "value=\"" . $_SESSION['temp_relay_port'] . "\"";
+                        unset ( $_SESSION['temp_relay_port'] );
+                    } else {
+                        echo "value=\"25\"";
+                    }
+                    echo '                                            
+                                            /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>SSL</td>
+                                            <td colspan="2">';
+                    $transports = stream_get_transports ();
+                    if ( (array_search ( "ssl", $transports )) OR (array_search ( "tls", $transports )) ) {
+                        echo "<input type=\"checkbox\" name=\"ssl\" ";
+                        if ( isset ( $_SESSION['temp_ssl'] ) ) {
+                            echo "CHECKED";
+                            unset ( $_SESSION['temp_ssl'] );
+                        }
+                        echo "/><br />";
+                    } else {
+                        echo "<a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>Missing SSL or TLS transport.</span></a>";
+                    }
+                    echo '                        
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Username</td>
+                                            <td colspan="2"><input type="text" name="relay_username"';
+                    if ( isset ( $_SESSION['temp_relay_username'] ) ) {
+                        echo "value=\"" . $_SESSION['temp_relay_username'] . "\"";
+                        unset ( $_SESSION['temp_relay_username'] );
+                    }
+                    echo '                        
+                                            /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Password</td>
+                                            <td colspan="2"><input type="password" name="relay_password" /></td>
+                                        </tr>
+                                    </table>
+                                    </div>
+                                    <div id="wizard-6">
+                                    <table>
+                                        <tr><td><br /></td></tr>
+                                        <tr>
+                                            <td></td>
+                                            <td style="text-align: right;">
+                                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>By default spt will send an email every second (or 1000 ms).  You can change the default message delay to 100 ms and batches of 10 emails will be sent each second.  Or you can create as high as a 1 minute delay between each message by specifying 60000 ms between each message.</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Delay</td>
+                                            <td colspan="2"><input type="text" name="message_delay"';
+                    if ( isset ( $_SESSION['temp_message_delay'] ) ) {
+                        echo "value=\"" . $_SESSION['temp_message_delay'] . "\"";
+                        unset ( $_SESSION['temp_message_delay'] );
+                    } else {
+                        echo "value=\"1000\"";
+                    }
+                    echo '                    
+                                            />&nbsp;<i>ms</i> (100-60000)</td>
+
+                                        </tr>
+                                    </table>
+                                    </div>
+                                    <div id="wizard-7">
+                                    <table>
+                                        <tr><td><br /></td></tr>
+                                        <tr>
+                                            <td></td>
+                                            <td style="text-align: right;">
+                                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>If you want to further mask the phishing link in your emails using a popular URL shortening service, select the service below you\'d like to shorten with.<br /><br />You may have to provide an API key for some services by opening the Shorten button at the top of this page.</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4"><input type="radio" name="shorten_radio" value="Google"';
+                    if ( isset ( $_SESSION['temp_shorten'] ) && $_SESSION['temp_shorten'] == "google" ) {
+                        echo "checked";
+                        unset ( $_SESSION['temp_shorten'] );
+                    }
+                    echo '                    
+                                                    />&nbsp;Google&nbsp;&nbsp;
+                                                <input type="radio" name="shorten_radio" value="TinyURL"';
+                   if ( isset ( $_SESSION['temp_shorten'] ) && $_SESSION['temp_shorten'] == "tinyurl" ) {
+                       echo "checked";
+                       unset ( $_SESSION['temp_shorten'] );
+                   }
+                   echo '
+                                                    />&nbsp;TinyURL&nbsp;&nbsp;
+                                                <input type="radio" name="shorten_radio" value="None"';
+                   if ( isset ( $_SESSION['temp_shorten'] ) && $_SESSION['temp_shorten'] == "none" ) {
+                       echo "checked";
+                       unset ( $_SESSION['temp_shorten'] );
+                   }
+                   echo '
+                                                    />&nbsp;None&nbsp;&nbsp;</td>
+                                        </tr>';
+                    if ( isset ( $_SESSION['alert_message'] ) ) {
+                        echo "<tr><td colspan=3 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
+                    }
+                    echo '
+                                    </table>
+                                    </div>
+                                    <table>
+                                        <tr>
+                                            <td colspan="3" style="text-align: center;"><br /><a href=".#tabs-1"><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/accept.png" alt="accept" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <input type="hidden" name="campaign_id" value="'.$campaign_id.'" />
                             </form>
                         </div>';
                 }
@@ -897,10 +1846,8 @@ if ( file_exists ( $includeContent ) ) {
                                 <td><h3>Target Groups</h3></td>
                                 <td><h3>Template</h3></td>
                                 <td><h3>Education</h3></td>
-                                <td><h3>Links</h3></td>
-                                <td><h3>Posts</h3></td>
-                                <td><h3>Progress</h3></td>
-                                <td><h3>Delete</h3></td>
+                                <td><h3>Start Time</h3></td>
+                                <td><h3>Actions</h3></td>
                             </tr>
                             <?php
                                 //connect to database
@@ -910,7 +1857,7 @@ if ( file_exists ( $includeContent ) ) {
                                 while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                     echo "
                                             <tr>
-                                                <td><a href=\"?c=" . $ra['id'] . "&responses=true#tabs-2\">" . $ra['campaign_name'] . "</a></td>\n
+                                                <td><a href=\"?c=" . $ra['id'] . "&edit_campaign=true#tabs-2\">" . $ra['campaign_name'] . "</a></td>\n
                                                 <td>";
                                     $campaign_id = $ra['id'];
                                     //pull in groups
@@ -921,20 +1868,31 @@ if ( file_exists ( $includeContent ) ) {
                                     echo "</td>";
                                     echo "<td><a href=\"../templates/" . $ra['template_id'] . "/\" target=\"_blank\">" . $ra['name'] . "</a></td>\n";
                                     echo "<td><a href=\"../education/" . $ra['education_id'] . "/\" target=\"_blank\">" . $ra['education_name'] . "</a></td>\n";
-                                    $r2 = mysql_query ( "SELECT count(target_id) as count, sum(link) as link, sum(if(length(post) > 0, 1, 0)) as post FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                                    while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
-                                        $link = $ra2['link'];
-                                        $post = $ra2['post'];
+                                    //get cron_id
+                                    $r1 = mysql_query("SELECT cron_id FROM campaigns WHERE id = '$campaign_id'");
+                                    while($ra1 = mysql_fetch_assoc($r1)){
+                                        $cron_id = $ra1['cron_id'];
+                                        $crontab_output = shell_exec('crontab -l|sed -n \'/'.$cron_id.'/p\'');
+                                        preg_match_all('/(\d\d|\d)/',$crontab_output,$matches);
+                                        $minute = $matches[0][0];
+                                        $hour = $matches[0][1];
+                                        $day = $matches[0][2];
+                                        $month = $matches[0][3];
+                                        if(strlen($minute) == 1){
+                                            $minute = "0".$minute;
+                                        }
+                                        if(strlen($hour) == 1){
+                                            $hour = "0".$hour;
+                                        }
+                                        if(strlen($day) == 1){
+                                            $day = "0".$day;
+                                        }
+                                        if(strlen($month) == 1){
+                                            $month = "0".$month;
+                                        }
+                                        $date = $month."-".$day." ".$hour.":".$minute;
+                                        echo "<td>".$date."</td>";
                                     }
-                                    echo "<td><a href=\"?c=" . $ra['id'] . "&amp;f=link&responses=true#tabs-2\">" . $link . "</a></td><td><a href=\"?c=" . $ra['id'] . "&amp;f=post&responses=true#tabs-2\">" . $post . "</a></td>";
-                                    echo "<td>";
-                                    $r5 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent != 0" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                                    $r6 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                                    $sent = mysql_num_rows ( $r5 );
-                                    $total = mysql_num_rows ( $r6 );
-                                    $percentage = ceil ( ($sent / $total) * 100 );
-                                    echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
-                                    echo "</td>";
                                     echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "&tab_return=2\"><img src=\"../images/report_delete_sm.png\" alt=\"delete\" /></a></td>";
                                     echo "</tr>";
                                 }

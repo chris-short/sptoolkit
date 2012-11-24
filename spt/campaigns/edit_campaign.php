@@ -1,8 +1,8 @@
 <?php
 
 /**
- * file:    start_campaign.php
- * version: 36.0
+ * file:    edit_campaign.php
+ * version: 1.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,10 +41,6 @@ if ( file_exists ( $includeContent ) ) {
 $campaign_name = $_POST['campaign_name'];
 if ( ! empty ( $campaign_name ) ) {
     $_SESSION['temp_campaign_name'] = $campaign_name;
-}
-$target_groups = $_POST['target_groups'];
-if ( ! empty ( $target_groups ) ) {
-    $_SESSION['temp_target_groups'] = $target_groups;
 }
 $template_id = $_POST['template_id'];
 if ( ! empty ( $template_id ) ) {
@@ -120,12 +116,6 @@ if ( strlen ( $campaign_name ) < 1 ) {
     header ( 'location:./?add_campaign=true#tabs-1' );
     exit;
 }
-//ensure a target group was selected
-if ( ! isset ( $target_groups ) ) {
-    $_SESSION['alert_message'] = "please select at least one target group";
-    header ( 'location:./?add_campaign=true#tabs-1' );
-    exit;
-}
 //ensure a template is selected
 if ( ! isset ( $template_id ) ) {
     $_SESSION['alert_message'] = "please select a template";
@@ -174,23 +164,11 @@ if(isset($background) && $background == 'Yes'){
 }else{
     $background = 'N';
 }
+if(isset($_POST['campaign_id'])){
+    $campaign_id = $_POST['campaign_id'];
+}
 //connect to database
 include "../spt_config/mysql_config.php";
-//take each value in the array and validate that it is a valid group name
-foreach ( $target_groups as $group ) {
-    $r = mysql_query ( "SELECT DISTINCT group_name FROM targets" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
-    while ( $ra = mysql_fetch_assoc ( $r ) ) {
-        if ( $group == $ra['group_name'] ) {
-            $match = 1;
-        }
-    }
-    if ( ! isset ( $match ) ) {
-        $_SESSION['alert_message'] = "invalid group";
-        header ( 'location:./?add_campaign=true#tabs-1' );
-        exit;
-    }
-}
-
 //validate the template exists
 $r = mysql_query ( "SELECT id FROM templates" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
@@ -203,7 +181,6 @@ if ( ! isset ( $match0 ) ) {
     header ( 'location:./?add_campaign=true#tabs-1' );
     exit;
 }
-
 //validate the education package exists
 $r = mysql_query ( 'SELECT id FROM education' ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
@@ -216,7 +193,6 @@ if ( ! isset ( $match1 ) ) {
     header ( 'location:./?add_campaign=true#tabs-1' );
     exit;
 }
-
 //validate the education timing if set
 if ( isset ( $education_timing ) ) {
     if ( $education_timing == 1 OR $education_timing == 2 ) {
@@ -231,7 +207,6 @@ if ( $match2 != 1 ) {
     header ( 'location:./?add_campaign=true#tabs-1' );
     exit;
 }
-
 //if Google shortener is selected validate that their is an API stored in the database
 if(isset($shorten) && $shorten == "Google"){
     //query database for a Google API
@@ -242,7 +217,6 @@ if(isset($shorten) && $shorten == "Google"){
         exit;
     }
 }
-
 //validate the message delay
 if ( isset ( $message_delay ) ) {
     //ensure the message delay is greater than 100 ms
@@ -267,7 +241,15 @@ if ( isset ( $message_delay ) ) {
     //if for some reason the message delay is not set, give it the default value of 1 second
     $message_delay = 1000;
 }
-
+//delete the existing cron job
+$r = mysql_query("SELECT cron_id FROM campaigns WHERE id = '$campaign_id'");
+while($ra = mysql_fetch_assoc($r)){
+    $cron_id = $ra['cron_id'];
+}
+$output = shell_exec('crontab -l|sed \'/'.$cron_id.'/d\'');
+file_put_contents('/tmp/crontab.txt', $output.PHP_EOL);
+echo exec('crontab /tmp/crontab.txt');
+echo exec('rm /tmp/crontab.txt');
 //check to see if the campaign has been scheduled and if so schedule a cron job to start it otherwise start it immediately
 if (isset($start_month)){
     //formulate cron date and time
@@ -280,13 +262,8 @@ if (isset($start_month)){
     } else {
         $request_protocol = "http";
     }
-    //create the campaign
-    mysql_query ( "INSERT INTO campaigns (campaign_name, template_id, domain_name, education_id, education_timing, date_sent, message_delay, status, spt_path, cron_id) VALUES ('$campaign_name', '$template_id', '$spt_path', '$education_id', '$education_timing', '$date_sent', '$message_delay', 0, '$spt_path', '$cron_id')" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
-    //get the id of this campaign
-    $r = mysql_query ( "SELECT MAX(id) as campaign_id FROM campaigns" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
-    while ( $ra = mysql_fetch_assoc ( $r ) ) {
-        $campaign_id = $ra['campaign_id'];
-    }
+    //update the campaign
+    mysql_query ( "UPDATE campaigns SET campaign_name = '$campaign_name', template_id = '$template_id', domain_name = '$domain_name', education_id = '$education_id', education_timing = '$education_timing', message_delay = '$message_delay', status = 0, cron_id = '$cron_id' WHERE id = '$campaign_id'" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
     //get path
     $path = '127.0.0.1' . $_SERVER['REQUEST_URI'];
     //replace start_campaignn with faux_user
@@ -300,14 +277,8 @@ if (isset($start_month)){
     echo exec('rm /tmp/crontab.txt');
     $scheduled = "Y";
 }else{
-    //create the campaign
-    mysql_query ( "INSERT INTO campaigns (campaign_name, template_id, domain_name, education_id, education_timing, date_sent, message_delay, status, spt_path) VALUES ('$campaign_name', '$template_id', '$spt_path', '$education_id', '$education_timing', '$date_sent', '$message_delay', 1, '$spt_path')" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
-
-    //get the id of this campaign
-    $r = mysql_query ( "SELECT MAX(id) as campaign_id FROM campaigns" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
-    while ( $ra = mysql_fetch_assoc ( $r ) ) {
-        $campaign_id = $ra['campaign_id'];
-    }
+    //update the campaign
+    mysql_query ( "UPDATE campaigns SET campaign_name = '$campaign_name', template_id = '$template_id', domain_name = '$domain_name', education_id = '$education_id', education_timing = '$education_timing', message_delay = '$message_delay', status = 1, cron_id = '' WHERE id = '$campaign_id'" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
 }
 //update relay host if its set
 if ( isset ( $relay_host ) ) {
@@ -334,24 +305,6 @@ if ( isset ( $shorten ) ) {
     mysql_query ( "UPDATE campaigns SET shorten = '$shorten' WHERE id='$campaign_id'" );
 }else{
     mysql_query("UPDATE campaigns SET shorten = 'none' WHERE id = '$campaign_id'");
-}
-//link the campaign id and group name while retrieving all applicable targets
-foreach ( $target_groups as $group ) {
-    //link campaign id and group names
-    mysql_query ( "INSERT INTO campaigns_and_groups (campaign_id, group_name) VALUES ('$campaign_id','$group')" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
-
-    //retrieve all targets from group
-    $r = mysql_query ( "SELECT id FROM targets WHERE group_name = '$group'" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
-    while ( $ra = mysql_fetch_assoc ( $r ) ) {
-        $target_id = $ra['id'];
-
-        //generate a random key
-        $random_number = mt_rand ( 1000000000, 9999999999 );
-        $response_id = sha1 ( $random_number );
-
-        //populate the campaign response table with placeholders for when the target clicks the links or posts data
-        mysql_query ( "INSERT INTO campaigns_responses (target_id, campaign_id, response_id, sent) VALUES ('$target_id', '$campaign_id', '$response_id', 0)" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
-    }
 }
 //unset temp variables
 unset($_SESSION['temp_campaign_name']);
