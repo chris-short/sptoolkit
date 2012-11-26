@@ -271,7 +271,7 @@ echo
 echo -e "\E[1;32m  ** Support:  http://www.sptoolkit.com/forums  |  Documentation:  http://www.sptoolkit.com/documentation **"
 echo -e "\E[1;32m  ** Follow @sptoolkit (https://twitter.com/#!/sptoolkit) for updates and notifications. **"
 echo && echo && echo
-
+echo -e -n "\E[0;37m"
 
 #References:
 #String comparison:  http://tldp.org/LDP/abs/html/comparison-ops.html, http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html
