@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 36.0
+ * version: 37.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -235,7 +235,7 @@ if ( $match2 != 1 ) {
 //if Google shortener is selected validate that their is an API stored in the database
 if(isset($shorten) && $shorten == "Google"){
     //query database for a Google API
-    $r = mysql_query("SELECT service, api_key FROM campaigns_shorten WHERE service = 'Google'");
+    $r = mysql_query("SELECT setting, value FROM settings WHERE setting = 'google_api'");
     if(mysql_num_rows($r) != 1){
         $_SESSION['alert_message'] = "you must enter your Google API key before trying to use the Google Shortener";
         header('location:./?add_campaign=true#tabs-1');

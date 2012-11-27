@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 20.0
+ * version: 21.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -228,7 +228,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         include "../spt_config/mysql_config.php";
 
         //get API key
-        $r_api = mysql_query("SELECT api_key FROM campaigns_shorten WHERE service = 'Google'");
+        $r_api = mysql_query("SELECT value FROM settings WHERE setting = 'google_api'");
         while ($ra = mysql_fetch_assoc ( $r_api)){
                     $apiKey = $ra['api_key'];
                 }
