@@ -2,7 +2,7 @@
 
 /**
  * file:    response.php
- * version: 8.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -81,22 +81,26 @@ else {
     include "../spt_config/mysql_config.php";
     //validate that the response id is legit
     $r = mysql_query ( "SELECT response_id FROM campaigns_responses WHERE response_id = '$response_id'" );
-    if ( mysql_num_rows ( $r ) == 1 ) {
+    if ( mysql_num_rows ( $r ) > 0 ) {
         $match = 1;
     }
     //if a match happened record that they clicked the link
-    if ( isset ( $match ) ) {
+    if ( isset ( $match ) && $match == 1 ) {
         //get campaign id for this response
-        $r = mysql_query ( "SELECT campaign_id, target_id, link FROM campaigns_responses WHERE response_id = '$response_id'" );
+        $r = mysql_query ( "SELECT campaign_id, target_id, link, sent, sent_time FROM campaigns_responses WHERE response_id = '$response_id'" );
         while ( $ra = mysql_fetch_assoc ( $r ) ) {
             $campaign_id = $ra['campaign_id'];
             $target_id = $ra['target_id'];
             $link = $ra['link'];
+            $sent = $ra['sent'];
+            $sent_time = $ra['sent_time'];
+            $url = $ra['url'];
+            $response_log = $ra['response_log'];
         }
         if($link == 0){
             mysql_query ( "UPDATE campaigns_responses SET link = 1, ip = '$target_ip', os = '$os', browser = '$browser_type', browser_version = '$browser_version', link_time = '$link_time'  WHERE response_id = '$response_id'" );
         }else{
-            mysql_query ( "INSERT INTO campaigns_responses (target_id, campaign_id, response_id, link, ip, os, browser, browser_version, link_time) VALUES ('$target_id', '$campaign_id', '$response_id', 1, '$target_ip', '$os', '$browser_type', '$browser_version', '$link_time'" );
+            mysql_query ( "INSERT INTO campaigns_responses (target_id, campaign_id, response_id, link, ip, os, browser, browser_version, link_time, sent, sent_time, url, response_log) VALUES ('$target_id', '$campaign_id', '$response_id', 1, '$target_ip', '$os', '$browser_type', '$browser_version', '$link_time', '$sent', '$sent_time', '$url', '$response_log')" );
         }
         //determine what template and education this campaign is using
         $r = mysql_query ( "SELECT template_id, education_id, education_timing FROM campaigns WHERE id = '$campaign_id'" );
