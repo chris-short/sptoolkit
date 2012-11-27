@@ -2,7 +2,7 @@
 
 /**
  * file:    faux_user.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -43,7 +43,7 @@ if(isset($_GET['cron_id']) && isset($_GET['c'])){
         $r = mysql_query("SELECT status FROM campaigns WHERE id = '$campaign_id'");
         while ($ra = mysql_fetch_assoc($r)){
             if($ra['status'] == 0){
-                mysql_query("UPDATE campaigns SET (status = 1) WHERE id = '$campaign_id'");
+                mysql_query("UPDATE campaigns SET status = 1 WHERE id = '$campaign_id'");
             }
         }
         //ensure campaign status is set to active

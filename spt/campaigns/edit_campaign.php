@@ -2,7 +2,7 @@
 
 /**
  * file:    edit_campaign.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -266,11 +266,11 @@ if (isset($start_month)){
     //get path
     $path = '127.0.0.1' . $_SERVER['REQUEST_URI'];
     //replace start_campaignn with faux_user
-    $path = preg_replace('/start_campaign/', 'faux_user', $path);
+    $path = preg_replace('/edit_campaign/', 'faux_user', $path);
     //construct url that needs to be hit based on cronjob
     $cron_url = "'".$request_protocol."://".$path."?c=".$campaign_id."&cron_id=".$cron_id."'";
     //create a cronjob to come back and start the campaign
-    $output = shell_exec('crontab -l');
+    $output = shell_exec('crontab -l|sed \'/^$/d\'');
     file_put_contents('/tmp/crontab.txt', $output.$cron_start_date.'curl '.$cron_url.PHP_EOL);
     echo exec('crontab /tmp/crontab.txt');
     echo exec('rm /tmp/crontab.txt');
@@ -357,7 +357,7 @@ if($background == 'Y'){
     //get path
     $path = '127.0.0.1' . $_SERVER['REQUEST_URI'];
     //replace start_campaignn with faux_user
-    $path = preg_replace('/start_campaign/', 'faux_user', $path);
+    $path = preg_replace('/edit_campaign/', 'faux_user', $path);
     //construct url that needs to be hit based on cronjob
     $cron_url = "'".$request_protocol."://".$path."?c=".$campaign_id."&cron_id=".$cron_id."'";
     //create a cronjob to come back and start the campaign

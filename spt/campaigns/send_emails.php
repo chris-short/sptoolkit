@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 19.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -88,6 +88,15 @@ if ( $ra == 0 ) {
     $date_ended = date ( "F j, Y, g:i a" );
     //set campaign to complete and record date/time
     mysql_query ( "UPDATE campaigns SET status = 3, date_ended = '$date_ended' WHERE id = '$campaign_id'" );
+    //delete the existing cron job if there is one
+    $r = mysql_query("SELECT cron_id FROM campaigns WHERE id = '$campaign_id'");
+    while($ra = mysql_fetch_assoc($r)){
+        $cron_id = $ra['cron_id'];
+        $output = shell_exec('crontab -l|sed \'/'.$cron_id.'/d\'');
+        file_put_contents('/tmp/crontab.txt', $output.PHP_EOL);
+        echo exec('crontab /tmp/crontab.txt');
+        echo exec('rm /tmp/crontab.txt');
+    }
     echo "stop";
     exit;
 }
