@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap.php
- * version: 12.0
+ * version: 13.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Includes
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,7 +30,7 @@ function ldap_connection($ldap_server,$ldap_port, $ssl_enc){
             $ldap_conn = ldap_connect("https://".$ldap_server.":".$ldap_port."/");
         }else{
             $ldap_conn = ldap_connect("https://".$ldap_server."/");    
-        }
+    }
     }else{
         //setup connection
         $ldap_conn = ldap_connect($ldap_server,$ldap_port);    
@@ -70,7 +70,7 @@ function ldap_user_query($ldap_server,$ldap_port,$ldap_bind_user,$ldap_pass,$lda
     return $ldap_user_query;
 }
 //ldap email to user query
-function ldap_user_email_query($ldap_server,$ldap_port,$ldap_bind_user,$ldap_pass,$ldap_basedn, $ldap_ssl_enc, $ldap_type, $ldap_email){
+function ldap_user_email_query($ldap_server,$ldap_port,$ldap_bind_user,$ldap_pass,$ldap_basedn, $ssl_enc, $ldap_type, $ldap_email){
     //call connect function
     $ldap_conn = ldap_connection($ldap_server,$ldap_port, $ssl_enc);
     //call bind function
@@ -78,10 +78,10 @@ function ldap_user_email_query($ldap_server,$ldap_port,$ldap_bind_user,$ldap_pas
     //setup search and filter depending on the authentication directory type
     if($ldap_type == "Active Directory"){
         $search = "(mail=".$ldap_email.")";
-        $filter=array("dn", "sAMAccountName");    
+        $filter=array("dn", "sAMAccountName", "givenName", "sn");    
     }else{
         $search = "(mail=".$ldap_email.")";
-        $filter=array("dn", "uid");
+        $filter=array("dn", "uid", "givenName", "sn");
     }
     //search
     $ldap_user_query = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    

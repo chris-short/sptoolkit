@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 23.0
+ * version: 24.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -294,7 +294,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <form id="add_ldap_user_form" method="post" action="add_ldap_user.php" >
                                     <table id="add_ldap_user_table">
                     ';
-                    if($ldap_server_flag == 1){
+                    if(isset($ldap_server_flag) && $ldap_server_flag == 1){
                         echo "
                                         <tr>
                                             <td>Please go to Settings and configure an ldap server first.</td>
@@ -360,7 +360,7 @@ if ( file_exists ( $includeContent ) ) {
                                         </tr>
                         ';
                     }
-                    if($ldap_server_flag == 1){
+                    if(isset($ldap_server_flag) && $ldap_server_flag == 1){
                         echo "
                                         --><tr>
                                             <td style=\"text-align: center;\"><br /><a href=\".#tabs-2\"><img src=\"../images/cancel.png\" alt=\"cancel\" /></a></td>
@@ -525,26 +525,41 @@ if ( file_exists ( $includeContent ) ) {
                                 //retrieve all user data to populate the user table
                                 $r = mysql_query ( 'SELECT id, username, disabled, admin, ldap_host FROM users_ldap' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                                 while ( $ra = mysql_fetch_assoc ( $r ) ) {
+                                    $ldap_server = $ra['ldap_host'];
+                                    $ldap_email = $ra['username'];
+                                    $ldap_disabled = $ra['disabled'];
+                                    $ldap_admin = $ra['admin'];
                                     //get ldap servers
-                                    $r1 = mysql_query('SELECT value FROM settings WHERE setting = ldap');
-                                    while($ra1 = mysql_fetch_assoc($r)){
-                                        $ldap_server = $ra1['value'];
-                                        $ldap_server = explode('|',$ldap_server);
-                                        if($ldap_server[0] == $ra['ldap_host']){
-                                            $ldap_host_details = $ldap_server;
-                                        }
+                                    $r1 = mysql_query("SELECT * FROM settings_ldap WHERE id = '$ldap_server'");
+                                    while($ra1 = mysql_fetch_assoc($r1)){
+                                        $ldap_host = $ra1['host'];
+                                        $ldap_port = $ra1['port'];
+                                        $ldap_ssl_enc = $ra1['ssl_enc'];
+                                        $ldap_ldaptype = $ra1['ldaptype'];
+                                        $ldap_bindaccount = $ra1['bindaccount'];
+                                        $ldap_password = $ra1['password'];
+                                        $ldap_basedn = $ra1['basedn'];
                                     }
                                     //get ldap funcitons
-                                    include '../spt_config/mysql_config.php';
-                                    //get ldap user data
-                                    $ldap_user_details = ldap_user_query($ldap_host_details[0],$ldap_host_details[1],$ldap_host_details[2],$ldap_host_details[3],$ldap_host_details[4],$ra['cn']);
+                                    include '../includes/ldap.php';
+                                    //lookup first and last name based on email address
+                                    $ldap_user_lookup = ldap_user_email_query($ldap_host, $ldap_port, $ldap_bindaccount, $ldap_password, $ldap_basedn, $ldap_ssl_enc, $ldap_ldaptype, $ldap_email);
+                                    if($ldap_user_lookup){
+                                        $lname = $ldap_user_lookup[0][givenName][0];
+                                        $lname = $ldap_user_lookup[0][sn][0];
+                                    }else{
+                                        $fname = "n/a";
+                                        $lname = "n/a";
+                                    }
                                     echo "<tr>\n<td>";
-                                    echo $ra['fname'] . " " . $ra['lname'];
+                                    echo $fname . " " . $lname;
                                     echo "</td>\n<td>";
-                                    echo $ra['username'];
+                                    echo $ldap_email;
+                                    echo "</td>\n<td>";
+                                    echo $ldap_host;
                                     echo "</td>\n<td>";
                                     //determine if the specific user is an admin
-                                    if ( $ra['admin'] == 1 ) {
+                                    if ( $ldap_admin == 1 ) {
                                         $admin_status = 'yes';
                                     } else {
                                         $admin_status = 'no';
@@ -552,7 +567,7 @@ if ( file_exists ( $includeContent ) ) {
                                     echo $admin_status;
                                     echo "</td>\n<td>";
                                     //determine if the user is disabled
-                                    if ( $ra['disabled'] == 1 ) {
+                                    if ( $ldap_disabled == 1 ) {
                                         $disabled = 'yes';
                                     } else {
                                         $disabled = 'no';

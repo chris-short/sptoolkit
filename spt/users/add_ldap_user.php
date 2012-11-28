@@ -2,7 +2,7 @@
 
 /**
  * file:    add_ldap_user.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -92,8 +92,9 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 //validate that the user exists
 //get ldap server details
-$r = mysql_query("SELECT port, ssl_enc, ldaptype, bindaccount, password, basedn from settings_ldap");
+$r = mysql_query("SELECT host, port, ssl_enc, ldaptype, bindaccount, password, basedn FROM settings_ldap WHERE id = '$ldap_server'");
 while($ra = mysql_fetch_assoc($r)){
+    $ldap_host = $ra['host'];
     $ldap_port = $ra['port'];
     $ldap_ssl_enc = $ra['ssl_enc'];
     $ldap_ldaptype = $ra['ldaptype'];
@@ -104,7 +105,7 @@ while($ra = mysql_fetch_assoc($r)){
 //include ldap functions
 include '../includes/ldap.php';
 //lookup email address
-$ldap_user_lookup = ldap_user_email_query($ldap_server,$ldap_port, $ldap_bindaccount, $ldap_password, $ldap_basedn, $ldap_ssl_enc, $ldap_ldaptype, $ldap_username);
+$ldap_user_lookup = ldap_user_email_query($ldap_host,$ldap_port, $ldap_bindaccount, $ldap_password, $ldap_basedn, $ldap_ssl_enc, $ldap_ldaptype, $ldap_username);
 if(!$ldap_user_lookup){
     $_SESSION['alert_message'] = "this email address is not associated with a user";
     header('location:./?add_ldap_user=true#tabs-3');
