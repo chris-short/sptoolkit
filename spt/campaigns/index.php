@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 63.0
+ * version: 64.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -1866,12 +1866,35 @@ if ( file_exists ( $includeContent ) ) {
             <div id="content">
                 <br />
                 <div id="tabs">
+                    <?php
+                        //get count of scheduled campaigns
+                        $r = mysql_query("SELECT count(id) as count FROM campaigns WHERE status = 0");
+                        while($ra = mysql_fetch_assoc($r)){
+                            $scheduled = $ra['count'];
+                        }
+                        //get count of active campaigns
+                        $r = mysql_query("SELECT count(id) as count FROM campaigns WHERE status = 1");
+                        while($ra = mysql_fetch_assoc($r)){
+                            $active = $ra['count'];
+                        }
+                        //get count of inactive campaigns
+                        $r = mysql_query("SELECT count(id) as count FROM campaigns WHERE status = 2");
+                        while($ra = mysql_fetch_assoc($r)){
+                            $inactive = $ra['count'];
+                        }
+                        //get count of finished campaigns
+                        $r = mysql_query("SELECT count(id) as count FROM campaigns WHERE status = 3");
+                        while($ra = mysql_fetch_assoc($r)){
+                            $finished = $ra['count'];
+                        }
+
+                    ?>
                     <ul>
                         <li><a href="#tabs-1">Overview</a></li>
-                        <li><a href="#tabs-2">Scheduled</a></li>
-                        <li><a href="#tabs-3">Active</a></li>
-                        <li><a href="#tabs-4">Inactive</a></li>
-                        <li><a href="#tabs-5">Finished</a></li>
+                        <li><a href="#tabs-2">Scheduled<?php if(isset($scheduled) && $scheduled > 0){echo ' ['.$scheduled.']';}?></a></li>
+                        <li><a href="#tabs-3">Active<?php if(isset($active) && $active > 0){echo ' ['.$active.']';}?></a></li>
+                        <li><a href="#tabs-4">Inactive<?php if(isset($inactive) && $inactive > 0){echo ' ['.$inactive.']';}?></a></li>
+                        <li><a href="#tabs-5">Finished<?php if(isset($finished) && $finished > 0){echo ' ['.$finished.']';}?></a></li>
                     </ul>
                     <div id="tabs-1">
                         <a href="?add_campaign=true#tabs-1" id="add_campaign_button" class="popover_button" ><img src="../images/email_to_friend_sm.png" alt="add" /> Campaign</a>
