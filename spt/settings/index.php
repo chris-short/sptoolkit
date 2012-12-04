@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 41.0
+ * version: 42.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -578,13 +578,25 @@ if ( file_exists ( $includeContent ) ) {
                                 </td>
                             </tr>
                             <tr>
+                                <td>Upgrade</td>
+                                <td>
+                                    <form action="upgrade.php" method="post" enctype="multipart/form-data" >
+                                        <input type="file" name="file" />
+                                        <input type="submit" value="Upgrade Now" />
+                                    </form>
+                                </td>
+                                <td>
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Download the upgrade from sptoolkit.com and upload the upgrade package here in .zip format and hit <strong>Upgrade Now</strong>.</span></a>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>System Time</td>
                                 <td>Current: <?php print strftime('%c'); ?></td>
                                 <td>
                                     <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>If the date/time is wrong, have your system administrator update the system time on the server hosting this application.  A simple way to update the time would be to run a command such as this at the command line as root: <strong>ntpdate pool.ntp.org</strong>.</span></a>
                                 </td>
                             </tr>
-                            <tr>
+                            <!--<tr>
                                 <td>Time Zone</td>
                                 <td>
                                     <?php 
@@ -630,7 +642,7 @@ if ( file_exists ( $includeContent ) ) {
                                             <option value="12.0" <?php if(isset($tz) && $tz == "12.0"){echo "SELECTED";} ?>>(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option>                                </select>
                                         </select>
                                 </td>
-                            </tr>
+                            </tr>-->
                         </table>
                     </div>
                     <div id="tabs-2">
