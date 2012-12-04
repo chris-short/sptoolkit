@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 22.0
+ * version: 23.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -417,7 +417,7 @@ session_start ();
         </form>	";
                 }
 
-//Step 4 - Configure Salt
+//Step 4 - Configure Salt & Encrypt Key
                 if ( isset ( $_SESSION['install_status'] ) && $_SESSION['install_status'] == 4 ) {
                     $salt = '';
 
@@ -425,11 +425,11 @@ session_start ();
                     function genRandomString () {
                         $length = 50;
                         $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
-                        $salt = 'p';
+                        $random = 'p';
                         for ( $p = 0; $p < $length; $p ++  ) {
-                            $salt .= $characters[mt_rand ( 0, strlen ( $characters ) - 1 )];
+                            $random .= $characters[mt_rand ( 0, strlen ( $characters ) - 1 )];
                         }
-                        return $salt;
+                        return $random;
                     }
 
                     $salt = genRandomString ();
@@ -440,6 +440,12 @@ session_start ();
                     mysql_query ( "INSERT INTO salt (salt) VALUES ('$salt')" );
 
                     $_SESSION['install_status'] = 5;
+
+                    //generate random key for encryption
+                    $encrypt_key = genRandomString();
+
+                    //populate the encrypt_config.php file with the generated encryption key
+                    f_and_r ( "spt_encrypt_key='replace_me';", "spt_encrypt_key='" . $encrypt_key . "';", "spt_config/encrypt_config.php" );
                 }
 
 //Step 5 - Configure First User
