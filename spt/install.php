@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 23.0
+ * version: 24.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -443,6 +443,17 @@ session_start ();
 
                     //generate random key for encryption
                     $encrypt_key = genRandomString();
+
+                    function f_and_r ( $find, $replace, $path ) {
+                        $find = "#" . $find . "#";
+                        $globarray = glob ( $path );
+                        if ( $globarray )
+                            foreach ( $globarray as $filename ) {
+                                $source = file_get_contents ( $filename );
+                                $source = preg_replace ( $find, $replace, $source );
+                                file_put_contents ( $filename, $source );
+                            }
+                    }
 
                     //populate the encrypt_config.php file with the generated encryption key
                     f_and_r ( "spt_encrypt_key='replace_me';", "spt_encrypt_key='" . $encrypt_key . "';", "spt_config/encrypt_config.php" );
