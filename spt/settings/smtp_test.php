@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_test.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -60,8 +60,9 @@ if($_POST){
     }
     //connect to database
     include '../spt_config/mysql_config.php';
+    include '../spt_config/encrypt_config.php';
     //get smtp settings for host
-    $r = mysql_query("SELECT * FROM settings_smtp WHERE id='$host'");
+    $r = mysql_query("SELECT host, port, ssl_enc, username, aes_decrypt(password, '$spt_encrypt_key') as password, sys_default FROM settings_smtp WHERE id='$host'");
     while($ra=mysql_fetch_array($r)){
         //prep email settings
         if(strlen($ra[1])){

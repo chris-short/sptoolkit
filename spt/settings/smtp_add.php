@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_add.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -103,12 +103,13 @@ if($_POST){
     }
     //connect to database
     include '../spt_config/mysql_config.php';
+    include '../spt_config/encrypt_config.php';
     //take away default value from any existing smtp servers that are set to default
     if($default == "1"){
         mysql_query("UPDATE settings_smtp SET sys_default = '0' WHERE sys_default='1'");
     }
     //add smtp server details to database
-    mysql_query("INSERT INTO settings_smtp(host,port,ssl_enc,username,password,sys_default) VALUES('$host','$port', '$ssl', '$username', '$password', '$default')");
+    mysql_query("INSERT INTO settings_smtp(host,port,ssl_enc,username,password,sys_default) VALUES('$host','$port', '$ssl', '$username', aes_encrypt('$password', '$spt_encrypt_key'), '$default')");
     if(mysql_error()){
         $_SESSION['alert_message'] = "there was a problem adding the smtp server";
         header('location:.#tabs-2');

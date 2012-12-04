@@ -3,7 +3,7 @@
 
 /**
  * file:    ldap_add.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -116,7 +116,8 @@ if($_POST){
     }
     //add ldap server details to database
     include "../spt_config/mysql_config.php";
-    mysql_query("INSERT INTO settings_ldap (host, port, ssl_enc, ldaptype, bindaccount, password, basedn) VALUES ('$host', '$port', '$ssl', '$ldaptype', '$bindaccount', '$password', '$basedn')");
+    include "../spt_config/encrypt_config.php";
+    mysql_query("INSERT INTO settings_ldap (host, port, ssl_enc, ldaptype, bindaccount, password, basedn) VALUES ('$host', '$port', '$ssl', '$ldaptype', '$bindaccount', aes_encrypt('$password','$spt_encrypt_key'), '$basedn')");
     //unset temp variables
     if(isset($_SESSION['temp_host'])){
         unset($_SESSION['temp_host']);

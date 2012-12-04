@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_test.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -51,7 +51,8 @@ if($_POST){
     }
     //validate that the host is legit
     include '../spt_config/mysql_config.php';
-    $r = mysql_query("SELECT * FROM settings_ldap WHERE id = $host");
+    include '../spt_config/encrypt_config.php';
+    $r = mysql_query("SELECT id, host, port, ssl_enc, ldaptype, bindaccount, aes_decrypt(password, '$spt_encrypt_key') as password, basedn FROM settings_ldap WHERE id = $host");
     if(mysql_num_rows($r) < 1){
         $_SESSION['alert_message'] = "please select an existing ldap server";
         header('location:./#tabs-3');

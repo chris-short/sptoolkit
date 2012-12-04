@@ -2,7 +2,7 @@
 
 /**
  * file:    add_ldap_user.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -38,6 +38,7 @@ if ( file_exists ( $includeContent ) ) {
 }
 //connect to database
 include "../spt_config/mysql_config.php";
+include "../spt_config/encrypt_config.php";
 //get posted data
 $ldap_username = $_POST['ldap_username'];
 if ( ! empty ( $ldap_username ) ) {
@@ -92,7 +93,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 //validate that the user exists
 //get ldap server details
-$r = mysql_query("SELECT host, port, ssl_enc, ldaptype, bindaccount, password, basedn FROM settings_ldap WHERE id = '$ldap_server'");
+$r = mysql_query("SELECT host, port, ssl_enc, ldaptype, bindaccount, aes_decrypt(password, '$spt_encrypt_key') as password, basedn FROM settings_ldap WHERE id = '$ldap_server'");
 while($ra = mysql_fetch_assoc($r)){
     $ldap_host = $ra['host'];
     $ldap_port = $ra['port'];
