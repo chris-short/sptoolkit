@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 64.0
+ * version: 66.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -442,60 +442,32 @@ if ( file_exists ( $includeContent ) ) {
                                         <tr>
                                             <td></td>
                                             <td style="text-align: right;">
-                                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter your SMTP relay\'s details if necessary.  You may also enter credentials if your SMTP requires authentication.  If you leave these fields blank, spt will act as an SMTP server and send emails directly to the destination\'s mail gateway based on the MX records published by your target\'s domain.</span></a>
+                                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the SMTP relay you would like for the emails to be routed through.  You may CTRL or COMMAND click multiple relays and each target will be assigned an SMTP relay in a "round robin" sort of manner.  By selecting None, the emails will be sent directly from spt using Swiftmailer.</span></a>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Host</td>
-                                            <td colspan="2"><input type="text" name="relay_host" size="30"';
-                    if ( isset ( $_SESSION['temp_relay_host'] ) ) {
-                        echo "value=\"" . $_SESSION['temp_relay_host'] . "\"";
-                        unset ( $_SESSION['temp_relay_host'] );
-                    }
-                    echo '                   /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Port</td>
-                                            <td colspan="2"><input type="text" name="relay_port" size="6"';
-                    if ( isset ( $_SESSION['temp_relay_port'] ) ) {
-                        echo "value=\"" . $_SESSION['temp_relay_port'] . "\"";
-                        unset ( $_SESSION['temp_relay_port'] );
-                    } else {
-                        echo "value=\"25\"";
-                    }
-                    echo '                                            
-                                            /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>SSL</td>
-                                            <td colspan="2">';
-                    $transports = stream_get_transports ();
-                    if ( (array_search ( "ssl", $transports )) OR (array_search ( "tls", $transports )) ) {
-                        echo "<input type=\"checkbox\" name=\"ssl\" ";
-                        if ( isset ( $_SESSION['temp_ssl'] ) ) {
-                            echo "CHECKED";
-                            unset ( $_SESSION['temp_ssl'] );
+                                            <td>Relay</td>
+                                            <td colspan="2">
+                                                <select name = "relay_host[]" multiple="multiple" size="5">
+                                                    <option value="-">None - Direct SMTP</option>';
+                    //get smtp servers
+                    $r = mysql_query("SELECT id, host FROM settings_smtp");
+                    while($ra = mysql_fetch_assoc($r)){
+                        $smtp_id = $ra['id'];
+                        $smtp_host = $ra['host'];
+                        //get potentially previously entered entries
+                        if(isset($_SESSION['temp_relay_host'])){
+                            $temp_relay_host = $_SESSION['temp_relay_host'];
+                            if(in_array($smtp_id, $temp_relay_host)){
+                                echo '<option value='.$smtp_id.'selected="selected">'.$smtp_host.'</option>';
+                            }
+                        }else{
+                            echo '<option value='.$smtp_id.'>'.$smtp_host.'</option>';
                         }
-                        echo "/><br />";
-                    } else {
-                        echo "<a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>Missing SSL or TLS transport.</span></a>";
                     }
-                    echo '                        
+                    echo '
+                                                </select>
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Username</td>
-                                            <td colspan="2"><input type="text" name="relay_username"';
-                    if ( isset ( $_SESSION['temp_relay_username'] ) ) {
-                        echo "value=\"" . $_SESSION['temp_relay_username'] . "\"";
-                        unset ( $_SESSION['temp_relay_username'] );
-                    }
-                    echo '                        
-                                            /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Password</td>
-                                            <td colspan="2"><input type="password" name="relay_password" /></td>
                                         </tr>
                                     </table>
                                     </div>
@@ -583,10 +555,6 @@ if ( file_exists ( $includeContent ) ) {
                         $education_timing = $ra['education_timing'];
                         $message_delay = $ra['message_delay'];
                         $spt_path = $ra['spt_path'];
-                        $relay_host = $ra['relay_host'];
-                        $relay_username = $ra['relay_username'];
-                        $relay_password = $ra['relay_password'];
-                        $relay_port = $ra['relay_port'];
                         $encrypt = $ra['encrypt'];
                         $shorten = $ra['shorten'];
                         $cron_id = $ra['cron_id'];
@@ -1407,69 +1375,49 @@ if ( file_exists ( $includeContent ) ) {
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Host</td>
-                                            <td colspan="2"><input type="text" name="relay_host" size="30"';
-                    if ( isset ( $_SESSION['temp_relay_host'] ) ) {
-                        echo "value=\"" . $_SESSION['temp_relay_host'] . "\"";
-                        unset ( $_SESSION['temp_relay_host'] );
-                    }else if(isset($relay_host)){
-                        echo "value=\"".$relay_host."\"";
-                    }
-                    echo '                   /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Port</td>
-                                            <td colspan="2"><input type="text" name="relay_port" size="6"';
-                    if ( isset ( $_SESSION['temp_relay_port'] ) ) {
-                        echo "value=\"" . $_SESSION['temp_relay_port'] . "\"";
-                        unset ( $_SESSION['temp_relay_port'] );
-                    } else if(isset($relay_port)){
-                        echo "value=\"".$relay_port."\"";
-                    }else{
-                        echo "value=\"25\"";
-                    }
-                    echo '                                            
-                                            /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>SSL</td>
-                                            <td colspan="2">';
-                    $transports = stream_get_transports ();
-                    if ( (array_search ( "ssl", $transports )) OR (array_search ( "tls", $transports )) ) {
-                        echo "<input type=\"checkbox\" name=\"ssl\" ";
-                        if ( isset ( $_SESSION['temp_ssl'] ) ) {
-                            echo "CHECKED";
-                            unset ( $_SESSION['temp_ssl'] );
-                        } else if (isset($encrypt) && $encrypt == 1){
-                            echo "CHECKED";
+                                            <td>Relay</td>
+                                            <td colspan="2">
+                                                <select name = "relay_host[]" multiple="multiple" size="5">';
+                    //see if none is selected
+                    $s = mysql_query("SELECT relay_host FROM campaigns_responses WHERE campaign_id = '$campaign_id'");
+                    while($sa = mysql_fetch_assoc($s)){
+                        if($sa['relay_host'] == '-'){
+                            $match = 1;
                         }
-                        echo "/><br />";
-                    } else {
-                        echo "<a class=\"tooltip\"><img src=\"../images/lightbulb_sm.png\" alt=\"help\" /><span>Missing SSL or TLS transport.</span></a>";
                     }
-                    echo '                        
+                    //display none correctly
+                    if($match == 1){
+                        echo '<option value="-" selected="selected">None - Direct SMTP</option>';
+                    }else{
+                            echo '<option value="-">None - Direct SMTP</option>';
+                    }
+                    $match = 0;
+                    //get smtp servers
+                    $r = mysql_query("SELECT id, host FROM settings_smtp");
+                    while($ra = mysql_fetch_assoc($r)){
+                        $smtp_id = $ra['id'];
+                        $smtp_host = $ra['host'];
+                        //get current relay status
+                        $s = mysql_query("SELECT relay_host FROM campaigns_responses WHERE campaign_id = '$campaign_id'");
+                        while($sa = mysql_fetch_assoc($s)){
+                            if($sa['relay_host'] == $smtp_id){
+                                $match = 1;
+                            }
+                        }
+                        //get potentially previously entered entries or if is currently selected
+                        if(isset($_SESSION['temp_relay_host'])){
+                            $temp_relay_host=$_SESSION['temp_relay_host'];
+                        }
+                        if((isset($temp_relay_host) && in_array($smtp_id, $temp_relay_host)) OR $match == 1){
+                            echo '<option value="'.$smtp_id.'" selected="selected">'.$smtp_host.'</option>';
+                        }else{
+                            echo '<option value="'.$smtp_id.'">'.$smtp_host.'</option>';
+                        }
+                        $match = 0;
+                    }
+                    echo '
+                                                </select>
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Username</td>
-                                            <td colspan="2"><input type="text" name="relay_username"';
-                    if ( isset ( $_SESSION['temp_relay_username'] ) ) {
-                        echo "value=\"" . $_SESSION['temp_relay_username'] . "\"";
-                        unset ( $_SESSION['temp_relay_username'] );
-                    } else if(isset($relay_username)){
-                        echo "value=\"".$relay_username."\"";
-                    }
-                    echo '                        
-                                            /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Password</td>
-                                            <td colspan="2"><input type="password" name="relay_password" ';
-                    if(isset($relay_password)){
-                        echo "value=\"".$relay_password."\"";
-                    }
-                    echo
-                                             '/></td>
                                         </tr>
                                     </table>
                                     </div>

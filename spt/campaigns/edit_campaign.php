@@ -2,7 +2,7 @@
 
 /**
  * file:    edit_campaign.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -69,24 +69,8 @@ if ( isset ( $_POST['education_timing'] ) ) {
     $_SESSION['temp_education_timing'] = $education_timing;
 }
 if ( isset ( $_POST['relay_host'] ) ) {
-    $relay_host = filter_var ( $_POST['relay_host'], FILTER_SANITIZE_STRING );
+    $relay_host = $_POST['relay_host'];
     $_SESSION['temp_relay_host'] = $relay_host;
-}
-if ( isset ( $_POST['relay_port'] ) ) {
-    $relay_port = filter_var ( $_POST['relay_port'], FILTER_SANITIZE_NUMBER_INT );
-    $_SESSION['temp_relay_port'] = $relay_port;
-}
-if ( isset ( $_POST['ssl'] ) ) {
-    $ssl = "Yes";
-    $_SESSION['temp_ssl'] = $ssl;
-}
-if ( isset ( $_POST['relay_username'] ) ) {
-    $relay_username = filter_var ( $_POST['relay_username'], FILTER_SANITIZE_STRING );
-    $_SESSION['temp_relay_username'] = $relay_username;
-}
-if ( isset ( $_POST['relay_password'] ) ) {
-    $relay_password = $_POST['relay_password'];
-    $_SESSION['temp_relay_password'] = $relay_password;
 }
 if ( isset ( $_POST['shorten_radio'] ) ) {
     $shorten = filter_var ( $_POST['shorten_radio'], FILTER_SANITIZE_STRING );
@@ -280,24 +264,22 @@ if (isset($start_month)){
     mysql_query ( "UPDATE campaigns SET campaign_name = '$campaign_name', template_id = '$template_id', domain_name = '$domain_name', education_id = '$education_id', education_timing = '$education_timing', message_delay = '$message_delay', status = 1, cron_id = '' WHERE id = '$campaign_id'" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
 }
 //update relay host if its set
-if ( isset ( $relay_host ) ) {
-    mysql_query ( "UPDATE campaigns SET relay_host = '$relay_host' WHERE id = '$campaign_id'" );
-}
-//update relay usnername if its set
-if ( isset ( $relay_username ) ) {
-    mysql_query ( "UPDATE campaigns SET relay_username = '$relay_username' WHERE id = '$campaign_id'" );
-}
-//update relay host if its set
-if ( isset ( $relay_password ) ) {
-    mysql_query ( "UPDATE campaigns SET relay_password = '$relay_password' WHERE id = '$campaign_id'" );
-}
-//update relay port if it is set
-if ( isset ( $relay_port ) ) {
-    mysql_query ( "UPDATE campaigns SET relay_port = '$relay_port' WHERE id = '$campaign_id'" );
-}
-//update ssl status if ssl is checked
-if ( isset ( $ssl ) ) {
-    mysql_query ( "UPDATE campaigns SET encrypt = 1 WHERE id = '$campaign_id'" );
+$relay_host_count = count($relay_host);
+$relay_host_counter = 0;
+//retrieve all targets for this campiagn
+$r = mysql_query ( "SELECT response_id FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    $response_id = $ra['response_id'];
+    //determine relay host
+    $relay_host_id = $relay_host[$relay_host_counter];
+    //populate the campaign response table with placeholders for when the target clicks the links or posts data
+    mysql_query ( "UPDATE campaigns_responses SET relay_host = '$relay_host_id' WHERE response_id = '$response_id'" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+    //adjust relay_host_counter
+    if(($relay_host_counter+1) == $relay_host_count){
+        $relay_host_counter = 0;
+    }else{
+        $relay_host_counter++;
+    }
 }
 //update shorten if it is set
 if ( isset ( $shorten ) ) {

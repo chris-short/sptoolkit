@@ -2,7 +2,7 @@
 
 /**
  * file:    delete_smtp.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -47,6 +47,16 @@ if($_GET['smtp']){
         if(preg_match('/[0-9]/', $smtp_setting)){
             //connect to database
             include "../spt_config/mysql_config.php";
+            //ensure this smtp relay is not a part of an existing or scheduled campaign
+            $r = mysql_query("SELECT relay_host FROM campaigns_responses");
+            while ($ra = mysql_fetch_assoc($r)){
+                if($smtp_setting == $ra['relay_host']){
+                    $_SESSION['alert_message'] = "this SMTP server cannot be deleted because it is associated with a campaign";
+                    header('location:.#tabs-2');
+                    exit;
+                }
+            }
+            //delete the smtp server
             mysql_query("DELETE FROM settings_smtp WHERE id='$smtp_setting'");
         }else{
             $_SESSION['alert_message'] = "nothing was deleted";

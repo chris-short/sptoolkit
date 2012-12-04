@@ -1,8 +1,8 @@
 <?php
 
 /**
- * file:    index.php
- * version: 2.0
+ * file:    restore_db.php
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.

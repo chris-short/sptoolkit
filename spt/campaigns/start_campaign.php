@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 37.0
+ * version: 38.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -71,24 +71,8 @@ if ( isset ( $_POST['education_timing'] ) ) {
     $_SESSION['temp_education_timing'] = $education_timing;
 }
 if ( isset ( $_POST['relay_host'] ) ) {
-    $relay_host = filter_var ( $_POST['relay_host'], FILTER_SANITIZE_STRING );
+    $relay_host = $_POST['relay_host'];
     $_SESSION['temp_relay_host'] = $relay_host;
-}
-if ( isset ( $_POST['relay_port'] ) ) {
-    $relay_port = filter_var ( $_POST['relay_port'], FILTER_SANITIZE_NUMBER_INT );
-    $_SESSION['temp_relay_port'] = $relay_port;
-}
-if ( isset ( $_POST['ssl'] ) ) {
-    $ssl = "Yes";
-    $_SESSION['temp_ssl'] = $ssl;
-}
-if ( isset ( $_POST['relay_username'] ) ) {
-    $relay_username = filter_var ( $_POST['relay_username'], FILTER_SANITIZE_STRING );
-    $_SESSION['temp_relay_username'] = $relay_username;
-}
-if ( isset ( $_POST['relay_password'] ) ) {
-    $relay_password = $_POST['relay_password'];
-    $_SESSION['temp_relay_password'] = $relay_password;
 }
 if ( isset ( $_POST['shorten_radio'] ) ) {
     $shorten = filter_var ( $_POST['shorten_radio'], FILTER_SANITIZE_STRING );
@@ -309,26 +293,6 @@ if (isset($start_month)){
         $campaign_id = $ra['campaign_id'];
     }
 }
-//update relay host if its set
-if ( isset ( $relay_host ) ) {
-    mysql_query ( "UPDATE campaigns SET relay_host = '$relay_host' WHERE id = '$campaign_id'" );
-}
-//update relay usnername if its set
-if ( isset ( $relay_username ) ) {
-    mysql_query ( "UPDATE campaigns SET relay_username = '$relay_username' WHERE id = '$campaign_id'" );
-}
-//update relay host if its set
-if ( isset ( $relay_password ) ) {
-    mysql_query ( "UPDATE campaigns SET relay_password = '$relay_password' WHERE id = '$campaign_id'" );
-}
-//update relay port if it is set
-if ( isset ( $relay_port ) ) {
-    mysql_query ( "UPDATE campaigns SET relay_port = '$relay_port' WHERE id = '$campaign_id'" );
-}
-//update ssl status if ssl is checked
-if ( isset ( $ssl ) ) {
-    mysql_query ( "UPDATE campaigns SET encrypt = 1 WHERE id = '$campaign_id'" );
-}
 //update shorten if it is set
 if ( isset ( $shorten ) ) {
     mysql_query ( "UPDATE campaigns SET shorten = '$shorten' WHERE id='$campaign_id'" );
@@ -339,18 +303,26 @@ if ( isset ( $shorten ) ) {
 foreach ( $target_groups as $group ) {
     //link campaign id and group names
     mysql_query ( "INSERT INTO campaigns_and_groups (campaign_id, group_name) VALUES ('$campaign_id','$group')" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
-
+    //prepare relay host counters
+    $relay_host_count = count($relay_host);
+    $relay_host_counter = 0;
     //retrieve all targets from group
     $r = mysql_query ( "SELECT id FROM targets WHERE group_name = '$group'" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
     while ( $ra = mysql_fetch_assoc ( $r ) ) {
         $target_id = $ra['id'];
-
         //generate a random key
         $random_number = mt_rand ( 1000000000, 9999999999 );
         $response_id = sha1 ( $random_number );
-
+        //determine relay host
+        $relay_host_id = $relay_host[$relay_host_counter];
         //populate the campaign response table with placeholders for when the target clicks the links or posts data
-        mysql_query ( "INSERT INTO campaigns_responses (target_id, campaign_id, response_id, sent) VALUES ('$target_id', '$campaign_id', '$response_id', 0)" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+        mysql_query ( "INSERT INTO campaigns_responses (target_id, campaign_id, response_id, sent, relay_host) VALUES ('$target_id', '$campaign_id', '$response_id', 0, '$relay_host_id')" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+        //adjust relay_host_counter
+        if(($relay_host_counter+1) == $relay_host_count){
+            $relay_host_counter = 0;
+        }else{
+            $relay_host_counter++;
+        }
     }
 }
 //unset temp variables
