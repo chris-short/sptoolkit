@@ -123,6 +123,7 @@ if ( file_exists ( $includeContent ) ) {
                                         <li><a href="#wizard-6">SMTP Relay</a></li>
                                         <li><a href="#wizard-7">Throttling</a></li>
                                         <li><a href="#wizard-8">Shortener</a></li>
+                                        <li><a href="#wizard-9">Audit</a></li>
                                     </ul>
                                     <div id="wizard-1">
                                     <table class="new_campaign_table">
@@ -533,6 +534,43 @@ if ( file_exists ( $includeContent ) ) {
                     echo '
                                     </table>
                                     </div>
+                                    <div id="wizard-9">
+                                    <table>
+                                        <tr><td><br /></td></tr>
+                                        <tr>
+                                            <td></td>
+                                            <td style="text-align: right;">
+                                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the software that you would like to retrieve version information for.  The OS and Browser are pre-selected as there is very little reason not to accumulate this information.  However, Java and some of the other browser plugins may pop-up alerts to the target and by default these are disabled.</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Get Operating System</td>
+                                            <td><input type="checkbox" CHECKED DISABLED/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Get Browser Version</td>
+                                            <td><input type="checkbox" CHECKED DISABLED/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Get Java Version</td>
+                                            <td><input name="check_java" type="checkbox" ';
+                    if(isset($_SESSION['temp_check_java']) && $_SESSION['temp_check_java'] == "yes"){
+                        echo "CHECKED";
+                    }
+                    echo '
+                                            /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Get Flash Version</td>
+                                            <td><input name="check_flash" type="checkbox" ';
+                    if(isset($_SESSION['temp_check_flash']) && $_SESSION['temp_check_flash'] == "yes"){
+                        echo "CHECKED";
+                    }
+                    echo '
+                                            /></td>
+                                        </tr>
+                                    </table>
+                                    </div>
                                     <table>
                                         <tr>
                                             <td colspan="3" style="text-align: center;"><br /><a href=".#tabs-1"><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/accept.png" alt="accept" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
@@ -558,6 +596,8 @@ if ( file_exists ( $includeContent ) ) {
                         $encrypt = $ra['encrypt'];
                         $shorten = $ra['shorten'];
                         $cron_id = $ra['cron_id'];
+                        $check_java = $ra['check_java'];
+                        $check_flash = $ra['check_flash'];
                     }
                     echo '
                         <div id="edit_campaign">
@@ -571,6 +611,7 @@ if ( file_exists ( $includeContent ) ) {
                                         <li><a href="#wizard-5">SMTP Relay</a></li>
                                         <li><a href="#wizard-6">Throttling</a></li>
                                         <li><a href="#wizard-7">Shortener</a></li>
+                                        <li><a href="#wizard-8">Audit</a></li>
                                     </ul>
                                     <div id="wizard-1">
                                     <table class="edit_campaign_table">
@@ -1487,6 +1528,47 @@ if ( file_exists ( $includeContent ) ) {
                         echo "<tr><td colspan=3 class=\"popover_alert_message\">" . $_SESSION['alert_message'] . "</td></tr>";
                     }
                     echo '
+                                    </table>
+                                    </div>
+                                    <div id="wizard-8">
+                                    <table>
+                                        <tr><td><br /></td></tr>
+                                        <tr>
+                                            <td></td>
+                                            <td style="text-align: right;">
+                                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Select the software that you would like to retrieve version information for.  The OS and Browser are pre-selected as there is very little reason not to accumulate this information.  However, Java and some of the other browser plugins may pop-up alerts to the target and by default these are disabled.</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Get Operating System</td>
+                                            <td><input type="checkbox" CHECKED DISABLED/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Get Browser Version</td>
+                                            <td><input type="checkbox" CHECKED DISABLED/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Get Java Version</td>
+                                            <td><input name="check_java" type="checkbox" ';
+                    if(isset($_SESSION['temp_check_java']) && $_SESSION['temp_check_java'] == "yes"){
+                        echo "CHECKED";
+                    }else if(isset($check_java) && $check_java == 1){
+                        echo "CHECKED";
+                    }
+                    echo '
+                                            /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Get Flash Version</td>
+                                            <td><input name="check_flash" type="checkbox" ';
+                    if(isset($_SESSION['temp_check_flash']) && $_SESSION['temp_check_flash'] == "yes"){
+                        echo "CHECKED";
+                    }else if(isset($check_flash) && $check_flash == 1){
+                        echo "CHECKED";
+                    }
+                    echo '
+                                            /></td>
+                                        </tr>
                                     </table>
                                     </div>
                                     <table>

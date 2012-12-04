@@ -87,7 +87,7 @@ else {
     //if a match happened record that they clicked the link
     if ( isset ( $match ) && $match == 1 ) {
         //get campaign id for this response
-        $r = mysql_query ( "SELECT campaign_id, target_id, link, sent, sent_time FROM campaigns_responses WHERE response_id = '$response_id'" );
+        $r = mysql_query ( "SELECT campaign_id, target_id, link, sent, sent_time, check_java, check_flash FROM campaigns_responses WHERE response_id = '$response_id'" );
         while ( $ra = mysql_fetch_assoc ( $r ) ) {
             $campaign_id = $ra['campaign_id'];
             $target_id = $ra['target_id'];
@@ -96,7 +96,41 @@ else {
             $sent_time = $ra['sent_time'];
             $url = $ra['url'];
             $response_log = $ra['response_log'];
+            $check_java = $ra['check_java'];
+            $check_flash = $ra['check_flash'];
         }
+        //start html
+        echo "<html>";
+        //if configured, check java version
+        if($check_java == 1){
+
+            echo '
+                    <script type="text/javascript" src="http://java.com/js/deployJava.js"></script>
+                    <script type="text/javascript">
+                        //set function that will update java version
+                        function updateJava(response_id, link_time, java_version){
+                            //begin new request
+                            xmlhttp = new XMLHttpRequest();
+                            //send update request
+                            xmlhttp.onreadystatechange=function() {
+                                if(xmlhttp.readyState==4){
+                                    alert(xmlhttp.responseText);
+                                }
+                            }
+                            xmlhttp.open("POST","update_java_version.php",true);
+                            xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                            xmlhttp.send("r="+response_id+"&l="+link_time+"&j="+java_version);
+                        }            
+                        var java_version = deployJava.getJREs();
+                        updateJava('.$response_id.', '.$link_time.', java_version);
+                    </script>';
+        }
+        //if configured, check flash version
+        if($check_flash == 1){
+
+        }
+        //end html
+        echo "</html>";
         if($link == 0){
             mysql_query ( "UPDATE campaigns_responses SET link = 1, ip = '$target_ip', os = '$os', browser = '$browser_type', browser_version = '$browser_version', link_time = '$link_time'  WHERE response_id = '$response_id'" );
         }else{

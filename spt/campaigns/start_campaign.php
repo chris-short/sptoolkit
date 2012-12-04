@@ -98,6 +98,14 @@ if(isset($_POST['background'])){
     $background = $_POST['background'];
     $_SESSION['temp_background'] = $background;
 }
+if(isset($_POST['check_java'])){
+    $check_java = $_POST['check_java'];
+    $_SESSION['temp_check_java'] = $_POST['check_java'];
+}
+if(isset($_POST['check_flash'])){
+    $check_java = $_POST['check_flash'];
+    $_SESSION['temp_check_flash'] = $_POST['check_flash'];
+}
 //ensure the campaign name is set
 if ( strlen ( $campaign_name ) < 1 ) {
     $_SESSION['alert_message'] = "you must give the campaign a name";
@@ -150,6 +158,30 @@ if(isset($start_hour) && ($start_hour < 0 OR $start_hour > 23)){
 }
 if(isset($start_minute) && ($start_minute < 0 OR $start_minute > 59)){
     $_SESSION['alert_message'] = "please enter a valid minute 0-59";
+    header('location:.?add_campaign=true#tabs-1');
+    exit;
+}
+if(isset($check_java) && ($check_java == "yes" OR $check_java== "no")){
+    if($check_java == "yes"){
+        $check_java = 1;
+    }
+    if($check_java == "no"){
+        $check_java = 0
+    }
+}else{
+    $_SESSION['alert_message'] = "please select or not select the Java checkbox rather than submitting a different value.";
+    header('location:.?add_campaign=true#tabs-1');
+    exit;
+}
+if(isset($check_flash) && ($check_flash == "yes" OR $check_flash== "no")){
+    if($check_flash == "yes"){
+        $check_flash = 1;
+    }
+    if($check_flash == "no"){
+        $check_flash = 0
+    }
+}else{
+    $_SESSION['alert_message'] = "please select or not select the Flash checkbox rather than submitting a different value.";
     header('location:.?add_campaign=true#tabs-1');
     exit;
 }
@@ -265,7 +297,7 @@ if (isset($start_month)){
         $request_protocol = "http";
     }
     //create the campaign
-    mysql_query ( "INSERT INTO campaigns (campaign_name, template_id, domain_name, education_id, education_timing, date_sent, message_delay, status, spt_path, cron_id) VALUES ('$campaign_name', '$template_id', '$spt_path', '$education_id', '$education_timing', '$date_sent', '$message_delay', 0, '$spt_path', '$cron_id')" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+    mysql_query ( "INSERT INTO campaigns (campaign_name, template_id, domain_name, education_id, education_timing, date_sent, message_delay, status, spt_path, cron_id, check_java, check_flash) VALUES ('$campaign_name', '$template_id', '$spt_path', '$education_id', '$education_timing', '$date_sent', '$message_delay', 0, '$spt_path', '$cron_id', '$check_java', '$check_flash')" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
     //get the id of this campaign
     $r = mysql_query ( "SELECT MAX(id) as campaign_id FROM campaigns" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
     while ( $ra = mysql_fetch_assoc ( $r ) ) {
@@ -285,7 +317,7 @@ if (isset($start_month)){
     $scheduled = "Y";
 }else{
     //create the campaign
-    mysql_query ( "INSERT INTO campaigns (campaign_name, template_id, domain_name, education_id, education_timing, date_sent, message_delay, status, spt_path) VALUES ('$campaign_name', '$template_id', '$spt_path', '$education_id', '$education_timing', '$date_sent', '$message_delay', 1, '$spt_path')" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
+    mysql_query ( "INSERT INTO campaigns (campaign_name, template_id, domain_name, education_id, education_timing, date_sent, message_delay, status, spt_path, check_java, check_flash) VALUES ('$campaign_name', '$template_id', '$spt_path', '$education_id', '$education_timing', '$date_sent', '$message_delay', 1, '$spt_path', '$check_java', '$check_flash')" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
 
     //get the id of this campaign
     $r = mysql_query ( "SELECT MAX(id) as campaign_id FROM campaigns" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
@@ -345,6 +377,8 @@ unset($_SESSION['temp_start_day']);
 unset($_SESSION['temp_start_hour']);
 unset($_SESSION['temp_start_minute']);
 unset($_SESSION['temp_background']);
+unset($_SESSION['temp_check_java']);
+unset($_SESSION['temp_check_flash']);
 //if scheduled send back to campaign page
 if(isset($scheduled) && $scheduled == "Y"){
     $_SESSION['alert_message'] = "your campaign has been scheduled";
