@@ -2,7 +2,7 @@
 
 /**
  * file:    faux_user.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -95,7 +95,8 @@ if(isset($_GET['cron_id']) && isset($_GET['c'])){
         $new_path = preg_replace('/faux_user/', 'send_emails', $path);
         //start sending email
         while($counter < 60){
-            shell_exec('curl \''.$request_protocol."://".$new_path.'\'');
+            //curl url with log suppression
+            shell_exec('curl \''.$request_protocol."://".$new_path.'\' 2>&1');
             $counter++;
             sleep(1);
         }

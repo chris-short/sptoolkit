@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 67.0
+ * version: 68.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -93,11 +93,28 @@ if ( file_exists ( $includeContent ) ) {
                 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 xmlhttp.send("c="+campaign_id);
             }
-            var campaign_id;
             //determine if a campaign is set
             if ( campaign_id != null){
-                //start the email function
-                sendEmail(campaign_id);
+                //start the email function if this campaign is active
+                <?php
+                    //get campaign id
+                    if(isset($_GET['c'])){
+                        $c = $_GET['c'];
+                        if(!preg_match('/^[0-9]{1,}$/',$c)){
+                            $_SESSION['alert_message'] = "please provide a valid campaign id";
+                            header('location:.');
+                            exit;
+                        }
+                        //connect to db
+                        include '../spt_config/mysql_config.php';
+                        $r = mysql_query("SELECT status FROM campaigns WHERE id = '$c'");
+                        while($ra=mysql_fetch_assoc($r)){
+                            if($ra['status'] == 1){
+                                echo "sendEmail(campaign_id);";
+                            }
+                        }
+                    }
+                ?>
             }
         </script>
     </head>
@@ -1690,7 +1707,7 @@ if ( file_exists ( $includeContent ) ) {
                     }
                     if ( isset ( $_REQUEST['c'] ) ) {
                         //get basic campaign data
-                        $r2 = mysql_query ( "SELECT date_sent, date_ended, campaign_name, domain_name, education_id, template_id, education_timing, shorten FROM campaigns WHERE id = '$campaign_id'" );
+                        $r2 = mysql_query ( "SELECT date_sent, date_ended, campaign_name, domain_name, education_id, template_id, education_timing, check_java, check_flash, shorten FROM campaigns WHERE id = '$campaign_id'" );
                         while ( $ra2 = mysql_fetch_assoc ( $r2 ) ) {
                             $date_sent = $ra2['date_sent'];
                             $date_ended = $ra2['date_ended'];
@@ -1713,6 +1730,8 @@ if ( file_exists ( $includeContent ) ) {
                             while ( $ra4 = mysql_fetch_assoc ( $r4 ) ) {
                                 $template_name = $ra4['name'];
                             }
+                            $java = $ra2['check_java'];
+                            $flash = $ra2['check_flash'];
                         }
                         //get progress status information    
                         $r5 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent != 0" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
@@ -1739,17 +1758,17 @@ if ( file_exists ( $includeContent ) ) {
                                 echo "<a href=\"change_status.php?c=" . $campaign_id . "&s=2\"><img src=\"../images/control_pause_blue.png\" alt=\"pause\" /></a>&nbsp;&nbsp;<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
                             } else if ( $ra7['status'] == 2 ) {
                                 echo "<a href=\"change_status.php?c=" . $campaign_id . "&s=1\"><img src=\"../images/control_play_blue.png\" alt=\"pause\" /></a>&nbsp;&nbsp;<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
-                            } else {
+                            } else if($percentage != 100){
                                 echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>&nbsp;&nbsp;&nbsp;";
                             }
                         }
                         echo "
-                                            <form class=\"inline\" method=\"post\" action=\"./?c=" . $campaign_id . $tab_return ."\"><input type=\"image\" src=\"../images/arrow_refresh.png\"  alt=\"refresh\" /></form>
+                                            <form class=\"inline\" method=\"post\" action=\"./?c=" . $campaign_id ."&responses=true". $tab_return ."\"><input type=\"image\" src=\"../images/arrow_refresh.png\"  alt=\"refresh\" /></form>
                                             <a class=\"tooltip\">
                                             <img src=\"../images/lightbulb.png\" alt=\"help\" />
                                             <span>This list provides you with a filtered view of campaign responses.  The title at the top left describes what filter is in place.  For each individual response you can see various metrics or analytics of the response itself such as the target's IP address, browser, browser version and Operating System.</span>
                                             </a>&nbsp;&nbsp;&nbsp;
-                                            <a href=\".\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>
+                                            <a href=\".".$tab_return."\"><img src=\"../images/cancel.png\" alt=\"close\" /></a>
                                         </td>
                                     </tr>
                                 </table>
@@ -1796,6 +1815,19 @@ if ( file_exists ( $includeContent ) ) {
                                         <td>None</td>
                                     </tr>";
                         }
+                        echo "
+                                    <tr>
+                                        <td>Software Audit</td>
+                                        <td>OS, Browser";
+                        if($java == "1"){
+                            echo ", Java";
+                        }
+                        if($flash == "1"){
+                            echo ", Flash";
+                        }
+                        echo "</td>
+                                    </tr>
+                        ";
                         echo "
                                 </table>
                                 <br />
@@ -2109,18 +2141,18 @@ if ( file_exists ( $includeContent ) ) {
                                 <td><h3>Education</h3></td>
                                 <td><h3>Links</h3></td>
                                 <td><h3>Posts</h3></td>
-                                <td><h3>Progress</h3></td>
+                                <td><h3>End Time</h3></td>
                                 <td><h3>Delete</h3></td>
                             </tr>
                             <?php
                                 //connect to database
                                 include "../spt_config/mysql_config.php";
                                 //pull in list of all campaigns
-                                $r = mysql_query ( "SELECT campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id WHERE campaigns.status = 3 ORDER BY campaigns.id DESC" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                $r = mysql_query ( "SELECT campaigns.date_ended as date_ended, campaigns.id, campaigns.campaign_name, campaigns.template_id, campaigns.education_id, templates.name as name, education.name as education_name FROM campaigns JOIN templates ON campaigns.template_id = templates.id LEFT JOIN education ON campaigns.education_id = education.id WHERE campaigns.status = 3 ORDER BY campaigns.id DESC" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                                 while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                     echo "
                                             <tr>
-                                                <td><a href=\"?c=" . $ra['id'] . "&responses=true#tabs-4\">" . $ra['campaign_name'] . "</a></td>\n
+                                                <td><a href=\"?c=" . $ra['id'] . "&responses=true#tabs-5\">" . $ra['campaign_name'] . "</a></td>\n
                                                 <td>";
                                     $campaign_id = $ra['id'];
                                     //pull in groups
@@ -2137,14 +2169,7 @@ if ( file_exists ( $includeContent ) ) {
                                         $post = $ra2['post'];
                                     }
                                     echo "<td><a href=\"?c=" . $ra['id'] . "&amp;f=link&responses=true#tabs-4\">" . $link . "</a></td><td><a href=\"?c=" . $ra['id'] . "&amp;f=post&responses=true#tabs-4\">" . $post . "</a></td>";
-                                    echo "<td>";
-                                    $r5 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id' AND sent != 0" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                                    $r6 = mysql_query ( "SELECT sent FROM campaigns_responses WHERE campaign_id = '$campaign_id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
-                                    $sent = mysql_num_rows ( $r5 );
-                                    $total = mysql_num_rows ( $r6 );
-                                    $percentage = ceil ( ($sent / $total) * 100 );
-                                    echo "<progress id=\"message_progress\" max=\"100\" value=\"" . $percentage . "\"></progress>";
-                                    echo "</td>";
+                                    echo "<td>".$ra['date_ended']."</td>";
                                     echo "<td><a href=\"delete_campaign.php?c=" . $campaign_id . "&tab_return=5\"><img src=\"../images/report_delete_sm.png\" alt=\"delete\" /></a></td>";
                                     echo "</tr>";
                                 }
