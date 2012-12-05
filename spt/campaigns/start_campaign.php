@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 38.0
+ * version: 39.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -73,6 +73,8 @@ if ( isset ( $_POST['education_timing'] ) ) {
 if ( isset ( $_POST['relay_host'] ) ) {
     $relay_host = $_POST['relay_host'];
     $_SESSION['temp_relay_host'] = $relay_host;
+}else{
+    $relay_host = "-";
 }
 if ( isset ( $_POST['shorten_radio'] ) ) {
     $shorten = filter_var ( $_POST['shorten_radio'], FILTER_SANITIZE_STRING );
@@ -161,29 +163,15 @@ if(isset($start_minute) && ($start_minute < 0 OR $start_minute > 59)){
     header('location:.?add_campaign=true#tabs-1');
     exit;
 }
-if(isset($check_java) && ($check_java == "yes" OR $check_java== "no")){
-    if($check_java == "yes"){
-        $check_java = 1;
-    }
-    if($check_java == "no"){
-        $check_java = 0
-    }
+if(isset($check_java)){
+    $check_java = 1;
 }else{
-    $_SESSION['alert_message'] = "please select or not select the Java checkbox rather than submitting a different value.";
-    header('location:.?add_campaign=true#tabs-1');
-    exit;
+    $check_java = 0;
 }
-if(isset($check_flash) && ($check_flash == "yes" OR $check_flash== "no")){
-    if($check_flash == "yes"){
-        $check_flash = 1;
-    }
-    if($check_flash == "no"){
-        $check_flash = 0
-    }
+if(isset($check_flash)){
+    $check_flash = 1;
 }else{
-    $_SESSION['alert_message'] = "please select or not select the Flash checkbox rather than submitting a different value.";
-    header('location:.?add_campaign=true#tabs-1');
-    exit;
+    $check_flash = 0;
 }
 if(isset($background) && $background == 'Yes'){
     $background = 'Y';

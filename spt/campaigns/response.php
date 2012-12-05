@@ -2,7 +2,7 @@
 
 /**
  * file:    response.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -63,6 +63,8 @@ else {
         header ( 'location:http://127.0.0.1' );
         exit;
     }
+    //set response id session
+    $_SESSION['response_id'] = $response_id;
     //get the ip address
     $target_ip = $_SERVER['REMOTE_ADDR'];
     //get the time when the link was clicked
@@ -87,7 +89,7 @@ else {
     //if a match happened record that they clicked the link
     if ( isset ( $match ) && $match == 1 ) {
         //get campaign id for this response
-        $r = mysql_query ( "SELECT campaign_id, target_id, link, sent, sent_time, check_java, check_flash FROM campaigns_responses WHERE response_id = '$response_id'" );
+        $r = mysql_query ( "SELECT campaign_id, target_id, link, sent, sent_time, java, flash, url, response_log FROM campaigns_responses WHERE response_id = '$response_id'" );
         while ( $ra = mysql_fetch_assoc ( $r ) ) {
             $campaign_id = $ra['campaign_id'];
             $target_id = $ra['target_id'];
@@ -96,45 +98,17 @@ else {
             $sent_time = $ra['sent_time'];
             $url = $ra['url'];
             $response_log = $ra['response_log'];
+        }
+        //get campaign direction on whether java or flash should be checked
+        $r = mysql_query("SELECT check_java, check_flash FROM campaigns WHERE id = '$campaign_id'");
+        while ($ra=mysql_fetch_assoc($r)){
             $check_java = $ra['check_java'];
             $check_flash = $ra['check_flash'];
         }
-        //start html
-        echo "<html>";
-        //if configured, check java version
-        if($check_java == 1){
-
-            echo '
-                    <script type="text/javascript" src="http://java.com/js/deployJava.js"></script>
-                    <script type="text/javascript">
-                        //set function that will update java version
-                        function updateJava(response_id, link_time, java_version){
-                            //begin new request
-                            xmlhttp = new XMLHttpRequest();
-                            //send update request
-                            xmlhttp.onreadystatechange=function() {
-                                if(xmlhttp.readyState==4){
-                                    alert(xmlhttp.responseText);
-                                }
-                            }
-                            xmlhttp.open("POST","update_java_version.php",true);
-                            xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                            xmlhttp.send("r="+response_id+"&l="+link_time+"&j="+java_version);
-                        }            
-                        var java_version = deployJava.getJREs();
-                        updateJava('.$response_id.', '.$link_time.', java_version);
-                    </script>';
-        }
-        //if configured, check flash version
-        if($check_flash == 1){
-
-        }
-        //end html
-        echo "</html>";
-        if($link == 0){
+        if($link == "0"){
             mysql_query ( "UPDATE campaigns_responses SET link = 1, ip = '$target_ip', os = '$os', browser = '$browser_type', browser_version = '$browser_version', link_time = '$link_time'  WHERE response_id = '$response_id'" );
         }else{
-            mysql_query ( "INSERT INTO campaigns_responses (target_id, campaign_id, response_id, link, ip, os, browser, browser_version, link_time, sent, sent_time, url, response_log) VALUES ('$target_id', '$campaign_id', '$response_id', 1, '$target_ip', '$os', '$browser_type', '$browser_version', '$link_time', '$sent', '$sent_time', '$url', '$response_log')" );
+            mysql_query ( "INSERT INTO campaigns_responses (target_id, campaign_id, response_id, link, ip, os, browser, browser_version, link_time, sent, url, response_log) VALUES ('$target_id', '$campaign_id', '$response_id', 1, '$target_ip', '$os', '$browser_type', '$browser_version', '$link_time', '$sent', '$url', '$response_log')" );
         }
         //determine what template and education this campaign is using
         $r = mysql_query ( "SELECT template_id, education_id, education_timing FROM campaigns WHERE id = '$campaign_id'" );
@@ -149,6 +123,20 @@ else {
             $_SESSION['education_id'] = $education_id;
             $_SESSION['education_timing'] = $education_timing;
             $_SESSION['link_time'] = $link_time;
+            //if additional audits should be done send them to be audited first
+            //java only
+            if(isset($check_java) && $check_java == 1){
+                $_SESSION['check_java'] = 1;
+            }
+            //flash only
+            if(isset($check_flash) && $check_flash == 1){
+                $_SESSION['check_flash'] = 1;
+            }
+            //send to audit if necessary
+            if($_SESSION['check_java'] OR $_SESSION['check_flash']){
+                header('location:audit.php');
+                exit;
+            }
             //if the campaign is set to education immediately, send the target to be educated
             if ( $education_id > 0 && $education_timing == 1 ) {
                 header ( 'location:../education/' . $education_id . '/' );
