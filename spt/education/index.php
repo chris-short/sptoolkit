@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 23.0
+ * version: 25.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -67,7 +67,7 @@ if ( file_exists ( $includeContent ) ) {
                 if ( isset ( $_REQUEST['editor'] ) && $_REQUEST['editor'] == 1 ) {
                     include "../includes/editor.php";
                 }
-                if($_GET['add_package'] && $_GET['add_package'] == "true"){
+                if(isset($_GET['add_package']) && $_GET['add_package'] == "true"){
                     echo '
                         <div id="add_package">
                             <div>
@@ -112,7 +112,7 @@ if ( file_exists ( $includeContent ) ) {
                             </div>
                         </div>';
                 }
-                if($_GET['update_package'] && $_GET['update_package'] == "true"){
+                if(isset($_GET['update_package']) && $_GET['update_package'] == "true"){
                     if(isset($_REQUEST['id'])){
                         //retrieve template id
                         $package_id = $_REQUEST['id'];
@@ -230,7 +230,7 @@ if ( file_exists ( $includeContent ) ) {
                                         <tr>
                                             <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"?id=" . $ra['id'] . "&update_package=true\">" . $ra['name'] . "</a></td>\n
                                             <td style=\"vertical-align:text-top; text-align: left;\">" . $ra['description'] . "</td>\n
-                                            <td><a href=\"?editor=1&type=education&id=" . $ra['id'] . "\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;<a href=\"copy_package.php?id=".$ra['id']."\"><img src=\"../images/page_copy_sm.png\" alt=\"copy\"/>&nbsp;&nbsp;<a href=\"delete_package.php?t=" . $ra['id'] . "\"><img src=\"../images/package_delete_sm.png\" alt=\"delete\" /></a></td>\n
+                                            <td><a href=\"?editor=1&type=education&id=" . $ra['id'] . "\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;<a href=\"copy_package.php?id=".$ra['id']."\"><img src=\"../images/page_copy_sm.png\" alt=\"copy\"/>&nbsp;&nbsp;<a href=\"export_package.php?education_id=".$ra['id']."\"><img src=\"../images/page_white_put_sm.png\" alt=\"download\" /></a>&nbsp;&nbsp;<a href=\"delete_package.php?t=" . $ra['id'] . "\"><img src=\"../images/package_delete_sm.png\" alt=\"delete\" /></a></td>\n
                                         </tr>\n";
                                 }
                             ?>

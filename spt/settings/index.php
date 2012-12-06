@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 42.0
+ * version: 43.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -566,7 +566,11 @@ if ( file_exists ( $includeContent ) ) {
                         <table class="standard_table" >
                             <tr>
                                 <td>Backup Database</td>
-                                <td><a href="backup_db.php">Download</a></td>
+                                <td>
+                                    <form action="backup_db.php">
+                                        <input type="submit" value="Download">
+                                    </form>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Restore Database</td>

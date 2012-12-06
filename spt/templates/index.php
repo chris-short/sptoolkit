@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 40.0
+ * version: 41.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -437,7 +437,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <tr>
                                     <td style=\"vertical-align:text-top; text-align: left;\"><a href=\"?id=".$ra['id']."&update_template=true#tabs-1\">" . $ra['name'] . "</a></td>\n
                                     <td style=\"vertical-align:text-top; text-align: left; width:300px;\">" . $ra['description'] . "</td>\n
-                                    <td><a href=\"?editor=1&type=templates&id=" . $ra['id'] . "\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;<a href=\"copy_template.php?id=".$ra['id']."\"><img src=\"../images/page_copy_sm.png\" alt=\"copy\"/>&nbsp;&nbsp;<a href=\"delete_template.php?t=" . $ra['id'] . "\"><img src=\"../images/world_delete_sm.png\" alt=\"delete\" /></a></td>\n
+                                    <td><a href=\"?editor=1&type=templates&id=" . $ra['id'] . "\"><img src=\"../images/pencil_sm.png\" /></a>&nbsp;&nbsp;<a href=\"copy_template.php?id=".$ra['id']."\"><img src=\"../images/page_copy_sm.png\" alt=\"copy\"/>&nbsp;&nbsp;<a href=\"export_template.php?template_id=".$ra['id']."\"><img src=\"../images/page_white_put_sm.png\" alt=\"download\" /></a>&nbsp;&nbsp;<a href=\"delete_template.php?t=" . $ra['id'] . "\"><img src=\"../images/world_delete_sm.png\" alt=\"delete\" /></a></td>\n
                                 </tr>\n";
                                 }
                             ?>

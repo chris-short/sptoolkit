@@ -2,7 +2,7 @@
 
 /**
  * file:    upload_template.php
- * version: 14.0
+ * version: 15.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -135,7 +135,8 @@ if (is_uploaded_file($_FILES['file']['tmp_name'])){
         exit;
     }
 }
-
+unset($_SESSION['temp_name']);
+unset($_SESSION['temp_description']);
 $_SESSION['alert_message'] = 'template added successfully';
 header ( 'location:./#tabs-1' );
 exit;

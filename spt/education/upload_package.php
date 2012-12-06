@@ -2,7 +2,7 @@
 
 /**
  * file:    upload_package.php
- * version: 13.0
+ * version: 14.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -135,7 +135,8 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
             exit;
         }
     }
-    
+    unset($_SESSION['temp_name']);
+    unset($_SESSION['temp_description']);
     $_SESSION['alert_message'] = 'education package added successfully';
     header('location:./#tabs-1');
     exit;
