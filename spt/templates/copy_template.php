@@ -2,7 +2,7 @@
 
 /**
  * file:    copy_template.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -106,7 +106,7 @@ function copy_directory( $source, $destination ) {
 //initiate the copy of the directory
 copy_directory($template_id,$new_template_id);
 //set alert message so that user knows that the template was successfully copied
-$_SESSION['alert_message'] = "the template has been copied, you may now edit the name and or description";
-header ( 'location:./?id='.$new_template_id.'&update_template=true#tabs-1' );
+$_SESSION['alert_message'] = "the template has been copied...look for the similar named template with [copy] at the end";
+header ( 'location:./#tabs-1' );
 exit;
 ?>

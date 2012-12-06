@@ -2,7 +2,7 @@
 
 /**
  * file:    copy_package.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -106,7 +106,7 @@ function copy_directory( $source, $destination ) {
 //initiate the copy of the directory
 copy_directory($package_id,$new_package_id);
 //set an alert message so that the user knows the copy has already happened
-$_SESSION['alert_message'] = "the copy has been created, you can customize the name and description now";
-header ( 'location:./?id='.$new_package_id.'&update_package=true#tabs-1' );
+$_SESSION['alert_message'] = "the copy has been created...look for the similar named package with [copy] at the end";
+header ( 'location:./#tabs-1' );
 exit;
 ?>
