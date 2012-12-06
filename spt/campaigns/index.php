@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 68.0
+ * version: 69.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -1969,6 +1969,54 @@ if ( file_exists ( $includeContent ) ) {
                     <div id="tabs-1">
                         <a href="?add_campaign=true#tabs-1" id="add_campaign_button" class="popover_button" ><img src="../images/email_to_friend_sm.png" alt="add" /> Campaign</a>
                         <a href="campaigns_export.php" id="campaign_export_button" class="popover_button" ><img src="../images/page_white_put_sm.png" alt="export" /> Export</a>
+                        <table class="standard_table">
+                            <?php
+                                include '../spt_config/mysql_config.php';
+                                //get data for summary table
+                                $scheduled = mysql_query("SELECT count(campaigns.id) AS scheduled, count(campaigns_responses.response_id) AS scheduled_targets FROM campaigns LEFT JOIN campaigns_responses ON campaigns.id = campaigns_responses.campaign_id WHERE campaigns.status = 0");
+                                while($scheduled_results = mysql_fetch_assoc($scheduled)){
+                                    $scheduled_counter = $scheduled_results['scheduled'];
+                                    $scheduled_targets = $scheduled_results['scheduled_targets'];
+                                }
+                                $active = mysql_query("SELECT count(campaigns.id) AS active, count(campaigns_responses.response_id) AS active_targets  FROM campaigns LEFT JOIN campaigns_responses ON campaigns.id = campaigns_responses.campaign_id WHERE campaigns.status = 1");
+                                while($active_results = mysql_fetch_assoc($active)){
+                                    $active_counter = $active_results['active'];
+                                    $active_targets = $active_results['active_targets'];
+                                }
+                                $inactive = mysql_query("SELECT count(campaigns.id) AS inactive, count(campaigns_responses.response_id) AS inactive_targets FROM campaigns LEFT JOIN campaigns_responses ON campaigns.id = campaigns_responses.campaign_id WHERE campaigns.status = 2");
+                                while($inactive_results = mysql_fetch_assoc($inactive)){
+                                    $inactive_counter = $inactive_results['inactive'];
+                                    $inactive_targets = $inactive_results['inactive_targets'];
+                                }
+                                $finished = mysql_query("SELECT count(campaigns.id) AS finished, count(campaigns_responses.response_id) AS finished_targets FROM campaigns LEFT JOIN campaigns_responses ON campaigns.id = campaigns_responses.campaign_id WHERE campaigns.status = 3");
+                                while($finished_results = mysql_fetch_assoc($finished)){
+                                    $finished_counter = $finished_results['finished'];
+                                    $finished_targets = $finished_results['finished_targets'];
+                                }
+                            echo '
+                            <tr>
+                                <td></td>
+                                <td colspan=2 style="text-align:center">Scheduled</td>
+                                <td colspan=2 style="text-align:center">Active</td>
+                                <td colspan=2 style="text-align:center">Inactive</td>
+                                <td colspan=2 style="text-align:center">Finished</td>
+                            </tr>
+                            <tr>
+                                <td>Campaigns</td>
+                                <td colspan=2 style="text-align:center;font-size:48px;background-color:lightgray">'.$scheduled_counter.'</td>
+                                <td colspan=2 style="text-align:center;font-size:48px;background-color:yellow">'.$active_counter.'</td>
+                                <td colspan=2 style="text-align:center;font-size:48px;background-color:lightskyblue">'.$inactive_counter.'</td>
+                                <td colspan=2 style="text-align:center;font-size:48px;background-color:lime">'.$finished_counter.'</td>
+                            </tr>
+                            <tr>
+                                <td>Targets</td>
+                                <td colspan=2 style="text-align:center;font-size:48px;background-color:lightgray">'.$scheduled_targets.'</td>
+                                <td colspan=2 style="text-align:center;font-size:48px;background-color:yellow">'.$active_targets.'</td>
+                                <td colspan=2 style="text-align:center;font-size:48px;background-color:lightskyblue">'.$inactive_targets.'</td>
+                                <td colspan=2 style="text-align:center;font-size:48px;background-color:lime">'.$finished_targets.'</td>
+                            </tr>
+                        </table>';
+                        ?>
                     </div>
                     <div id="tabs-2">
                         <table class="standard_table" >
