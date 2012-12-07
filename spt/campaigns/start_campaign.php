@@ -105,7 +105,7 @@ if(isset($_POST['check_java'])){
     $_SESSION['temp_check_java'] = $_POST['check_java'];
 }
 if(isset($_POST['check_flash'])){
-    $check_java = $_POST['check_flash'];
+    $check_flash = $_POST['check_flash'];
     $_SESSION['temp_check_flash'] = $_POST['check_flash'];
 }
 //ensure the campaign name is set

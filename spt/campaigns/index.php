@@ -2003,7 +2003,7 @@ if ( file_exists ( $includeContent ) ) {
                             </tr>
                             <tr>
                                 <td>Campaigns</td>
-                                <td colspan=2 style="text-align:center;font-size:48px;background-color:lightgray">'.$scheduled_counter.'</td>
+                                <td colspan=2 style="text-align:center;font-size:48px;background-color:lightgray"><a href="./#tabs-2">'.$scheduled_counter.'</a></td>
                                 <td colspan=2 style="text-align:center;font-size:48px;background-color:yellow">'.$active_counter.'</td>
                                 <td colspan=2 style="text-align:center;font-size:48px;background-color:lightskyblue">'.$inactive_counter.'</td>
                                 <td colspan=2 style="text-align:center;font-size:48px;background-color:lime">'.$finished_counter.'</td>
