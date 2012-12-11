@@ -45,7 +45,7 @@ cleanup_apt()
 #Get the required configuration items
 wwwroot="/var/www"
 echo && echo
-echo -e "\E[1;31m** This instllation script does NOT validate your input as right or wrong, so be careful to enter everything correctly! **\E[0;37m" && echo
+echo -e "\E[1;31m** This installation script does NOT validate your input as right or wrong, so be careful to enter everything correctly! **\E[0;37m" && echo
 read -s -p "Please enter the password for the MySQL 'root' account:  " rootpass && echo
 
 if [ "$(ls -A $wwwroot)" ]
@@ -70,7 +70,7 @@ read -s -p "Please enter the password for the first spt admin account (8 - 14 ch
 echo && echo
 
 
-echo -e "\E[1;31mThis instllation script, and the spt application, will require Intenret access.\E[0;37m"
+echo -e "\E[1;31mThis installation script, and the spt application, will require Intenret access.\E[0;37m"
 read -p "Do you need to configure this server with HTTP proxy information to reach the Internet? [ y / n ]  "  proxyrequired
 proxyrequired="$(echo ${proxyrequired^^})"
 if [ "$proxyrequired" == "Y" ]
@@ -271,7 +271,7 @@ echo
 echo -e "\E[1;32m  ** Support:  http://www.sptoolkit.com/forums  |  Documentation:  http://www.sptoolkit.com/documentation **"
 echo -e "\E[1;32m  ** Follow @sptoolkit (https://twitter.com/#!/sptoolkit) for updates and notifications. **"
 echo && echo && echo
-
+echo -e -n "\E[0;37m"
 
 #References:
 #String comparison:  http://tldp.org/LDP/abs/html/comparison-ops.html, http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html
