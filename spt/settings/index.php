@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 43.0
+ * version: 44.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -576,6 +576,23 @@ if ( file_exists ( $includeContent ) ) {
                                 <td>Restore Database</td>
                                 <td>
                                     <form action="restore_db.php" method="post" enctype="multipart/form-data" >
+                                        <input type="file" name="file" />
+                                        <input type="submit" value="Restore Now" />
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Backup Application</td>
+                                <td>
+                                    <form action="backup_app.php">
+                                        <input type="submit" value="Download">
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Restore Application</td>
+                                <td>
+                                    <form action="restore_app.php" method="post" enctype="multipart/form-data" >
                                         <input type="file" name="file" />
                                         <input type="submit" value="Restore Now" />
                                     </form>
