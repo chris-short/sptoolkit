@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 24.0
+ * version: 25.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -307,6 +307,7 @@ if ( file_exists ( $includeContent ) ) {
                     if(isset($_SESSION['temp_ldap_username'])){
                         echo '
                                             value="'.$_SESSION['temp_ldap_username'].'"';
+                        unset($_SESSION['temp_ldap_username']);
                     }
                     echo '
                                             /></td>
@@ -315,8 +316,8 @@ if ( file_exists ( $includeContent ) ) {
                                             <td>Admin</td>
                                             <td><input type="checkbox" name="ldap_admin"';
                     if(isset($_SESSION['temp_ldap_admin'])){
-                        echo '
-                                            " '.$_SESSION['temp_ldap_admin'].'"';
+                        echo $_SESSION['temp_ldap_admin'];
+                        unset($_SESSION['temp_ldap_admin']);                                            
                     }
                     echo '
                                             /></td>
@@ -325,8 +326,8 @@ if ( file_exists ( $includeContent ) ) {
                                             <td>Disabled</td>
                                             <td><input type="checkbox" name="ldap_disabled" ';
                     if(isset($_SESSION['temp_ldap_disabled'])){
-                        echo '
-                                            " '.$_SESSION['temp_ldap_disabled'].'"';
+                        echo $_SESSION['temp_ldap_disabled'];
+                        unset($_SESSION['temp_ldap_disabled']);                                            
                     }
                     echo '
                                             /></td>
@@ -522,6 +523,8 @@ if ( file_exists ( $includeContent ) ) {
                             <?php
                                 //connect to database                       
                                 include '../spt_config/mysql_config.php';
+                                //get ldap funcitons
+                                include '../includes/ldap.php';
                                 //retrieve all user data to populate the user table
                                 $r = mysql_query ( 'SELECT id, username, disabled, admin, ldap_host FROM users_ldap' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
                                 while ( $ra = mysql_fetch_assoc ( $r ) ) {
@@ -540,8 +543,6 @@ if ( file_exists ( $includeContent ) ) {
                                         $ldap_password = $ra1['password'];
                                         $ldap_basedn = $ra1['basedn'];
                                     }
-                                    //get ldap funcitons
-                                    include '../includes/ldap.php';
                                     //lookup first and last name based on email address
                                     $ldap_user_lookup = ldap_user_email_query($ldap_host, $ldap_port, $ldap_bindaccount, $ldap_password, $ldap_basedn, $ldap_ssl_enc, $ldap_ldaptype, $ldap_email);
                                     if($ldap_user_lookup){
