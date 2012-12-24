@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 44.0
+ * version: 45.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -526,7 +526,7 @@ if ( file_exists ( $includeContent ) ) {
                                     <tr>
                                         <td colspan=3>Test Authentication</td>
                                     </tr>
-                                        <td colspan=2>Username</td>
+                                        <td colspan=2>Email</td>
                                         <td><input type="text" name="username" /></td>
                                     <tr>
                                     </tr>

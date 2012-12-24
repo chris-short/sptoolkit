@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 26.0
+ * version: 27.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -475,7 +475,22 @@ if ( file_exists ( $includeContent ) ) {
                         <li><a href="#tabs-3">LDAP Groups</a></li>
                     </ul>
                     <div id="tabs-1">
-                        <a href="?edit_user=true#tabs-1" id="edit_user_button" class="popover_button" ><img src="../images/cog_edit_sm.png" alt="edit" /> <?php echo $_SESSION['username']; ?></a>
+                        <?php
+                            //see if user is an ldap user or not
+                            $current_user = $_SESSION['username'];
+                            $r = mysql_query("SELECT username FROM users_ldap WHERE username = '$current_user'");
+                            while($ra = mysql_fetch_assoc($r)){
+                                $ldap_username = $ra['username'];
+                            }
+                            if(isset($ldap_username)){
+                                echo "<a class=\"popover_button\" >";
+                                echo $current_user;
+                                echo "</a>";
+                            }
+                            else{
+                                echo '<a href="?edit_user=true#tabs-1" id="edit_user_button" class="popover_button" ><img src="../images/cog_edit_sm.png" alt="edit" />'.$_SESSION['username'].'</a>';
+                            }
+                        ?>
                         <a href="?add_user=true#tabs-1" id="add_user_button" class="popover_button" ><img src="../images/user_add_sm.png" alt="add" /> User</a>
                         <table class="standard_table" >
                             <tr>
@@ -622,17 +637,18 @@ if ( file_exists ( $includeContent ) ) {
                         </table>
                     </div>
                     <div id="tabs-3">
-                        <a href="?add_ldap_group=true#tabs-3" id="add_ldap_group_button" class="popover_button" ><img src="../images/user_add_sm.png" alt="add" /> LDAP Group</a>
+                        <!--<a href="?add_ldap_group=true#tabs-3" id="add_ldap_group_button" class="popover_button" ><img src="../images/user_add_sm.png" alt="add" /> LDAP Group</a>-->
                         <table class="standard_table" >
-                            <tr>
+                            <!--<tr>
                                 <td><h3>Group</h3></td>
                                 <td><h3>LDAP Host</h3></td>
                                 <td><h3>Admin</h3></td>
                                 <td><h3>Disabled</h3></td>
                                 <td colspan="2"><h3>Actions</h3></td>
-                            </tr>
+                            </tr>-->
+                            <div style="width:100%;margin:auto;text-align:center;"><br /><br />Coming Soon...</div>
                             <?php
-                                //connect to database                       
+                                /*//connect to database                       
                                 include '../spt_config/mysql_config.php';
                                 //retrieve all user data to populate the user table
                                 $r = mysql_query ( 'SELECT id, ldap_group, admin, disabled, ldap_host FROM users_ldap_groups' );
@@ -674,7 +690,7 @@ if ( file_exists ( $includeContent ) ) {
                                         echo "<td></td>";
                                     }
                                     echo "</tr>\n";
-                                }
+                                }*/
                             ?> 
                         </table>
                     </div>

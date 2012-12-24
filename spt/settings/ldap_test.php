@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_test.php
- * version: 10.0
+ * version: 12.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -118,9 +118,11 @@ if($_POST){
         //get username and password from submission
         $username = $_POST['username'];
         $password = $_POST['password'];
-        //get user dn
-        $ldap_test_user = ldap_user_query($current_ldap_server_host, $current_ldap_server_port, $current_ldap_server_bindaccount, $current_ldap_server_password, $current_ldap_server_basedn, $username, $current_ldap_server_ldaptype, $current_ldap_server_ssl);
-        $ldap_test_user_dn = $ldap_test_user[0]['dn'];
+        //get username
+        $ldap_user_lookup = ldap_user_email_query($current_ldap_server_host, $current_ldap_server_port, $current_ldap_server_bindaccount, $current_ldap_server_password, $current_ldap_server_basedn, $current_ldap_server_ssl, $current_ldap_server_ldaptype, $username);
+        if($ldap_user_lookup){
+            $ldap_test_user_dn = $ldap_user_lookup['0']['dn'];
+        }
         //attempt bind with provided username and password
         $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_test_user_dn,$password);
         if($ldap_bind){
