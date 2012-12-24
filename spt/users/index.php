@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 25.0
+ * version: 26.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -382,7 +382,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <form id="add_ldap_group_form" method="post" action="add_ldap_group.php" >
                                     <table id="add_ldap_group_table">
                     ';
-                    if($ldap_server_flag == 1){
+                    if(isset($ldap_server_flag) && $ldap_server_flag == 1){
                         echo "
                                         <tr>
                                             <td>Please go to Settings and configure an ldap server first.</td>
@@ -392,7 +392,33 @@ if ( file_exists ( $includeContent ) ) {
                     echo '
                                         <tr>
                                             <td>LDAP Group Name</td>
-                                            <td><input type="text" name="ldap_group" /></td>
+                                            <td><input type="text" name="ldap_group" ';
+                    if(isset($_SESSION['temp_ldap_group_name'])){
+                        echo $_SESSION['temp_ldap_group_name'];
+                        unset($_SESSION['temp_ldap_group_name']);
+                    }
+                    echo '
+                                            /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Admin</td>
+                                            <td><input type="checkbox" name="ldap_admin"';
+                    if(isset($_SESSION['temp_ldap_group_admin'])){
+                        echo $_SESSION['temp_ldap_group_admin'];
+                        unset($_SESSION['temp_ldap_group_admin']);                                            
+                    }
+                    echo '
+                                            /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Disabled</td>
+                                            <td><input type="checkbox" name="ldap_disabled" ';
+                    if(isset($_SESSION['temp_ldap_group_disabled'])){
+                        echo $_SESSION['temp_ldap_group_disabled'];
+                        unset($_SESSION['temp_ldap_group_disabled']);                                            
+                    }
+                    echo '
+                                            /></td>
                                         </tr>
                                         <tr>
                                             <td>LDAP Server</td>
@@ -407,7 +433,13 @@ if ( file_exists ( $includeContent ) ) {
                         $ldap_id = $ra['id'];
                         $ldap_host = $ra['host'];
                         echo "
-                                                    <option value=\"".$ldap_id."\">".$ldap_host."</option>
+                                                    <option value=\"".$ldap_id."\"";
+                        if(isset($_SESSION['temp_ldap_group_server_id']) && $_SESSION['temp_ldap_group_server_id'] == $ldap_id){
+                            echo "selected";
+                            unset($_SESSION['temp_ldap_group_server_id']);
+                        }
+                        echo "
+                                                    >".$ldap_host."</option>
                         ";
                     }
                     echo '
@@ -418,7 +450,7 @@ if ( file_exists ( $includeContent ) ) {
                                             <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-3"><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                                         </tr>
                     ';
-                    if($ldap_server_flag == 1){
+                    if(isset($ldap_server_flag) && $ldap_server_flag == 1){
                         echo "
                                         --><tr>
                                             <td style=\"text-align: center;\"><br /><a href=\".#tabs-3\"><img src=\"../images/cancel.png\" alt=\"cancel\" /></a></td>
@@ -546,8 +578,8 @@ if ( file_exists ( $includeContent ) ) {
                                     //lookup first and last name based on email address
                                     $ldap_user_lookup = ldap_user_email_query($ldap_host, $ldap_port, $ldap_bindaccount, $ldap_password, $ldap_basedn, $ldap_ssl_enc, $ldap_ldaptype, $ldap_email);
                                     if($ldap_user_lookup){
-                                        $lname = $ldap_user_lookup[0][givenName][0];
-                                        $lname = $ldap_user_lookup[0][sn][0];
+                                        $fname = $ldap_user_lookup['0']['givenName']['0'];
+                                        $lname = $ldap_user_lookup['0']['sn']['0'];
                                     }else{
                                         $fname = "n/a";
                                         $lname = "n/a";
@@ -577,7 +609,7 @@ if ( file_exists ( $includeContent ) ) {
                                     echo "</td>\n";
                                     //if the user is an admin and this record is not their own allow them to delete the user
                                     if ( isset ( $_SESSION['admin'] ) == 1 && $_SESSION['username'] != $ra['username'] ) {
-                                        echo "<td><a href=\"delete_user.php?u=";
+                                        echo "<td><a href=\"delete_ldap_user.php?u=";
                                         echo $ra['username'];
                                         echo "\"><img src=\"../images/user_delete_sm.png\" alt=\"delete\" /></a>";
                                         echo "</td>\n";
@@ -593,8 +625,7 @@ if ( file_exists ( $includeContent ) ) {
                         <a href="?add_ldap_group=true#tabs-3" id="add_ldap_group_button" class="popover_button" ><img src="../images/user_add_sm.png" alt="add" /> LDAP Group</a>
                         <table class="standard_table" >
                             <tr>
-                                <td><h3>Name</h3></td>
-                                <td><h3>Email</h3></td>
+                                <td><h3>Group</h3></td>
                                 <td><h3>LDAP Host</h3></td>
                                 <td><h3>Admin</h3></td>
                                 <td><h3>Disabled</h3></td>
@@ -604,12 +635,18 @@ if ( file_exists ( $includeContent ) ) {
                                 //connect to database                       
                                 include '../spt_config/mysql_config.php';
                                 //retrieve all user data to populate the user table
-                                $r = mysql_query ( 'SELECT id, admin, disabled, admin, ldap_host FROM users_ldap_groups' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+                                $r = mysql_query ( 'SELECT id, ldap_group, admin, disabled, ldap_host FROM users_ldap_groups' );
                                 while ( $ra = mysql_fetch_assoc ( $r ) ) {
                                     echo "<tr>\n<td>";
-                                    echo $ra['fname'] . " " . $ra['lname'];
+                                    echo $ra['ldap_group'];
                                     echo "</td>\n<td>";
-                                    echo $ra['username'];
+                                    $ldap_server = $ra['ldap_host'];
+                                    //get ldap servers
+                                    $r1 = mysql_query("SELECT * FROM settings_ldap WHERE id = '$ldap_server'");
+                                    while($ra1 = mysql_fetch_assoc($r1)){
+                                        $ldap_host = $ra1['host'];
+                                    }
+                                    echo $ldap_host;
                                     echo "</td>\n<td>";
                                     //determine if the specific user is an admin
                                     if ( $ra['admin'] == 1 ) {
@@ -626,11 +663,11 @@ if ( file_exists ( $includeContent ) ) {
                                         $disabled = 'no';
                                     }
                                     echo $disabled;
-                                    echo "</td>\n";
-                                    //if the user is an admin and this record is not their own allow them to delete the user
-                                    if ( isset ( $_SESSION['admin'] ) == 1 && $_SESSION['username'] != $ra['username'] ) {
-                                        echo "<td><a href=\"delete_user.php?u=";
-                                        echo $ra['username'];
+                                    echo "</td>";
+                                    //if the user is an admin allow them to delete the group
+                                    if ( isset ( $_SESSION['admin'] ) == 1 ) {
+                                        echo "<td><a href=\"delete_ldap_group.php?g=";
+                                        echo $ra['id'];
                                         echo "\"><img src=\"../images/user_delete_sm.png\" alt=\"delete\" /></a>";
                                         echo "</td>\n";
                                     } else {

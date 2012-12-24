@@ -2,7 +2,7 @@
 
 /**
  * file:    add_ldap_user.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -107,7 +107,7 @@ while($ra = mysql_fetch_assoc($r)){
 include '../includes/ldap.php';
 //lookup email address
 $ldap_user_lookup = ldap_user_email_query($ldap_host,$ldap_port, $ldap_bindaccount, $ldap_password, $ldap_basedn, $ldap_ssl_enc, $ldap_ldaptype, $ldap_username);
-if(!$ldap_user_lookup){
+if($ldap_user_lookup['count'] < 1){
     $_SESSION['alert_message'] = "this email address is not associated with a user";
     header('location:./?add_ldap_user=true#tabs-3');
     exit;
