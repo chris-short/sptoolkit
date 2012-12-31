@@ -2,7 +2,7 @@
 
 /**
  * file:   forgot_password.php
- * version: 10.0
+ * version: 11.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -105,7 +105,7 @@ if ( isset ( $_REQUEST['key'] ) ) {
 
     //connect to the database
     include '../spt_config/mysql_config.php';
-
+    include('../spt_config/encrypt_config.php');
     //pull in all email addresses
     $match = 0;
     $r = mysql_query ( "SELECT fname, lname, username FROM users" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
@@ -115,6 +115,21 @@ if ( isset ( $_REQUEST['key'] ) ) {
             $fname = $ra['fname'];
             $lname = $ra['lname'];
         }
+    }
+
+    //get smtp relay server if there is a default
+    $r = mysql_query("SELECT host, port, ssl_enc, username, aes_decrypt(password, '$spt_encrypt_key') as password FROM settings_smtp WHERE sys_default = 1");
+    while($ra = mysql_fetch_assoc($r)){
+        $relay_host = $ra['host'];
+        $relay_port = $ra['port'];
+        $ssl_enc = $ra['ssl_enc'];
+        if($ssl_enc == 1){
+            $ssl = "yes";
+        }else{
+            $ssl = "no";
+        }
+        $relay_username = $ra['username'];
+        $relay_password = $ra['password'];
     }
 
     //if the email address entered matches a username then proceed with the password reset	
@@ -156,18 +171,57 @@ if ( isset ( $_REQUEST['key'] ) ) {
         $message .= '<br><br><br>';
         $message .= '</body></html>';
 
-        //parse out the domain from the recipient email address
-        $domain_parts = explode ( "@", $email );
-        $domain = $domain_parts[1];
-
-        //get MX record for the destination
-        getmxrr ( $domain, $mxhosts );
-
         //include swiftmailer
         require_once '../includes/swiftmailer/lib/swift_required.php';
 
-        //create the transport
-        $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25 );
+        if ( isset ( $relay_host ) AND isset ( $relay_username ) AND isset ( $relay_password ) ) {
+            //Set relay port if set
+            if ( ! isset ( $relay_port ) ) {
+                $relay_port = 25;
+            }
+
+            if($ssl == "no"){
+                //Create the Transport
+                $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port )
+                    -> setUsername ( $relay_username )
+                    -> setPassword ( $relay_password )
+            ;    
+            }else{
+                //Create the Transport
+                $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' )
+                    -> setUsername ( $relay_username )
+                    -> setPassword ( $relay_password )
+            ;    
+            }
+            
+        }
+        if ( isset ( $relay_host ) AND ! isset ( $relay_username ) AND ! isset ( $relay_password ) ) {
+            if(isset($ssl) && $ssl == "no"){
+                //Create the Transport
+                $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port );    
+            }else{
+                //Create the Transport
+                $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' );    
+            }
+            
+        }
+        if ( ! isset ( $relay_host ) AND ! isset ( $relay_username ) AND ! isset ( $relay_password ) ) {
+            //parse out the domain from the recipient email address
+            $domain_parts = explode ( "@", $email );
+            $domain = $domain_parts[1];
+
+            //get MX record for the destination
+            getmxrr ( $domain, $mxhosts );
+
+            //
+            //create the transport
+            if(isset($ssl) && $ssl == "no"){
+                $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25 );    
+            }else{
+                $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25, 'ssl' );    
+            }
+            
+        }
 
         //Create the Mailer using your created Transport
         $mailer = Swift_Mailer::newInstance ( $transport );
@@ -206,7 +260,7 @@ if ( isset ( $_REQUEST['key'] ) ) {
 
     //if the email address entered does not match an existing username then send them back
     else {
-        $_SESSION['alert_message'] = "you must enter a valid email address";
+        $_SESSION['alert_message'] = "you must enter a valid email address (ldap accounts can not be reset)";
         header ( 'location:../#alert' );
         exit;
     }
