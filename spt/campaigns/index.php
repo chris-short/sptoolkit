@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 69.0
+ * version: 70.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -107,9 +107,9 @@ if ( file_exists ( $includeContent ) ) {
                         }
                         //connect to db
                         include '../spt_config/mysql_config.php';
-                        $r = mysql_query("SELECT status FROM campaigns WHERE id = '$c'");
+                        $r = mysql_query("SELECT status, cron_id FROM campaigns WHERE id = '$c'");
                         while($ra=mysql_fetch_assoc($r)){
-                            if($ra['status'] == 1){
+                            if($ra['status'] == 1 && strlen($ra['cron_id']) != 8){
                                 echo "sendEmail(campaign_id);";
                             }
                         }
@@ -1973,22 +1973,22 @@ if ( file_exists ( $includeContent ) ) {
                             <?php
                                 include '../spt_config/mysql_config.php';
                                 //get data for summary table
-                                $scheduled = mysql_query("SELECT count(campaigns.id) AS scheduled, count(campaigns_responses.response_id) AS scheduled_targets FROM campaigns LEFT JOIN campaigns_responses ON campaigns.id = campaigns_responses.campaign_id WHERE campaigns.status = 0");
+                                $scheduled = mysql_query("SELECT count(distinct(campaigns.id)) AS scheduled, count(campaigns_responses.response_id) AS scheduled_targets FROM campaigns LEFT JOIN campaigns_responses ON campaigns.id = campaigns_responses.campaign_id WHERE campaigns.status = 0");
                                 while($scheduled_results = mysql_fetch_assoc($scheduled)){
                                     $scheduled_counter = $scheduled_results['scheduled'];
                                     $scheduled_targets = $scheduled_results['scheduled_targets'];
                                 }
-                                $active = mysql_query("SELECT count(campaigns.id) AS active, count(campaigns_responses.response_id) AS active_targets  FROM campaigns LEFT JOIN campaigns_responses ON campaigns.id = campaigns_responses.campaign_id WHERE campaigns.status = 1");
+                                $active = mysql_query("SELECT count(distinct(campaigns.id)) AS active, count(campaigns_responses.response_id) AS active_targets  FROM campaigns LEFT JOIN campaigns_responses ON campaigns.id = campaigns_responses.campaign_id WHERE campaigns.status = 1");
                                 while($active_results = mysql_fetch_assoc($active)){
                                     $active_counter = $active_results['active'];
                                     $active_targets = $active_results['active_targets'];
                                 }
-                                $inactive = mysql_query("SELECT count(campaigns.id) AS inactive, count(campaigns_responses.response_id) AS inactive_targets FROM campaigns LEFT JOIN campaigns_responses ON campaigns.id = campaigns_responses.campaign_id WHERE campaigns.status = 2");
+                                $inactive = mysql_query("SELECT count(distinct(campaigns.id)) AS inactive, count(campaigns_responses.response_id) AS inactive_targets FROM campaigns LEFT JOIN campaigns_responses ON campaigns.id = campaigns_responses.campaign_id WHERE campaigns.status = 2");
                                 while($inactive_results = mysql_fetch_assoc($inactive)){
                                     $inactive_counter = $inactive_results['inactive'];
                                     $inactive_targets = $inactive_results['inactive_targets'];
                                 }
-                                $finished = mysql_query("SELECT count(campaigns.id) AS finished, count(campaigns_responses.response_id) AS finished_targets FROM campaigns LEFT JOIN campaigns_responses ON campaigns.id = campaigns_responses.campaign_id WHERE campaigns.status = 3");
+                                $finished = mysql_query("SELECT count(distinct(campaigns.id)) AS finished, count(campaigns_responses.response_id) AS finished_targets FROM campaigns LEFT JOIN campaigns_responses ON campaigns.id = campaigns_responses.campaign_id WHERE campaigns.status = 3");
                                 while($finished_results = mysql_fetch_assoc($finished)){
                                     $finished_counter = $finished_results['finished'];
                                     $finished_targets = $finished_results['finished_targets'];
