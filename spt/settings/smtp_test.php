@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_test.php
- * version: 4.0
+ * version: 5.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -63,24 +63,24 @@ if($_POST){
     include '../spt_config/encrypt_config.php';
     //get smtp settings for host
     $r = mysql_query("SELECT host, port, ssl_enc, username, aes_decrypt(password, '$spt_encrypt_key') as password, sys_default FROM settings_smtp WHERE id='$host'");
-    while($ra=mysql_fetch_array($r)){
+    while($ra=mysql_fetch_assoc($r)){
         //prep email settings
-        if(strlen($ra[1])){
-            $relay_host = $ra[1];
+        if(strlen($ra['host'])){
+            $relay_host = $ra['host'];
         }
-        if(strlen($ra[2])){
-            $relay_port = $ra[2];
+        if(strlen($ra['port'])){
+            $relay_port = $ra['port'];
         }
-        if(isset($ra[3]) && $ra[3] == 1){
+        if(isset($ra['ssl_enc']) && $ra['ssl_enc'] == 1){
             $ssl = 'yes';
         }else{
             $ssl = 'no';
         }
-        if(strlen($ra[4])){
-            $relay_username = $ra[4];
+        if(strlen($ra['username'])){
+            $relay_username = $ra['username'];
         }
-        if(strlen($ra[5])){
-            $relay_password = $ra[5];
+        if(strlen($ra['password'])){
+            $relay_password = $ra['password'];
         }
     }
     //send the email
@@ -132,7 +132,6 @@ if($_POST){
             -> setFrom ( array ( $sender_email => $sender_friendly ) )
             -> setReplyTo ( $reply_to )
             -> setTo ( array ( $test_email => $fname . ' ' . $lname ) )
-            -> setContentType ( $content_type )
             -> setBody ( $message )
         ;
     //Send the message
