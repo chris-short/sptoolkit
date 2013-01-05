@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 41.0
+ * version: 42.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -520,6 +520,11 @@ if ( file_exists ( $includeContent ) ) {
                             echo "</tr>";
                         }
                     ?>
+                </table>
+            </div>
+            <div id="tabs-2">
+                <table class="standard_table" >
+                    <div style="width:100%;margin:auto;text-align:center;"><br /><br />Coming Soon...</div>
                 </table>
             </div>
         </div>	
