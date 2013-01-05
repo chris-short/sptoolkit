@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 45.0
+ * version: 46.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -571,6 +571,9 @@ if ( file_exists ( $includeContent ) ) {
                                         <input type="submit" value="Download">
                                     </form>
                                 </td>
+                                <td>
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>This will download a .sql file that contains all the relevant information in your database.  You can restore this .sql file to any spt installation of the same version. Do NOT attempt to restore this database backup to any version of spt that is not the same as this one.</span></a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Restore Database</td>
@@ -580,6 +583,9 @@ if ( file_exists ( $includeContent ) ) {
                                         <input type="submit" value="Restore Now" />
                                     </form>
                                 </td>
+                                <td>
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>This will delete the current database your application is talking to and restore from the file you provide it.  It is HIGHLY recommended that if there is any data in your current application that you take a backup before completing a restore from a previously taken backup.  This restore procedure is expecting a backup that was taken through the backup procedure immediatly above this restore function.  You can only restore successfully from a backup that was taken from the same version of spt.</span></a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Backup Application</td>
@@ -587,6 +593,9 @@ if ( file_exists ( $includeContent ) ) {
                                     <form action="backup_app.php">
                                         <input type="submit" value="Download">
                                     </form>
+                                </td>
+                                <td>
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>While the database contains most of your applications information, there are some files that you want to keep that are contained within the application itself.  This will backup the entire application so that you can move it somewhere else or just have a backup of things like your database connection information, the encryption key that is used to encrypt data in the databaes, as well as your custom templates and education packages.  This backup will be downloaded in the form of a .zip file.</span></a>
                                 </td>
                             </tr>
                             <tr>
@@ -596,6 +605,9 @@ if ( file_exists ( $includeContent ) ) {
                                         <input type="file" name="file" />
                                         <input type="submit" value="Restore Now" />
                                     </form>
+                                </td>
+                                <td>
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>This will completely overwrite your current application including database connectivity information, encryption key, as well as templates and education packages.  If you are restoring from a previously taken backup, it is highly recommended that you backup the application using the procedure above before completing a restore.</span></a>
                                 </td>
                             </tr>
                             <tr>
@@ -614,7 +626,7 @@ if ( file_exists ( $includeContent ) ) {
                                 <td>System Time</td>
                                 <td>Current: <?php print strftime('%c'); ?></td>
                                 <td>
-                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>If the date/time is wrong, have your system administrator update the system time on the server hosting this application.  A simple way to update the time would be to run a command such as this at the command line as root: <strong>ntpdate pool.ntp.org</strong>.</span></a>
+                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>If the date/time is wrong, have your system administrator update the system time on the server hosting this application.  A simple way to update the time would be to run a command such as this at the command line as root: <strong>ntpdate pool.ntp.org</strong>.<br /><br />This date/time value is only refreshed on page refresh, so if you are worried about the time being correct down to the minute or second please refresh the page if you haven't done so in several seconds/minutes.</span></a>
                                 </td>
                             </tr>
                             <!--<tr>
