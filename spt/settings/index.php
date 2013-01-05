@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 46.0
+ * version: 47.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -133,7 +133,7 @@ if ( file_exists ( $includeContent ) ) {
                                                 echo '/></td>
                                             </tr>
                                             <tr>
-                                                <td>SSL</td>
+                                                <td>TLS</td>
                                                 <td style="text-align: left;"><input type="checkbox" name="ssl" ';
                                                 if(isset($_SESSION['temp_smtp_ssl'])){
                                                     echo 'CHECKED';
@@ -223,7 +223,7 @@ if ( file_exists ( $includeContent ) ) {
                                                 <td style="text-align: left;"><input type="text" name="port" value="'.$smtp_server_port.'"/></td>
                                             </tr>
                                             <tr>
-                                                <td>SSL</td>
+                                                <td>TLS</td>
                                                 <td style="text-align: left;"><input type="checkbox" name="ssl" ';
                                                 if($smtp_server_ssl == '1'){
                                                     echo 'CHECKED';
@@ -331,7 +331,7 @@ if ( file_exists ( $includeContent ) ) {
                                                 echo '/></td>
                                             </tr>
                                             <tr>
-                                                <td>SSL</td>
+                                                <td>TLS</td>
                                                 <td style="text-align: left;"><input type="checkbox" name="ssl" ';
                                                 if(isset($_SESSION['temp_ssl'])){
                                                     echo 'CHECKED';
@@ -684,7 +684,7 @@ if ( file_exists ( $includeContent ) ) {
                             <tr>
                                 <td><h3>Host</h3></td>
                                 <td><h3>Port</h3></td>
-                                <td><h3>SSL?</h3></td>
+                                <td><h3>TLS?</h3></td>
                                 <td><h3>Username</h3></td>
                                 <td><h3>Default?</h3></td>
                                 <td><h3>Actions</h3></td>

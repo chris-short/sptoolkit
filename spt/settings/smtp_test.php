@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_test.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -98,7 +98,7 @@ if($_POST){
             ;    
         }else{
             //Create the Transport
-            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' )
+            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'tls' )
                 -> setUsername ( $relay_username )
                 -> setPassword ( $relay_password )
             ;    
@@ -110,7 +110,7 @@ if($_POST){
             $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port );    
         }else{
             //Create the Transport
-            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' );    
+            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'tls' );    
         }
     }
     //Create the Mailer using your created Transport
@@ -140,7 +140,7 @@ if($_POST){
     $mail_log = $logger -> dump ();
     $mail_log = nl2br ( htmlentities ( $mail_log ) );
     //Set alert message
-    $_SESSION['alert_message'] = $mail_log;
+    $_SESSION['alert_message'] = 'Your message has been sent...here is the mail log (read it quick!) :)<br /><br />'.$mail_log;
 }
 header('location:.#tabs-2');
 exit;

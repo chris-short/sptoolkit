@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 22.0
+ * version: 23.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -262,7 +262,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         ;    
         }else{
             //Create the Transport
-            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' )
+            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'tls' )
                 -> setUsername ( $relay_username )
                 -> setPassword ( $relay_password )
         ;    
@@ -275,7 +275,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
             $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port );    
         }else{
             //Create the Transport
-            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' );    
+            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'tls' );    
         }
         
     }
@@ -292,7 +292,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         if(isset($ssl) && $ssl == "no"){
             $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25 );    
         }else{
-            $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25, 'ssl' );    
+            $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25, 'tls' );    
         }
         
     }

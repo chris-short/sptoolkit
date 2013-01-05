@@ -2,7 +2,7 @@
 
 /**
  * file:   forgot_password.php
- * version: 11.0
+ * version: 12.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -66,7 +66,7 @@ if ( isset ( $_REQUEST['key'] ) ) {
                         mysql_query ( "UPDATE users SET preset_enabled = '0' WHERE username = '$u'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
                         //send them to their edit user page
-                        header ( 'location:../users/#edit_user' );
+                        header ( 'location:../users/?edit_user=true#tabs-1' );
                         exit;
                     }
                 }
@@ -188,7 +188,7 @@ if ( isset ( $_REQUEST['key'] ) ) {
             ;    
             }else{
                 //Create the Transport
-                $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' )
+                $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'tls' )
                     -> setUsername ( $relay_username )
                     -> setPassword ( $relay_password )
             ;    
@@ -201,7 +201,7 @@ if ( isset ( $_REQUEST['key'] ) ) {
                 $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port );    
             }else{
                 //Create the Transport
-                $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' );    
+                $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'tls' );    
             }
             
         }
@@ -218,7 +218,7 @@ if ( isset ( $_REQUEST['key'] ) ) {
             if(isset($ssl) && $ssl == "no"){
                 $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25 );    
             }else{
-                $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25, 'ssl' );    
+                $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25, 'tls' );    
             }
             
         }
