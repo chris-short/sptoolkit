@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    index.php
- * version: 70.0
+ * version: 71.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -590,7 +590,7 @@ if ( file_exists ( $includeContent ) ) {
                                     </div>
                                     <table>
                                         <tr>
-                                            <td colspan="3" style="text-align: center;"><br /><a href=".#tabs-1"><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/accept.png" alt="accept" /><span><b>WARNING:</b> When you click this button, you will be directed to the campaign response page for this new campaign and emails will begin to be sent.</span></a></td>
+                                            <td colspan="3" style="text-align: center;"><br /><a href=".#tabs-1"><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="tooltip"><input type="image" src="../images/accept.png" alt="accept" /><span><b>WARNING:</b> If not using background or scheduling, emails will begin sending immediatly upon pushing the button.</span></a></td>
                                         </tr>
                                     </table>
                                 </div>
