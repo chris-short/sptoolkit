@@ -2,7 +2,7 @@
 <?php
 /**
  * file:    index.php
- * version: 30.0
+ * version: 31.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Dashboard management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -157,9 +157,9 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
                                         unset($match);
                                     }
                                     //set SQL statements
-                                    $total_phishes_sql = "SELECT target_id FROM campaigns_responses WHERE sent = 2";
-                                    $total_sql = "SELECT target_id FROM campaigns_responses WHERE post IS NOT NULL AND sent = 2";
-                                    $total_link_only_sql = "SELECT target_id FROM campaigns_responses WHERE post IS NULL AND link != 0 AND sent = 2";
+                                    $total_phishes_sql = "SELECT target_id FROM campaigns_responses WHERE sent = 2 AND sent_time IS NOT NULL";
+                                    $total_sql = "SELECT target_id FROM campaigns_responses WHERE post IS NOT NULL AND sent = 2 AND sent_time IS NOT NULL";
+                                    $total_link_only_sql = "SELECT target_id FROM campaigns_responses WHERE post IS NULL AND link != 0 AND sent = 2 AND sent_time IS NOT NULL";
                                     //append any filters if necessary
                                     if (isset($pp_campaign_id)) {
                                         $total_phishes_sql .= " AND campaign_id = " . $pp_campaign_id;
@@ -273,7 +273,7 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
                             unset($match);
                         }
                         //set SQL statements
-                        $bad_targets = "SELECT CONCAT(targets.fname, ' ',targets.lname) AS name, SUM(campaigns_responses.link) AS links, COUNT(campaigns_responses.post) AS posts, ((SUM(campaigns_responses.link))+(COUNT(campaigns_responses.post))) AS total_response FROM campaigns_responses JOIN targets ON campaigns_responses.target_id = targets.id WHERE sent = 2";
+                        $bad_targets = "SELECT CONCAT(targets.fname, ' ',targets.lname) AS name, SUM(campaigns_responses.link) AS links, COUNT(campaigns_responses.post) AS posts, ((SUM(campaigns_responses.link))+(COUNT(campaigns_responses.post))) AS total_response FROM campaigns_responses JOIN targets ON campaigns_responses.target_id = targets.id WHERE sent = 2 AND sent_time IS NOT NULL";
                         //append any filters if necessary
                         //campaign
                         if (isset($bt_campaign_id)) {
@@ -442,12 +442,10 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
                                     unset($match);
                                 }
                                 //set SQL statements
-                                $email_status_sql = "SELECT COUNT(sent) AS sent FROM campaigns_responses";
-                                //add WHERE clause
-                                $email_status_sql .= " WHERE";
+                                $email_status_sql = "SELECT COUNT(sent) AS sent FROM campaigns_responses WHERE sent_time IS NOT NULL";
                                 //append any filters if necessary
                                 if (isset($es_campaign_id)) {
-                                    $email_status_sql .= " campaign_id = " . $es_campaign_id;
+                                    $email_status_sql .= " AND campaign_id = " . $es_campaign_id;
                                 }
                                 if (isset($es_campaign_id)) {
                                     $email_status_sql .= " AND";
@@ -592,7 +590,7 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
                                     unset($match);
                                 }
                                 //set SQL statements
-                                $browser_stats_sql = "SELECT DISTINCT(CONCAT(browser, ' ', browser_version)) AS browser, COUNT(browser) AS count FROM campaigns_responses WHERE browser IS NOT NULL GROUP BY browser";
+                                $browser_stats_sql = "SELECT DISTINCT(CONCAT(browser, ' ', browser_version)) AS browser, COUNT(browser) AS count FROM campaigns_responses WHERE browser IS NOT NULL";
                                 //append any filters if necessary
                                 if (isset($bs_campaign_id)) {
                                     $browser_stats_sql .= " AND campaign_id = " . $bs_campaign_id;
@@ -601,6 +599,8 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
                                 if (isset($bs_browser)) {
                                     $browser_stats_sql .= " AND browser = '" . $bs_browser . "'";
                                 }
+                                //append group by clause
+                                $browser_stats_sql .= " GROUP BY browser";
                                 //get total number of browsers
                                 $r2 = mysql_query("SELECT COUNT(browser) AS count FROM campaigns_responses WHERE browser IS NOT NULL");
                                 while ($ra2 = mysql_fetch_assoc($r2)) {
