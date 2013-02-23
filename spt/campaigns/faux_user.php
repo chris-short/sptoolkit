@@ -2,7 +2,7 @@
 
 /**
  * file:    faux_user.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -70,14 +70,8 @@ if(isset($_GET['cron_id']) && isset($_GET['c'])){
             $counter = 60;
         }
         //prep next faux user session by creating a cron job
-        //get protocol
-        if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
-            $request_protocol = "https";
-        } else {
-            $request_protocol = "http";
-        }
         //get path
-        $path = '127.0.0.1' . $_SERVER['REQUEST_URI'];
+        $path = 'http://127.0.0.1' . $_SERVER['REQUEST_URI'];
         //get current date and time
         $start_minute = date('i') + 1;
         $start_hour = date('G');
@@ -86,7 +80,7 @@ if(isset($_GET['cron_id']) && isset($_GET['c'])){
         //formulate cron date and time
         $cron_start_date = $start_minute.'    '.$start_hour.'   '.$start_day.'    '.$start_month.'    *    ';
         //construct url that needs to be hit based on cronjob
-        $cron_url = "'".$request_protocol."://".$path."'";
+        $cron_url = "'".$path."'";
         //create a cronjob to come back and start the campaign
         $output = shell_exec('crontab -l');
         file_put_contents('/tmp/crontab.txt', $output.$cron_start_date.'curl '.$cron_url.PHP_EOL);
@@ -96,7 +90,7 @@ if(isset($_GET['cron_id']) && isset($_GET['c'])){
         //start sending email
         while($counter < 61){
             //curl url with log suppression
-            shell_exec('curl \''.$request_protocol."://".$new_path.'\' 2>&1');
+            shell_exec('curl \''.$new_path.'\' 2>&1');
             $counter++;
             sleep(1);
         }

@@ -2,7 +2,7 @@
 
 /**
  * file:    start_campaign.php
- * version: 39.0
+ * version: 40.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -278,6 +278,12 @@ if (isset($start_month)){
     $cron_start_date = $start_minute.'    '.$start_hour.'    '.$start_day.'    '.$start_month.'    *    ';
     //create random cron_id value and store it in the database
     $cron_id = mt_rand(10000000,99999999);
+    //get protocol
+    if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
+        $request_protocol = "https";
+    } else {
+        $request_protocol = "http";
+    }
     //create the campaign
     mysql_query ( "INSERT INTO campaigns (campaign_name, template_id, domain_name, education_id, education_timing, date_sent, message_delay, status, spt_path, cron_id, check_java, check_flash) VALUES ('$campaign_name', '$template_id', '$spt_path', '$education_id', '$education_timing', '$date_sent', '$message_delay', 0, '$spt_path', '$cron_id', '$check_java', '$check_flash')" ) or die ( '<!DOCTYPE HTML><html><body><div id="die_error">There is a problem with the database...please try again later</div></body></html>' );
     //get the id of this campaign
@@ -286,11 +292,11 @@ if (isset($start_month)){
         $campaign_id = $ra['campaign_id'];
     }
     //get path
-    $path = '127.0.0.1' . $_SERVER['REQUEST_URI'];
+    $path = 'http://127.0.0.1' . $_SERVER['REQUEST_URI'];
     //replace start_campaignn with faux_user
     $path = preg_replace('/start_campaign/', 'faux_user', $path);
     //construct url that needs to be hit based on cronjob
-    $cron_url = "http://".$path."?c=".$campaign_id."&cron_id=".$cron_id."'";
+    $cron_url = "'".$path."?c=".$campaign_id."&cron_id=".$cron_id."'";
     //create a cronjob to come back and start the campaign
     $output = shell_exec('crontab -l');
     file_put_contents('/tmp/crontab.txt', $output.$cron_start_date.'curl '.$cron_url.PHP_EOL);
@@ -377,6 +383,12 @@ if($background == 'Y'){
         header('location:.#tabs-1');
         exit;
     }
+    //get protocol
+    if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
+        $request_protocol = "https";
+    } else {
+        $request_protocol = "http";
+    }
     //get current date and time
     $start_minute = date('i') + 1;
     $start_hour = date('G');
@@ -385,11 +397,11 @@ if($background == 'Y'){
     //formulate cron date and time
     $cron_start_date = $start_minute.'    '.$start_hour.'    '.$start_day.'    '.$start_month.'    *    ';
     //get path
-    $path = '127.0.0.1' . $_SERVER['REQUEST_URI'];
+    $path = 'http://127.0.0.1' . $_SERVER['REQUEST_URI'];
     //replace start_campaignn with faux_user
     $path = preg_replace('/start_campaign/', 'faux_user', $path);
     //construct url that needs to be hit based on cronjob
-    $cron_url = "http://".$path."?c=".$campaign_id."&cron_id=".$cron_id."'";
+    $cron_url = "'".$path."?c=".$campaign_id."&cron_id=".$cron_id."'";
     //create a cronjob to come back and start the campaign
     $output = shell_exec('crontab -l');
     file_put_contents('/tmp/crontab.txt', $output.$cron_start_date.'curl '.$cron_url.PHP_EOL);
