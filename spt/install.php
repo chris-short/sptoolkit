@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 24.0
+ * version: 25.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -296,12 +296,6 @@ session_start ();
                         }
                     }
 
-                    //run the salt install script
-                    include "salt_install.php";
-
-                    //delete the salt install script
-                    unlink ( "salt_install.php" );
-
                     //populate the mysql_config.php file in the spt_config directory
                     function f_and_r ( $find, $replace, $path ) {
                         $find = "#" . $find . "#";
@@ -419,9 +413,6 @@ session_start ();
 
 //Step 4 - Configure Salt & Encrypt Key
                 if ( isset ( $_SESSION['install_status'] ) && $_SESSION['install_status'] == 4 ) {
-                    $salt = '';
-
-                    //generate salt
                     function genRandomString () {
                         $length = 50;
                         $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -431,19 +422,6 @@ session_start ();
                         }
                         return $random;
                     }
-
-                    $salt = genRandomString ();
-
-
-                    //enter salt value into database
-                    include "spt_config/mysql_config.php";
-                    mysql_query ( "INSERT INTO salt (salt) VALUES ('$salt')" );
-
-                    $_SESSION['install_status'] = 5;
-
-                    //generate random key for encryption
-                    $encrypt_key = genRandomString();
-
                     function f_and_r ( $find, $replace, $path ) {
                         $find = "#" . $find . "#";
                         $globarray = glob ( $path );
@@ -454,7 +432,12 @@ session_start ();
                                 file_put_contents ( $filename, $source );
                             }
                     }
-
+                    //generate salt
+                    $salt = genRandomString ();
+                    //populate the get_salt.php file with the generated salt value
+                    f_and_r ( "salt='replace_me';", "salt='" . $salt . "';", "login/get_salt.php" );
+                    //generate random key for encryption
+                    $encrypt_key = genRandomString();
                     //populate the encrypt_config.php file with the generated encryption key
                     f_and_r ( "spt_encrypt_key='replace_me';", "spt_encrypt_key='" . $encrypt_key . "';", "spt_config/encrypt_config.php" );
                 }

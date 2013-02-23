@@ -2,7 +2,7 @@
 
 /**
  * file:    get_salt.php
- * version: 2.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Login management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -28,13 +28,8 @@
 //WARNING: changing an installations salt value may break authentication to spt globally
 //connect to database
 include '../spt_config/mysql_config.php';
-
-//get the salt value
-$r = mysql_query ( "SELECT salt FROM salt" );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    $salt = $ra['salt'];
-}
-
+//salt value
+$salt='replace_me';
 //set the salt session
 $_SESSION['salt'] = $salt;
 ?>
