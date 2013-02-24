@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 25.0
+ * version: 26.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -440,6 +440,8 @@ session_start ();
                     $encrypt_key = genRandomString();
                     //populate the encrypt_config.php file with the generated encryption key
                     f_and_r ( "spt_encrypt_key='replace_me';", "spt_encrypt_key='" . $encrypt_key . "';", "spt_config/encrypt_config.php" );
+                    //set installation status
+                    $_SESSION['install_status'] = 5;
                 }
 
 //Step 5 - Configure First User
@@ -553,13 +555,8 @@ session_start ();
 
                         //connect to database
                         include 'spt_config/mysql_config.php';
-
                         //get the salt value
-                        $r = mysql_query ( "SELECT salt FROM salt" );
-                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                            $salt = $ra['salt'];
-                        }
-
+                        include 'login/get_salt.php';
                         //pass temp password to new variable that has been salted and hashed
                         $p = sha1 ( $salt . $temp_p . $salt );
                     } else {
