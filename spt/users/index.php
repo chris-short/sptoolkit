@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 27.0
+ * version: 28.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -281,26 +281,20 @@ if ( file_exists ( $includeContent ) ) {
                             </div>
                         </div>';
                 }
+                if(isset($_GET['add_ldap_user']) && $_GET['add_ldap_user'] == 'true'){
                 //see if there are any ldap servers configured
                 $r = mysql_query("SELECT id FROM settings_ldap");
                 $row_count = mysql_num_rows($r);
                 if($row_count < 1){
-                    $ldap_server_flag = 1;
+                    $_SESSION['alert_message'] = "Please go to Settings and configure an ldap server first";
+                    header ( 'location:./#tabs-2' );
+                    exit;
                 }
-                if(isset($_GET['add_ldap_user']) && $_GET['add_ldap_user'] == 'true'){
                     echo '
                         <div id="add_ldap_user">
                             <div>
                                 <form id="add_ldap_user_form" method="post" action="add_ldap_user.php" >
                                     <table id="add_ldap_user_table">
-                    ';
-                    if(isset($ldap_server_flag) && $ldap_server_flag == 1){
-                        echo "
-                                        <tr>
-                                            <td>Please go to Settings and configure an ldap server first.</td>
-                                        </tr><!--";
-                    }
-                    echo '
                                         <tr>
                                             <td>LDAP Email Address</td>
                                             <td><input type="text" name="ldap_username" ';
@@ -360,13 +354,6 @@ if ( file_exists ( $includeContent ) ) {
                                             <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-2"><img src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
                                         </tr>
                         ';
-                    }
-                    if(isset($ldap_server_flag) && $ldap_server_flag == 1){
-                        echo "
-                                        --><tr>
-                                            <td style=\"text-align: center;\"><br /><a href=\".#tabs-2\"><img src=\"../images/cancel.png\" alt=\"cancel\" /></a></td>
-                                        </tr>
-                        ";
                     }
                     echo '
                                     </table>
