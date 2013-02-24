@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_test.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -46,7 +46,6 @@ if($_POST){
     }
     else{
         $_SESSION['alert_message'] = 'host was either empty or not a valid hostname';
-        header ( 'location:.#tabs-2' );
         exit;
     }
     //get test email
@@ -55,7 +54,6 @@ if($_POST){
     }
     else{
         $_SESSION['alert_message'] = 'please enter a valid email address';
-        header ( 'location:./?test_smtp_server='.$host.'#tabs-2' );
         exit;
     }
     //connect to database
@@ -142,6 +140,5 @@ if($_POST){
     //Set alert message
     $_SESSION['alert_message'] = 'Your message has been sent...here is the mail log (read it quick!) :)<br /><br />'.$mail_log;
 }
-header('location:.#tabs-2');
 exit;
 ?>

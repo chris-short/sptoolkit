@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 25.0
+ * version: 26.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -58,6 +58,28 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
         <script type="text/javascript" src="includes/escape.js"></script>
         <script src="includes/jquery.min.js"></script>
         <script src="includes/jquery-ui.min.js"></script>
+        <script language="Javascript" type="text/javascript">
+            function forgotPassword() 
+            { 
+                //begin new request
+                xmlhttp = new XMLHttpRequest();
+                //get email address
+                var email = document.getElementById("forgotten_password").value;
+                //check for response
+                xmlhttp.onreadystatechange=function()
+                  {
+                  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                    {
+                        window.location = ".";
+                        window.location.reload();
+                    }
+                  }                
+                //send update request
+                xmlhttp.open("POST","login/forgot_password.php",true);
+                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlhttp.send("email="+email);
+            }
+        </script>
     </head>
     <body onload='login_form.u.focus()'>
         
@@ -140,23 +162,21 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
                     <!--forgot password-->
                     <div id=\"forgot_password\">
                         <div>
-                            <form id=\"forgot_password_form\" method=\"post\" action=\"login/forgot_password.php\">
-                                <table>
-                                    <tr>
-                                        <td colspan=\"2\" style=\"text-align: left;\"><h3>Forgot Password</h3></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan=\"2\" style=\"text-align: left;\">Enter your email address below and you will get<br />instructions on how to reset your password.<br /><br /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email</td>
-                                        <td><input type=\"text\" name=\"email\" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan=\"2\" style=\"text-align: center;\"><br /><a href=\".\"><img src=\"images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"image\" src=\"images/accept.png\" alt=\"edit\" /></td>
-                                    </tr>
-                                </table>
-                            </form>
+                            <table>
+                                <tr>
+                                    <td colspan=\"2\" style=\"text-align: left;\"><h3>Forgot Password</h3></td>
+                                </tr>
+                                <tr>
+                                    <td colspan=\"2\" style=\"text-align: left;\">Enter your email address below and you will get<br />instructions on how to reset your password.<br /><br /></td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td><input id=\"forgotten_password\" type=\"text\" name=\"email\" /></td>
+                                </tr>
+                                <tr>
+                                    <td colspan=\"2\" style=\"text-align: center;\"><br /><a href=\".\"><img src=\"images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"image\" src=\"images/accept.png\" alt=\"edit\" onclick=\"forgotPassword()\"/></td>
+                                </tr>
+                            </table>
                         </div>
                     </div>";
             }

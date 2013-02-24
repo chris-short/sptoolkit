@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 47.0
+ * version: 48.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -65,7 +65,28 @@ if ( file_exists ( $includeContent ) ) {
                 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 xmlhttp.send("setting="+setting+"&value="+value); 
             }
-        </script> 
+            function testEmail() 
+            { 
+                //begin new request
+                xmlhttp = new XMLHttpRequest();
+                //get email address
+                var test_email = document.getElementById("test_email").value;
+                var current_host = document.getElementById("current_host").value;
+                //check for response
+                xmlhttp.onreadystatechange=function()
+                  {
+                  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                    {
+                        window.location = ".";
+                        window.location.reload();
+                    }
+                  }                
+                //send update request
+                xmlhttp.open("POST","smtp_test.php",true);
+                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlhttp.send("test_email="+test_email+"&current_host="+current_host);
+            }
+        </script>
     </head>
     <body>
         <!--alert-->
@@ -277,22 +298,20 @@ if ( file_exists ( $includeContent ) ) {
                             <div>
                                 <table id="test_smtp_server_table">
                                     <tr>
-                                        <form method="POST" action="smtp_test.php" />
-                                            <tr>
-                                                <td colspan=2 style="text-align: left;"><h3>Test '.$test_smtp_server_host.'</h3></td>
-                                                <td style="text-align: right;">
-                                                    <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter an email address you\'d like to send a test message to and hit "Send It."  Check that email addresses mailbox and ensure you receive the email.  If the email is not there, then check your SMTP settings and try again.</span></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Test Email</td>
-                                                <td style="text-align: left;"><input type="text" name="test_email" /></td>
-                                            </tr>
-                                            <input type="hidden" name="current_host" value="'.$test_smtp_server_id.'"/>
-                                            <tr>
-                                                <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-2"><img id="test_smtp_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" /></td>
-                                            </tr>
-                                        </form>
+                                        <tr>
+                                            <td colspan=2 style="text-align: left;"><h3>Test '.$test_smtp_server_host.'</h3></td>
+                                            <td style="text-align: right;">
+                                                <a class="tooltip"><img src="../images/lightbulb_sm.png" alt="help" /><span>Enter an email address you\'d like to send a test message to and hit "Send It."  Check that email addresses mailbox and ensure you receive the email.  If the email is not there, then check your SMTP settings and try again.</span></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Test Email</td>
+                                            <td style="text-align: left;"><input id=test_email type="text" name="test_email" /></td>
+                                        </tr>
+                                        <input type="hidden" id=current_host name="current_host" value="'.$test_smtp_server_id.'"/>
+                                        <tr>
+                                            <td colspan="2" style="text-align: center;"><br /><a href=".#tabs-2"><img id="test_smtp_server_cancel" src="../images/cancel.png" alt="cancel" /></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="../images/accept.png" alt="accept" onclick="testEmail()" /></td>
+                                        </tr>
                                     </tr>
                                 </table>
                              </div>
