@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 23.0
+ * version: 24.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -176,7 +176,8 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         $relay_password = $ra_current_host['password'];
     }
     //set the current email address
-    $current_target_email_address = $ra['email'];
+    $current_target_email_address = html_entity_decode($ra['email']);
+    $current_target_email_address = preg_replace('/&#39;/', '\'',$current_target_email_address);
     $current_response_id = $ra['response_id'];
     $fname = $ra['fname'];
     $lname = $ra['lname'];

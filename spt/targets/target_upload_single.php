@@ -2,7 +2,7 @@
 
 /**
  * file:    target_upload_single.php
- * version: 19.0
+ * version: 20.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -103,6 +103,7 @@ if ( ! filter_var ( $email, FILTER_VALIDATE_EMAIL ) ) {
     header ( 'location:./?add_one=true#tabs-1' );
     exit;
 }
+$email = filter_var($email, FILTER_SANITIZE_STRING);
 
 //if they selected an existing group name lets ensure that they really selected an existing value
 //connect to database

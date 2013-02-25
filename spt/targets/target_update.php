@@ -2,7 +2,7 @@
 
 /**
  * file:    target_update.php
- * version: 5.0
+ * version: 6.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -46,7 +46,7 @@ $target_id = $_POST['id'];
 $target_column = $_POST['column'];
 
 //set target data
-$target_data = $_POST['data'];
+$target_data = filter_var($_POST['data'], FILTER_SANITIZE_STRING);
 
 //connect to database
 include "../spt_config/mysql_config.php";
