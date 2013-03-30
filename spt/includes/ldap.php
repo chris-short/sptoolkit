@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap.php
- * version: 14.0
+ * version: 15.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Includes
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -44,7 +44,7 @@ function ldap_connection($ldap_server,$ldap_port, $ssl_enc){
 //ldap bind function
 function ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass){
     //protect from anonymous bind
-    if(strlen($ldap_pass) > 1){
+    if(strlen($ldap_pass) > 1 && strlen($ldap_user) > 1){
         //if connected attempt bind
         $ldap_bind = ldap_bind($ldap_conn,$ldap_user,$ldap_pass);        
     }
