@@ -26,11 +26,7 @@
 //ldap connect function
 function ldap_connection($ldap_server,$ldap_port, $ssl_enc){
     if($ssl_enc == 1){
-        if($ldap_port!=443){
-            $ldap_conn = ldap_connect("ldaps://".$ldap_server.":".$ldap_port."/");
-        }else{
-            $ldap_conn = ldap_connect("ldaps://".$ldap_server."/");    
-    }
+        $ldap_conn = ldap_connect("ldaps://".$ldap_server, $ldap_port);
     }else{
         //setup connection
         $ldap_conn = ldap_connect($ldap_server,$ldap_port);    
