@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap.php
- * version: 13.0
+ * version: 14.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Includes
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -27,9 +27,9 @@
 function ldap_connection($ldap_server,$ldap_port, $ssl_enc){
     if($ssl_enc == 1){
         if($ldap_port!=443){
-            $ldap_conn = ldap_connect("https://".$ldap_server.":".$ldap_port."/");
+            $ldap_conn = ldap_connect("ldaps://".$ldap_server.":".$ldap_port."/");
         }else{
-            $ldap_conn = ldap_connect("https://".$ldap_server."/");    
+            $ldap_conn = ldap_connect("ldaps://".$ldap_server."/");    
     }
     }else{
         //setup connection
@@ -43,8 +43,11 @@ function ldap_connection($ldap_server,$ldap_port, $ssl_enc){
 }
 //ldap bind function
 function ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass){
-    //if connected attempt bind
-    $ldap_bind = ldap_bind($ldap_conn,$ldap_user,$ldap_pass);
+    //protect from anonymous bind
+    if(strlen($ldap_pass) > 1){
+        //if connected attempt bind
+        $ldap_bind = ldap_bind($ldap_conn,$ldap_user,$ldap_pass);        
+    }
     //return bind
     return $ldap_bind;
 }

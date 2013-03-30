@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap_edit.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -83,11 +83,14 @@ if($_POST){
     }else{
         $bindaccount = "";
     }
+    //connect to database
+    include '../spt_config/mysql_config.php';
+    include '../spt_config/encrypt_config.php';
     //get password if provided
     if(isset($_POST['password']) && strlen($_POST['password']) > 0){
         $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
-    }else{
-        $password = "";
+        //update password
+        mysql_query("UPDATE settings_ldap SET password = aes_encrypt('$password','$spt_encrypt_key') WHERE host = '$current_host'");
     }
     //get basedn
     if(isset($_POST['basedn'])){
@@ -95,13 +98,8 @@ if($_POST){
     }else{
         $basedn = "";
     }
-    //connect to database
-    include '../spt_config/mysql_config.php';
-    include '../spt_config/encrypt_config.php';
-    //delete existing entry
-    mysql_query("DELETE FROM settings_ldap WHERE id = '$current_host'");
-    //add ldap server details to database
-    mysql_query("INSERT INTO settings_ldap(host, port, ssl_enc, ldaptype, bindaccount, password, basedn) VALUES('$host','$port', '$ssl', '$ldaptype', '$bindaccount', aes_encrypt('$password','$spt_encrypt_key'), '$basedn')");
+    //update ldap server details
+    mysql_query("UPDATE settings_ldap SET host = '$host', port = '$port', ssl_enc = '$ssl', ldaptype = '$ldaptype', bindaccount = '$bindaccount', basedn = '$basedn' WHERE host = '$current_host'");
     if(mysql_error()){
         $_SESSION['alert_message'] = mysql_error();
         header('location:.#tabs-3');
