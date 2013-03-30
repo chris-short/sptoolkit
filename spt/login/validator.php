@@ -2,10 +2,10 @@
 
 /**
  * file:    validator.php
- * version: 8.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
- * component:	Login management
- * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
+ * component:   Login management
+ * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
@@ -29,6 +29,7 @@
 session_start ();
 //pull the unique salt value
 include 'get_salt.php';
+include '../spt_config/encrypt_config.php';
 //set an ip session variable with a salt to avoid session hijacking
 $_SESSION['ip'] = md5 ( $_SESSION['salt'] . $_SERVER['REMOTE_ADDR'] . $_SESSION['salt'] );
 //connect to the database
@@ -78,11 +79,11 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     }
 }
 //grab all usernames from the ldap table
-$r = mysql_query ( 'SELECT username, admin, disabled, ldap_host FROM users_ldap' ) ;
+$r = mysql_query ( 'SELECT * FROM users_ldap' ) ;
 //start a loop to compare the data pulled from the database to the data submitted by user for each user in the database
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     //the actual comparison
-    if ( $ra['username'] == $u && $ra['disabled'] != 1 ) {     
+    if ( $ra['username'] == $u && $ra['disabled'] != 1 ) { 
         //get ldap host id
         $ldap_server = $ra['ldap_host'];
         //get ldap server details
