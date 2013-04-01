@@ -2,10 +2,10 @@
 
 /**
  * file:    index.php
- * version: 28.0
+ * version: 29.0
  * package: Simple Phishing Toolkit (spt)
- * component:	User management
- * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
+ * component:   User management
+ * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
@@ -451,6 +451,50 @@ if ( file_exists ( $includeContent ) ) {
                         </div>
                     ';
                 }
+                if(isset($_GET['show_group_members']) && $_GET['show_group_members'] == 'true' && isset($_GET['g']) && isset($_GET['h'])){
+                    echo '
+                        <div id="show_group_members">
+                            <div>
+                                    <table id="show_group_members_table">';
+                    //connect to database                       
+                    include '../spt_config/mysql_config.php';
+                    //get decrypt key
+                    include '../spt_config/encrypt_config.php';
+                    //get ldap funcitons
+                    include '../includes/ldap.php';
+                    //get group and host id's
+                    $ldap_group_id = $_GET['g'];
+                    $ldap_host = $_GET['h'];
+                    //get ldap servers
+                    $r1 = mysql_query("SELECT host, port, ssl_enc, ldaptype, bindaccount, aes_decrypt(password, '$spt_encrypt_key') as password, basedn FROM settings_ldap WHERE id = '$ldap_host'");
+                    while($ra1 = mysql_fetch_assoc($r1)){
+                        $ldap_host = $ra1['host'];
+                        $ldap_port = $ra1['port'];
+                        $ldap_ssl_enc = $ra1['ssl_enc'];
+                        $ldap_ldaptype = $ra1['ldaptype'];
+                        $ldap_bindaccount = $ra1['bindaccount'];
+                        $ldap_password = $ra1['password'];
+                        $ldap_basedn = $ra1['basedn'];
+                    }
+                    $r2 = mysql_query("SELECT ldap_group FROM users_ldap_groups WHERE id='$ldap_group_id'");
+                    while($ra2 = mysql_fetch_assoc($r2)){
+                        $ldap_group = $ra2['ldap_group'];
+                    }
+                    //get group dn
+                    $ldap_group_dn = ldap_group_query($ldap_host,$ldap_port,$ldap_bindaccount,$ldap_password,$ldap_basedn,$ldap_ldaptype,$ldap_ssl_enc,$ldap_group);
+                    $ldap_group_dump = ldap_user_of_group($ldap_host,$ldap_port,$ldap_ssl_enc,$ldap_ldaptype,$ldap_bindaccount,$ldap_password,$ldap_basedn,$ldap_group_dn[0]['dn']);
+                    foreach ($ldap_group_dump as $email) {
+                        echo "<tr><td>".$email['mail'][0]."</td></tr>";
+                    }
+                    echo '
+                                    <tr>
+                                        <td style="text-align: center;"><br /><a href=".#tabs-3"><img src="../images/cancel.png" alt="cancel" /></a></td>
+                                    </tr>                                   
+                                </table>
+                            </div>
+                        </div>
+                    ';
+                }
             ?>
             <!--content-new-->
             <div id="content">
@@ -557,6 +601,8 @@ if ( file_exists ( $includeContent ) ) {
                             <?php
                                 //connect to database                       
                                 include '../spt_config/mysql_config.php';
+                                //get decrypt key
+                                include '../spt_config/encrypt_config.php';
                                 //get ldap funcitons
                                 include '../includes/ldap.php';
                                 //retrieve all user data to populate the user table
@@ -567,7 +613,7 @@ if ( file_exists ( $includeContent ) ) {
                                     $ldap_disabled = $ra['disabled'];
                                     $ldap_admin = $ra['admin'];
                                     //get ldap servers
-                                    $r1 = mysql_query("SELECT * FROM settings_ldap WHERE id = '$ldap_server'");
+                                    $r1 = mysql_query("SELECT host, port, ssl_enc, ldaptype, bindaccount, aes_decrypt(password, '$spt_encrypt_key') as password, basedn FROM settings_ldap WHERE id = '$ldap_server'");
                                     while($ra1 = mysql_fetch_assoc($r1)){
                                         $ldap_host = $ra1['host'];
                                         $ldap_port = $ra1['port'];
@@ -580,8 +626,8 @@ if ( file_exists ( $includeContent ) ) {
                                     //lookup first and last name based on email address
                                     $ldap_user_lookup = ldap_user_email_query($ldap_host, $ldap_port, $ldap_bindaccount, $ldap_password, $ldap_basedn, $ldap_ssl_enc, $ldap_ldaptype, $ldap_email);
                                     if($ldap_user_lookup){
-                                        $fname = $ldap_user_lookup['0']['givenName']['0'];
-                                        $lname = $ldap_user_lookup['0']['sn']['0'];
+                                        $fname = $ldap_user_lookup[0]['givenname'][0];
+                                        $lname = $ldap_user_lookup[0]['sn'][0];
                                     }else{
                                         $fname = "n/a";
                                         $lname = "n/a";
@@ -624,18 +670,17 @@ if ( file_exists ( $includeContent ) ) {
                         </table>
                     </div>
                     <div id="tabs-3">
-                        <!--<a href="?add_ldap_group=true#tabs-3" id="add_ldap_group_button" class="popover_button" ><img src="../images/user_add_sm.png" alt="add" /> LDAP Group</a>-->
+                        <a href="?add_ldap_group=true#tabs-3" id="add_ldap_group_button" class="popover_button" ><img src="../images/user_add_sm.png" alt="add" /> LDAP Group</a>
                         <table class="standard_table" >
-                            <!--<tr>
+                            <tr>
                                 <td><h3>Group</h3></td>
                                 <td><h3>LDAP Host</h3></td>
                                 <td><h3>Admin</h3></td>
                                 <td><h3>Disabled</h3></td>
                                 <td colspan="2"><h3>Actions</h3></td>
-                            </tr>-->
-                            <div style="width:100%;margin:auto;text-align:center;"><br /><br />Coming Soon...</div>
+                            </tr>
                             <?php
-                                /*//connect to database                       
+                                //connect to database                       
                                 include '../spt_config/mysql_config.php';
                                 //retrieve all user data to populate the user table
                                 $r = mysql_query ( 'SELECT id, ldap_group, admin, disabled, ldap_host FROM users_ldap_groups' );
@@ -667,17 +712,20 @@ if ( file_exists ( $includeContent ) ) {
                                     }
                                     echo $disabled;
                                     echo "</td>";
+                                    //determine if the user is a member of this group
+                                    $ldap_member_of = ldap_user_of_group($ldap_host,$ldap_port,$ldap_ssl_enc,$ldap_ldaptype,$ldap_bindaccount,$ldap_password,$ldap_basedn,$_SESSION['username'],$ra['ldap_group']);                                                                        
                                     //if the user is an admin allow them to delete the group
-                                    if ( isset ( $_SESSION['admin'] ) == 1 ) {
-                                        echo "<td><a href=\"delete_ldap_group.php?g=";
-                                        echo $ra['id'];
+                                    if ( isset ( $_SESSION['admin'] ) AND $_SESSION['admin'] == 1 ) {
+                                        echo "<td>";
+                                        echo "<a href=\"?show_group_members=true&g=".$ra['id']."&h=".$ra['ldap_host']."#tabs-3\"><img src=\"../images/directory_listing_sm.png\" alt=\"show\" /></a>";
+                                        echo "&nbsp;<a href=\"delete_ldap_group.php?g=".$ra['id'];
                                         echo "\"><img src=\"../images/user_delete_sm.png\" alt=\"delete\" /></a>";
                                         echo "</td>\n";
                                     } else {
                                         echo "<td></td>";
                                     }
                                     echo "</tr>\n";
-                                }*/
+                                }
                             ?> 
                         </table>
                     </div>

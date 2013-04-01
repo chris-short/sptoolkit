@@ -2,7 +2,7 @@
 
 /**
  * file:    ldap.php
- * version: 15.0
+ * version: 16.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Includes
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -124,9 +124,9 @@ function ldap_user_dump($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_base
     return $ldap_user_dump;
 }
 //ldap group query
-function ldap_group_query($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_group){
+function ldap_group_query($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_type,$ldap_ssl,$ldap_group){
     //call connect function
-    $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_user,$ldap_pass);
+    $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_ssl);
     //call bind function
     $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass);
     //setup search filter for the data you want
@@ -141,21 +141,23 @@ function ldap_group_query($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_ba
     return $ldap_group_query;
 }
 //ldap user in group check
-function ldap_user_of_group($ldap_server,$ldap_port,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_user,$ldap_group_dn){
+function ldap_user_of_group($ldap_server,$ldap_port,$ldap_ssl,$ldap_type,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_group){
     //call connect function
-    $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_user,$ldap_pass);
+    $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_ssl);
     //call bind function
     $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_user,$ldap_pass);
     //setup search filter for the data you want
-    $search = "(&(memberof=CN=".$ldap_group.")(|(objectCategory=user)(ObjectClass=person)))";
+    $search = "(&(memberof=".$ldap_group.")(|(objectCategory=user)(ObjectClass=person)))";
     //setup filter for what you want from your data
-    $filter=array("displayName","objectclass", "cn");
+    $filter=array("displayName","objectclass", "cn", "mail");
     //search
     $ldap_user_dump = ldap_search($ldap_conn, $ldap_basedn, $search, $filter);    
     //get data
     $ldap_user_dump = ldap_get_entries($ldap_conn, $ldap_user_dump);
     //return dump
     return $ldap_user_dump;
+}
+function ldap_user_group_check($ldap_server,$ldap_port,$ldap_ssl,$ldap_type,$ldap_user,$ldap_pass,$ldap_basedn,$ldap_user,$ldap_group_dn){
     //call connect function
     $ldap_conn = ldap_connection($ldap_server,$ldap_port,$ldap_user,$ldap_pass);
     //call bind function

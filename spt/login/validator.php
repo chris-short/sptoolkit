@@ -2,7 +2,7 @@
 
 /**
  * file:    validator.php
- * version: 9.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Login management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -29,7 +29,10 @@
 session_start ();
 //pull the unique salt value
 include 'get_salt.php';
+//get encrypt key
 include '../spt_config/encrypt_config.php';
+//get ldap functions
+include '../includes/ldap.php';
 //set an ip session variable with a salt to avoid session hijacking
 $_SESSION['ip'] = md5 ( $_SESSION['salt'] . $_SERVER['REMOTE_ADDR'] . $_SESSION['salt'] );
 //connect to the database
@@ -98,8 +101,6 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
             $ldap_basedn = $ra1['basedn'];
         }
         //attempt bind with provided username and password
-        //get ldap functions
-        include '../includes/ldap.php';
         //get connected
         $ldap_conn = ldap_connection($ldap_host,$ldap_port, $ldap_ssl_enc);
         if(!$ldap_conn){
@@ -130,6 +131,64 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         }
     }
 }
+//grab all groups from the ldap group table
+$r = mysql_query('SELECT * FROM users_ldap_groups');
+//start a loop to get all users from each group
+while ($ra = mysql_fetch_assoc($r)){
+    $group = $ra['ldap_group'];
+    $host = $ra['ldap_host'];
+    if($ra['disabled'] != 1){
+        //get ldap servers
+        $r1 = mysql_query("SELECT host, port, ssl_enc, ldaptype, bindaccount, aes_decrypt(password, '$spt_encrypt_key') as password, basedn FROM settings_ldap WHERE id = '$host'");
+        while($ra1 = mysql_fetch_assoc($r1)){
+            $ldap_host = $ra1['host'];
+            $ldap_port = $ra1['port'];
+            $ldap_ssl_enc = $ra1['ssl_enc'];
+            $ldap_ldaptype = $ra1['ldaptype'];
+            $ldap_bindaccount = $ra1['bindaccount'];
+            $ldap_password = $ra1['password'];
+            $ldap_basedn = $ra1['basedn'];
+        }
+        //get group dn
+        $ldap_group_dn = ldap_group_query($ldap_host,$ldap_port,$ldap_bindaccount,$ldap_password,$ldap_basedn,$ldap_ldaptype,$ldap_ssl_enc,$group);
+        $ldap_group_dump = ldap_user_of_group($ldap_host,$ldap_port,$ldap_ssl_enc,$ldap_ldaptype,$ldap_bindaccount,$ldap_password,$ldap_basedn,$ldap_group_dn[0]['dn']);
+        foreach ($ldap_group_dump as $username) {
+            $ldap_user = $username['mail'][0];
+            if ( strtolower($ldap_user) == strtolower($u) ) { 
+                //attempt bind with provided username and password
+                //get connected
+                $ldap_conn = ldap_connection($ldap_host,$ldap_port, $ldap_ssl_enc);
+                if(!$ldap_conn){
+                    $_SESSION['alert_message'] = "problems attempting authentication";
+                    header('location:../');
+                    exit;
+                }
+                //get username
+                $ldap_user_lookup = ldap_user_email_query($ldap_host, $ldap_port, $ldap_bindaccount, $ldap_password, $ldap_basedn, $ldap_ssl_enc, $ldap_ldaptype, $ldap_user);
+                if($ldap_user_lookup){
+                    $ldap_dn = $ldap_user_lookup['0']['dn'];
+                }
+                //attempt bind with provided username and password
+                $ldap_bind = ldap_bind_connection($ldap_conn,$ldap_dn,$temp_p);
+                if($ldap_bind){
+                    //create an authenticated session
+                    $_SESSION['authenticated'] = 1;
+                    //create a username session
+                    $_SESSION['username'] = $u;
+                    //check to see if they are an admin
+                    if ( $ra['admin'] == 1 ) {
+                        //create an admin session
+                        $_SESSION['admin'] = 1;
+                    }
+                    //send authenticated user to the dashboard
+                    header ( 'location:../dashboard/#phish_pie' );
+                    exit;
+                }
+            }
+        }
+    }
+}
+
 //if they make it this far with no match then send them back to the login page with an error
 $_SESSION['alert_message'] = "invalid login attempt";
 header ( 'location:../' );
