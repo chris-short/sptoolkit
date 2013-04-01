@@ -3,7 +3,7 @@
 
 #
 # file:    install_spt.sh
-# version: 4.0
+# version: 5.0
 # package: Simple Phishing Toolkit (spt)
 # component:	Installation
 # copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -174,9 +174,18 @@ sed -i "s/$olddb/$newdb/" $configfile
 
 #Create the salt
 sptsalt="$(< /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-50})"
-sqlcmd="CREATE TABLE "salt" ("salt" varchar(50) NOT NULL)"
-mysql -u$sptuser -p$sptpass -Dspt -e "$sqlcmd"
-mysql -u$sptuser -p$sptpass -Dspt -e "INSERT INTO salt (salt) VALUES ('$sptsalt')"
+saltfile="$sptpath/login/get_salt.php"
+oldsalt="salt='replace_me';"
+newsalt="salt='$sptsalt';"
+sed -i "s/$oldsalt/$newsalt/" $saltfile
+
+
+#Create the encrypt key
+sptencryptkey="$(< /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-50})"
+encryptfile="$sptpath/settings/encrypt_config.php"
+oldencryptkey="spt_encrypt_key='replace_me';"
+newencryptkey="spt_encrypt_key='$sptencryptkey';"
+sed -i "s/$oldencryptkey/$newencryptkey/" $encryptfile
 
 
 #Run the SQL installation scripts
