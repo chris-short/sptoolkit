@@ -2,10 +2,10 @@
 
 /**
  * file:    index.php
- * version: 26.0
+ * version: 27.0
  * package: Simple Phishing Toolkit (spt)
- * component:	Core files
- * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
+ * component:   Core files
+ * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
@@ -68,7 +68,7 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
                 //check for response
                 xmlhttp.onreadystatechange=function()
                   {
-                  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                  if (xmlhttp.readyState==4)
                     {
                         window.location = ".";
                         window.location.reload();
@@ -78,6 +78,17 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
                 xmlhttp.open("POST","login/forgot_password.php",true);
                 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 xmlhttp.send("email="+email);
+                //put something in the alert message
+                var div = document.createElement('div');
+                div.id = 'alert';
+                if (document.body.firstChild)
+                  document.body.insertBefore(div, document.body.firstChild);
+                else
+                  document.body.appendChild(div);
+                var div2 = document.createElement('div');
+                div2.id = 'alert_content';
+                document.getElementById('alert').appendChild(div2);
+                document.getElementById('alert_content').innerHTML = 'Attempting to send now...';                
             }
         </script>
     </head>

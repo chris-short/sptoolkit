@@ -2,10 +2,10 @@
 
 /**
  * file:   forgot_password.php
- * version: 13.0
+ * version: 14.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Core files
- * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
+ * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
@@ -115,7 +115,7 @@ if ( isset ( $_REQUEST['key'] ) ) {
         $relay_username = $ra['username'];
         $relay_password = $ra['password'];
     }
-    //if the email address entered matches a username then proceed with the password reset	
+    //if the email address entered matches a username then proceed with the password reset  
     if ( $match == 1 ) {
         //get today's date for the window in which the password reset will be allowed
         $today = date ( "Y-m-d" );
@@ -201,6 +201,8 @@ if ( isset ( $_REQUEST['key'] ) ) {
                 -> setContentType ( $content_type )
                 -> setBody ( $message )
         ;
+        //Pre stage alert message in case something happens
+        $_SESSION['alert_message'] = "the message was attempted but something happened...try checking the Apache error logs (usually in /var/log/apache2/error.log)";
         //Send the message
         $mailer -> send ( $message, $failures );
         //store logs in database

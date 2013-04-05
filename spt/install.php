@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 27.0
+ * version: 28.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -177,11 +177,28 @@ session_start ();
             <td class=\"td_center\"><img src=\"images/accept.png\" alt=\"success\" /></td>";
                         $cron_good = "true";
                     }
-
                     echo "</tr>";
-                    
+                    //verify zip is installed
+                    $response = shell_exec('which zip');
+                    if(preg_match('/zip/', $response)){
+                        $zip = true;
+                    }else{
+                        $zip = false;
+                    }
+                    echo "
+        <tr>
+            <td>zip installed</td>";
+                    if($zip == false){
+                        echo "
+            <td class\"td_center\"><a class=\"tooltip\"><img src=\"images/cancel.png\" alt=\"problem\" /><span>zip must be installed for application backups to work.  Try running <b>apt-get install zip</b></span></a></td>";
+                    }else{
+                        echo "
+            <td class=\"td_center\"><img src=\"images/accept.png\" alt=\"success\" /></td>";
+                        $zip_good = "true";
+                    }
+                    echo "</tr>";                    
                     //Ensure all enviromental checks pass
-                    if ( $permission_error OR ! isset ( $proc_open_good ) OR ! isset ( $curl_good ) OR ! isset ($cron_good)) {
+                    if ( $permission_error OR ! isset ( $proc_open_good ) OR ! isset ( $curl_good ) OR ! isset ($cron_good) OR !isset($zip_good)) {
                         $enviro_checks = 0;
                     } else {
                         $enviro_checks = 1;

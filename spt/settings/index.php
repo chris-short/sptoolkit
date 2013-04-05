@@ -2,7 +2,7 @@
 
 /**
  * file:    index.php
- * version: 48.0
+ * version: 49.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Settings
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -75,7 +75,7 @@ if ( file_exists ( $includeContent ) ) {
                 //check for response
                 xmlhttp.onreadystatechange=function()
                   {
-                  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                  if (xmlhttp.readyState==4)
                     {
                         window.location = ".";
                         window.location.reload();
@@ -85,6 +85,17 @@ if ( file_exists ( $includeContent ) ) {
                 xmlhttp.open("POST","smtp_test.php",true);
                 xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
                 xmlhttp.send("test_email="+test_email+"&current_host="+current_host);
+                //put something in the alert message
+                var div = document.createElement('div');
+                div.id = 'alert';
+                if (document.body.firstChild)
+                  document.body.insertBefore(div, document.body.firstChild);
+                else
+                  document.body.appendChild(div);
+                var div2 = document.createElement('div');
+                div2.id = 'alert_content';
+                document.getElementById('alert').appendChild(div2);
+                document.getElementById('alert_content').innerHTML = 'Attempting to send now...';                
             }
         </script>
     </head>

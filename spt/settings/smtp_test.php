@@ -2,7 +2,7 @@
 
 /**
  * file:    smtp_test.php
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Settings
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -132,6 +132,8 @@ if($_POST){
             -> setTo ( array ( $test_email => $fname . ' ' . $lname ) )
             -> setBody ( $message )
         ;
+    //Pre stage alert message in case something happens
+    $_SESSION['alert_message'] = "the message was attempted but something happened...try checking the Apache error logs (usually in /var/log/apache2/error.log)";
     //Send the message
     $test = $mailer -> send ( $message, $failures );
     //store logs in database

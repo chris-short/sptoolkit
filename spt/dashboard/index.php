@@ -2,11 +2,11 @@
 <?php
 /**
  * file:    index.php
- * version: 31.0
+ * version: 32.0
  * package: Simple Phishing Toolkit (spt)
- * component:	Dashboard management
- * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
- * license:		GNU/GPL, see license.htm.
+ * component:   Dashboard management
+ * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
+ * license:     GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -459,23 +459,39 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
                                 }
                                 //query for emails not sent
                                 $r = mysql_query($email_status_sql . " sent = 0");
-                                while ($ra = mysql_fetch_assoc($r)) {
-                                    $email_not_sent = $ra['sent'];
+                                if($r){
+                                    while ($ra = mysql_fetch_assoc($r)) {
+                                        $email_not_sent = $ra['sent'];
+                                    }
+                                }else{
+                                    $email_not_sent = 0;
                                 }
                                 //query for emails with an unkown status
                                 $r = mysql_query($email_status_sql . " sent = 1");
-                                while ($ra = mysql_fetch_assoc($r)) {
-                                    $email_unknown = $ra['sent'];
+                                if($r){
+                                    while ($ra = mysql_fetch_assoc($r)) {
+                                        $email_unknown = $ra['sent'];
+                                    }    
+                                }else{
+                                    $email_unknown = 0;
                                 }
                                 //query for emails sent successfully
                                 $r = mysql_query($email_status_sql . " sent = 2");
-                                while ($ra = mysql_fetch_assoc($r)) {
-                                    $email_sent_successfully = $ra['sent'];
+                                if($r){
+                                    while ($ra = mysql_fetch_assoc($r)) {
+                                        $email_sent_successfully = $ra['sent'];
+                                    }    
+                                }else{
+                                    $email_sent_successfully = 0;
                                 }
                                 //query for emails that failed
                                 $r = mysql_query($email_status_sql . " sent = 3");
-                                while ($ra = mysql_fetch_assoc($r)) {
-                                    $email_failures = $ra['sent'];
+                                if($r){
+                                    while ($ra = mysql_fetch_assoc($r)) {
+                                        $email_failures = $ra['sent'];
+                                    }    
+                                }else{
+                                    $email_failures = 0;
                                 }
                                 if ($email_failures == 0 && $email_not_sent == 0 && $email_sent_successfully == 0 && $email_unknown == 0) {
                                     echo "['No Responses Yet', 0]";
