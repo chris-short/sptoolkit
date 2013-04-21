@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 28.0
+ * version: 29.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -190,7 +190,7 @@ session_start ();
             <td>zip installed</td>";
                     if($zip == false){
                         echo "
-            <td class\"td_center\"><a class=\"tooltip\"><img src=\"images/cancel.png\" alt=\"problem\" /><span>zip must be installed for application backups to work.  Try running <b>apt-get install zip</b></span></a></td>";
+            <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/cancel.png\" alt=\"problem\" /><span>zip must be installed for application backups to work.  Try running <b>apt-get install zip</b></span></a></td>";
                     }else{
                         echo "
             <td class=\"td_center\"><img src=\"images/accept.png\" alt=\"success\" /></td>";
