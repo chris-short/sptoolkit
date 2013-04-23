@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 29.0
+ * version: 30.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -150,6 +150,24 @@ session_start ();
                     }
 
                     echo "</tr>";
+                    
+                    //Verify LDAP is installed
+                    echo "
+        <tr>
+            <td>PHP LDAP Extensions Installed</td>";
+
+                    $loaded_extensions = get_loaded_extensions ();
+
+                    if ( ! in_array ( 'ldap', $loaded_extensions ) ) {
+                        echo "
+            <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/cancel.png\" alt=\"problem\" /><span>PHP's ldap extensions must be installed for ldap connections to work.  Try <b>apt-get install php5-ldap;/etc/init.d/apache2 restart</b></span></a></td>";
+                    } else {
+                        echo "
+            <td class=\"td_center\"><img src=\"images/accept.png\" alt=\"success\" /></td>";
+                        $ldap_good = "true";
+                    }
+
+                    echo "</tr>";
 
                     //Verify cron exists
                     $faux_date = "1    1    1    1    1";
@@ -198,7 +216,7 @@ session_start ();
                     }
                     echo "</tr>";                    
                     //Ensure all enviromental checks pass
-                    if ( $permission_error OR ! isset ( $proc_open_good ) OR ! isset ( $curl_good ) OR ! isset ($cron_good) OR !isset($zip_good)) {
+                    if ( $permission_error OR ! isset ( $proc_open_good ) OR ! isset ( $curl_good ) OR ! isset ($cron_good) OR !isset($zip_good) OR !isset($ldap_good)) {
                         $enviro_checks = 0;
                     } else {
                         $enviro_checks = 1;
