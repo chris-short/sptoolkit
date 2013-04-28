@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    audit.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -58,7 +58,7 @@ if ( $education_id > 0 && $education_timing == 1 ) {
     header ( 'location:../education/' . $education_id . '/' );
     exit;
 }
-if(is_int($template_id)){
+if(preg_match('/[0-9]/',$template_id)){
 	//send the user to the appropriate template
 	header ( 'location:../templates/' . $template_id . '/' );
 	exit;	
