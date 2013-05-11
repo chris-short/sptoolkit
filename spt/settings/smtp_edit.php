@@ -2,10 +2,10 @@
 
 /**
  * file:    smtp_edit.php
- * version: 6.0
+ * version: 7.0
  * package: Simple Phishing Toolkit (spt)
- * component:	Settings
- * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
+ * component:   Settings
+ * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
@@ -75,8 +75,15 @@ if($_POST){
         $username = "";
     }
     //get password if provided
-    if(isset($_POST['password'])){
-        $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+    if(strlen($_POST['password']) > 1){
+        $password = $_POST['password'];
+    }else{
+        include '../spt_config/mysql_config.php';
+        include '../spt_config/encrypt_config.php';
+        $r=mysql_query("SELECT aes_decrypt(password, '$spt_encrypt_key') as password FROM settings_smtp WHERE id ='$current_host'");
+        while($ra=mysql_fetch_assoc($r)){
+            $password = $ra['password'];
+        }
     }
     //get default status
     if(isset($_POST['default'])){

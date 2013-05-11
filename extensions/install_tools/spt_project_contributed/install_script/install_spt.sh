@@ -3,7 +3,7 @@
 
 #
 # file:    install_spt.sh
-# version: 5.0
+# version: 6.0
 # package: Simple Phishing Toolkit (spt)
 # component:	Installation
 # copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -204,10 +204,10 @@ php campaigns/sql_install.php
 sqlfile="$sptpath/education/sql_install.php"
 sed -i "/<?php/a$newtext" $sqlfile
 php education/sql_install.php
-#Modules
-sqlfile="$sptpath/modules/sql_install.php"
+#Settings
+sqlfile="$sptpath/settings/sql_install.php"
 sed -i "/<?php/a$newtext" $sqlfile
-php modules/sql_install.php
+php settings/sql_install.php
 #Targets
 sqlfile="$sptpath/targets/sql_install.php"
 sed -i "/<?php/a$newtext" $sqlfile
