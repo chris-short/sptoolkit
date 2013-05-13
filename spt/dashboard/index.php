@@ -2,7 +2,7 @@
 <?php
 /**
  * file:    index.php
- * version: 32.0
+ * version: 33.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Dashboard management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -442,53 +442,47 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
                                     unset($match);
                                 }
                                 //set SQL statements
-                                $email_status_sql = "SELECT COUNT(sent) AS sent FROM campaigns_responses WHERE sent_time IS NOT NULL";
+                                $email_status_sql = "SELECT COUNT(sent) AS sent_count FROM campaigns_responses WHERE sent_time IS NOT NULL";
                                 //append any filters if necessary
                                 if (isset($es_campaign_id)) {
                                     $email_status_sql .= " AND campaign_id = " . $es_campaign_id;
                                 }
-                                if (isset($es_campaign_id)) {
-                                    $email_status_sql .= " AND";
-                                }
                                 //append any filters if necessary
                                 if (isset($es_browser)) {
-                                    $email_status_sql .= " browser = '" . $es_browser . "'";
-                                }
-                                if (isset($es_browser)) {
-                                    $email_status_sql .= " AND";
+                                    $email_status_sql .= " AND browser = '" . $es_browser . "'";
                                 }
                                 //query for emails not sent
-                                $r = mysql_query($email_status_sql . " sent = 0");
+                                $r = mysql_query($email_status_sql . " AND sent = 0");
                                 if($r){
                                     while ($ra = mysql_fetch_assoc($r)) {
-                                        $email_not_sent = $ra['sent'];
+                                        $email_not_sent = $ra['sent_count'];
                                     }
                                 }else{
                                     $email_not_sent = 0;
                                 }
                                 //query for emails with an unkown status
-                                $r = mysql_query($email_status_sql . " sent = 1");
+                                $r = mysql_query($email_status_sql . " AND sent = 1");
                                 if($r){
                                     while ($ra = mysql_fetch_assoc($r)) {
-                                        $email_unknown = $ra['sent'];
+                                        $email_unknown = $ra['sent_count'];
                                     }    
                                 }else{
                                     $email_unknown = 0;
                                 }
                                 //query for emails sent successfully
-                                $r = mysql_query($email_status_sql . " sent = 2");
+                                $r = mysql_query($email_status_sql . " AND sent = 2");
                                 if($r){
                                     while ($ra = mysql_fetch_assoc($r)) {
-                                        $email_sent_successfully = $ra['sent'];
+                                        $email_sent_successfully = $ra['sent_count'];
                                     }    
                                 }else{
                                     $email_sent_successfully = 0;
                                 }
                                 //query for emails that failed
-                                $r = mysql_query($email_status_sql . " sent = 3");
+                                $r = mysql_query($email_status_sql . " AND sent = 3");
                                 if($r){
                                     while ($ra = mysql_fetch_assoc($r)) {
-                                        $email_failures = $ra['sent'];
+                                        $email_failures = $ra['sent_count'];
                                     }    
                                 }else{
                                     $email_failures = 0;
