@@ -2,7 +2,7 @@
 <?php
 /**
  * file:    index.php
- * version: 33.0
+ * version: 34.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Dashboard management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -442,7 +442,7 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") {
                                     unset($match);
                                 }
                                 //set SQL statements
-                                $email_status_sql = "SELECT COUNT(sent) AS sent_count FROM campaigns_responses WHERE sent_time IS NOT NULL";
+                                $email_status_sql = "SELECT COUNT(sent) AS sent_count FROM campaigns_responses WHERE target_id > 0";
                                 //append any filters if necessary
                                 if (isset($es_campaign_id)) {
                                     $email_status_sql .= " AND campaign_id = " . $es_campaign_id;
