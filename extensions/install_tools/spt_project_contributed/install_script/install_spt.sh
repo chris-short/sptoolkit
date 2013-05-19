@@ -3,7 +3,7 @@
 
 #
 # file:    install_spt.sh
-# version: 7.0
+# version: 8.0
 # package: Simple Phishing Toolkit (spt)
 # component:	Installation
 # copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -123,7 +123,7 @@ unset rootpass
 
 
 #Install required packages
-install php5-curl php5-cli php5-ldap
+install php5-curl php5-cli php5-ldap zip
 
 
 #Restart Apache after package installation
