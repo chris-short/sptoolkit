@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 25.0
+ * version: 26.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -242,7 +242,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $message = preg_replace ( "#@link#", $link, $message );
     $message = preg_replace ( "#@fname#", $fname, $message );
     $message = preg_replace ( "#@lname#", $lname, $message );
-    $message = html_entity_decode ( $message );
+    $message = html_entity_decode ( $message, ENT_COMPAT | ENT_HTML401, "UTF-8" );
     $subject = preg_replace ( "#@fname#", $fname, $subject );
     $subject = preg_replace ( "#@lname#", $lname, $subject );
 
