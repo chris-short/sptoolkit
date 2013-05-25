@@ -2,7 +2,7 @@
 
 /**
  * file:   update_metrics_name.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -58,13 +58,14 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
 if ( ! isset ( $match ) ) {
     $_SESSION['alert_message'] = "Please provide a valid metric that exists";
+    header ( 'location:.#tabs-1' );
     exit;
 }
 
 //validate the column headings are only letters and underscores
 if ( preg_match ( '#[^0-9a-zA-Z_]#', $value ) ) {
     $_SESSION['alert_message'] = "Metrics can only have letters, numbers and underscores";
-    header ( 'location:.#alert' );
+    header ( 'location:.#tabs-1' );
     exit;
 }
 
@@ -73,7 +74,7 @@ $r = mysql_query ( "SHOW COLUMNS FROM targets" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
     if ( $ra['Field'] == $value ) {
         $_SESSION['alert_message'] = "a metric or column name already exists with this name";
-        header ( 'location:.#alert' );
+        header ( 'location:.#tabs-1' );
         exit;
     }
 }

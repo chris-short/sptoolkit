@@ -1,7 +1,7 @@
 <?php
 /**
  * file:    install.php
- * version: 21.0
+ * version: 30.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Installation
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -150,9 +150,73 @@ session_start ();
                     }
 
                     echo "</tr>";
+                    
+                    //Verify LDAP is installed
+                    echo "
+        <tr>
+            <td>PHP LDAP Extensions Installed</td>";
 
+                    $loaded_extensions = get_loaded_extensions ();
+
+                    if ( ! in_array ( 'ldap', $loaded_extensions ) ) {
+                        echo "
+            <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/cancel.png\" alt=\"problem\" /><span>PHP's ldap extensions must be installed for ldap connections to work.  Try <b>apt-get install php5-ldap;/etc/init.d/apache2 restart</b></span></a></td>";
+                    } else {
+                        echo "
+            <td class=\"td_center\"><img src=\"images/accept.png\" alt=\"success\" /></td>";
+                        $ldap_good = "true";
+                    }
+
+                    echo "</tr>";
+
+                    //Verify cron exists
+                    $faux_date = "1    1    1    1    1";
+                    $cron_output = shell_exec('crontab -l');
+                    file_put_contents('/tmp/crontab.txt', $cron_output.$faux_date.' echo hello'.PHP_EOL);
+                    shell_exec('crontab /tmp/crontab.txt');
+                    $cron_output = shell_exec('crontab -l');
+                    if(preg_match('/hello/', $cron_output)){
+                        $cron = true;
+                    }else{
+                        $cron = false;
+                    }
+                    $cron_output = shell_exec('crontab -l|sed \'/hello/d\'');
+                    file_put_contents('/tmp/crontab.txt', $cron_output.PHP_EOL);
+                    shell_exec('crontab /tmp/crontab.txt');
+                    shell_exec('rm /tmp/crontab.txt');
+                    echo "
+        <tr>
+            <td>cron working</td>";
+                    if ( $cron == false){
+                        echo "
+            <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/cancel.png\" alt=\"problem\" /><span>cron must be installed and working for the user www-data or whichever account is runnning PHP.  Try running the command <b>apt-get install cron</b></span></a></td>";
+                    } else {
+                        echo "
+            <td class=\"td_center\"><img src=\"images/accept.png\" alt=\"success\" /></td>";
+                        $cron_good = "true";
+                    }
+                    echo "</tr>";
+                    //verify zip is installed
+                    $response = shell_exec('which zip');
+                    if(preg_match('/zip/', $response)){
+                        $zip = true;
+                    }else{
+                        $zip = false;
+                    }
+                    echo "
+        <tr>
+            <td>zip installed</td>";
+                    if($zip == false){
+                        echo "
+            <td class=\"td_center\"><a class=\"tooltip\"><img src=\"images/cancel.png\" alt=\"problem\" /><span>zip must be installed for application backups to work.  Try running <b>apt-get install zip</b></span></a></td>";
+                    }else{
+                        echo "
+            <td class=\"td_center\"><img src=\"images/accept.png\" alt=\"success\" /></td>";
+                        $zip_good = "true";
+                    }
+                    echo "</tr>";                    
                     //Ensure all enviromental checks pass
-                    if ( $permission_error OR ! isset ( $proc_open_good ) OR ! isset ( $curl_good ) ) {
+                    if ( $permission_error OR ! isset ( $proc_open_good ) OR ! isset ( $curl_good ) OR ! isset ($cron_good) OR !isset($zip_good) OR !isset($ldap_good)) {
                         $enviro_checks = 0;
                     } else {
                         $enviro_checks = 1;
@@ -296,12 +360,6 @@ session_start ();
                         }
                     }
 
-                    //run the salt install script
-                    include "salt_install.php";
-
-                    //delete the salt install script
-                    unlink ( "salt_install.php" );
-
                     //populate the mysql_config.php file in the spt_config directory
                     function f_and_r ( $find, $replace, $path ) {
                         $find = "#" . $find . "#";
@@ -331,6 +389,13 @@ session_start ();
 
                     //set the install status to move along to step 3
                     $_SESSION['install_status'] = 4;
+
+                    //unset temp sessions for database
+                    unset($_SESSION['temp_host']);
+                    unset($_SESSION['temp_port']);
+                    unset($_SESSION['temp_username']);
+                    unset($_SESSION['temp_password']);
+                    unset($_SESSION['temp_database']);
 
                     //provide the button to move along
                     echo "
@@ -410,28 +475,36 @@ session_start ();
         </form>	";
                 }
 
-//Step 4 - Configure Salt
+//Step 4 - Configure Salt & Encrypt Key
                 if ( isset ( $_SESSION['install_status'] ) && $_SESSION['install_status'] == 4 ) {
-                    $salt = '';
-
-                    //generate salt
                     function genRandomString () {
                         $length = 50;
                         $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
-                        $salt = 'p';
+                        $random = 'p';
                         for ( $p = 0; $p < $length; $p ++  ) {
-                            $salt .= $characters[mt_rand ( 0, strlen ( $characters ) - 1 )];
+                            $random .= $characters[mt_rand ( 0, strlen ( $characters ) - 1 )];
                         }
-                        return $salt;
+                        return $random;
                     }
-
+                    function f_and_r ( $find, $replace, $path ) {
+                        $find = "#" . $find . "#";
+                        $globarray = glob ( $path );
+                        if ( $globarray )
+                            foreach ( $globarray as $filename ) {
+                                $source = file_get_contents ( $filename );
+                                $source = preg_replace ( $find, $replace, $source );
+                                file_put_contents ( $filename, $source );
+                            }
+                    }
+                    //generate salt
                     $salt = genRandomString ();
-
-
-                    //enter salt value into database
-                    include "spt_config/mysql_config.php";
-                    mysql_query ( "INSERT INTO salt (salt) VALUES ('$salt')" );
-
+                    //populate the get_salt.php file with the generated salt value
+                    f_and_r ( "salt='replace_me';", "salt='" . $salt . "';", "login/get_salt.php" );
+                    //generate random key for encryption
+                    $encrypt_key = genRandomString();
+                    //populate the encrypt_config.php file with the generated encryption key
+                    f_and_r ( "spt_encrypt_key='replace_me';", "spt_encrypt_key='" . $encrypt_key . "';", "spt_config/encrypt_config.php" );
+                    //set installation status
                     $_SESSION['install_status'] = 5;
                 }
 
@@ -546,13 +619,8 @@ session_start ();
 
                         //connect to database
                         include 'spt_config/mysql_config.php';
-
                         //get the salt value
-                        $r = mysql_query ( "SELECT salt FROM salt" );
-                        while ( $ra = mysql_fetch_assoc ( $r ) ) {
-                            $salt = $ra['salt'];
-                        }
-
+                        include 'login/get_salt.php';
                         //pass temp password to new variable that has been salted and hashed
                         $p = sha1 ( $salt . $temp_p . $salt );
                     } else {

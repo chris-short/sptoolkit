@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 4.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -42,4 +42,34 @@ $sql = "
     )";
 
 mysql_query ( $sql ) or die ( mysql_error () );
+
+//LDAP Entities Table
+$sql = "
+    CREATE TABLE `users_ldap` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `username` varchar(255) NOT NULL DEFAULT '',
+        `disabled` int(1) NOT NULL DEFAULT '0' COMMENT '0-enabled; 1-disabled',
+        `admin` int(1) NOT NULL DEFAULT '0' COMMENT '0-standard; 1-admin',
+        `ldap_host` varchar(255) NOT NULL,
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `username` (`username`)
+    )";
+
+mysql_query ( $sql ) or die ( mysql_error () );
+
+//LDAP Entities Groups Table
+$sql = "
+    CREATE TABLE `users_ldap_groups` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `ldap_group` varchar(255) NOT NULL DEFAULT '',
+        `disabled` int(1) NOT NULL DEFAULT '0' COMMENT '0-enabled; 1-disabled',
+        `admin` int(1) NOT NULL DEFAULT '0' COMMENT '0-standard; 1-admin',
+        `ldap_host` varchar(255) NOT NULL,
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `group` (`ldap_group`)
+    )";
+
+mysql_query ( $sql ) or die ( mysql_error () );
+
+
 ?>	

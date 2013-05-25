@@ -2,7 +2,7 @@
 
 /**
  * file:    delete_campaign.php
- * version: 6.0
+ * version: 9.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -51,8 +51,18 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 }
 if ( ! isset ( $match ) ) {
     $_SESSION['alert_message'] = "you can only delete real campaign ids";
-    header ( 'location:./#alert' );
+    header ( 'location:.' );
     exit;
+}
+
+//delete the existing cron job if there is one
+$r = mysql_query("SELECT cron_id FROM campaigns WHERE id = '$campaign_id'");
+while($ra = mysql_fetch_assoc($r)){
+    $cron_id = $ra['cron_id'];
+    $output = shell_exec('crontab -l|sed \'/'.$cron_id.'/d\'');
+    file_put_contents('/tmp/crontab.txt', $output.PHP_EOL);
+    echo exec('crontab /tmp/crontab.txt');
+    echo exec('rm /tmp/crontab.txt');
 }
 
 //delete all traces of this specific campaign
@@ -62,6 +72,14 @@ mysql_query ( "DELETE FROM campaigns_responses WHERE campaign_id = '$campaign_id
 
 //send them back to the campaigns home page
 $_SESSION['alert_message'] = "campaign deleted successfully";
-header ( 'location:./#alert' );
-exit;
+
+//get the tab return
+if(isset($_GET['tab_return']) && $_GET['tab_return'] > 0 && $_GET['tab_return'] < 10){
+    $tab_return = $_GET['tab_return'];
+    header('location:.#tabs-'.$tab_return);
+    exit;
+}else{
+    header ( 'location:.' );
+    exit;    
+}
 ?>

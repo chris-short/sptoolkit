@@ -2,7 +2,7 @@
 
 /**
  * file:    copy_package.php
- * version: 1.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,7 +41,7 @@ if ( file_exists ( $includeContent ) ) {
 //set values
 if(!filter_var($_REQUEST['id'], FILTER_VALIDATE_INT)){
     $_SESSION['alert_message'] = 'please provide a valid package id';
-    header('location:./#alert');
+    header('location:./#tabs-1');
     exit;
 }
 $package_id = $_REQUEST['id'];
@@ -63,7 +63,7 @@ while($ra = mysql_fetch_assoc($r)){
 //if template id provided doesn't match existing id, throw alert
 if($match == 0){
     $_SESSION['alert_message'] = 'this package does not exist';
-    header ( 'location:./#alert' );
+    header ( 'location:./#tabs-1' );
     exit;
 }
 
@@ -105,7 +105,8 @@ function copy_directory( $source, $destination ) {
 }
 //initiate the copy of the directory
 copy_directory($package_id,$new_package_id);
-
-header ( 'location:./?id='.$new_package_id.'#update_package' );
+//set an alert message so that the user knows the copy has already happened
+$_SESSION['alert_message'] = "the copy has been created...look for the similar named package with [copy] at the end";
+header ( 'location:./#tabs-1' );
 exit;
 ?>

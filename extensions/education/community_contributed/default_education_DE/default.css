@@ -1,11 +1,11 @@
 /* default.css */
 /**
- * file:    default.css
- * version: 3.0
- * package: Simple Phishing Toolkit (spt)
- * component:   Default education module
+ * file:		default.css
+ * version:		1.0
+ * package:		Simple Phishing Toolkit (spt)
+ * component:	Default education module
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
- * license: GNU/GPL, see license.htm.
+ * license:		GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
  * 
@@ -23,81 +23,39 @@
 **/
 
 body
-{
-    background-color:#ccc;
-    font-family:Helvetica, Arial, sans-serif;
-}
+	{
+		background-color:#ccc;
+		font-family:Helvetica, Arial, sans-serif;
+	}
 h1
-{
-    color: #4682b4;
-}
+	{
+		color: #4682b4;
+	}
 #wrapper
-{
-    background-color: #fff;
-    box-shadow: 4px 4px 5px #000;
-    border-radius: 5px;
-    padding: 30px;
-    width:700px;
-    margin: auto;
-    margin-top: 20px;
-    padding-top:10px;
-    text-align:justify;
-}
+	{
+        background-color: #fff;
+        box-shadow: 4px 4px 5px #000;
+        border-radius: 5px;
+        padding: 30px;
+        width:700px;
+		margin: auto;
+   		margin-top: 20px;
+   		padding-top:10px;
+		text-align:justify;
+	}
 
 #wrapper table
-{
-    width:100%;
-}
+	{
+		width:100%;
+	}
 
 #iframe
-{
-    text-align:center;
-}
+	{
+		text-align:center;
+	}
+
 
 .right
-{
-    float:right;
-}
-
-.education_tracking_table
-{
-    width:100%;
-    border: 1px;
-    border-color: #FF0000;
-    border-style: dashed;
-    padding: 5px;
-    margin: auto;
-    margin-top: 10px;
-    padding-top:10px;
-}
-
-.education_tracking_table td
-{
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.credits
-{
-    font-family:Helvetica, Arial, sans-serif;
-    font-size: 10px;
-    text-align: right;
-}
-
-a
-{
-    text-decoration: none;
-    color: #666;
-}
-
-a:hover
-{
-    color: #999;
-}
-
-img
-{
-    border-style: initial;
-    border-color: initial;
-    border-width: 0px;
-}
+	{
+		float:right;
+	}

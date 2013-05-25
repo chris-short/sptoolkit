@@ -2,8 +2,8 @@
 
 
 #
-# file:    install_spt_0-70.sh
-# version: 3.0
+# file:    install_spt.sh
+# version: 8.0
 # package: Simple Phishing Toolkit (spt)
 # component:	Installation
 # copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -45,7 +45,7 @@ cleanup_apt()
 #Get the required configuration items
 wwwroot="/var/www"
 echo && echo
-echo -e "\E[1;31m** This instllation script does NOT validate your input as right or wrong, so be careful to enter everything correctly! **\E[0;37m" && echo
+echo -e "\E[1;31m** This installation script does NOT validate your input as right or wrong, so be careful to enter everything correctly! **\E[0;37m" && echo
 read -s -p "Please enter the password for the MySQL 'root' account:  " rootpass && echo
 
 if [ "$(ls -A $wwwroot)" ]
@@ -70,7 +70,7 @@ read -s -p "Please enter the password for the first spt admin account (8 - 14 ch
 echo && echo
 
 
-echo -e "\E[1;31mThis instllation script, and the spt application, will require Intenret access.\E[0;37m"
+echo -e "\E[1;31mThis installation script, and the spt application, will require Intenret access.\E[0;37m"
 read -p "Do you need to configure this server with HTTP proxy information to reach the Internet? [ y / n ]  "  proxyrequired
 proxyrequired="$(echo ${proxyrequired^^})"
 if [ "$proxyrequired" == "Y" ]
@@ -123,7 +123,7 @@ unset rootpass
 
 
 #Install required packages
-install php5-curl php5-cli
+install php5-curl php5-cli php5-ldap zip
 
 
 #Restart Apache after package installation
@@ -142,10 +142,10 @@ if [ -z "$sptfolder" ]
       CDPATH=/var/www:.
 fi
 #Pull down current source
-wget -O sptoolkit_0.70.zip "http://www.sptoolkit.com/?aid=2755&sa=1"
+wget -O sptoolkit.zip "http://www.sptoolkit.com/?aid=####&sa=1"
 #Extract master into new directory
-unzip -q sptoolkit_0.70.zip -d spt_extracted
-#Move files into place (NEED TO CHANGE STRUCTURE SO THAT CURRENT VERSION IS JUST IN "CURRENT" OR SOMETHING SUCH)
+unzip -q sptoolkit.zip -d spt_extracted
+#Move files into place
 mv spt_extracted/spt/* $sptpath
 #Get rid of master and extracts
 rm -r spt_extracted
@@ -174,9 +174,18 @@ sed -i "s/$olddb/$newdb/" $configfile
 
 #Create the salt
 sptsalt="$(< /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-50})"
-sqlcmd="CREATE TABLE "salt" ("salt" varchar(50) NOT NULL)"
-mysql -u$sptuser -p$sptpass -Dspt -e "$sqlcmd"
-mysql -u$sptuser -p$sptpass -Dspt -e "INSERT INTO salt (salt) VALUES ('$sptsalt')"
+saltfile="$sptpath/login/get_salt.php"
+oldsalt="salt='replace_me';"
+newsalt="salt='$sptsalt';"
+sed -i "s/$oldsalt/$newsalt/" $saltfile
+
+
+#Create the encrypt key
+sptencryptkey="$(< /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-50})"
+encryptfile="$sptpath/spt_config/encrypt_config.php"
+oldencryptkey="spt_encrypt_key='replace_me';"
+newencryptkey="spt_encrypt_key='$sptencryptkey';"
+sed -i "s/$oldencryptkey/$newencryptkey/" $encryptfile
 
 
 #Run the SQL installation scripts
@@ -195,10 +204,10 @@ php campaigns/sql_install.php
 sqlfile="$sptpath/education/sql_install.php"
 sed -i "/<?php/a$newtext" $sqlfile
 php education/sql_install.php
-#Modules
-sqlfile="$sptpath/modules/sql_install.php"
+#Settings
+sqlfile="$sptpath/settings/sql_install.php"
 sed -i "/<?php/a$newtext" $sqlfile
-php modules/sql_install.php
+php settings/sql_install.php
 #Targets
 sqlfile="$sptpath/targets/sql_install.php"
 sed -i "/<?php/a$newtext" $sqlfile
@@ -271,7 +280,7 @@ echo
 echo -e "\E[1;32m  ** Support:  http://www.sptoolkit.com/forums  |  Documentation:  http://www.sptoolkit.com/documentation **"
 echo -e "\E[1;32m  ** Follow @sptoolkit (https://twitter.com/#!/sptoolkit) for updates and notifications. **"
 echo && echo && echo
-
+echo -e -n "\E[0;37m"
 
 #References:
 #String comparison:  http://tldp.org/LDP/abs/html/comparison-ops.html, http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html

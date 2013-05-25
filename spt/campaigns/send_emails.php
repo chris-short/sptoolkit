@@ -2,7 +2,7 @@
 
 /**
  * file:    send_emails.php
- * version: 18.0
+ * version: 26.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -22,35 +22,55 @@
  * You should have received a copy of the GNU General Public License
  * along with spt.  If not, see <http://www.gnu.org/licenses/>.
  * */
-// verify session is authenticated and not hijacked
-$includeContent = "../includes/is_authenticated.php";
-if ( file_exists ( $includeContent ) ) {
-    require_once $includeContent;
-} else {
-    echo "stop";
-    exit;
+//check to see if this is a background task
+if(isset($_GET['cron_id']) && isset($_GET['c'])){
+    //validate the campaign and cron id
+    $campaign_id = $_GET['c'];
+    if(!preg_match('/[0-9]/',$campaign_id)){
+        exit;
+    }
+    include '../spt_config/mysql_config.php';
+    $cron_id = $_GET['cron_id'];
+    $r = mysql_query("SELECT cron_id FROM campaigns WHERE id = '$campaign_id'");
+    while ($ra = mysql_fetch_assoc($r)){
+        if($ra['cron_id'] == $cron_id){
+            $match = 1;
+        }
+    }
 }
-
-// verify user is an admin
-$includeContent = "../includes/is_admin.php";
-if ( file_exists ( $includeContent ) ) {
-    require_once $includeContent;
-} else {
-    echo "stop";
-    exit;
+//if there is a match continue
+if(!isset($match)){
+    error_log('no match! will try to auth');
+    // verify session is authenticated and not hijacked
+    $includeContent = "../includes/is_authenticated.php";
+    if ( file_exists ( $includeContent ) ) {
+        require_once $includeContent;
+    } else {
+        echo "stop";
+        exit;
+    }
+    // verify user is an admin
+    $includeContent = "../includes/is_admin.php";
+    if ( file_exists ( $includeContent ) ) {
+        require_once $includeContent;
+    } else {
+        echo "stop";
+        exit;
+    }
 }
-
+//unset match
+unset($match);
 //validate a campaign is specified
-if ( ! isset ( $_POST["c"] ) ) {
+if ( ! isset ( $_POST["c"] ) && !isset($campaign_id)) {
     echo "stop";
     exit;
-} else {
+} else if(!isset($campaign_id)){
     $campaign_id = $_POST['c'];
 }
 
 //connect to database
 include('../spt_config/mysql_config.php');
-
+include('../spt_config/encrypt_config.php');
 //ensure campaign status is set to active
 $r = mysql_query ( "SELECT status FROM campaigns WHERE id = '$campaign_id'" );
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
@@ -68,6 +88,15 @@ if ( $ra == 0 ) {
     $date_ended = date ( "F j, Y, g:i a" );
     //set campaign to complete and record date/time
     mysql_query ( "UPDATE campaigns SET status = 3, date_ended = '$date_ended' WHERE id = '$campaign_id'" );
+    //delete the existing cron job if there is one
+    $r = mysql_query("SELECT cron_id FROM campaigns WHERE id = '$campaign_id'");
+    while($ra = mysql_fetch_assoc($r)){
+        $cron_id = $ra['cron_id'];
+        $output = shell_exec('crontab -l|sed \'/'.$cron_id.'/d\'');
+        file_put_contents('/tmp/crontab.txt', $output.PHP_EOL);
+        echo exec('crontab /tmp/crontab.txt');
+        echo exec('rm /tmp/crontab.txt');
+    }
     echo "stop";
     exit;
 }
@@ -117,35 +146,6 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $spt_path = $ra['spt_path'];
     $template_id = $ra['template_id'];
 }
-
-//get the smtp relay if its set
-$r = mysql_query ( "SELECT relay_host, relay_username, relay_password, relay_port FROM campaigns WHERE id = '$campaign_id'" );
-while ( $ra = mysql_fetch_assoc ( $r ) ) {
-    if ( strlen ( $ra['relay_host'] ) > 0 ) {
-        $relay_host = $ra['relay_host'];
-        if ( strlen ( $ra['relay_username'] ) > 0 ) {
-            $relay_username = $ra['relay_username'];
-        }
-        if ( strlen ( $ra['relay_password'] ) > 0 ) {
-            $relay_password = $ra['relay_password'];
-        }
-        if ( strlen ( $ra['relay_port'] ) > 0 ) {
-            $relay_port = $ra['relay_port'];
-        }
-    }
-}
-
-//determine if the email should be encrypted
-$r = mysql_query("SELECT encrypt FROM campaigns WHERE id='$campaign_id'");
-while($ra = mysql_fetch_assoc($r)){
-    if($ra['encrypt'] == 1){
-        $ssl = "yes";
-    }else{
-        $ssl = "no";
-    }
-}
-
-
 //determine if a shortener is to be used and if so specify which one
 $r = mysql_query("SELECT shorten FROM campaigns WHERE id='$campaign_id'");
 while($ra = mysql_fetch_assoc ( $r)){
@@ -156,14 +156,28 @@ while($ra = mysql_fetch_assoc ( $r)){
         $shorten = "tinyurl";
     }    
 }
-
 //get the next specified number of email addresses 
-$r = mysql_query ( "SELECT targets.fname AS fname, targets.lname AS lname, targets.email as email, targets.id as id, campaigns_responses.response_id as response_id FROM campaigns_responses JOIN targets ON targets.id = campaigns_responses.target_id WHERE campaigns_responses.campaign_id = '$campaign_id' AND campaigns_responses.sent = 0 LIMIT 0, $number_messages_sent" ) or die ( mysql_error () );
-
+$r = mysql_query ( "SELECT targets.fname AS fname, targets.lname AS lname, targets.email as email, targets.id as id, campaigns_responses.response_id as response_id, campaigns_responses.relay_host as relay_host FROM campaigns_responses JOIN targets ON targets.id = campaigns_responses.target_id WHERE campaigns_responses.campaign_id = '$campaign_id' AND campaigns_responses.sent = 0 LIMIT 0, $number_messages_sent" ) or die ( mysql_error () );
 //send the emails
 while ( $ra = mysql_fetch_assoc ( $r ) ) {
+    //get this messages smtp host
+    $host = $ra['relay_host'];
+    $current_host = mysql_query("SELECT host, port, ssl_enc, username, aes_decrypt(password, '$spt_encrypt_key') as password FROM settings_smtp WHERE id = '$host'");
+    while($ra_current_host = mysql_fetch_assoc($current_host)){
+        $relay_host = $ra_current_host['host'];
+        $relay_port = $ra_current_host['port'];
+        $ssl_enc = $ra_current_host['ssl_enc'];
+        if($ssl_enc == 1){
+            $ssl = "yes";
+        }else{
+            $ssl = "no";
+        }
+        $relay_username = $ra_current_host['username'];
+        $relay_password = $ra_current_host['password'];
+    }
     //set the current email address
-    $current_target_email_address = $ra['email'];
+    $current_target_email_address = html_entity_decode($ra['email']);
+    $current_target_email_address = preg_replace('/&#39;/', '\'',$current_target_email_address);
     $current_response_id = $ra['response_id'];
     $fname = $ra['fname'];
     $lname = $ra['lname'];
@@ -199,9 +213,9 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         include "../spt_config/mysql_config.php";
 
         //get API key
-        $r_api = mysql_query("SELECT api_key FROM campaigns_shorten WHERE service = 'Google'");
+        $r_api = mysql_query("SELECT value FROM settings WHERE setting = 'google_api'");
         while ($ra = mysql_fetch_assoc ( $r_api)){
-                    $apiKey = $ra['api_key'];
+                    $apiKey = $ra['value'];
                 }
 
         $link = googl_shorten($link, $apiKey);
@@ -228,7 +242,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     $message = preg_replace ( "#@link#", $link, $message );
     $message = preg_replace ( "#@fname#", $fname, $message );
     $message = preg_replace ( "#@lname#", $lname, $message );
-    $message = html_entity_decode ( $message );
+    $message = html_entity_decode ( $message, ENT_COMPAT | ENT_HTML401, "UTF-8" );
     $subject = preg_replace ( "#@fname#", $fname, $subject );
     $subject = preg_replace ( "#@lname#", $lname, $subject );
 
@@ -249,7 +263,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         ;    
         }else{
             //Create the Transport
-            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' )
+            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'tls' )
                 -> setUsername ( $relay_username )
                 -> setPassword ( $relay_password )
         ;    
@@ -257,12 +271,12 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
         
     }
     if ( isset ( $relay_host ) AND ! isset ( $relay_username ) AND ! isset ( $relay_password ) ) {
-        if($ssl == "no"){
+        if(isset($ssl) && $ssl == "no"){
             //Create the Transport
             $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port );    
         }else{
             //Create the Transport
-            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'ssl' );    
+            $transport = Swift_SmtpTransport::newInstance ( $relay_host, $relay_port, 'tls' );    
         }
         
     }
@@ -276,10 +290,10 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
 
         //
         //create the transport
-        if($ssl == "no"){
+        if(isset($ssl) && $ssl == "no"){
             $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25 );    
         }else{
-            $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25, 'ssl' );    
+            $transport = Swift_SmtpTransport::newInstance ( $mxhosts[0], 25, 'tls' );    
         }
         
     }

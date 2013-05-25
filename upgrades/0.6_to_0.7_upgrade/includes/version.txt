@@ -1,1 +1,0 @@
-<span id="spt"><a href="http://www.sptoolkit.com/download/" target="_blank">v0.70 (Ghost Fish)</a></span>

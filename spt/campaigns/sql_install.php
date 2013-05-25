@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 17.0
+ * version: 21.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -38,12 +38,11 @@ $sql = "
         `message_delay` int(10) NOT NULL,
         `status` int(1) NOT NULL,
         `spt_path` varchar(255) NOT NULL,
-        `relay_host` varchar(255) NOT NULL,
-        `relay_username` varchar(255) NOT NULL,
-        `relay_password` varchar(255) NOT NULL,
-        `relay_port` int(5) NOT NULL,
         `encrypt` int(1) NOT NULL,
         `shorten` varchar(255) NOT NULL,
+        `cron_id` varchar(255) NOT NULL,
+        `check_java` int(1) NOT NULL,
+        `check_flash` int(1) NOT NULL,
         PRIMARY KEY (`id`)
     )";
 
@@ -64,6 +63,7 @@ $sql = "
         `target_id` int(10) NOT NULL,
         `campaign_id` int(10) NOT NULL,
         `response_id` varchar(40) DEFAULT NULL,
+        `relay_host` varchar(255) NOT NULL,
         `link` int(1) NOT NULL DEFAULT '0',
         `post` varchar(255) DEFAULT NULL,
         `link_time` datetime DEFAULT NULL,
@@ -77,7 +77,9 @@ $sql = "
         `response_log` longtext NOT NULL,
         `trained` int(1) NOT NULL,
         `trained_time` datetime DEFAULT NULL,
-        `url` longtext NOT NULL
+        `url` longtext NOT NULL,
+        `java` varchar(255) NOT NULL,
+        `flash` varchar(255) NOT NULL
     )";
 
 mysql_query ( $sql ) or die ( mysql_error () );

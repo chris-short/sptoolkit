@@ -2,7 +2,7 @@
 
 /**
  * file:    sql_install.php
- * version: 9.0
+ * version: 8.0
  * package:	Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2012 The SPT Project. All rights reserved.
@@ -69,7 +69,7 @@ $sql = "INSERT INTO templates (name, description) VALUES ('[QST11 v0.70] Coho Vi
 mysql_query($sql) or die(mysql_error());
 $sql = "INSERT INTO templates (name, description) VALUES ('[QST12 v0.70] 419 scam','An email from a Scottish lawyer wanting help in moving millions of dollars...legally of course.  [Email template only, no web site]')";
 mysql_query($sql) or die(mysql_error());
-$sql = "INSERT INTO templates (name, description) VALUES ('[QST13 v0.70] OWA 2010 login','A hand crafted copy of the Outlook Web App 2010 login page that uses no content from original OWA login page.  If you chose to not educate, this template comes with different return.htm pages, just rename them to change the return page displayed to the target once they submit the form. ')";
+$sql = "INSERT INTO templates (name, description) VALUES ('OWA 2010 login','A hand crafted copy of the Outlook Web App 2010 login page that uses no content from original OWA login page.  If you chose to not educate, this tempalte comes with different return.htm pages, just rename them to change the return page displayed to the target once they submit the form. ')";
 mysql_query($sql) or die(mysql_error());
 
 

@@ -2,7 +2,7 @@
 
 /**
  * file:    sidebar.php
- * version: 12.0
+ * version: 14.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core Files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -38,8 +38,8 @@ echo "
             <li><a href=\"../templates\">Templates</a></li>
             <li><a href=\"../education\">Education</a></li>
             <li><a href=\"../campaigns\">Campaigns</a></li>
-            <li><a href=\"../users\">Users</a></li>
-            <li><a href=\"../modules\">Modules</a></li>
+            <li><a href=\"../users\">Admins</a></li>
+            <li><a href=\"../settings\">Settings</a></li>
         </ul>
         <div style=\"border-top: 1px solid #eee;\"></div> 
         <ul>
@@ -47,7 +47,7 @@ echo "
 
 //lists links dependent upon what modules are installed
 include '../spt_config/mysql_config.php';
-$results = mysql_query ( 'SELECT * FROM modules WHERE core != "1" ORDER BY name' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
+$results = mysql_query ( 'SELECT * FROM settings_modules WHERE core != "1" ORDER BY name' ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 while ( $row = mysql_fetch_assoc ( $results ) ) {
     echo "<li><a href=\"../" . $row['directory_name'] . "/\">" . $row['name'] . "</a></li>\n";
 }

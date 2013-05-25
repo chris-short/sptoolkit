@@ -2,10 +2,10 @@
 
 /**
  * file:    index.php
- * version: 23.0
+ * version: 27.0
  * package: Simple Phishing Toolkit (spt)
- * component:	Core files
- * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
+ * component:   Core files
+ * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
  * This file is part of the Simple Phishing Toolkit (spt).
@@ -56,113 +56,146 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
         <link rel="stylesheet" href="includes/spt.css" type="text/css" />
         <!--scripts-->
         <script type="text/javascript" src="includes/escape.js"></script>
+        <script src="includes/jquery.min.js"></script>
+        <script src="includes/jquery-ui.min.js"></script>
+        <script language="Javascript" type="text/javascript">
+            function forgotPassword() 
+            { 
+                //begin new request
+                xmlhttp = new XMLHttpRequest();
+                //get email address
+                var email = document.getElementById("forgotten_password").value;
+                //check for response
+                xmlhttp.onreadystatechange=function()
+                  {
+                  if (xmlhttp.readyState==4)
+                    {
+                        window.location = ".";
+                        window.location.reload();
+                    }
+                  }                
+                //send update request
+                xmlhttp.open("POST","login/forgot_password.php",true);
+                xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                xmlhttp.send("email="+email);
+                //put something in the alert message
+                var div = document.createElement('div');
+                div.id = 'alert';
+                if (document.body.firstChild)
+                  document.body.insertBefore(div, document.body.firstChild);
+                else
+                  document.body.appendChild(div);
+                var div2 = document.createElement('div');
+                div2.id = 'alert_content';
+                document.getElementById('alert').appendChild(div2);
+                document.getElementById('alert_content').innerHTML = 'Attempting to send now...';                
+            }
+        </script>
     </head>
     <body onload='login_form.u.focus()'>
         
-        <!--browser check-->
         <?php
-//pull in browser script
-        include "includes/browser.php";
+            //pull in alert
+            include "includes/alert.php";
 
-//put browser info into variable
-        $browser = new Browser();
+            //pull in browser script
+            include "includes/browser.php";
 
-//firefox check
-        if ( $browser -> getBrowser () == Browser::BROWSER_FIREFOX && $browser -> getVersion () <= 7 ) {
-            echo "
-        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Firefox (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version of Firefox for maximum compatibility.</div>";
-        }
-//chrome check
-        if ( $browser -> getBrowser () == Browser::BROWSER_CHROME && $browser -> getVersion () <= 14 ) {
-            echo "
-        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Chrome (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version for maximum compatibility.</div>";
-        }
-//ie check
-        if ( $browser -> getBrowser () == Browser::BROWSER_IE && $browser -> getVersion () <= 8.9 ) {
-            echo "
-        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Internet Explorer (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version for maximum compatibility.</div>";
-        }
-        if ( $browser -> getBrowser () != Browser::BROWSER_IE && $browser -> getBrowser () != Browser::BROWSER_CHROME && $browser -> getBrowser () != Browser::BROWSER_FIREFOX ) {
-            echo "
-        <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running a web browser that has not been tested.  Try the latest version of <a href=\"http://google.com/chrome\" target=\"_blank\">Google Chrome</a>, <a href=\"http://microsoft.com/ie\" target=\"_blank\">Microsoft Internet Explorer</a> or <a href=\"http://mozilla.org/firefox\" target=\"_blank\">Mozilla Firefox to ensure maximum compatibility.</a></div>";
-        }
+            //put browser info into variable
+            $browser = new Browser();
+
+            //firefox check
+            if ( $browser -> getBrowser () == Browser::BROWSER_FIREFOX && $browser -> getVersion () <= 7 ) {
+                echo "
+            <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Firefox (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version of Firefox for maximum compatibility.</div>";
+            }
+            //chrome check
+            if ( $browser -> getBrowser () == Browser::BROWSER_CHROME && $browser -> getVersion () <= 14 ) {
+                echo "
+            <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Chrome (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version for maximum compatibility.</div>";
+            }
+            //ie check
+            if ( $browser -> getBrowser () == Browser::BROWSER_IE && $browser -> getVersion () <= 8.9 ) {
+                echo "
+            <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running an older version of Internet Explorer (v" . $browser -> getVersion () . ") that has not been tested...Please update to the latest version for maximum compatibility.</div>";
+            }
+            if ( $browser -> getBrowser () != Browser::BROWSER_IE && $browser -> getBrowser () != Browser::BROWSER_CHROME && $browser -> getBrowser () != Browser::BROWSER_FIREFOX ) {
+                echo "
+            <div id=\"browser_warning\">Your browser's user agent is <i>".$browser -> getUserAgent ()."</i><br />From this information we can determine you are running a web browser that has not been tested.  Try the latest version of <a href=\"http://google.com/chrome\" target=\"_blank\">Google Chrome</a>, <a href=\"http://microsoft.com/ie\" target=\"_blank\">Microsoft Internet Explorer</a> or <a href=\"http://mozilla.org/firefox\" target=\"_blank\">Mozilla Firefox to ensure maximum compatibility.</a></div>";
+            }
+            //look for login errors
+            if ( isset ( $_SESSION['alert_message'] ) ) {
+                //create alert popover
+                echo "<div id=\"alert\">\n";
+
+
+                //echo the alert message
+                echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"images/accept.png\" alt=\"close\" /></a></div>";
+
+                //unset the session
+                unset ( $_SESSION['alert_message'] );
+
+                //close alert popover
+                echo "</div>";
+            }
+            if(isset($_REQUEST['installfiles']) && $_REQUEST['installfiles'] == "true"){
+                echo "
+                    <!--alert-->
+                    <div id=\"install_files\">
+                        <div id=\"delete_install_message\">
+                            Installation files still exist!  What do you want to do?<br /><br />
+                            <table class=\"center\">
+                                <tr>
+                                    <td>Go to Install</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>Delete & Login</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <form name=\"install_message_install\" method=\"post\" action=\"install.php\">
+                                            <input type=\"image\" src=\"images/box_open.png\" alt=\"begin installation\" />
+                                        </form>
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <form name=\"install_message_delete\" method=\"post\" action=\"\">
+                                            <input type=\"hidden\" name=\"delete_install\" value=\"delete_install\" />
+                                            <input type=\"image\" src=\"images/bin.png\" alt=\"delete and login\" />
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>";
+            }
+            if(isset($_REQUEST['forgot_password']) && $_REQUEST['forgot_password'] == "true"){
+                echo "
+                    <!--forgot password-->
+                    <div id=\"forgot_password\">
+                        <div>
+                            <table>
+                                <tr>
+                                    <td colspan=\"2\" style=\"text-align: left;\"><h3>Forgot Password</h3></td>
+                                </tr>
+                                <tr>
+                                    <td colspan=\"2\" style=\"text-align: left;\">Enter your email address below and you will get<br />instructions on how to reset your password.<br /><br /></td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td><input id=\"forgotten_password\" type=\"text\" name=\"email\" /></td>
+                                </tr>
+                                <tr>
+                                    <td colspan=\"2\" style=\"text-align: center;\"><br /><a href=\".\"><img src=\"images/cancel.png\" alt=\"close\" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"image\" src=\"images/accept.png\" alt=\"edit\" onclick=\"forgotPassword()\"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>";
+            }
         ?>
-
-        <?php
-        //look for login errors
-        if ( isset ( $_SESSION['alert_message'] ) ) {
-            //create alert popover
-            echo "<div id=\"alert\">\n";
-
-
-            //echo the alert message
-            echo "<div>" . $_SESSION['alert_message'] . "<br /><br /><a href=\"\"><img src=\"images/accept.png\" alt=\"close\" /></a></div>";
-
-            //unset the session
-            unset ( $_SESSION['alert_message'] );
-
-            //close alert popover
-            echo "</div>";
-        }
-        ?>
-
-        <!--alert-->
-        <div id="install_files">
-            <div id="delete_install_message">
-                Installation files still exist!  What do you want to do?<br /><br />
-                <table class="center">
-                    <tr>
-                        <td>Go to Install</td>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                        <td>Delete & Login</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <form name="install_message_install" method="post" action="install.php">
-                                <input type="image" src="images/box_open.png" alt="begin installation" />
-                            </form>
-                        </td>
-                        <td></td>
-                        <td>
-                            <form name="install_message_delete" method="post" action="">
-                                <input type="hidden" name="delete_install" value="delete_install" />
-                                <input type="image" src="images/bin.png" alt="delete and login" />
-                            </form>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
-        <!--forgot password-->
-        <div id="forgot_password">
-            <div>
-                <form id="forgot_password_form" method="post" action="login/forgot_password.php">
-                    <table>
-                        <tr>
-                            <td colspan="2" style="text-align: left;"><h3>Forgot Password</h3></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="text-align: left;">Enter your email address below and you will get<br />instructions on how to reset your password.<br /><br /></td>
-                        </tr>
-                        <tr>
-                            <td>Email</td>
-                            <td><input type="text" name="email" /></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="text-align: center;"><br /><a href="."><img src="images/cancel.png" alt="close" /></a>&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" src="images/accept.png" alt="edit" /></td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-        </div>
-
         <!--login wrapper -->
         <div id="login_wrapper">
-
             <!--logo-->
             <div id="login_logo"><img src="images/logo.png" alt="logo"/><br /><?php include "includes/version.txt"; ?></div>
-
             <!--login form-->
                 <form name="login_form" id="login_form" method="post" action="login/validator.php">
                     <table>
@@ -176,7 +209,7 @@ if ( isset ( $_SESSION['authenticated'] ) ) {
                         </tr>
                         <tr>
                             <td></td>
-                            <td><a href="#forgot_password"><strong>forgot password?</strong></a> </td>
+                            <td><a href="?forgot_password=true"><strong>forgot password?</strong></a> </td>
                         </tr>
                         <tr>
                             <td colspan="2"><input type="submit" value="login" /></td>

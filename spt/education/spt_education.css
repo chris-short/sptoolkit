@@ -2,7 +2,7 @@
 /*css - templates*/
 /**
  * file:    spt_education.css
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -30,7 +30,6 @@
     left: 0;		
     height: 100%;
     width: 100%;
-    display: none;
     background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
     z-index: 101;
@@ -48,11 +47,6 @@
     margin-top: 50px;
     padding-top:10px;
     display: inline-block;
-}
-
-#add_package:target, #update_package:target
-{
-    display: block;
 }
 
 #add_package_table

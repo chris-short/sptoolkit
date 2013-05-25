@@ -1,8 +1,9 @@
+
 <?php
 
 /**
  * file:    edit_user.php
- * version: 7.0
+ * version: 8.0
  * package: Simple Phishing Toolkit (spt)
  * component:	User management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -45,14 +46,14 @@ if ( $original_username != $new_username ) {
     //validate that the newly entered username is a valid email address
     if ( ! filter_var ( $new_username, FILTER_VALIDATE_EMAIL ) ) {
         $_SESSION['alert_message'] = "you must enter a valid email address as your username";
-        header ( 'location:./#edit_user' );
+        header ( 'location:./?edit_user=true#tabs-1' );
         exit;
     }
 
     //validate that the username is not too long
     if ( strlen ( $new_username ) > 50 ) {
         $_SESSION['alert_message'] = "the username is too long";
-        header ( 'location:./#edit_user' );
+        header ( 'location:./?edit_user=true#tabs-1' );
         exit;
     }
 
@@ -61,7 +62,7 @@ if ( $original_username != $new_username ) {
     while ( $ra = mysql_fetch_assoc ( $r ) ) {
         if ( $ra['username'] == $new_username ) {
             $_SESSION['alert_message'] = "this email address is already taken";
-            header ( 'location:./#edit_user' );
+            header ( 'location:./?edit_user=true#tabs-1' );
             exit;
         }
     }
@@ -73,14 +74,14 @@ $new_fname = filter_var ( $_POST['fname'], FILTER_SANITIZE_STRING );
 //make sure its under 50 characters
 if ( strlen ( $new_fname ) > 50 ) {
     $_SESSION['alert_message'] = "your first name is too long, please shorten below 50 characters";
-    header ( 'location:./#edit_user' );
+    header ( 'location:./?edit_user=true#tabs-1' );
     exit;
 }
 
 //make sure its over 1 character
 if ( strlen ( $new_fname ) < 1 ) {
     $_SESSION['alert_message'] = "your first name must be at least 1 character long";
-    header ( 'location:./#edit_user' );
+    header ( 'location:./?edit_user=true#tabs-1' );
     exit;
 }
 
@@ -90,14 +91,14 @@ $new_lname = filter_var ( $_POST['lname'], FILTER_SANITIZE_STRING );
 //make sure its under 50 characters
 if ( strlen ( $new_lname ) > 50 ) {
     $_SESSION['alert_message'] = "your last name is too long, please shorten below 50 characters";
-    header ( 'location:./#edit_user' );
+    header ( 'location:./?edit_user=true#tabs-1' );
     exit;
 }
 
 //make sure its at least 1 character in length
 if ( strlen ( $new_lname ) < 1 ) {
     $_SESSION['alert_message'] = "your last name must be at least 1 character long";
-    header ( 'location:./#edit_user' );
+    header ( 'location:./?edit_user=true#tabs-1' );
     exit;
 }
 
@@ -109,7 +110,7 @@ if ( isset ( $_POST['password'] ) ) {
     //validate that the password is an acceptable length
     if ( strlen ( $temp_p ) > 15 || strlen ( $temp_p ) < 8 ) {
         $_SESSION['alert_message'] = "you must enter a valid password length (8-15 characters)";
-        header ( 'location:./#edit_user' );
+        header ( 'location:./?edit_user=true#tabs-1' );
         exit;
     }
 
@@ -121,7 +122,7 @@ if ( isset ( $_POST['password'] ) ) {
 if ( isset ( $_POST['password'] ) && isset ( $_POST['password_check'] ) ) {
     if ( $_POST['password'] != $_POST['password_check'] ) {
         $_SESSION['alert_message'] = "your passwords do not match...please try again";
-        header ( 'location:./#edit_user' );
+        header ( 'location:./?edit_user=true#tabs-1' );
         exit;
     }
 }
@@ -142,6 +143,6 @@ if ( $original_username != $new_username ) {
 
 //send the user back to the users page once they've edited the user successfully
 $_SESSION['alert_message'] = "you have successfully edited the user";
-header ( 'location:./#alert' );
+header ( 'location:./#tabs-1' );
 exit;
 ?>

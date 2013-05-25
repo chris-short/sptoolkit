@@ -2,7 +2,7 @@
 
 /**
  * file:    delete_metric.php
- * version: 3.0
+ * version: 4.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Target management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -48,7 +48,7 @@ include "../spt_config/mysql_config.php";
 //validate the column headings are only letters and underscores
 if ( preg_match ( '#[^0-9a-zA-Z_]#', $metric ) ) {
     $_SESSION['alert_message'] = "Metrics can only have letters, numbers and underscores";
-    header ( 'location:./#alert' );
+    header ( 'location:.#tabs-1' );
     exit;
 }
 
@@ -67,7 +67,7 @@ if ( isset ( $match ) ) {
     exit;
 } else {
     $_SESSION['alert_message'] = "That metric does not exist";
-    header ( 'location:./#alert' );
+    header ( 'location:.#tabs-1' );
     exit;
 }
 ?>

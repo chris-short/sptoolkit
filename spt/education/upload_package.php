@@ -2,7 +2,7 @@
 
 /**
  * file:    upload_package.php
- * version: 12.0
+ * version: 14.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Education
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -52,21 +52,21 @@ if (!empty($description)) {
 //validate that a name is provided
 if (strlen($_POST['name']) < 1) {
     $_SESSION['alert_message'] = 'you must enter a name';
-    header('location:./#add_package');
+    header('location:./?add_package=true#tabs-1');
     exit;
 }
 
 //validate that a description is provided
 if (!isset($_POST['description'])) {
     $_SESSION['alert_message'] = 'you must enter a description';
-    header('location:./#add_package');
+    header('location:./?add_package=true#tabs-1');
     exit;
 }
 
 //validate that a file was selected
 if ( $_FILES["file"]["error"] > 0 ) {
     $_SESSION['alert_message'] = "you either did not select a file or there was a problem with it";
-    header ( 'location:./#add_package' );
+    header ( 'location:./?add_package=true#tabs-1' );
     exit;
 }
 
@@ -77,21 +77,21 @@ $finfo = finfo_file($finfo, $_FILES["file"]["tmp_name"]);
 //if file uploaded ensure its a zip file
 if (is_uploaded_file($_FILES['file']['tmp_name']) && ( !preg_match("/zip/i", $finfo) OR $_FILES["file"]["type"] != "application/zip") ) {
     $_SESSION['alert_message'] = 'you must only upload zip files';
-    header('location:./#add_package');
+    header('location:./?add_package=true#tabs-1');
     exit;
 }
 
 //if file uploaded ensure that the file is under 20M
 if (is_uploaded_file($_FILES['file']['tmp_name']) && $_FILES["file"]["size"] > 20000000) {
     $_SESSION['alert_message'] = 'max file size is 20MB';
-    header('location:./#add_package');
+    header('location:./?add_package=true#tabs-1');
     exit;
 }
 
 //if file uploaded ensure there are no errors
 if (is_uploaded_file($_FILES['file']['tmp_name']) && $_FILES["file"]["error"] > 0) {
     $_SESSION['alert_message'] = "there was a problem uploading your file";
-    header('location:./#add_package');
+    header('location:./?add_package=true#tabs-1');
     exit;
 }
 
@@ -131,12 +131,13 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
             mysql_query ( "DELETE FROM education WHERE id = '$id'" ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );        
             //return back to form
             $_SESSION['alert_message'] = 'unzipping the file failed';
-            header('location:./#add_package');
+            header('location:./?add_package=true#tabs-1');
             exit;
         }
     }
-    
+    unset($_SESSION['temp_name']);
+    unset($_SESSION['temp_description']);
     $_SESSION['alert_message'] = 'education package added successfully';
-    header('location:./#alert');
+    header('location:./#tabs-1');
     exit;
 ?>

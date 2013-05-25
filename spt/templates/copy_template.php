@@ -2,7 +2,7 @@
 
 /**
  * file:    copy_template.php
- * version: 1.0
+ * version: 3.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Template management
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -41,7 +41,7 @@ if ( file_exists ( $includeContent ) ) {
 //set values
 if(!filter_var($_REQUEST['id'], FILTER_VALIDATE_INT)){
     $_SESSION['alert_message'] = 'please provide a valid template id';
-    header('location:./#alert');
+    header('location:./#tabs-1');
     exit;
 }
 $template_id = $_REQUEST['id'];
@@ -63,7 +63,7 @@ while($ra = mysql_fetch_assoc($r)){
 //if template id provided doesn't match existing id, throw alert
 if($match == 0){
     $_SESSION['alert_message'] = 'this template does not exist';
-    header ( 'location:./#alert' );
+    header ( 'location:./#tabs-1' );
     exit;
 }
 
@@ -105,7 +105,8 @@ function copy_directory( $source, $destination ) {
 }
 //initiate the copy of the directory
 copy_directory($template_id,$new_template_id);
-
-header ( 'location:./?id='.$new_template_id.'#update_template' );
+//set alert message so that user knows that the template was successfully copied
+$_SESSION['alert_message'] = "the template has been copied...look for the similar named template with [copy] at the end";
+header ( 'location:./#tabs-1' );
 exit;
 ?>

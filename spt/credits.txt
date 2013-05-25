@@ -39,3 +39,7 @@ Here is a listing of things the spt project is using that someone else created.
 -- Author site: http://www.tinymce.com/
 -- Download: http://www.tinymce.com/download/download.php
 
+# Flash Player Detection
+
+-- Author: ProDevTips
+-- Author site: http://www.prodevtips.com/2008/11/20/detecting-flash-player-version-with-javascript/

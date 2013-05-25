@@ -2,7 +2,7 @@
 
 /**
  * file:    campaigns_export.php
- * version: 8.0
+ * version: 10.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -45,7 +45,7 @@ include "../spt_config/mysql_config.php";
 $metrics = mysql_query ( "SHOW COLUMNS FROM targets" );
 
 //formulate sql query
-$sql = "SELECT campaigns_responses.url AS url, campaigns_responses.trained AS trained, campaigns_responses.trained_time AS trained_time, campaigns.campaign_name AS campaign_name, templates.name AS template_name, education.name AS education_name, campaigns.education_timing AS education_timing, campaigns.date_sent AS date_sent, campaigns_responses.post AS post, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, targets.group_name AS group_name";
+$sql = "SELECT campaigns_responses.browser_version AS browser_version, campaigns_responses.java AS java, campaigns_responses.flash AS flash, campaigns_responses.url AS url, campaigns_responses.trained AS trained, campaigns_responses.trained_time AS trained_time, campaigns.campaign_name AS campaign_name, templates.name AS template_name, education.name AS education_name, campaigns.education_timing AS education_timing, campaigns.date_sent AS date_sent, campaigns_responses.post AS post, targets.email AS email, targets.fname AS fname, targets.lname AS lname, campaigns_responses.ip AS ip, campaigns_responses.browser AS browser, campaigns_responses.browser_version AS browser_version, campaigns_responses.os AS os, campaigns_responses.link_time AS link_time, targets.group_name AS group_name";
 while ( $metrics_results = mysql_fetch_array ( $metrics ) ) {
     if ( $metrics_results['Field'] != "id" && $metrics_results['Field'] != "email" && $metrics_results['Field'] != "fname" && $metrics_results['Field'] != "lname" && $metrics_results['Field'] != "group_name" ) {
         $sql .= ", targets." . $metrics_results['Field'] . " AS " . $metrics_results['Field'];
@@ -56,7 +56,7 @@ $sql .= " FROM campaigns_responses JOIN targets ON campaigns_responses.target_id
 $r = mysql_query ( $sql ) or die ( '<div id="die_error">There is a problem with the database...please try again later</div>' );
 
 //set header
-$output = "Campaign,Template,Education,EducationTiming,Date,Year,Time,FirstName,LastName,TargetEmail,URL,LinkTime,Post,Trained,IP,Browser,OS,Group";
+$output = "Campaign,Template,Education,EducationTiming,Date,Year,Time,FirstName,LastName,TargetEmail,URL,LinkTime,Post,Trained,IP,Browser,BrowserVersion,OS,Java,Flash,Group";
 
 //get all the custom metrics from the targets table and into an array
 $metrics = mysql_query ( "SHOW COLUMNS FROM targets" );
@@ -88,7 +88,7 @@ while ( $ra = mysql_fetch_assoc ( $r ) ) {
     else{
         $output .= "N,";
     }
-    $output .= $ra['ip'] . "," . $ra['browser'] . "," . $ra['os'] . "," . $ra['group_name'];
+    $output .= $ra['ip'] . "," . $ra['browser'] . "," . $ra['browser_version'] . "," . $ra['os'] . "," .$ra['java'].",".$ra['flash'].",". $ra['group_name'];
     //get all the custom metrics from the targets table and into an array
     $metrics = mysql_query ( "SHOW COLUMNS FROM targets" );
     while ( $metrics_results = mysql_fetch_array ( $metrics ) ) {

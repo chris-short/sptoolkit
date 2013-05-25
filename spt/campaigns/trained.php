@@ -2,7 +2,7 @@
 
 /**
  * file:    trained.php
- * version: 1.0
+ * version: 2.0
  * package: Simple Phishing Toolkit (spt)
  * component:   Campaign management
  * copyright:   Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -27,21 +27,19 @@ session_start ();
 if ( $_POST ) {
     if ( isset($_POST['trained'] )) {
         $trained = 1;
-
         //pull in session variables
         $target_id = $_SESSION['target_id'];
         $campaign_id = $_SESSION['campaign_id'];
         $education_id = $_SESSION['education_id'];
-        
+        $link_time = $_SESSION['link_time'];
         //get the time when the data was posted
         $train_time = date ( 'Y-m-d H:i:s' );
-
         //connect to database
         include "../spt_config/mysql_config.php";
-
         //insert post metrics into database
-        mysql_query ( "UPDATE campaigns_responses SET trained = '$trained', trained_time = '$train_time' WHERE campaign_id = '$campaign_id' AND target_id = '$target_id'" );
-        
+        mysql_query ( "UPDATE campaigns_responses SET trained = '$trained', trained_time = '$train_time' WHERE link_time = '$link_time' AND campaign_id = '$campaign_id' AND target_id = '$target_id'" );
+        //terminate session
+        session_destroy();
         //redirect to trained thank you page
         header ( 'location:../education/' . $education_id . '/trained.htm' );
         exit;

@@ -1,7 +1,7 @@
 /*css - global*/
 /**
  * file:    spt.css
- * version: 25.0
+ * version: 31.0
  * package: Simple Phishing Toolkit (spt)
  * component:	Core files
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
@@ -31,7 +31,7 @@ html, body
 
 body
 {
-    font-family: 'Century Gothic', Verdana, Arial, Helvetica, sans-serif;
+    font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
     font-size: 12px;
 }
 
@@ -39,12 +39,12 @@ h1
 {
     font-size: 16px;
     font-weight: bold;
-    font-family: 'Century Gothic', Verdana, Arial, Helvetica, sans-serif;
+    font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 }
 
 h2
 {
-    font-family: 'Century Gothic', Verdana, Arial, Helvetica, sans-serif;
+    font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
     font-size: 12px;
 }
 
@@ -133,7 +133,7 @@ img
 
 #wrapper
 {
-    width: 1050px;
+    width: 1200px;
     margin-right: auto;
     margin-left: auto;
     height: 100%;
@@ -175,27 +175,27 @@ img
 
 #content
 {
-    width: 800px;
+    width: 950px;
     float: left;
-    background-color: #ddd;
     height: 100%;
-    padding-left: 25px;
-    padding-right: 25px;
     overflow: auto;
+    border-left: 1px solid #eee;
+    padding-left:20px;
+    padding-right:10px;
 }
 
 #content   h2
 {
     color: #394FCC;
     font-size: 16px;
-    font-family: 'Century Gothic', Verdana, Arial, Helvetica, sans-serif;
+    font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 }
 
 #content  a h2
 {
     color: #394FCC;
     font-size: 16px;
-    font-family: 'Century Gothic', Verdana, Arial, Helvetica, sans-serif;
+    font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
 }
 
 
@@ -218,21 +218,42 @@ img
     border-radius: 5px;
 }
 
-#alert, #forgot_password, #forgot_alert, #install_files, #editor_wrapper
+#alert{
+    margin-top:0px;
+    z-index:102;
+    width: 100%;
+    position: absolute;
+    top:0px;
+}
+
+#alert div{
+    width:50%;
+    margin: auto;
+    background-color: red;
+    border-left:1px solid #bbb;
+    border-right:1px solid #bbb;
+    border-bottom:1px solid #bbb;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    color:white;
+    text-align:center;
+    padding:5px;
+}
+
+#forgot_password, #forgot_alert, #install_files, #editor_wrapper
 {
     position: fixed;
     top: 0;
     left: 0;		
     height: 100%;
     width: 100%;
-    display: none;
     background-color: rgba(0, 0, 0, 0.8);
     text-align: center;
     z-index: 101;
     overflow: auto;
 }
 
-#alert div, #forgot_password div, #forgot_alert div, #install_files div, #editor
+#forgot_password div, #forgot_alert div, #install_files div, #editor
 {
     margin: auto;
     background-color: #fff;
@@ -245,7 +266,7 @@ img
     display: inline-block;
 }
 
-#alert:target, #forgot_password:target, #forgot_alert:target, #install_files:target, #editor_wrapper
+#forgot_password:target, #forgot_alert:target, #install_files:target, #editor_wrapper
 {
     display: block;
 }
@@ -434,4 +455,65 @@ img
     width:1000px;
     height:450px;
     background-color: #ffffff;
+}
+.settings_button {
+    background-color: #fff;
+    box-shadow: 4px 4px 5px #888;
+    border-radius: 0px 0px 5px 5px;
+    padding: 5px;
+}
+.spt_table_header{
+    margin:15px;
+    margin-bottom:1px;
+    height:35px;
+    border-bottom: dashed;
+    border-width: 1px;
+    border-color: #bbb;
+}
+
+.spt_table_header h1 {
+    float: left;
+    margin-left:20px;
+    margin-bottom:1px;
+}
+
+.spt_table_header img{
+    float: right;
+    display: block;
+    margin-right:20px;
+    margin-top:5px;
+}
+.standard_table {
+    padding-top:5px;
+    width:100%;
+}
+.standard_table td {
+    padding:5px;
+    border-bottom: 1px dotted #eee;
+}
+#tabs, #wizard{
+    border: none;
+}
+#tabs{
+    margin-top:10px;
+}
+.ui-tabs-panel {
+    padding:0px;
+    padding-top:10px;
+}
+.popover_button {
+    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background-color:transparent;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    color:#777777;
+    text-decoration:none;
+    text-shadow:1px 1px 0px #ffffff;
+    padding:5px;
+    vertical-align: top;
 }

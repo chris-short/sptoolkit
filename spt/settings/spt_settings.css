@@ -1,0 +1,59 @@
+/*css - modules*/
+/**
+ * file:    spt_modules.css
+ * version: 13.0
+ * package: Simple Phishing Toolkit (spt)
+ * component:	Settings
+ * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
+ * license: GNU/GPL, see license.htm.
+ * 
+ * This file is part of the Simple Phishing Toolkit (spt).
+ * 
+ * spt is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, under version 3 of the License.
+ *
+ * spt is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with spt.  If not, see <http://www.gnu.org/licenses/>.
+**/
+
+#add_module, #twitter, #add_smtp_server, #add_ldap_server, #edit_smtp_server, #edit_ldap_server, #test_smtp_server, #test_ldap_server
+{
+    position: fixed;
+    top: 0;
+    left: 0;		
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: center;
+    z-index: 101;
+}
+
+#add_module div, #twitter div, #add_smtp_server div, #add_ldap_server div, #edit_smtp_server div, #edit_ldap_server div, #test_smtp_server div, #test_ldap_server div
+{
+    margin: auto;
+    background-color: #fff;
+    box-shadow: 4px 4px 5px #000;
+    border-radius: 5px;
+    padding: 20px;
+    margin: auto;
+    margin-top: 50px;
+    padding-top:10px;
+    display: inline-block;
+}
+
+#upload_module, #update_twitter
+{
+    width:400px;
+}
+
+#module_description
+{
+    width:250px;
+    text-align:left;
+}

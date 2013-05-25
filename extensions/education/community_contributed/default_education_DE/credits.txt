@@ -2,5 +2,3 @@
 
 -- Author:   Dr. Hubert Feyrer
 -- Author site:  http://www.feyrer.de/
-
-# Training verbiage added in 0.7 by the spt project #
