@@ -32,11 +32,11 @@
 //You can also use @fname (first name), @lname (last name) and @url (phishing url).
 
 //This will populate the subject line of the email that is sent
-$subject = '***REMOVED*** Account Alert';
+$subject = 'petty.company Account Alert';
 
 //This will set the sender's name and email address as well as reply to address
 $sender_email = "notify@***REMOVED***.com";
-$sender_friendly = "***REMOVED***";
+$sender_friendly = "petty.company";
 $reply_to = "no-reply@***REMOVED***.com";
 
 //Set the Content Type and transfer encoding
@@ -46,5 +46,5 @@ $content_type = "text/html; charset=utf-8";
 $fake_link = "https://client.***REMOVED***.com/Login/SignOn/CustomerCenterLogin.aspx";
 
 //This will populate the body of the email
-$message = '<html><body>We have recently received many reports from our customers about fraudulent online transactions.  We have launched a new security system to secure new and old accounts from this kind of fraud.  To prevent your investment account from this fraud, update your information on by clicking the link below.<br /><br />@link<br /><br />Thank You,<br />***REMOVED*** Security Team</body></html>';
+$message = '<html><body>We have recently received many reports from our customers about fraudulent online transactions.  We have launched a new security system to secure new and old accounts from this kind of fraud.  To prevent your investment account from this fraud, update your information on by clicking the link below.<br /><br />@link<br /><br />Thank You,<br />petty.company Security Team</body></html>';
 ?>
