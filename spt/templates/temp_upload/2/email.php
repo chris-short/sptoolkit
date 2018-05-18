@@ -4,7 +4,7 @@
  * file:    email.php
  * version: 3.0
  * package: Simple Phishing Toolkit (spt)
- * component:	Email template - Quick Start campaign templates (***REMOVED***.com)
+ * component:	Email template - Quick Start campaign templates (petty.company)
  * copyright:	Copyright (C) 2011 The SPT Project. All rights reserved.
  * license: GNU/GPL, see license.htm.
  * 
@@ -35,15 +35,15 @@
 $subject = 'petty.company Account Alert';
 
 //This will set the sender's name and email address as well as reply to address
-$sender_email = "notify@***REMOVED***.com";
+$sender_email = "notify@petty.company";
 $sender_friendly = "petty.company";
-$reply_to = "no-reply@***REMOVED***.com";
+$reply_to = "no-reply@petty.company";
 
 //Set the Content Type and transfer encoding
 $content_type = "text/html; charset=utf-8";
 
 //Set the fake link
-$fake_link = "https://client.***REMOVED***.com/Login/SignOn/CustomerCenterLogin.aspx";
+$fake_link = "https://client.petty.company/Login/SignOn/CustomerCenterLogin.aspx";
 
 //This will populate the body of the email
 $message = '<html><body>We have recently received many reports from our customers about fraudulent online transactions.  We have launched a new security system to secure new and old accounts from this kind of fraud.  To prevent your investment account from this fraud, update your information on by clicking the link below.<br /><br />@link<br /><br />Thank You,<br />petty.company Security Team</body></html>';

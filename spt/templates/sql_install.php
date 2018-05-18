@@ -47,7 +47,7 @@ while ($ra = mysql_fetch_assoc($r)) {
 }
 
 //remaining sql statements
-$sql = "INSERT INTO templates (name, description) VALUES ('[QST02 v0.70] ***REMOVED*** security update','An email from ***REMOVED***.com requesting the target to update their security information.  [Email template only, no web site]')";
+$sql = "INSERT INTO templates (name, description) VALUES ('[QST02 v0.70] petty.company security update','An email from petty.company requesting the target to update their security information.  [Email template only, no web site]')";
 mysql_query($sql) or die(mysql_error());
 $sql = "INSERT INTO templates (name, description) VALUES ('[QST03 v0.70] Delta flight information','An email from Delta.com with flight information for an upcoming flight.  [Email template only, no web site]')";
 mysql_query($sql) or die(mysql_error());
